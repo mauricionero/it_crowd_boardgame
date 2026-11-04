@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tiles reversíveis — The IT Crowd</title>
+    <link rel="stylesheet" href="tile-model.css">
+  </head>
+  <body>
+    <main id="tile-output" aria-label="Tiles reversíveis para impressão"></main>
+
+    <script>
+      const TILE_SIZE_MM = 12.9;
+
+      // Os códigos organizam o protótipo e não aparecem no tile impresso.
+      const tiles = {
+        G1: {
+          compact: true,
+          front: { icon: '🖥️', tone: 'functional' },
+          back: { icon: '🦠', tone: 'infected' },
+        },
+        G2: {
+          front: { icon: '🗄️', tone: 'functional' },
+          back: { icon: '🦠', tone: 'infected' },
+        },
+        G3: {
+          copies: 3,
+          compact: true,
+          front: { icon: '⚡︎\n☎️', tone: 'connected' },
+          back: { icon: '📞', tone: 'disconnected' },
+        },
+        G4: {
+          front: { icon: '🚪🔒', tone: 'closed' },
+          back: { icon: '🚪', tone: 'open' },
+        },
+        G5: {
+          front: { icon: '🧰', tone: 'connected' },
+          back: { icon: '🧰', tone: 'connected' },
+        },
+        G6: {
+          front: { icon: '☕', tone: 'connected' },
+          back: { icon: '☕', tone: 'connected' },
+        },
+        G7: {
+          front: { iconClass: 'cable-stretched', tone: 'connected' },
+          back: { iconClass: 'cable-u', tone: 'disconnected' },
+        },
+      };
+
+      const output = document.querySelector('#tile-output');
+      document.documentElement.style.setProperty('--tile-size', `${TILE_SIZE_MM}mm`);
+
+      function createTileFace(face, compact = false) {
+        const tile = document.createElement('article');
+        tile.className = `tile-face tile-face--${face.tone}${compact ? ' tile-face--compact' : ''}`;
+        tile.innerHTML = `
+          <div class="tile-face__content">
+            <div class="tile-face__icon ${face.iconClass ? `tile-face__icon--${face.iconClass}` : ''}" aria-hidden="true">${face.icon || ''}</div>
+          </div>
+        `;
+        return tile;
+      }
+
+      function createSheet(label) {
+        const sheet = document.createElement('section');
+        sheet.className = 'tile-sheet';
+
+        const heading = document.createElement('h1');
+        heading.className = 'tile-sheet__label';
+        heading.textContent = label;
+        sheet.append(heading);
+
+        tileEntries.forEach((tile) => {
+          const pair = document.createElement('div');
+          pair.className = `tile-pair${tile.compact ? ' tile-pair--compact' : ''}`;
+          pair.append(createTileFace(tile.front, tile.compact), createTileFace(tile.back, tile.compact));
+          sheet.append(pair);
+        });
+        output.append(sheet);
+      }
+
+      const tileEntries = Object.values(tiles).flatMap((tile) => (
+        Array.from({ length: tile.copies || 1 }, () => tile)
+      ));
+      createSheet('Tiles reversíveis — recorte cada par e cole frente com verso');
+    </script>
+  </body>
+</html>

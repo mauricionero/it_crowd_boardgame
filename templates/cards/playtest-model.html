@@ -1,0 +1,948 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Playtest — The IT Crowd</title>
+    <link rel="stylesheet" href="../tiles/tile-model.css">
+    <link rel="stylesheet" href="../tokens/token-model.css">
+    <link rel="stylesheet" href="card-model.css">
+    <link rel="stylesheet" href="playtest-model.css">
+  </head>
+  <body>
+    <header class="playtest-header">
+      <h1>THE IT CROWD — Mesa de playtest</h1>
+      <div class="playtest-dice" aria-label="Dados de seis faces">
+        <div class="playtest-die" data-die data-result="1" data-piece-id="die-1" role="button" tabindex="0" aria-label="Dado 1: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+        <div class="playtest-die" data-die data-result="1" data-piece-id="die-2" role="button" tabindex="0" aria-label="Dado 2: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+        <div class="playtest-die" data-die data-result="1" data-piece-id="die-3" role="button" tabindex="0" aria-label="Dado 3: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+        <div class="playtest-die" data-die data-result="1" data-piece-id="die-4" role="button" tabindex="0" aria-label="Dado 4: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+        <div class="playtest-die" data-die data-result="1" data-piece-id="die-5" role="button" tabindex="0" aria-label="Dado 5: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+      </div>
+      <div class="playtest-header-actions">
+        <p>Protótipo visual · sem regras automáticas · posicionamento inicial fixo</p>
+        <details class="playtest-card-menu" data-card-menu>
+          <summary>+ Carta</summary>
+          <div class="playtest-card-menu__panel" data-card-menu-categories></div>
+        </details>
+        <button type="button" class="playtest-add-die" data-add-die>+ Dado</button>
+        <div class="playtest-dice-trash" data-dice-trash aria-label="Lixeira de dados">🗑️ Dados</div>
+        <button type="button" class="playtest-reset" data-reset-layout>Resetar posições</button>
+      </div>
+    </header>
+
+    <main class="playtest-layout">
+      <section class="playtest-board-panel" aria-label="Tabuleiro do playtest">
+        <div class="playtest-board-stage">
+          <section class="playtest-stress-ruler" aria-label="Régua de Stress">
+            <h2>Stress</h2>
+            <div class="playtest-stress-scale" data-stress-scale></div>
+          </section>
+          <div class="playtest-board">
+            <img
+              class="playtest-board__image"
+              src="../../assets/boards/base/board-base-v4-main-entrance-right-only.png"
+              alt="Tabuleiro principal"
+            >
+            <div class="playtest-station-tile playtest-station-tile--kitchen" data-kitchen-tile aria-label="Tile da estação da Cozinha"></div>
+            <section class="playtest-item-supply playtest-item-supply--cabinet" data-item-supply="cabinet" aria-label="Itens do armário">
+              <div data-cabinet-tile aria-label="Tile do armário de suprimentos"></div>
+              <div class="playtest-item-choices" data-equipment-choices></div>
+            </section>
+          </div>
+        </div>
+        <p class="playtest-board__caption">Área do cenário. As peças ainda são apenas referências posicionadas para o setup inicial.</p>
+      </section>
+
+      <aside class="playtest-side-panel" aria-label="Baralhos">
+        <h2>Baralhos</h2>
+        <section class="playtest-decks" data-decks aria-label="Baralhos empilhados"></section>
+        <section class="playtest-side-item-deck" aria-label="Estoque de cafés">
+          <h3>☕ Cafés — estoque</h3>
+          <div data-kitchen-item-deck></div>
+        </section>
+      </aside>
+
+      <section class="playtest-priority-row" aria-label="Fila de prioridade">
+        <h2>Fila de prioridade</h2>
+        <div class="playtest-priority-queue" data-priority-queue aria-label="Cartas na fila de prioridade">
+          <span class="playtest-priority-star" data-piece-id="priority-star" aria-label="Estrela sobre a carta de Rotina">⭐</span>
+        </div>
+      </section>
+
+      <section class="playtest-bottom" aria-label="Tiles e tokens">
+        <section class="playtest-material-area playtest-tile-area">
+          <h2>Tiles</h2>
+          <div class="playtest-materials playtest-materials--tiles" data-tiles aria-label="Todos os tiles disponíveis"></div>
+          <h3 class="playtest-material-subheading">Fichas</h3>
+          <div class="playtest-material-pawns" data-material-pawns aria-label="Fichas de usuários e bombeiro"></div>
+        </section>
+
+        <section class="playtest-material-area playtest-token-area">
+          <h2>Tokens</h2>
+          <div class="playtest-materials playtest-materials--tokens" data-tokens aria-label="Todos os tokens disponíveis"></div>
+        </section>
+      </section>
+
+      <section class="playtest-character-row" aria-label="Fichas dos personagens">
+        <h2>Fichas dos personagens</h2>
+        <div class="playtest-character-tableaus" data-character-tableaus></div>
+      </section>
+
+      <section class="playtest-purchased-row" aria-label="Área para cartas compradas">
+        <h2>Cartas compradas</h2>
+        <div class="playtest-purchased-zones">
+          <section class="playtest-purchased-zone" aria-label="Chamados comprados">
+            <h3>Chamados</h3>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="card-data.js"></script>
+    <script src="card-renderer.js"></script>
+    <script>
+      const { CARD_TYPES, cards } = window.ITCrowdCardData;
+      const { createCard, createCardBack, createPlayerCharacterCard } = window.ITCrowdCardRenderer;
+      const dieResults = [
+        { face: '❌', label: 'falha bloqueada', blocked: true },
+        { face: '❌', label: 'falha' },
+        { face: '❌', label: 'falha' },
+        { face: '❌', label: 'falha' },
+        { face: '✅', label: 'sucesso' },
+        { face: '✅', label: 'sucesso bloqueado', blocked: true },
+      ];
+      const POSITION_STORAGE_KEY = 'it-crowd-playtest-positions-v1';
+      const storedState = readStoredState();
+      const storedPositions = storedState.positions;
+      const storedDecks = storedState.decks;
+      const storedRevealedCards = storedState.revealedCards;
+      const storedDice = storedState.dice;
+      const storedRemovedDice = storedState.removedDice;
+      let revealedCardSequence = storedRevealedCards.reduce((highestSequence, record) => {
+        const match = String(record.pieceId || '').match(/-(\d+)$/);
+        const sequence = match ? Number(match[1]) : 0;
+        return Math.max(highestSequence, sequence);
+      }, 0);
+      let topLayerIndex = 1000;
+
+      function normalizeRevealedCards(records) {
+        const usedPieceIds = new Set();
+
+        return records.map((record, index) => {
+          const originalPieceId = record.pieceId || `revealed-${record.code || 'card'}-${index + 1}`;
+          let pieceId = originalPieceId;
+          let recoveryIndex = 1;
+
+          while (usedPieceIds.has(pieceId)) {
+            recoveryIndex += 1;
+            pieceId = `${originalPieceId}-recovered-${recoveryIndex}`;
+          }
+
+          usedPieceIds.add(pieceId);
+          return pieceId === record.pieceId ? record : { ...record, pieceId };
+        });
+      }
+
+      function readStoredState() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(POSITION_STORAGE_KEY) || '{}');
+          if (parsed.positions) {
+            return {
+              positions: parsed.positions,
+              decks: parsed.decks || {},
+              revealedCards: normalizeRevealedCards(parsed.revealedCards || []),
+              dice: parsed.dice || [],
+              removedDice: parsed.removedDice || [],
+            };
+          }
+          return { positions: parsed, decks: {}, revealedCards: [], dice: [], removedDice: [] };
+        } catch (error) {
+          return { positions: {}, decks: {}, revealedCards: [], dice: [], removedDice: [] };
+        }
+      }
+
+      function saveStoredState() {
+        try {
+          localStorage.setItem(POSITION_STORAGE_KEY, JSON.stringify({
+            positions: storedPositions,
+            decks: storedDecks,
+            revealedCards: storedRevealedCards,
+            dice: storedDice,
+            removedDice: storedRemovedDice,
+          }));
+        } catch (error) {
+          // A sessão de playtest continua funcionando mesmo se o armazenamento estiver indisponível.
+        }
+      }
+
+      function getPieceId(element) {
+        return element.dataset.pieceId || element.closest('[data-piece-id]')?.dataset.pieceId;
+      }
+
+      function savePieceFace(element, property, value) {
+        const pieceId = getPieceId(element);
+        if (!pieceId) return;
+        storedPositions[pieceId] = {
+          ...storedPositions[pieceId],
+          [property]: value,
+        };
+        saveStoredState();
+      }
+
+      function savePiecePosition(element) {
+        const pieceId = getPieceId(element);
+        const left = Number.parseFloat(element.style.left);
+        const top = Number.parseFloat(element.style.top);
+        if (!pieceId || !Number.isFinite(left) || !Number.isFinite(top)) return;
+        const zIndex = Number.parseInt(element.style.zIndex, 10);
+        storedPositions[pieceId] = {
+          ...storedPositions[pieceId],
+          left,
+          top,
+          z: Number.isFinite(zIndex) ? zIndex : 1000,
+        };
+        const revealedCard = storedRevealedCards.find((card) => card.pieceId === pieceId);
+        if (revealedCard) {
+          revealedCard.left = left;
+          revealedCard.top = top;
+          revealedCard.z = Number.isFinite(zIndex) ? zIndex : 1000;
+        }
+        saveStoredState();
+      }
+
+      function moveElementToDocumentPosition(element, left, top, zIndex = 1000) {
+        const rect = element.getBoundingClientRect();
+        const computedStyle = window.getComputedStyle(element);
+        const isAbsolutelyPositioned = computedStyle.position === 'absolute' || computedStyle.position === 'fixed';
+
+        if (!isAbsolutelyPositioned) {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'playtest-drag-placeholder';
+          placeholder.style.width = `${rect.width}px`;
+          placeholder.style.height = `${rect.height}px`;
+          placeholder.style.flex = `0 0 ${rect.width}px`;
+          element.parentNode.insertBefore(placeholder, element);
+        }
+
+        document.body.append(element);
+        element.style.position = 'absolute';
+        element.style.left = `${left}px`;
+        element.style.top = `${top}px`;
+        element.style.width = computedStyle.width;
+        element.style.height = computedStyle.height;
+        element.style.margin = '0';
+        element.style.zIndex = String(zIndex);
+      }
+
+      function restoreStoredPositions() {
+        document.querySelectorAll('[data-piece-id]').forEach((element) => {
+          const position = storedPositions[element.dataset.pieceId];
+          if (!position) return;
+          const zIndex = Number.isFinite(position.z) ? position.z : 1000;
+          topLayerIndex = Math.max(topLayerIndex, zIndex);
+          moveElementToDocumentPosition(element, position.left, position.top, zIndex);
+        });
+      }
+
+      function restoreStoredFaces() {
+        document.querySelectorAll('.playtest-flippable-card').forEach((card) => {
+          const pieceId = getPieceId(card);
+          if (storedPositions[pieceId]?.flipped) {
+            card.classList.add('playtest-card-is-flipped');
+          }
+        });
+
+        document.querySelectorAll('.playtest-tile-face').forEach((tile) => {
+          const face = storedPositions[getPieceId(tile)]?.face;
+          if (face && face !== 'front') setTileFace(tile, face);
+        });
+
+        document.querySelectorAll('.playtest-token-face').forEach((token) => {
+          const face = storedPositions[getPieceId(token)]?.face;
+          if (face && face !== 'front') setTokenFace(token, face);
+        });
+
+        document.querySelectorAll('[data-die]').forEach((die) => {
+          const result = storedPositions[getPieceId(die)]?.result;
+          setDieResult(die, Number.isFinite(result) ? result - 1 : Number(die.dataset.result || 1) - 1);
+        });
+      }
+
+      const deckDefinitions = [
+        { label: 'Chamados', type: CARD_TYPES.CALL, preview: 'C1' },
+        { label: 'Usuários', type: CARD_TYPES.USER, preview: 'D1' },
+        { label: 'Eventos', type: CARD_TYPES.GENERIC_EVENT, preview: 'E1' },
+        { label: 'Missões', type: CARD_TYPES.MISSION_EVENT, preview: 'I1' },
+      ];
+
+      function shuffle(entries) {
+        const shuffled = [...entries];
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const swapIndex = Math.floor(Math.random() * (index + 1));
+          [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+        }
+        return shuffled;
+      }
+
+      function makeFlippableCard(code, card, cardElement) {
+        const back = createCardBack(code, card);
+        back.classList.add('playtest-card-back-layer');
+        cardElement.classList.add('playtest-flippable-card');
+        cardElement.append(back);
+        return cardElement;
+      }
+
+      function createPlaytestCard(code, card) {
+        return makeFlippableCard(code, card, createCard(code, card));
+      }
+
+      function toggleCardFace(card) {
+        if (!card) return;
+        card.classList.toggle('playtest-card-is-flipped');
+        const flipped = card.classList.contains('playtest-card-is-flipped');
+        const revealedCard = storedRevealedCards.find((item) => item.pieceId === card.dataset.pieceId);
+        if (revealedCard) {
+          revealedCard.flipped = flipped;
+        }
+        savePieceFace(card, 'flipped', flipped);
+      }
+
+      function setDieResult(die, resultIndex) {
+        const result = dieResults[resultIndex] || dieResults[0];
+        die.dataset.result = String(resultIndex + 1);
+        const face = document.createElement('span');
+        face.className = 'playtest-die__face';
+        face.textContent = result.face;
+        die.replaceChildren(face);
+        if (result.blocked) {
+          const lock = document.createElement('span');
+          lock.className = 'playtest-die__lock';
+          lock.setAttribute('aria-hidden', 'true');
+          lock.textContent = '🔒';
+          die.append(lock);
+        }
+        die.setAttribute('aria-label', `${die.dataset.pieceId}: ${resultIndex + 1} — ${result.label}`);
+        die.title = `Clique para rolar o dado · ${result.label}`;
+      }
+
+      function rollDie(die) {
+        const value = Math.floor(Math.random() * dieResults.length);
+        setDieResult(die, value);
+        savePieceFace(die, 'result', value + 1);
+      }
+
+      function createDie(pieceId) {
+        const die = document.createElement('div');
+        die.className = 'playtest-die';
+        die.dataset.die = '';
+        die.dataset.pieceId = pieceId;
+        die.setAttribute('role', 'button');
+        die.setAttribute('tabindex', '0');
+        setDieResult(die, 0);
+        return die;
+      }
+
+      function createRandomPieceId(prefix) {
+        const randomId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        return `${prefix}-${randomId}`;
+      }
+
+      function removeDie(die) {
+        const pieceId = die.dataset.pieceId;
+        if (!pieceId) return;
+        die.remove();
+        delete storedPositions[pieceId];
+        const storedDieIndex = storedDice.indexOf(pieceId);
+        if (storedDieIndex >= 0) storedDice.splice(storedDieIndex, 1);
+        if (!storedRemovedDice.includes(pieceId)) storedRemovedDice.push(pieceId);
+        saveStoredState();
+      }
+
+      function isInsideDiceTrash(event) {
+        const trash = document.querySelector('[data-dice-trash]');
+        if (!trash) return false;
+        const rect = trash.getBoundingClientRect();
+        return event.clientX >= rect.left && event.clientX <= rect.right
+          && event.clientY >= rect.top && event.clientY <= rect.bottom;
+      }
+
+      const characterDefinitions = [
+        { characterCode: 'PC1', initiativeCode: 'B1', pawnCode: 'P2', label: 'Roy', color: '#d56a38', image: '../../assets/pawns/roy-face.png' },
+        { characterCode: 'PC2', initiativeCode: 'B2', pawnCode: 'P3', label: 'Moss', color: '#7658a8', image: '../../assets/pawns/moss-face.png' },
+        { characterCode: null, initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
+        { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: null },
+      ];
+
+      function createDeck(definition) {
+        const deck = document.createElement('article');
+        deck.className = `playtest-deck${cards[definition.preview].type.small ? ' playtest-deck--small' : ''}`;
+        deck.setAttribute('aria-label', definition.label);
+        const deckId = `deck-${definition.type.id}`;
+        deck.dataset.pieceId = deckId;
+        const entries = Object.entries(cards)
+          .filter(([, card]) => card.type === definition.type)
+          .flatMap(([code, card]) => Array.from({ length: card.copies || 1 }, () => [code, card]));
+        const savedCodes = storedDecks[deckId];
+        const deckEntries = Array.isArray(savedCodes)
+          ? savedCodes.map((code) => [code, cards[code]]).filter(([, card]) => card)
+          : definition.type === CARD_TYPES.MISSION_EVENT ? entries : shuffle(entries);
+        deck.playtestDeckState = {
+          cards: deckEntries,
+        };
+
+        const stack = document.createElement('div');
+        stack.className = 'playtest-deck__stack';
+        const previewCard = cards[definition.preview];
+        const previewColor = previewCard.type.accentColor;
+        const previewBackground = previewCard.type.backgroundPath;
+
+        for (let index = 0; index < 3; index += 1) {
+          const layer = document.createElement('div');
+          layer.className = 'playtest-deck__layer';
+          layer.style.setProperty('--deck-border', previewColor);
+          layer.style.setProperty('--deck-background', previewBackground ? `url('${previewBackground}')` : 'none');
+          stack.append(layer);
+        }
+
+        const back = createCardBack(definition.preview, previewCard);
+        back.classList.add('playtest-deck__back');
+        stack.append(back);
+
+        const count = document.createElement('span');
+        count.className = 'playtest-deck__count';
+        count.textContent = `${deck.playtestDeckState.cards.length} cartas`;
+        deck.playtestDeckCount = count;
+
+        deck.append(stack, count);
+        return deck;
+      }
+
+      function saveDeckState(deck) {
+        storedDecks[deck.dataset.pieceId] = deck.playtestDeckState.cards.map(([code]) => code);
+        saveStoredState();
+      }
+
+      document.querySelector('[data-decks]').append(
+        ...deckDefinitions.map(createDeck)
+      );
+
+      document.querySelector('[data-kitchen-item-deck]').append(createDeck({
+        label: 'Itens consumíveis da cozinha',
+        type: CARD_TYPES.CONSUMABLE_ITEM,
+        preview: 'H1',
+      }));
+
+      Object.entries(cards)
+        .filter(([, card]) => card.type === CARD_TYPES.EQUIPMENT_ITEM)
+        .forEach(([code, card]) => {
+          const itemShell = document.createElement('div');
+          itemShell.className = 'playtest-item-choice-shell';
+          itemShell.dataset.pieceId = `item-${code}`;
+          itemShell.setAttribute('aria-label', `Equipamento disponível: ${card.title}`);
+          const itemCard = createPlaytestCard(code, card);
+          itemCard.classList.add('playtest-item-choice');
+          itemShell.append(itemCard);
+          document.querySelector('[data-equipment-choices]').append(itemShell);
+        });
+
+      const priorityCodes = ['A1'];
+
+      priorityCodes.forEach((code) => {
+        const cardShell = document.createElement('div');
+        cardShell.className = 'playtest-priority-card-shell';
+        cardShell.dataset.pieceId = `priority-${code}`;
+        cardShell.append(createPlaytestCard(code, cards[code]));
+        document.querySelector('[data-priority-queue]').append(cardShell);
+      });
+
+      const actionCardShell = document.createElement('div');
+      actionCardShell.className = 'playtest-action-card-shell';
+      actionCardShell.dataset.pieceId = 'action-card';
+      actionCardShell.append(createPlaytestCard('A2', cards.A2));
+      document.querySelector('[data-character-tableaus]').append(actionCardShell);
+
+      const stressScale = document.querySelector('[data-stress-scale]');
+      for (let value = 0; value <= 14; value += 1) {
+        const mark = document.createElement('span');
+        mark.className = `playtest-stress-ruler__mark${[8, 11, 13, 14].includes(value) ? ' playtest-stress-ruler__mark--milestone' : ''}`;
+        mark.textContent = String(value);
+        stressScale.append(mark);
+      }
+
+      const stressArrow = document.createElement('span');
+      stressArrow.className = 'playtest-stress-ruler__arrow';
+      stressArrow.dataset.pieceId = 'stress-arrow';
+      stressArrow.textContent = '➤';
+      stressArrow.setAttribute('aria-label', 'Stress começa em zero');
+      stressScale.append(stressArrow);
+
+      function createTableauPawn(definition) {
+        const pawn = document.createElement('div');
+        pawn.className = 'playtest-character-tableau__pawn';
+        pawn.setAttribute('aria-label', definition.label);
+        pawn.dataset.pieceId = `pawn-${definition.pawnCode}`;
+
+        const disc = document.createElement('div');
+        disc.className = 'playtest-pawn__disc';
+        disc.style.setProperty('--pawn-border', definition.color);
+        disc.style.setProperty('--pawn-fill', '#f4e8c8');
+
+        if (definition.image) {
+          const image = document.createElement('img');
+          image.src = definition.image;
+          image.alt = definition.label;
+          disc.append(image);
+        }
+        pawn.append(disc);
+        return pawn;
+      }
+
+      characterDefinitions.forEach((definition) => {
+        const tableau = document.createElement('article');
+        tableau.className = 'playtest-character-tableau';
+        tableau.setAttribute('aria-label', `Área de ${definition.label}`);
+
+        const initiativeCard = createCard(definition.initiativeCode, cards[definition.initiativeCode]);
+        makeFlippableCard(definition.initiativeCode, cards[definition.initiativeCode], initiativeCard);
+        initiativeCard.classList.add('playtest-character-tableau__initiative-card');
+        initiativeCard.dataset.pieceId = `initiative-${definition.initiativeCode}`;
+
+        const surface = document.createElement('div');
+        surface.className = 'playtest-character-tableau__surface';
+        if (definition.characterCode) {
+          const characterCard = createPlayerCharacterCard(definition.characterCode, cards[definition.characterCode]);
+          makeFlippableCard(definition.characterCode, cards[definition.characterCode], characterCard);
+          characterCard.classList.add('playtest-character-tableau__character-card');
+          characterCard.dataset.pieceId = `character-${definition.characterCode}`;
+          surface.append(characterCard);
+        }
+        surface.append(initiativeCard, createTableauPawn(definition));
+        tableau.append(surface);
+        document.querySelector('[data-character-tableaus]').append(tableau);
+      });
+
+      const tileEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.REVERSIBLE_TILE);
+      const materialTileEntries = tileEntries.filter(([code]) => !['G5', 'G6'].includes(code));
+      const tokenEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.TOKEN);
+
+      function createPlaytestTile(code, tileData, copyIndex) {
+        const tile = document.createElement('article');
+        tile.className = `tile-face playtest-tile-face tile-face--${tileData.front.tone}`;
+        tile.title = `${code} · frente: ${tileData.front.tone} · verso: ${tileData.back.tone}`;
+        tile.dataset.tileCode = code;
+        tile.dataset.copy = String(copyIndex + 1);
+        tile.dataset.pieceId = `tile-${code}-${copyIndex + 1}`;
+        tile.dataset.face = 'front';
+        tile.dataset.tone = tileData.front.tone;
+        tile.playtestFaces = tileData;
+
+        const content = document.createElement('div');
+        content.className = 'tile-face__content';
+
+        const icon = document.createElement('div');
+        icon.className = `tile-face__icon ${tileData.front.iconClass ? `tile-face__icon--${tileData.front.iconClass}` : ''}`;
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = tileData.front.icon || '';
+
+        content.append(icon);
+        tile.append(content);
+        return tile;
+      }
+
+      function setTileFace(tile, faceName) {
+        const face = tile.playtestFaces[faceName];
+        tile.classList.remove(`tile-face--${tile.dataset.tone}`);
+        tile.classList.add(`tile-face--${face.tone}`);
+        tile.dataset.face = faceName;
+        tile.dataset.tone = face.tone;
+        tile.title = `${tile.dataset.tileCode} · ${faceName === 'front' ? 'frente' : 'verso'}: ${face.tone}`;
+
+        const icon = tile.querySelector('.tile-face__icon');
+        icon.className = `tile-face__icon ${face.iconClass ? `tile-face__icon--${face.iconClass}` : ''}`;
+        icon.textContent = face.icon || '';
+      }
+
+      function toggleTileFace(tile) {
+        setTileFace(tile, tile.dataset.face === 'front' ? 'back' : 'front');
+        savePieceFace(tile, 'face', tile.dataset.face);
+      }
+
+      const cabinetTile = createPlaytestTile('G5', cards.G5, 0);
+      cabinetTile.dataset.pieceId = 'station-cabinet';
+      document.querySelector('[data-cabinet-tile]').append(cabinetTile);
+
+      const kitchenTile = createPlaytestTile('G6', cards.G6, 0);
+      kitchenTile.dataset.pieceId = 'station-kitchen';
+      document.querySelector('[data-kitchen-tile]').append(kitchenTile);
+
+      materialTileEntries.forEach(([code, tileData]) => {
+        Array.from({ length: tileData.copies || 1 }, (_, copyIndex) => (
+          document.querySelector('[data-tiles]').append(createPlaytestTile(code, tileData, copyIndex))
+        ));
+      });
+
+      const materialPawnEntries = ['P1', 'P6'].map((code) => [code, cards[code]]);
+
+      materialPawnEntries.forEach(([code, pawnData]) => {
+        Array.from({ length: pawnData.copies || 1 }, (_, copyIndex) => {
+          const pawn = document.createElement('article');
+          pawn.className = 'playtest-material-pawn';
+          pawn.title = pawnData.name;
+          pawn.setAttribute('aria-label', pawnData.name);
+          pawn.dataset.pawnCode = code;
+          pawn.dataset.copy = String(copyIndex + 1);
+          pawn.dataset.pieceId = `pawn-${code}-${copyIndex + 1}`;
+
+          const disc = document.createElement('div');
+          disc.className = 'playtest-pawn__disc';
+          disc.style.setProperty('--pawn-border', pawnData.borderColor);
+          disc.style.setProperty('--pawn-fill', pawnData.fillColor);
+          pawn.append(disc);
+          document.querySelector('[data-material-pawns]').append(pawn);
+        });
+      });
+
+      function createPlaytestToken(code, tokenData, copyIndex) {
+        const token = document.createElement('article');
+        token.className = `token-face playtest-token-face token-face--${tokenData.front?.tone || 'initiative'}`;
+        token.title = `${code} · ${tokenData.front?.icon || '➤'}`;
+        token.dataset.tokenCode = code;
+        token.dataset.copy = String(copyIndex + 1);
+        token.dataset.pieceId = `token-${code}-${copyIndex + 1}`;
+        token.dataset.face = 'front';
+        token.dataset.tone = tokenData.front?.tone || 'initiative';
+        token.playtestFaces = tokenData;
+
+        const icon = document.createElement('div');
+        icon.className = 'token-face__icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = tokenData.front?.icon || '➤';
+        token.append(icon);
+        return token;
+      }
+
+      function setTokenFace(token, faceName) {
+        const face = token.playtestFaces[faceName];
+        if (!face) return;
+        token.classList.remove(`token-face--${token.dataset.tone}`);
+        token.classList.add(`token-face--${face.tone}`);
+        token.dataset.face = faceName;
+        token.dataset.tone = face.tone;
+        token.title = `${token.dataset.tokenCode} · ${face.icon}`;
+        token.querySelector('.token-face__icon').textContent = face.icon;
+      }
+
+      function toggleTokenFace(token) {
+        if (!token.playtestFaces.back) return;
+        setTokenFace(token, token.dataset.face === 'front' ? 'back' : 'front');
+        savePieceFace(token, 'face', token.dataset.face);
+      }
+
+      tokenEntries.forEach(([code, tokenData]) => {
+        Array.from({ length: tokenData.copies || 1 }, (_, copyIndex) => (
+          document.querySelector('[data-tokens]').append(createPlaytestToken(code, tokenData, copyIndex))
+        ));
+      });
+
+      function createRevealedCard(code, card, record) {
+        const revealedCard = createPlaytestCard(code, card);
+        revealedCard.classList.add('playtest-revealed-card');
+        revealedCard.dataset.revealedFrom = card.type.id;
+        revealedCard.dataset.pieceId = record.pieceId;
+        if (record.flipped) revealedCard.classList.add('playtest-card-is-flipped');
+
+        const cardWidth = window.getComputedStyle(revealedCard).width;
+        const cardHeight = window.getComputedStyle(revealedCard).height;
+        document.body.append(revealedCard);
+        revealedCard.style.position = 'absolute';
+        revealedCard.style.left = `${record.left}px`;
+        revealedCard.style.top = `${record.top}px`;
+        revealedCard.style.width = cardWidth;
+        revealedCard.style.height = cardHeight;
+        revealedCard.style.margin = '0';
+        const zIndex = Number.isFinite(record.z) ? record.z : 1000;
+        topLayerIndex = Math.max(topLayerIndex, zIndex);
+        revealedCard.style.zIndex = String(zIndex);
+        makeDraggable(revealedCard, () => toggleCardFace(revealedCard));
+        return revealedCard;
+      }
+
+      function revealTopCard(deck) {
+        const deckState = deck.playtestDeckState;
+        if (!deckState.cards.length) return;
+
+        const [code, card] = deckState.cards.shift();
+        deck.playtestDeckCount.textContent = `${deckState.cards.length} cartas`;
+        const deckRect = deck.getBoundingClientRect();
+        const record = {
+          pieceId: `revealed-${code}-${revealedCardSequence += 1}`,
+          code,
+          deckId: deck.dataset.pieceId,
+          left: deckRect.left + window.scrollX,
+          top: deckRect.top + window.scrollY,
+          z: topLayerIndex + 1,
+          flipped: false,
+        };
+        topLayerIndex = record.z;
+        storedRevealedCards.push(record);
+        saveDeckState(deck);
+        saveStoredState();
+        createRevealedCard(code, card, record);
+      }
+
+      function restoreRevealedCards() {
+        storedRevealedCards.forEach((record) => {
+          const card = cards[record.code];
+          if (card) createRevealedCard(record.code, card, record);
+        });
+      }
+
+      function createManualCardInstance(code) {
+        const card = cards[code];
+        if (!card) return;
+
+        const instanceIndex = storedRevealedCards.length;
+        const record = {
+          pieceId: createRandomPieceId(`card-${code}`),
+          code,
+          deckId: 'manual-card-menu',
+          left: window.scrollX + Math.max(20, window.innerWidth / 2 - 120 + (instanceIndex % 6) * 18),
+          top: window.scrollY + 160 + (instanceIndex % 8) * 18,
+          z: topLayerIndex + 1,
+          flipped: false,
+        };
+        topLayerIndex = record.z;
+        storedRevealedCards.push(record);
+        saveStoredState();
+        createRevealedCard(code, card, record);
+      }
+
+      const cardMenuCategories = [
+        { label: 'Chamados', types: [CARD_TYPES.CALL] },
+        { label: 'Usuários', types: [CARD_TYPES.USER] },
+        { label: 'Eventos genéricos', types: [CARD_TYPES.GENERIC_EVENT] },
+        { label: 'Missões', types: [CARD_TYPES.MISSION_EVENT] },
+        { label: 'Itens', types: [CARD_TYPES.CONSUMABLE_ITEM, CARD_TYPES.EQUIPMENT_ITEM] },
+        { label: 'Referências e iniciativa', types: [CARD_TYPES.ROUTINE, CARD_TYPES.REFERENCE, CARD_TYPES.PLAYER_INITIATIVE, CARD_TYPES.PLAYER_CHARACTER, CARD_TYPES.INITIATIVE] },
+      ];
+
+      function buildCardMenu() {
+        const menu = document.querySelector('[data-card-menu-categories]');
+        cardMenuCategories.forEach((categoryDefinition) => {
+          const category = document.createElement('details');
+          category.className = 'playtest-card-menu__category';
+
+          const summary = document.createElement('summary');
+          summary.textContent = categoryDefinition.label;
+
+          const cardList = document.createElement('div');
+          cardList.className = 'playtest-card-menu__list';
+          Object.entries(cards)
+            .filter(([, card]) => categoryDefinition.types.includes(card.type))
+            .forEach(([code, card]) => {
+              const button = document.createElement('button');
+              button.type = 'button';
+              button.className = 'playtest-card-menu__card';
+              button.dataset.cardCode = code;
+              button.textContent = `${code} — ${String(card.title || '').replace(/\n/g, ' ')}`;
+              button.addEventListener('click', () => {
+                createManualCardInstance(code);
+                document.querySelector('[data-card-menu]').open = false;
+              });
+              cardList.append(button);
+            });
+
+          category.append(summary, cardList);
+          menu.append(category);
+        });
+      }
+
+      let altPressed = false;
+      let altPreviewTarget = null;
+      let altPreviewElement = null;
+
+      function hideAltPreview() {
+        altPreviewElement?.remove();
+        altPreviewElement = null;
+      }
+
+      function showAltPreview(element) {
+        if (!altPressed) return;
+        hideAltPreview();
+
+        const preview = document.createElement('div');
+        preview.className = 'playtest-alt-preview';
+        const clone = element.cloneNode(true);
+        clone.classList.remove('playtest-dragging');
+        preview.append(clone);
+        document.body.append(preview);
+        altPreviewElement = preview;
+      }
+
+      function makeAltPreviewable(element) {
+        element.addEventListener('pointerenter', () => {
+          altPreviewTarget = element;
+          showAltPreview(element);
+        });
+        element.addEventListener('pointerleave', () => {
+          if (altPreviewTarget !== element) return;
+          altPreviewTarget = null;
+          hideAltPreview();
+        });
+      }
+
+      window.addEventListener('keydown', (event) => {
+        if (event.key !== 'Alt' || altPressed) return;
+        altPressed = true;
+        if (altPreviewTarget) showAltPreview(altPreviewTarget);
+      });
+
+      window.addEventListener('keyup', (event) => {
+        if (event.key !== 'Alt') return;
+        altPressed = false;
+        hideAltPreview();
+      });
+
+      window.addEventListener('blur', () => {
+        altPressed = false;
+        hideAltPreview();
+      });
+
+      function makeDraggable(element, tapHandler = null) {
+        makeAltPreviewable(element);
+        element.classList.add('playtest-draggable');
+        element.setAttribute('draggable', 'false');
+        element.querySelectorAll('img').forEach((image) => {
+          image.setAttribute('draggable', 'false');
+        });
+
+        element.addEventListener('pointerdown', (event) => {
+          if (event.button !== 0) return;
+
+          event.preventDefault();
+          const rect = element.getBoundingClientRect();
+          const startLeft = rect.left + window.scrollX;
+          const startTop = rect.top + window.scrollY;
+          let dragStarted = false;
+          let moved = false;
+
+          const startDrag = () => {
+            dragStarted = true;
+            topLayerIndex += 1;
+            moveElementToDocumentPosition(element, startLeft, startTop, topLayerIndex);
+            element.classList.add('playtest-dragging');
+          };
+
+          const move = (moveEvent) => {
+            if (Math.hypot(moveEvent.pageX - event.pageX, moveEvent.pageY - event.pageY) <= 4) return;
+            moved = true;
+            if (!dragStarted) startDrag();
+            element.style.left = `${startLeft + moveEvent.pageX - event.pageX}px`;
+            element.style.top = `${startTop + moveEvent.pageY - event.pageY}px`;
+            if (element.matches('[data-die]')) {
+              document.querySelector('[data-dice-trash]')?.classList.toggle(
+                'playtest-dice-trash--hover',
+                isInsideDiceTrash(moveEvent),
+              );
+            }
+          };
+
+          const finish = (finishEvent) => {
+            const droppedInTrash = dragStarted
+              && element.matches('[data-die]')
+              && isInsideDiceTrash(finishEvent);
+            if (tapHandler && finishEvent.type === 'pointerup' && !moved && !droppedInTrash) {
+              tapHandler();
+            }
+            if (element.hasPointerCapture?.(event.pointerId)) {
+              element.releasePointerCapture(event.pointerId);
+            }
+            if (dragStarted) element.classList.remove('playtest-dragging');
+            document.querySelector('[data-dice-trash]')?.classList.remove('playtest-dice-trash--hover');
+            if (droppedInTrash) {
+              removeDie(element);
+            } else if (dragStarted) {
+              savePiecePosition(element);
+            }
+            window.removeEventListener('pointermove', move);
+            window.removeEventListener('pointerup', finish);
+            window.removeEventListener('pointercancel', finish);
+          };
+
+          element.setPointerCapture?.(event.pointerId);
+          window.addEventListener('pointermove', move);
+          window.addEventListener('pointerup', finish, { once: true });
+          window.addEventListener('pointercancel', finish, { once: true });
+        });
+      }
+
+      document.querySelectorAll([
+        '.playtest-priority-star',
+        '.playtest-stress-ruler__arrow',
+        '.playtest-character-tableau__pawn',
+        '.playtest-material-pawn',
+      ].join(', ')).forEach(makeDraggable);
+
+      document.querySelectorAll('.playtest-priority-card-shell, .playtest-action-card-shell').forEach((shell) => {
+        makeDraggable(shell, () => toggleCardFace(shell.querySelector('.card')));
+      });
+
+      document.querySelectorAll('.playtest-tile-face').forEach((tile) => {
+        makeDraggable(tile, () => toggleTileFace(tile));
+      });
+
+      document.querySelectorAll('.playtest-token-face').forEach((token) => {
+        makeDraggable(token, () => toggleTokenFace(token));
+      });
+
+      document.querySelectorAll('.playtest-character-tableau__character-card, .playtest-character-tableau__initiative-card').forEach((card) => {
+        makeDraggable(card, () => toggleCardFace(card));
+      });
+
+      document.querySelectorAll('.playtest-item-choice-shell').forEach((shell) => {
+        makeDraggable(shell, () => toggleCardFace(shell.querySelector('.playtest-item-choice')));
+      });
+
+      document.querySelectorAll('.playtest-deck').forEach((deck) => {
+        makeDraggable(deck, () => revealTopCard(deck));
+      });
+
+      storedRemovedDice.forEach((pieceId) => {
+        const die = Array.from(document.querySelectorAll('[data-die]'))
+          .find((candidate) => candidate.dataset.pieceId === pieceId);
+        die?.remove();
+      });
+
+      const diceContainer = document.querySelector('.playtest-dice');
+      storedDice.forEach((pieceId) => {
+        if (document.querySelector(`[data-die][data-piece-id="${pieceId}"]`)) return;
+        diceContainer?.append(createDie(pieceId));
+      });
+
+      document.querySelectorAll('[data-die]').forEach((die) => {
+        makeDraggable(die, () => rollDie(die));
+      });
+
+      document.querySelector('[data-add-die]').addEventListener('click', () => {
+        const pieceId = createRandomPieceId('die');
+        const die = createDie(pieceId);
+        storedDice.push(pieceId);
+        diceContainer?.append(die);
+        makeDraggable(die, () => rollDie(die));
+        saveStoredState();
+      });
+
+      restoreStoredPositions();
+      restoreRevealedCards();
+      restoreStoredFaces();
+      buildCardMenu();
+
+      document.querySelector('[data-reset-layout]').addEventListener('click', () => {
+        if (!window.confirm('Resetar todas as posições da mesa de playtest?')) return;
+        localStorage.removeItem(POSITION_STORAGE_KEY);
+        window.location.reload();
+      });
+    </script>
+  </body>
+</html>

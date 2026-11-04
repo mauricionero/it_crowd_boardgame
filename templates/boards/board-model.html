@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tabuleiro — The IT Crowd</title>
+    <link rel="stylesheet" href="board-model.css">
+  </head>
+  <body>
+    <main id="board-output" aria-label="Tabuleiro para impressão"></main>
+
+    <script>
+      const boards = {
+        MAIN: {
+          title: 'Tabuleiro principal',
+          image: '../../assets/boards/base/board-base-v4-main-entrance-right-only.png',
+        },
+      };
+
+      const output = document.querySelector('#board-output');
+
+      Object.values(boards).forEach((board) => {
+        const sheet = document.createElement('section');
+        sheet.className = 'board-sheet';
+        sheet.setAttribute('aria-label', board.title);
+
+        const image = document.createElement('img');
+        image.className = 'board-sheet__image';
+        image.src = board.image;
+        image.alt = board.title;
+        image.addEventListener('error', () => {
+          const error = document.createElement('p');
+          error.className = 'board-sheet__error';
+          error.textContent = `Não foi possível carregar o tabuleiro: ${board.image}`;
+          image.replaceWith(error);
+        });
+
+        sheet.append(image);
+        output.append(sheet);
+      });
+    </script>
+  </body>
+</html>

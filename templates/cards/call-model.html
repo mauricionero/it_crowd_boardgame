@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Modelos de cartas</title>
+    <link rel="stylesheet" href="../tiles/tile-model.css">
+    <link rel="stylesheet" href="../tokens/token-model.css">
+    <link rel="stylesheet" href="../pawns/pawn-model.css">
+    <link rel="stylesheet" href="../boards/board-model.css">
+    <link rel="stylesheet" href="card-model.css">
+  </head>
+  <body>
+    <section class="export-panel" data-export-panel aria-label="Exportar cartas em PDF">
+      <div class="export-panel__heading">
+        <strong>Exportar PDF</strong>
+        <span data-export-status>Escolha a qualidade e abra a impressão do navegador.</span>
+      </div>
+      <fieldset class="export-panel__options">
+        <legend>Qualidade</legend>
+        <label>
+          <input type="radio" name="export-quality" value="draft">
+          Rascunho
+        </label>
+        <label>
+          <input type="radio" name="export-quality" value="no-art">
+          Sem artes de background
+        </label>
+        <label>
+          <input type="radio" name="export-quality" value="full" checked>
+          Full — gráfica
+        </label>
+      </fieldset>
+      <button type="button" data-export-pdf>Exportar PDF</button>
+    </section>
+    <main class="card-list" data-card-list aria-label="Modelos de cartas"></main>
+
+    <script src="card-data.js"></script>
+    <script src="card-renderer.js"></script>
+    <script>
+      // O código serve apenas para localizar a arte e conversar sobre a carta.
+      // Ele nunca é renderizado na carta.
+      const { CARD_TYPES, cards } = window.ITCrowdCardData;
+      const { createCard, createPlayerCharacterCard } = window.ITCrowdCardRenderer;
+
+      const boards = Object.freeze({
+        MAIN: Object.freeze({
+          title: 'Tabuleiro principal',
+          image: '../../assets/boards/base/board-base-v4-main-entrance-right-only.png',
+        }),
+      });
+      const cardList = document.querySelector('[data-card-list]');
+      const cardEntries = Object.entries(cards).filter(([, card]) => (
+        card.type !== CARD_TYPES.REVERSIBLE_TILE &&
+        card.type !== CARD_TYPES.TOKEN &&
+        card.type !== CARD_TYPES.PAWN &&
+        card.type !== CARD_TYPES.PLAYER_CHARACTER
+      ));
+      const characterEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.PLAYER_CHARACTER);
+      const tileEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.REVERSIBLE_TILE);
+      const tokenEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.TOKEN);
+      const pawnEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.PAWN);
+      const cardsPerSheet = 9;
+
+      for (let index = 0; index < cardEntries.length; index += cardsPerSheet) {
+        const sheet = document.createElement('section');
+        sheet.className = 'a4-sheet';
+        sheet.setAttribute('aria-label', `Folha A4 ${Math.floor(index / cardsPerSheet) + 1}`);
+
+        cardEntries.slice(index, index + cardsPerSheet).forEach(([code, card]) => {
+          sheet.append(createCard(code, card));
+        });
+
+        cardList.append(sheet);
+      }
+
+      if (characterEntries.length) {
+        const sheet = document.createElement('section');
+        sheet.className = 'character-sheet';
+        sheet.setAttribute('aria-label', 'Folha A4 de personagens jogáveis');
+        characterEntries.forEach(([code, card]) => sheet.append(createPlayerCharacterCard(code, card)));
+        cardList.append(sheet);
+      }
+
+      function createTileFace(face, compact = false) {
+        const tile = document.createElement('article');
+        tile.className = `tile-face tile-face--${face.tone}${compact ? ' tile-face--compact' : ''}`;
+        tile.innerHTML = `
+          <div class="tile-face__content">
+            <div class="tile-face__icon ${face.iconClass ? `tile-face__icon--${face.iconClass}` : ''}" aria-hidden="true">${face.icon || ''}</div>
+          </div>
+        `;
+        return tile;
+      }
+
+      function createTileSheet(label) {
+        const sheet = document.createElement('section');
+        sheet.className = 'tile-sheet';
+
+        const heading = document.createElement('h1');
+        heading.className = 'tile-sheet__label';
+        heading.textContent = label;
+        sheet.append(heading);
+
+        tileEntries.forEach(([, tile]) => {
+          Array.from({ length: tile.copies || 1 }, () => tile)
+            .forEach((copy) => {
+              const pair = document.createElement('div');
+              pair.className = `tile-pair${copy.compact ? ' tile-pair--compact' : ''}`;
+              pair.append(createTileFace(copy.front, copy.compact), createTileFace(copy.back, copy.compact));
+              sheet.append(pair);
+            });
+        });
+        cardList.append(sheet);
+      }
+
+      if (tileEntries.length) {
+        createTileSheet('Tiles G — recorte cada par e cole frente com verso');
+      }
+
+      function createTokenFace(face) {
+        const token = document.createElement('article');
+        token.className = `token-face token-face--${face.tone}`;
+        token.innerHTML = `<div class="token-face__icon" aria-hidden="true">${face.icon}</div>`;
+        return token;
+      }
+
+      function createTokenPair(tokenData) {
+        const pair = document.createElement('div');
+        pair.className = 'token-pair';
+        pair.append(createTokenFace(tokenData.front), createTokenFace(tokenData.back));
+        return pair;
+      }
+
+      function createTokenSheet(label) {
+        const sheet = document.createElement('section');
+        sheet.className = 'token-sheet';
+
+        const heading = document.createElement('h1');
+        heading.className = 'token-sheet__label';
+        heading.textContent = label;
+        sheet.append(heading);
+
+        tokenEntries
+          .filter(([, token]) => token.kind !== 'stress-arrow' && token.front)
+          .forEach(([, token]) => {
+            Array.from({ length: token.copies || 1 }, () => token)
+              .forEach((copy) => sheet.append(copy.back ? createTokenPair(copy) : createTokenFace(copy.front)));
+          });
+
+        sheet.append(createStressTrack());
+
+        const arrowEntry = tokenEntries.find(([, token]) => token.kind === 'stress-arrow');
+        if (arrowEntry) {
+          const arrow = document.createElement('article');
+          arrow.className = 'token-arrow';
+          arrow.innerHTML = '<div class="token-arrow__icon" aria-hidden="true">➤</div>';
+          sheet.append(arrow);
+        }
+
+        cardList.append(sheet);
+      }
+
+      function createStressTrack() {
+        const track = document.createElement('article');
+        track.className = 'stress-track';
+        track.innerHTML = `
+          <div class="stress-track__title">⚠️ STRESS DA EMPRESA</div>
+          <div class="stress-track__scale">
+            ${Array.from({ length: 15 }, (_, value) => `
+              <div class="stress-track__value ${[8, 11, 13, 14].includes(value) ? 'stress-track__value--milestone' : ''}">
+                ${value}
+              </div>
+            `).join('')}
+          </div>
+        `;
+        return track;
+      }
+
+      if (tokenEntries.length) {
+        createTokenSheet('Tokens — recorte cada par reversível e cole frente com verso');
+      }
+
+      function createPawn(pawnData) {
+        const pawn = document.createElement('article');
+        pawn.className = `pawn-disc pawn-disc--${pawnData.kind}`;
+        pawn.style.setProperty('--pawn-border', pawnData.borderColor);
+        pawn.style.setProperty('--pawn-fill', pawnData.fillColor);
+        pawn.setAttribute('aria-label', pawnData.name);
+
+        if (pawnData.imagePath) {
+          const image = document.createElement('img');
+          image.className = 'pawn-disc__image';
+          image.src = pawnData.imagePath;
+          image.alt = pawnData.name;
+          pawn.append(image);
+        }
+
+        return pawn;
+      }
+
+      function createPawnSheet() {
+        const sheet = document.createElement('section');
+        sheet.className = 'pawn-sheet';
+
+        const heading = document.createElement('h1');
+        heading.className = 'pawn-sheet__label';
+        heading.textContent = 'Peões — usuários e personagens';
+        sheet.append(heading);
+
+        pawnEntries.forEach(([, pawn]) => {
+          Array.from({ length: pawn.copies || 1 }, () => pawn)
+            .forEach((copy) => sheet.append(createPawn(copy)));
+        });
+
+        cardList.append(sheet);
+      }
+
+      if (pawnEntries.length) {
+        createPawnSheet();
+      }
+
+      Object.values(boards).forEach((board) => {
+        const sheet = document.createElement('section');
+        sheet.className = 'board-sheet';
+        sheet.setAttribute('aria-label', board.title);
+
+        const image = document.createElement('img');
+        image.className = 'board-sheet__image';
+        image.src = board.image;
+        image.alt = board.title;
+        image.addEventListener('error', () => {
+          const error = document.createElement('p');
+          error.className = 'board-sheet__error';
+          error.textContent = `Não foi possível carregar o tabuleiro: ${board.image}`;
+          image.replaceWith(error);
+        });
+
+        sheet.append(image);
+        cardList.append(sheet);
+      });
+
+      const exportPanel = document.querySelector('[data-export-panel]');
+      const exportButton = document.querySelector('[data-export-pdf]');
+      const exportStatus = document.querySelector('[data-export-status]');
+      const artImages = Array.from(document.querySelectorAll('.card--background .art-slot img'));
+      const backgroundCards = Array.from(document.querySelectorAll('.card--background'));
+      let queuedExportMode = 'full';
+      let exportModeTask = Promise.resolve();
+
+      function restoreOriginalArt() {
+        artImages.forEach((image) => {
+          const originalSrc = image.dataset.exportOriginalSrc;
+          if (originalSrc) image.src = originalSrc;
+        });
+      }
+
+      function setDraftCardBackgrounds(isDraft) {
+        backgroundCards.forEach((card) => {
+          const originalBackground = card.dataset.exportOriginalBackground;
+
+          if (isDraft) {
+            card.style.setProperty('--card-background', 'none', 'important');
+          } else if (originalBackground) {
+            card.style.setProperty('--card-background', originalBackground);
+          } else {
+            card.style.removeProperty('--card-background');
+          }
+        });
+      }
+
+      async function applyExportMode(mode) {
+        document.body.dataset.exportMode = mode;
+        document.body.classList.toggle('export-no-art', mode === 'no-art');
+        document.body.classList.toggle('export-draft', mode === 'draft');
+        setDraftCardBackgrounds(mode === 'draft');
+        restoreOriginalArt();
+
+        if (mode === 'no-art') {
+          exportStatus.textContent = 'As artes principais serão omitidas; fundos, textos e regras permanecem.';
+          return;
+        }
+
+        if (mode === 'full') {
+          exportStatus.textContent = 'Usando as artes originais em resolução máxima.';
+          return;
+        }
+
+        exportStatus.textContent = 'Fundos coloridos e ilustrações principais removidos para o rascunho.';
+      }
+
+      function scheduleExportMode(mode) {
+        if (mode === queuedExportMode) return exportModeTask;
+
+        queuedExportMode = mode;
+        exportModeTask = exportModeTask.then(async () => {
+          await applyExportMode(mode);
+        });
+        return exportModeTask;
+      }
+
+      artImages.forEach((image) => {
+        image.dataset.exportOriginalSrc = image.src;
+      });
+
+      backgroundCards.forEach((card) => {
+        card.dataset.exportOriginalBackground = card.style.getPropertyValue('--card-background');
+      });
+
+      exportButton.addEventListener('click', async () => {
+        const selectedMode = exportPanel.querySelector('input[name="export-quality"]:checked').value;
+        exportButton.disabled = true;
+        await scheduleExportMode(selectedMode);
+        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        window.print();
+        exportButton.disabled = false;
+      });
+
+      exportPanel.querySelectorAll('input[name="export-quality"]').forEach((input) => {
+        input.addEventListener('change', () => {
+          exportButton.disabled = true;
+          scheduleExportMode(input.value).finally(() => {
+            exportButton.disabled = false;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

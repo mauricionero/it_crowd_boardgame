@@ -1,0 +1,215 @@
+:root {
+  --tile-size: 12.9mm;
+  --tile-gap: 1.5mm;
+  --tile-ink: #f8f0d7;
+  --tile-muted: #d9d0b9;
+  --tile-frame: #1f2728;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8mm;
+  padding: 8mm;
+  background: #242824;
+  color: var(--tile-ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.tile-sheet {
+  display: grid;
+  width: 210mm;
+  grid-template-columns: repeat(6, calc(2 * var(--tile-size) + var(--tile-gap)));
+  grid-auto-rows: var(--tile-size);
+  align-content: start;
+  gap: var(--tile-gap);
+  padding: 10mm;
+  min-height: 0;
+  background: #fff;
+  box-shadow: 0 2mm 8mm rgba(0, 0, 0, 0.35);
+  break-before: auto;
+  break-after: auto;
+  break-inside: auto;
+  page-break-before: auto;
+  page-break-after: auto;
+  page-break-inside: auto;
+}
+
+.tile-pair {
+  display: flex;
+  width: calc(2 * var(--tile-size) + var(--tile-gap));
+  height: var(--tile-size);
+  gap: var(--tile-gap);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.tile-pair--compact {
+  width: calc(var(--tile-size) + var(--tile-gap));
+}
+
+.tile-face {
+  position: relative;
+  display: flex;
+  width: var(--tile-size);
+  height: var(--tile-size);
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 0.65mm solid var(--tile-frame);
+  border-radius: 1.1mm;
+  background: #455052;
+  box-shadow: inset 0 0 0 0.35mm rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.tile-face--compact {
+  width: calc(var(--tile-size) / 2);
+}
+
+.tile-face::after {
+  position: absolute;
+  inset: 0.8mm;
+  border: 0.2mm solid rgba(255, 245, 207, 0.32);
+  border-radius: 0.6mm;
+  content: '';
+  pointer-events: none;
+}
+
+.tile-face--functional { background: linear-gradient(145deg, #4b8b70, #153a35 72%); }
+.tile-face--infected { background: linear-gradient(145deg, #8c3f50, #311c2f 72%); }
+.tile-face--connected { background: linear-gradient(145deg, #3175a5, #173552 72%); }
+.tile-face--disconnected { background: linear-gradient(145deg, #8b5b3e, #30251f 72%); }
+.tile-face--closed { background: linear-gradient(145deg, #59636c, #1c2228 72%); }
+.tile-face--open { background: linear-gradient(145deg, #807045, #332d21 72%); }
+
+.tile-face__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35mm;
+  padding: 1mm;
+}
+
+.tile-face__icon {
+  font-size: 6mm;
+  line-height: 1;
+  white-space: pre-line;
+}
+
+.tile-face__icon--cable {
+  position: relative;
+  width: 9mm;
+  height: 7mm;
+  font-size: 0;
+}
+
+.tile-face__icon--cable::before {
+  position: absolute;
+  top: 1mm;
+  left: 0;
+  font-size: 3.8mm;
+  line-height: 1;
+  content: '🔌';
+}
+
+.tile-face__icon--cable-stretched::after {
+  position: absolute;
+  top: 3.8mm;
+  left: 3.4mm;
+  width: 5mm;
+  border-top: 0.75mm solid #eee2c3;
+  box-shadow: 0 0.7mm 0 #8d6f3e;
+  content: '';
+}
+
+.tile-face__icon--cable-u::after {
+  position: absolute;
+  top: 1.8mm;
+  left: 3.8mm;
+  width: 4mm;
+  height: 4mm;
+  border: 0.75mm solid #eee2c3;
+  border-top: 0;
+  border-radius: 0 0 2.5mm 2.5mm;
+  box-shadow: 0 0.7mm 0 #8d6f3e;
+  content: '';
+}
+
+.tile-face__title {
+  max-width: 100%;
+  color: var(--tile-ink);
+  font-size: 1.45mm;
+  font-weight: 900;
+  letter-spacing: 0.04mm;
+  line-height: 1;
+  text-transform: uppercase;
+  text-shadow: 0.18mm 0.18mm 0 #111;
+}
+
+.tile-face__state {
+  max-width: 100%;
+  color: #fff4c7;
+  font-size: 1.15mm;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.tile-face__rule {
+  max-width: 100%;
+  color: var(--tile-muted);
+  font-size: 0.82mm;
+  line-height: 1.05;
+}
+
+.tile-sheet__label {
+  grid-column: 1 / -1;
+  min-height: 4mm;
+  color: #343a34;
+  font-size: 2.5mm;
+  font-weight: 900;
+  letter-spacing: 0.1mm;
+  text-transform: uppercase;
+}
+
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+
+  body {
+    display: block;
+    padding: 0;
+    background: #fff;
+  }
+
+  .tile-sheet {
+    width: 210mm;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

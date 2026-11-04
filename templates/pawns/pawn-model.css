@@ -1,0 +1,81 @@
+:root {
+  --pawn-size: 10mm;
+  --pawn-gap: 2mm;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+.pawn-sheet {
+  display: grid;
+  width: 210mm;
+  grid-template-columns: repeat(12, var(--pawn-size));
+  grid-auto-rows: var(--pawn-size);
+  align-content: start;
+  gap: var(--pawn-gap);
+  padding: 10mm;
+  min-height: 0;
+  background: #fff;
+  box-shadow: 0 2mm 8mm rgba(0, 0, 0, 0.35);
+  break-before: auto;
+  break-after: auto;
+  break-inside: auto;
+  page-break-before: auto;
+  page-break-after: auto;
+  page-break-inside: auto;
+}
+
+.pawn-sheet__label {
+  grid-column: 1 / -1;
+  min-height: 4mm;
+  color: #343a34;
+  font-size: 2.5mm;
+  font-weight: 900;
+  letter-spacing: 0.1mm;
+  text-transform: uppercase;
+}
+
+.pawn-disc {
+  position: relative;
+  display: flex;
+  width: var(--pawn-size);
+  height: var(--pawn-size);
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  border: 0.8mm solid var(--pawn-border);
+  border-radius: 50%;
+  background: var(--pawn-fill, #f3e8c8);
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.pawn-disc::after {
+  position: absolute;
+  inset: -1mm;
+  border: 0.2mm dashed rgba(65, 65, 55, 0.48);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+}
+
+.pawn-disc__image {
+  display: block;
+  width: 72%;
+  height: 72%;
+  object-fit: contain;
+}
+
+@media print {
+  .pawn-sheet {
+    width: 210mm;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    box-shadow: none;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
