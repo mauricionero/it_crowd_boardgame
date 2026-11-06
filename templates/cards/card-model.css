@@ -715,6 +715,7 @@ body {
 }
 
 .card--background .rule-slot {
+  position: relative;
   display: grid;
   flex: 1 1 0;
   min-height: 0;
@@ -723,7 +724,22 @@ body {
   height: auto;
   column-gap: 1.5mm;
   padding: 0 4.5%;
+  background: transparent;
+}
+
+.card--background .rule-slot::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
   background: url('../../assets/illustrations/icons/call-rule-panel.png') center / 100% 140% no-repeat;
+  content: '';
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.card--background .rule-slot > * {
+  position: relative;
+  z-index: 1;
 }
 
 .card--background .rule-slot__label,
@@ -816,6 +832,15 @@ body {
 .card--type-user .rule-slot--dense .rule-slot__content,
 .card--type-user .rule-slot--dense .rule-slot__effect {
   font-size: 2.5mm;
+}
+
+.card--type-initiative .rule-slot,
+.card--type-player-initiative .rule-slot {
+  flex: 0 0 auto;
+  min-height: calc(
+    var(--rule-lines, 1) * var(--rule-line-height) + var(--rule-padding-block)
+  );
+  padding: calc(var(--rule-padding-block) / 2) 4.5%;
 }
 
 .card--type-event-generic .rules,
@@ -949,6 +974,24 @@ body {
   overflow-wrap: anywhere;
 }
 
+.card--background .rule-slot__label--short {
+  font-size: 3.4mm;
+}
+
+.card--type-user .rule-slot__label--short {
+  font-size: 3.5mm;
+}
+
+.card--type-reference .rule-slot__label--short {
+  font-size: 2.9mm;
+}
+
+.card--type-event-generic .rule-slot__label--short,
+.card--type-event-mission .rule-slot__label--short,
+.card--type-routine .rule-slot__label--short {
+  font-size: 3.2mm;
+}
+
 .card--type-event-generic .rule-slot__content,
 .card--type-event-generic .rule-slot__effect,
 .card--type-event-mission .rule-slot__content,
@@ -1028,7 +1071,7 @@ body {
   display: grid;
   width: 126mm;
   height: 88mm;
-  grid-template-columns: 38mm minmax(0, 1fr);
+  grid-template-columns: 15mm 38mm minmax(0, 1fr);
   overflow: hidden;
   border: 2.4mm solid var(--border-color);
   border-radius: 3.2mm;
@@ -1037,6 +1080,40 @@ body {
     linear-gradient(155deg, #245f8e, #153d66 65%, #0f2d4d);
   box-shadow: 0 1.5mm 4mm rgba(0, 0, 0, 0.35);
   color: var(--ink-color);
+}
+
+.character-card__morale {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2mm;
+  padding: 3mm 1.8mm;
+  background: rgba(17, 52, 79, 0.72);
+}
+
+.character-card__morale-slot {
+  position: relative;
+  display: block;
+  width: 10.5mm;
+  height: 11mm;
+  flex: 0 0 11mm;
+  border: 0.45mm dashed rgba(121, 184, 106, 0.9);
+  border-radius: 1.5mm;
+  background: rgba(121, 184, 106, 0.12);
+}
+
+.character-card__morale-slot::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: rgba(181, 225, 157, 0.36);
+  content: '🔋';
+  font-size: 4.2mm;
+  line-height: 1;
+  opacity: 0.72;
+  transform: translate(-50%, -50%);
 }
 
 .character-card__portrait {
@@ -1067,6 +1144,13 @@ body {
   object-fit: contain;
   image-rendering: pixelated;
   filter: drop-shadow(1.2mm 1.2mm 0 rgba(0, 0, 0, 0.3));
+}
+
+.character-card__portrait-placeholder {
+  color: #c7bfdc;
+  font-size: 22mm;
+  line-height: 1;
+  text-shadow: 1mm 1mm 0 rgba(0, 0, 0, 0.3);
 }
 
 .character-card__content {
@@ -1157,6 +1241,10 @@ body {
   font-size: 3mm;
   font-weight: 900;
   white-space: nowrap;
+}
+
+.character-card__rule-label--short {
+  font-size: 3.7mm !important;
 }
 
 .character-card__rule span {

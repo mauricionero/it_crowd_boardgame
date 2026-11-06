@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1520" height="1040" viewBox="0 0 1520 1040" role="img" aria-labelledby="title desc">
+  <title id="title">Tabuleiro estrutural The IT Crowd em grade 18 por 12</title>
+  <desc id="desc">Tabuleiro visto de cima com corredor, elevador, cozinha, sala do servidor, sala principal, escritório da gerência e sala misteriosa. Sem móveis.</desc>
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3e4643"/>
+      <stop offset="0.45" stop-color="#1f2524"/>
+      <stop offset="1" stop-color="#0d1111"/>
+    </linearGradient>
+    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#66706c"/>
+      <stop offset="0.35" stop-color="#252d2c"/>
+      <stop offset="0.7" stop-color="#111717"/>
+      <stop offset="1" stop-color="#48504d"/>
+    </linearGradient>
+    <pattern id="corridorFloor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#d7ce9e"/>
+      <path d="M0 19H80M0 57H80" stroke="#c6ba83" stroke-width="2" opacity="0.28"/>
+      <path d="M13 0L0 13M80 67L67 80" stroke="#f0e7bd" stroke-width="2" opacity="0.3"/>
+    </pattern>
+    <pattern id="elevatorFloor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#aeb4b2"/>
+      <path d="M0 0L80 80M80 0L0 80" stroke="#8e9795" stroke-width="2" opacity="0.34"/>
+      <path d="M0 40H80M40 0V80" stroke="#cbd0cc" stroke-width="2" opacity="0.22"/>
+    </pattern>
+    <pattern id="kitchenFloor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#e8dfb0"/>
+      <path d="M0 0H80V80H0Z" fill="none" stroke="#d1c58f" stroke-width="2" opacity="0.42"/>
+      <path d="M10 22H70M19 59H61" stroke="#f6efce" stroke-width="3" opacity="0.28"/>
+    </pattern>
+    <pattern id="serverFloor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#59432f"/>
+      <path d="M0 12H80M0 39H80M0 67H80" stroke="#39291f" stroke-width="7" opacity="0.55"/>
+      <path d="M0 18H80M0 45H80M0 73H80" stroke="#775b3f" stroke-width="2" opacity="0.4"/>
+    </pattern>
+    <pattern id="mainFloor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#deddd3"/>
+      <path d="M0 0H80V80H0Z" fill="none" stroke="#c7c8bf" stroke-width="2" opacity="0.38"/>
+      <circle cx="18" cy="23" r="2" fill="#b9bab1" opacity="0.3"/>
+      <circle cx="61" cy="57" r="1.5" fill="#b9bab1" opacity="0.32"/>
+    </pattern>
+    <pattern id="managerCarpet" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#efdfe5"/>
+      <path d="M0 0H80V80H0Z" fill="none" stroke="#decbd3" stroke-width="2" opacity="0.55"/>
+      <path d="M0 40H80M40 0V80" stroke="#f6ebef" stroke-width="3" opacity="0.32"/>
+    </pattern>
+    <pattern id="mysteryFloor" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#77715e"/>
+      <path d="M0 0L80 80M80 0L0 80" stroke="#5f594b" stroke-width="2" opacity="0.32"/>
+      <path d="M0 40H80M40 0V80" stroke="#a39b7d" stroke-width="2" opacity="0.18"/>
+    </pattern>
+    <filter id="wallShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#080b0b" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- Empty structural board: 18 columns x 12 rows, 80 px per tile. -->
+  <rect width="1520" height="1040" fill="url(#frame)"/>
+  <rect x="28" y="28" width="1464" height="984" rx="10" fill="#0c1110" stroke="#6a726e" stroke-width="4"/>
+
+  <!-- Room floors. Origin of the grid is (40, 40). -->
+  <rect x="200" y="40" width="1280" height="160" fill="url(#corridorFloor)"/>
+  <rect x="40" y="40" width="160" height="160" fill="url(#elevatorFloor)"/>
+  <rect x="40" y="200" width="240" height="240" fill="url(#kitchenFloor)"/>
+  <rect x="40" y="440" width="240" height="560" fill="url(#serverFloor)"/>
+  <rect x="280" y="200" width="880" height="800" fill="url(#mainFloor)"/>
+  <rect x="1160" y="200" width="320" height="480" fill="url(#managerCarpet)"/>
+
+  <!-- The remaining 4 x 4 room is intentionally quiet and visually distinct. -->
+  <rect x="1160" y="680" width="320" height="320" fill="url(#mysteryFloor)"/>
+
+  <!-- Exact 18 x 12 tile grid. -->
+  <g fill="none" stroke="#5b625e" stroke-width="2" opacity="0.48">
+    <path d="M120 40V1000M200 40V1000M280 40V1000M360 40V1000M440 40V1000M520 40V1000M600 40V1000M680 40V1000M760 40V1000M840 40V1000M920 40V1000M1000 40V1000M1080 40V1000M1160 40V1000M1240 40V1000M1320 40V1000M1400 40V1000"/>
+    <path d="M40 120H1480M40 200H1480M40 280H1480M40 360H1480M40 440H1480M40 520H1480M40 600H1480M40 680H1480M40 760H1480M40 840H1480M40 920H1480"/>
+  </g>
+
+  <!-- Thick walls and room partitions. Doors are deliberate gaps in these segments. -->
+  <g id="walls" fill="none" stroke="url(#wall)" stroke-width="24" stroke-linecap="butt" stroke-linejoin="miter" filter="url(#wallShadow)">
+    <rect x="40" y="40" width="1440" height="960"/>
+    <path d="M40 200H280M280 200H840M920 200H1160M1160 200H1240M1320 200H1480"/>
+    <path d="M40 440H280M280 440H1160M1160 440H1480"/>
+    <path d="M280 200V280M280 360V440M280 440V520M280 600V1000"/>
+    <path d="M1160 200V360M1160 440V680M1160 680V760M1160 840V1000"/>
+    <path d="M1160 680H1480"/>
+    <path d="M200 40V80M200 160V200"/>
+  </g>
+
+  <!-- Door thresholds, aligned to complete tiles rather than floating freely. -->
+  <g id="doors" fill="#b77c4f" stroke="#70482f" stroke-width="4">
+    <rect x="264" y="280" width="32" height="80" rx="4"/>
+    <rect x="264" y="520" width="32" height="80" rx="4"/>
+    <rect x="840" y="184" width="80" height="32" rx="4"/>
+    <rect x="1240" y="184" width="80" height="32" rx="4"/>
+    <rect x="1144" y="760" width="32" height="80" rx="4"/>
+    <rect x="184" y="80" width="32" height="80" rx="4"/>
+  </g>
+
+  <!-- Subtle wall highlights make the structural layer readable without furniture. -->
+  <g id="wall-highlights" fill="none" stroke="#aab2ad" stroke-width="3" stroke-linecap="butt" opacity="0.48">
+    <rect x="48" y="48" width="1424" height="944"/>
+    <path d="M208 208H272M288 208H832M928 208H1152M1168 208H1232M1328 208H1472"/>
+    <path d="M48 448H272M288 448H1152M1168 448H1472"/>
+  </g>
+</svg>

@@ -13,6 +13,9 @@
         const label = document.createElement('strong');
         label.className = 'rule-slot__label';
         label.textContent = rule.label;
+        if (Array.from(String(rule.label || '').trim()).length < 3) {
+          label.classList.add('rule-slot__label--short');
+        }
 
         const content = document.createElement('div');
         content.className = 'rule-slot__content';
@@ -109,7 +112,7 @@
 
         const rules = document.createElement('section');
         rules.className = 'rules';
-        const ruleRows = card.rules || [...(card.resolve || []), ...(card.enroll ? [card.enroll] : [])];
+        const ruleRows = card.rules || card.resolve || [];
         rules.classList.add(`rules--${ruleRows.length}`);
         ruleRows.forEach(rule => rules.append(createRuleRow(rule)));
 
@@ -173,12 +176,30 @@
         article.style.setProperty('--frame-color', cardType.frameColor);
         article.setAttribute('aria-label', `Carta de personagem jogável: ${card.title}`);
 
+        const moraleTrack = document.createElement('aside');
+        moraleTrack.className = 'character-card__morale';
+        moraleTrack.setAttribute('aria-label', 'Espaços para tokens de Ânimo');
+        for (let index = 0; index < 5; index += 1) {
+          const slot = document.createElement('span');
+          slot.className = 'character-card__morale-slot';
+          slot.setAttribute('aria-label', `Espaço de Ânimo ${index + 1}`);
+          moraleTrack.append(slot);
+        }
+
         const portrait = document.createElement('div');
         portrait.className = 'character-card__portrait';
-        const portraitImage = document.createElement('img');
-        portraitImage.src = card.characterImage;
-        portraitImage.alt = '';
-        portrait.append(portraitImage);
+        if (card.characterImage) {
+          const portraitImage = document.createElement('img');
+          portraitImage.src = card.characterImage;
+          portraitImage.alt = '';
+          portrait.append(portraitImage);
+        } else {
+          const portraitPlaceholder = document.createElement('span');
+          portraitPlaceholder.className = 'character-card__portrait-placeholder';
+          portraitPlaceholder.textContent = card.portraitIcon || '👤';
+          portraitPlaceholder.setAttribute('aria-hidden', 'true');
+          portrait.append(portraitPlaceholder);
+        }
 
         const content = document.createElement('div');
         content.className = 'character-card__content';
@@ -211,7 +232,11 @@
           row.className = 'character-card__rule';
           row.style.setProperty('--rule-lines', String(rule.nr_lines || 1));
           const label = document.createElement('strong');
+          label.className = 'character-card__rule-label';
           label.textContent = rule.label;
+          if (Array.from(String(rule.label || '').trim()).length < 3) {
+            label.classList.add('character-card__rule-label--short');
+          }
           const line = document.createElement('span');
           line.textContent = rule.line;
           row.append(label, line);
@@ -227,7 +252,7 @@
         );
 
         content.append(heading, stats, actionSummary, rules, footer);
-        article.append(portrait, content);
+        article.append(moraleTrack, portrait, content);
         return article;
       }
 

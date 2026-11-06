@@ -12,12 +12,9 @@
   <body>
     <header class="playtest-header">
       <h1>THE IT CROWD — Mesa de playtest</h1>
-      <div class="playtest-dice" aria-label="Dados de seis faces">
-        <div class="playtest-die" data-die data-result="1" data-piece-id="die-1" role="button" tabindex="0" aria-label="Dado 1: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
-        <div class="playtest-die" data-die data-result="1" data-piece-id="die-2" role="button" tabindex="0" aria-label="Dado 2: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
-        <div class="playtest-die" data-die data-result="1" data-piece-id="die-3" role="button" tabindex="0" aria-label="Dado 3: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
-        <div class="playtest-die" data-die data-result="1" data-piece-id="die-4" role="button" tabindex="0" aria-label="Dado 4: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
-        <div class="playtest-die" data-die data-result="1" data-piece-id="die-5" role="button" tabindex="0" aria-label="Dado 5: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+      <div class="playtest-dice" aria-label="Dados d6 customizados e d10">
+        <div class="playtest-die" data-die data-die-type="d6" data-result="1" data-piece-id="die-1" role="button" tabindex="0" aria-label="Dado d6 1: falha bloqueada" title="Clique para rolar o dado"><span class="playtest-die__face">❌</span><span class="playtest-die__lock" aria-hidden="true">🔒</span></div>
+        <div class="playtest-die playtest-die--d10" data-die data-die-type="d10" data-result="1" data-piece-id="die-d10-1" role="button" tabindex="0" aria-label="Dado d10 1: resultado 1" title="Clique para rolar o dado"><span class="playtest-die__face">1</span></div>
       </div>
       <div class="playtest-header-actions">
         <p>Protótipo visual · sem regras automáticas · posicionamento inicial fixo</p>
@@ -25,8 +22,9 @@
           <summary>+ Carta</summary>
           <div class="playtest-card-menu__panel" data-card-menu-categories></div>
         </details>
-        <button type="button" class="playtest-add-die" data-add-die>+ Dado</button>
-        <div class="playtest-dice-trash" data-dice-trash aria-label="Lixeira de dados">🗑️ Dados</div>
+        <button type="button" class="playtest-add-die" data-add-die>+ 🎲 d6</button>
+        <button type="button" class="playtest-add-die playtest-add-die--d10" data-add-d10>+ 🔺 d10</button>
+        <div class="playtest-piece-trash" data-piece-trash aria-label="Lixeira de elementos">🗑️ Lixeira</div>
         <button type="button" class="playtest-reset" data-reset-layout>Resetar posições</button>
       </div>
     </header>
@@ -34,14 +32,14 @@
     <main class="playtest-layout">
       <section class="playtest-board-panel" aria-label="Tabuleiro do playtest">
         <div class="playtest-board-stage">
-          <section class="playtest-stress-ruler" aria-label="Régua de Stress">
-            <h2>Stress</h2>
+          <section class="playtest-stress-ruler" aria-label="Régua The Boss Stress">
+            <h2>THE BOSS<br>STRESS</h2>
             <div class="playtest-stress-scale" data-stress-scale></div>
           </section>
           <div class="playtest-board">
             <img
               class="playtest-board__image"
-              src="../../assets/boards/base/board-base-v4-main-entrance-right-only.png"
+              src="../../assets/boards/base/board-complete-18x12-v11.png"
               alt="Tabuleiro principal"
             >
             <div class="playtest-station-tile playtest-station-tile--kitchen" data-kitchen-tile aria-label="Tile da estação da Cozinha"></div>
@@ -57,9 +55,9 @@
       <aside class="playtest-side-panel" aria-label="Baralhos">
         <h2>Baralhos</h2>
         <section class="playtest-decks" data-decks aria-label="Baralhos empilhados"></section>
-        <section class="playtest-side-item-deck" aria-label="Estoque de cafés">
-          <h3>☕ Cafés — estoque</h3>
-          <div data-kitchen-item-deck></div>
+        <section class="playtest-side-item-deck" aria-label="Estoque de consumíveis da cozinha">
+          <h3>☕ Consumíveis da cozinha</h3>
+          <div class="playtest-kitchen-item-supply" data-kitchen-item-deck></div>
         </section>
       </aside>
 
@@ -117,8 +115,11 @@
       const storedPositions = storedState.positions;
       const storedDecks = storedState.decks;
       const storedRevealedCards = storedState.revealedCards;
+      const storedManualPieces = storedState.manualPieces;
       const storedDice = storedState.dice;
+      const storedDieTypes = storedState.dieTypes;
       const storedRemovedDice = storedState.removedDice;
+      const storedRemovedPieces = storedState.removedPieces;
       let revealedCardSequence = storedRevealedCards.reduce((highestSequence, record) => {
         const match = String(record.pieceId || '').match(/-(\d+)$/);
         const sequence = match ? Number(match[1]) : 0;
@@ -152,13 +153,16 @@
               positions: parsed.positions,
               decks: parsed.decks || {},
               revealedCards: normalizeRevealedCards(parsed.revealedCards || []),
+              manualPieces: parsed.manualPieces || [],
               dice: parsed.dice || [],
+              dieTypes: parsed.dieTypes || {},
               removedDice: parsed.removedDice || [],
+              removedPieces: parsed.removedPieces || [],
             };
           }
-          return { positions: parsed, decks: {}, revealedCards: [], dice: [], removedDice: [] };
+          return { positions: parsed, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [] };
         } catch (error) {
-          return { positions: {}, decks: {}, revealedCards: [], dice: [], removedDice: [] };
+          return { positions: {}, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [] };
         }
       }
 
@@ -168,8 +172,11 @@
             positions: storedPositions,
             decks: storedDecks,
             revealedCards: storedRevealedCards,
+            manualPieces: storedManualPieces,
             dice: storedDice,
+            dieTypes: storedDieTypes,
             removedDice: storedRemovedDice,
+            removedPieces: storedRemovedPieces,
           }));
         } catch (error) {
           // A sessão de playtest continua funcionando mesmo se o armazenamento estiver indisponível.
@@ -208,7 +215,30 @@
           revealedCard.top = top;
           revealedCard.z = Number.isFinite(zIndex) ? zIndex : 1000;
         }
+        const manualPiece = storedManualPieces.find((piece) => piece.pieceId === pieceId);
+        if (manualPiece) {
+          manualPiece.left = left;
+          manualPiece.top = top;
+          manualPiece.z = Number.isFinite(zIndex) ? zIndex : 1000;
+        }
         saveStoredState();
+      }
+
+      function logPiecePlacement(element) {
+        const pieceId = getPieceId(element);
+        const board = document.querySelector('.playtest-board');
+        const left = Number.parseFloat(element.style.left);
+        const top = Number.parseFloat(element.style.top);
+        if (!pieceId || !board || !Number.isFinite(left) || !Number.isFinite(top)) return;
+
+        const boardRect = board.getBoundingClientRect();
+        const boardLeft = boardRect.left + window.scrollX;
+        const boardTop = boardRect.top + window.scrollY;
+        if (!boardRect.width || !boardRect.height) return;
+
+        const relativeLeft = ((left - boardLeft) / boardRect.width).toFixed(3);
+        const relativeTop = ((top - boardTop) / boardRect.height).toFixed(3);
+        console.log(`place('${pieceId}', ${relativeLeft}, ${relativeTop});`);
       }
 
       function moveElementToDocumentPosition(element, left, top, zIndex = 1000) {
@@ -219,6 +249,7 @@
         if (!isAbsolutelyPositioned) {
           const placeholder = document.createElement('div');
           placeholder.className = 'playtest-drag-placeholder';
+          placeholder.dataset.dragPlaceholderFor = getPieceId(element) || '';
           placeholder.style.width = `${rect.width}px`;
           placeholder.style.height = `${rect.height}px`;
           placeholder.style.flex = `0 0 ${rect.width}px`;
@@ -242,6 +273,13 @@
           const zIndex = Number.isFinite(position.z) ? position.z : 1000;
           topLayerIndex = Math.max(topLayerIndex, zIndex);
           moveElementToDocumentPosition(element, position.left, position.top, zIndex);
+        });
+      }
+
+      function removeStoredPieces() {
+        const removedPieceIds = new Set(storedRemovedPieces);
+        document.querySelectorAll('[data-piece-id]').forEach((element) => {
+          if (removedPieceIds.has(element.dataset.pieceId)) element.remove();
         });
       }
 
@@ -309,11 +347,12 @@
       }
 
       function setDieResult(die, resultIndex) {
-        const result = dieResults[resultIndex] || dieResults[0];
+        const isD10 = die.dataset.dieType === 'd10';
+        const result = isD10 ? { face: '🔺', label: `resultado ${resultIndex + 1}` } : (dieResults[resultIndex] || dieResults[0]);
         die.dataset.result = String(resultIndex + 1);
         const face = document.createElement('span');
         face.className = 'playtest-die__face';
-        face.textContent = result.face;
+        face.textContent = isD10 ? String(resultIndex + 1) : result.face;
         die.replaceChildren(face);
         if (result.blocked) {
           const lock = document.createElement('span');
@@ -322,20 +361,33 @@
           lock.textContent = '🔒';
           die.append(lock);
         }
-        die.setAttribute('aria-label', `${die.dataset.pieceId}: ${resultIndex + 1} — ${result.label}`);
+        die.setAttribute('aria-label', `${die.dataset.pieceId} ${isD10 ? 'd10' : 'd6'}: ${resultIndex + 1} — ${result.label}`);
         die.title = `Clique para rolar o dado · ${result.label}`;
       }
 
       function rollDie(die) {
-        const value = Math.floor(Math.random() * dieResults.length);
+        const resultCount = die.dataset.dieType === 'd10' ? 10 : dieResults.length;
+        const value = Math.floor(Math.random() * resultCount);
+        const finalRotation = `${(Math.random() * 30 - 15).toFixed(2)}deg`;
+        window.clearTimeout(die.rollingTimeout);
+        die.classList.remove('playtest-die--rolling');
+        die.style.setProperty('--die-final-rotation', finalRotation);
+        die.style.transform = 'rotate(0deg)';
+        void die.offsetWidth;
+        die.classList.add('playtest-die--rolling');
+        die.rollingTimeout = window.setTimeout(() => {
+          die.classList.remove('playtest-die--rolling');
+          die.style.transform = `rotate(${finalRotation})`;
+        }, 360);
         setDieResult(die, value);
         savePieceFace(die, 'result', value + 1);
       }
 
-      function createDie(pieceId) {
+      function createDie(pieceId, dieType = 'd6') {
         const die = document.createElement('div');
-        die.className = 'playtest-die';
+        die.className = `playtest-die playtest-die--spawned${dieType === 'd10' ? ' playtest-die--d10' : ''}`;
         die.dataset.die = '';
+        die.dataset.dieType = dieType;
         die.dataset.pieceId = pieceId;
         die.setAttribute('role', 'button');
         die.setAttribute('tabindex', '0');
@@ -348,19 +400,32 @@
         return `${prefix}-${randomId}`;
       }
 
-      function removeDie(die) {
-        const pieceId = die.dataset.pieceId;
+      function removePlaytestElement(element) {
+        const pieceId = getPieceId(element);
         if (!pieceId) return;
-        die.remove();
+
+        if (element.matches('[data-die]')) {
+          const storedDieIndex = storedDice.indexOf(pieceId);
+          if (storedDieIndex >= 0) storedDice.splice(storedDieIndex, 1);
+          delete storedDieTypes[pieceId];
+          if (!storedRemovedDice.includes(pieceId)) storedRemovedDice.push(pieceId);
+        }
+
+        const storedCardIndex = storedRevealedCards.findIndex((card) => card.pieceId === pieceId);
+        if (storedCardIndex >= 0) storedRevealedCards.splice(storedCardIndex, 1);
+
+        const storedManualPieceIndex = storedManualPieces.findIndex((piece) => piece.pieceId === pieceId);
+        if (storedManualPieceIndex >= 0) storedManualPieces.splice(storedManualPieceIndex, 1);
+
+        if (!storedRemovedPieces.includes(pieceId)) storedRemovedPieces.push(pieceId);
         delete storedPositions[pieceId];
-        const storedDieIndex = storedDice.indexOf(pieceId);
-        if (storedDieIndex >= 0) storedDice.splice(storedDieIndex, 1);
-        if (!storedRemovedDice.includes(pieceId)) storedRemovedDice.push(pieceId);
+        document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
+        element.remove();
         saveStoredState();
       }
 
-      function isInsideDiceTrash(event) {
-        const trash = document.querySelector('[data-dice-trash]');
+      function isInsidePieceTrash(event) {
+        const trash = document.querySelector('[data-piece-trash]');
         if (!trash) return false;
         const rect = trash.getBoundingClientRect();
         return event.clientX >= rect.left && event.clientX <= rect.right
@@ -370,6 +435,7 @@
       const characterDefinitions = [
         { characterCode: 'PC1', initiativeCode: 'B1', pawnCode: 'P2', label: 'Roy', color: '#d56a38', image: '../../assets/pawns/roy-face.png' },
         { characterCode: 'PC2', initiativeCode: 'B2', pawnCode: 'P3', label: 'Moss', color: '#7658a8', image: '../../assets/pawns/moss-face.png' },
+        { characterCode: 'PC3', initiativeCode: 'B6', pawnCode: 'P7', label: 'Richmond', color: '#343047', image: null, icon: '🦇' },
         { characterCode: null, initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
         { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: null },
       ];
@@ -427,11 +493,33 @@
         ...deckDefinitions.map(createDeck)
       );
 
-      document.querySelector('[data-kitchen-item-deck]').append(createDeck({
-        label: 'Itens consumíveis da cozinha',
-        type: CARD_TYPES.CONSUMABLE_ITEM,
-        preview: 'H1',
-      }));
+      const kitchenItemSupply = document.querySelector('[data-kitchen-item-deck]');
+      Object.entries(cards)
+        .filter(([, card]) => card.type === CARD_TYPES.CONSUMABLE_ITEM)
+        .forEach(([code, card]) => {
+          const itemPile = document.createElement('div');
+          itemPile.className = 'playtest-kitchen-item-pile';
+          itemPile.setAttribute('aria-label', `Pilha de ${card.title}`);
+          itemPile.dataset.kitchenItemPile = code;
+          const pileLabel = document.createElement('span');
+          pileLabel.className = 'playtest-kitchen-item-pile__label';
+          pileLabel.textContent = card.title;
+          itemPile.append(pileLabel);
+          kitchenItemSupply.append(itemPile);
+
+          Array.from({ length: card.copies || 1 }, (_, copyIndex) => {
+            const itemShell = document.createElement('div');
+            itemShell.className = 'playtest-item-choice-shell playtest-kitchen-item-shell';
+            itemShell.dataset.pieceId = `kitchen-item-${code}-${copyIndex + 1}`;
+            itemShell.setAttribute('aria-label', `${card.title} ${copyIndex + 1}`);
+            itemShell.style.setProperty('--kitchen-stack-index', copyIndex);
+            itemShell.style.zIndex = String(copyIndex + 1);
+            const itemCard = createPlaytestCard(code, card);
+            itemCard.classList.add('playtest-item-choice');
+            itemShell.append(itemCard);
+            itemPile.append(itemShell);
+          });
+        });
 
       Object.entries(cards)
         .filter(([, card]) => card.type === CARD_TYPES.EQUIPMENT_ITEM)
@@ -462,11 +550,18 @@
       actionCardShell.append(createPlaytestCard('A2', cards.A2));
       document.querySelector('[data-character-tableaus]').append(actionCardShell);
 
+      const moraleCardShell = document.createElement('div');
+      moraleCardShell.className = 'playtest-action-card-shell';
+      moraleCardShell.dataset.pieceId = 'morale-card';
+      moraleCardShell.append(createPlaytestCard('A3', cards.A3));
+      document.querySelector('[data-character-tableaus]').append(moraleCardShell);
+
       const stressScale = document.querySelector('[data-stress-scale]');
-      for (let value = 0; value <= 14; value += 1) {
+      const stressEffects = { 8: '+1👣', 11: '+1🙂', 13: '+1🧠', 14: '+1⏱️' };
+      for (let value = 0; value <= 15; value += 1) {
         const mark = document.createElement('span');
-        mark.className = `playtest-stress-ruler__mark${[8, 11, 13, 14].includes(value) ? ' playtest-stress-ruler__mark--milestone' : ''}`;
-        mark.textContent = String(value);
+        mark.className = `playtest-stress-ruler__mark${[8, 11, 13, 14].includes(value) ? ' playtest-stress-ruler__mark--milestone' : ''}${value === 15 ? ' playtest-stress-ruler__mark--terminal' : ''}`;
+        mark.innerHTML = `${stressEffects[value] ? `<span class="playtest-stress-ruler__effect">${stressEffects[value]}</span>` : ''}<span>${value}</span>`;
         stressScale.append(mark);
       }
 
@@ -493,14 +588,20 @@
           image.src = definition.image;
           image.alt = definition.label;
           disc.append(image);
+        } else if (definition.icon) {
+          disc.textContent = definition.icon;
         }
         pawn.append(disc);
         return pawn;
       }
 
+      const characterTableaus = document.querySelector('[data-character-tableaus]');
+      const decksArea = document.querySelector('[data-decks]');
+
       characterDefinitions.forEach((definition) => {
         const tableau = document.createElement('article');
         tableau.className = 'playtest-character-tableau';
+        if (!definition.characterCode) tableau.classList.add('playtest-side-character-tableau');
         tableau.setAttribute('aria-label', `Área de ${definition.label}`);
 
         const initiativeCard = createCard(definition.initiativeCode, cards[definition.initiativeCode]);
@@ -519,7 +620,7 @@
         }
         surface.append(initiativeCard, createTableauPawn(definition));
         tableau.append(surface);
-        document.querySelector('[data-character-tableaus]').append(tableau);
+        (definition.characterCode ? characterTableaus : decksArea).append(tableau);
       });
 
       const tileEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.REVERSIBLE_TILE);
@@ -582,9 +683,11 @@
         ));
       });
 
-      const materialPawnEntries = ['P1', 'P6'].map((code) => [code, cards[code]]);
+      const materialPawnEntries = [
+        { code: 'P6', pawnData: cards.P6 },
+      ];
 
-      materialPawnEntries.forEach(([code, pawnData]) => {
+      materialPawnEntries.forEach(({ code, pawnData }) => {
         Array.from({ length: pawnData.copies || 1 }, (_, copyIndex) => {
           const pawn = document.createElement('article');
           pawn.className = 'playtest-material-pawn';
@@ -598,6 +701,7 @@
           disc.className = 'playtest-pawn__disc';
           disc.style.setProperty('--pawn-border', pawnData.borderColor);
           disc.style.setProperty('--pawn-fill', pawnData.fillColor);
+          if (pawnData.name === 'Bombeiro') disc.textContent = '👨‍🚒';
           pawn.append(disc);
           document.querySelector('[data-material-pawns]').append(pawn);
         });
@@ -693,6 +797,7 @@
 
       function restoreRevealedCards() {
         storedRevealedCards.forEach((record) => {
+          if (storedRemovedPieces.includes(record.pieceId)) return;
           const card = cards[record.code];
           if (card) createRevealedCard(record.code, card, record);
         });
@@ -718,14 +823,224 @@
         createRevealedCard(code, card, record);
       }
 
+      function createManualBoardPiece(code, pieceData, kind, record) {
+        const element = kind === 'tile'
+          ? createPlaytestTile(code, pieceData, 0)
+          : createPlaytestToken(code, pieceData, 0);
+        element.dataset.pieceId = record.pieceId;
+        document.body.append(element);
+        const computedStyle = window.getComputedStyle(element);
+        element.style.position = 'absolute';
+        element.style.left = `${record.left}px`;
+        element.style.top = `${record.top}px`;
+        element.style.zIndex = String(record.z);
+        element.style.margin = '0';
+        element.style.width = computedStyle.width;
+        element.style.height = computedStyle.height;
+        makeDraggable(element, () => (kind === 'tile' ? toggleTileFace(element) : toggleTokenFace(element)));
+        return element;
+      }
+
+      function createManualPawnPiece(code, pawnData, record) {
+        const pawn = document.createElement('article');
+        pawn.className = 'playtest-material-pawn';
+        pawn.dataset.pawnCode = code;
+        pawn.dataset.pieceId = record.pieceId;
+        pawn.title = pawnData.name;
+        pawn.setAttribute('aria-label', pawnData.name);
+
+        const disc = document.createElement('div');
+        disc.className = 'playtest-pawn__disc';
+        disc.style.setProperty('--pawn-border', pawnData.borderColor);
+        disc.style.setProperty('--pawn-fill', pawnData.fillColor);
+        if (pawnData.name === 'Bombeiro') disc.textContent = '👨‍🚒';
+        else if (pawnData.icon) disc.textContent = pawnData.icon;
+        pawn.append(disc);
+        document.body.append(pawn);
+        const computedStyle = window.getComputedStyle(pawn);
+        pawn.style.position = 'absolute';
+        pawn.style.left = `${record.left}px`;
+        pawn.style.top = `${record.top}px`;
+        pawn.style.zIndex = String(record.z);
+        pawn.style.margin = '0';
+        pawn.style.width = computedStyle.width;
+        pawn.style.height = computedStyle.height;
+        makeDraggable(pawn);
+        return pawn;
+      }
+
+      function createManualBoardPieceInstance(code, kind) {
+        const pieceData = cards[code];
+        if (!pieceData) return;
+
+        const instanceIndex = storedManualPieces.length;
+        const record = {
+          pieceId: createRandomPieceId(`${kind}-${code}`),
+          code,
+          kind,
+          left: window.scrollX + Math.max(20, window.innerWidth / 2 - 120 + (instanceIndex % 6) * 18),
+          top: window.scrollY + 160 + (instanceIndex % 8) * 18,
+          z: topLayerIndex + 1,
+        };
+        topLayerIndex = record.z;
+        storedManualPieces.push(record);
+        saveStoredState();
+        createManualBoardPiece(code, pieceData, kind, record);
+      }
+
+      function createManualPawnInstance(code, pawnData) {
+        const instanceIndex = storedManualPieces.length;
+        const record = {
+          pieceId: createRandomPieceId(`pawn-${code}`),
+          code,
+          kind: 'pawn',
+          left: window.scrollX + Math.max(20, window.innerWidth / 2 - 120 + (instanceIndex % 6) * 18),
+          top: window.scrollY + 160 + (instanceIndex % 8) * 18,
+          z: topLayerIndex + 1,
+        };
+        topLayerIndex = record.z;
+        storedManualPieces.push(record);
+        saveStoredState();
+        createManualPawnPiece(code, pawnData, record);
+      }
+
+      function restoreManualPieces() {
+        storedManualPieces.forEach((record) => {
+          if (storedRemovedPieces.includes(record.pieceId)) return;
+          const pieceData = cards[record.code];
+          if (pieceData && (record.kind === 'tile' || record.kind === 'token' || record.kind === 'pawn')) {
+            topLayerIndex = Math.max(topLayerIndex, record.z || 1000);
+            if (record.kind === 'pawn') {
+              createManualPawnPiece(record.code, pieceData, record);
+            } else {
+              createManualBoardPiece(record.code, pieceData, record.kind, record);
+            }
+          }
+        });
+      }
+
+      function saveInitialPiecePosition(element, left, top, zIndex) {
+        if (!element) return;
+        const pieceId = getPieceId(element);
+        if (!pieceId) return;
+
+        moveElementToDocumentPosition(element, left, top, zIndex);
+        document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
+        storedPositions[pieceId] = { left, top, z: zIndex };
+      }
+
+      function applyInitialBoardSetup() {
+        const hasStoredSession = Object.keys(storedPositions).length > 0
+          || Object.keys(storedDecks).length > 0
+          || storedRevealedCards.length > 0
+          || storedManualPieces.length > 0
+          || storedDice.length > 0
+          || storedRemovedDice.length > 0
+          || storedRemovedPieces.length > 0;
+        if (hasStoredSession) return;
+
+        const board = document.querySelector('.playtest-board');
+        if (!board) return;
+        const boardRect = board.getBoundingClientRect();
+        const boardLeft = boardRect.left + window.scrollX;
+        const boardTop = boardRect.top + window.scrollY;
+        const point = (x, y) => ({
+          left: boardLeft + boardRect.width * x,
+          top: boardTop + boardRect.height * y,
+        });
+        let zIndex = 2200;
+
+        const place = (pieceId, x, y) => {
+          const position = point(x, y);
+          const element = document.querySelector(`[data-piece-id="${pieceId}"]`);
+          saveInitialPiecePosition(element, position.left, position.top, zIndex);
+          zIndex += 1;
+        };
+
+        // Consumíveis ficam em duas pilhas fora da borda esquerda do mapa.
+        ['H1', 'H4'].forEach((code, pileIndex) => {
+          const copyCount = cards[code]?.copies || 1;
+          for (let copyIndex = 1; copyIndex <= copyCount; copyIndex += 1) {
+            place(`kitchen-item-${code}-${copyIndex}`, -0.073, 0.155 + pileIndex * 0.18);
+          }
+        });
+
+        // Equipamentos ficam abertos abaixo do tabuleiro, da esquerda para a direita.
+        ['H2', 'H3', 'H6'].forEach((code, index) => {
+          place(`item-${code}`, 0.30 + index * 0.09, 0.98);
+        });
+
+        // A fila começa com o baralho de Eventos, os três personagens jogáveis
+        // e o baralho de Missões, todos alinhados pela borda superior.
+        place('deck-event-generic', 0.039, 1.182);
+        place('initiative-B1', 0.147, 1.182);
+        place('initiative-B2', 0.242, 1.182);
+        place('initiative-B6', 0.337, 1.182);
+        place('deck-event-mission', 0.439, 1.182);
+
+        // O armário fica na faixa inferior do mapa, e os personagens começam em cena.
+        place('station-cabinet', 0.453, 0.866);
+        place('station-kitchen', 0.170, 0.226);
+
+        place('pawn-P2', 0.315, 0.640); // Roy
+        place('pawn-P3', 0.456, 0.315); // Moss
+        place('pawn-P4', 0.842, 0.396); // Jen
+
+        place('token-T6-1', 0.693, 0.874);
+        place('token-T6-2', 0.702, 0.876);
+        place('token-T6-3', 0.840, 0.560);
+        place('token-T6-4', 0.849, 0.555);
+
+        place('tile-G7-1', 0.788, 0.226);
+        place('tile-G2-1', 0.167, 0.472);
+
+        place('tile-G1-3', 0.355, 0.626);
+        place('tile-G1-2', 0.452, 0.387);
+        place('tile-G1-1', 0.810, 0.384);
+
+        place('kitchen-item-H1-4', 0.026, 0.181);
+        place('kitchen-item-H1-3', 0.028, 0.184);
+        place('kitchen-item-H1-2', 0.030, 0.187);
+        place('kitchen-item-H1-1', 0.032, 0.187);
+        place('kitchen-item-H4-3', 0.031, 0.359);
+        place('kitchen-item-H4-2', 0.028, 0.360);
+        place('kitchen-item-H4-1', 0.030, 0.359);
+
+        place('item-H6', 0.551, 0.934);
+        place('item-H3', 0.481, 0.933);
+        place('item-H2', 0.411, 0.933);
+
+        saveStoredState();
+      }
+
       const cardMenuCategories = [
         { label: 'Chamados', types: [CARD_TYPES.CALL] },
         { label: 'Usuários', types: [CARD_TYPES.USER] },
         { label: 'Eventos genéricos', types: [CARD_TYPES.GENERIC_EVENT] },
         { label: 'Missões', types: [CARD_TYPES.MISSION_EVENT] },
         { label: 'Itens', types: [CARD_TYPES.CONSUMABLE_ITEM, CARD_TYPES.EQUIPMENT_ITEM] },
-        { label: 'Referências e iniciativa', types: [CARD_TYPES.ROUTINE, CARD_TYPES.REFERENCE, CARD_TYPES.PLAYER_INITIATIVE, CARD_TYPES.PLAYER_CHARACTER, CARD_TYPES.INITIATIVE] },
+        { label: 'Referências e iniciativa', types: [CARD_TYPES.ROUTINE, CARD_TYPES.PLAYER_INITIATIVE, CARD_TYPES.PLAYER_CHARACTER, CARD_TYPES.INITIATIVE] },
+        { label: 'Outros', types: [CARD_TYPES.REFERENCE] },
+        { label: 'Tokens', types: [CARD_TYPES.TOKEN], kind: 'token' },
+        { label: 'Tiles', types: [CARD_TYPES.REVERSIBLE_TILE], kind: 'tile' },
+        { label: 'Peões', types: [CARD_TYPES.PAWN], kind: 'pawn' },
       ];
+
+      const boardPieceNames = {
+        G1: 'Computador',
+        G2: 'Servidor',
+        G3: 'Telefone',
+        G5: 'Armário',
+        G6: 'Cafeteira',
+        G7: 'Fio do telefone',
+        T1: 'Fogo',
+        T2: 'Cansaço',
+        T3: 'Distração',
+        T4: 'Reunião',
+        T6: 'Monitor quebrado',
+        T9: 'Estrela',
+        T12: 'Ânimo',
+      };
 
       function buildCardMenu() {
         const menu = document.querySelector('[data-card-menu-categories]');
@@ -738,16 +1053,33 @@
 
           const cardList = document.createElement('div');
           cardList.className = 'playtest-card-menu__list';
-          Object.entries(cards)
-            .filter(([, card]) => categoryDefinition.types.includes(card.type))
-            .forEach(([code, card]) => {
+          const menuEntries = categoryDefinition.kind === 'pawn'
+            ? [
+              { code: 'P6', card: cards.P6, menuCode: 'P6' },
+              { code: 'P7', card: cards.P7, menuCode: 'P7' },
+            ]
+            : Object.entries(cards)
+              .filter(([, card]) => categoryDefinition.types.includes(card.type))
+              .filter(([, card]) => categoryDefinition.kind !== 'token' || card.front)
+              .map(([code, card]) => ({ code, card, menuCode: code }));
+
+          menuEntries.forEach(({ code, card, menuCode }) => {
               const button = document.createElement('button');
               button.type = 'button';
               button.className = 'playtest-card-menu__card';
-              button.dataset.cardCode = code;
-              button.textContent = `${code} — ${String(card.title || '').replace(/\n/g, ' ')}`;
+              button.dataset.cardCode = menuCode;
+              const itemName = card.title || card.name || boardPieceNames[code] || card.front?.icon || code;
+              button.textContent = `${menuCode} — ${String(itemName).replace(/\n/g, ' ')}`;
               button.addEventListener('click', () => {
-                createManualCardInstance(code);
+                if (categoryDefinition.kind) {
+                  if (categoryDefinition.kind === 'pawn') {
+                    createManualPawnInstance(code, card);
+                  } else {
+                    createManualBoardPieceInstance(code, categoryDefinition.kind);
+                  }
+                } else {
+                  createManualCardInstance(code);
+                }
                 document.querySelector('[data-card-menu]').open = false;
               });
               cardList.append(button);
@@ -826,6 +1158,7 @@
           const startTop = rect.top + window.scrollY;
           let dragStarted = false;
           let moved = false;
+          let finished = false;
 
           const startDrag = () => {
             dragStarted = true;
@@ -840,18 +1173,18 @@
             if (!dragStarted) startDrag();
             element.style.left = `${startLeft + moveEvent.pageX - event.pageX}px`;
             element.style.top = `${startTop + moveEvent.pageY - event.pageY}px`;
-            if (element.matches('[data-die]')) {
-              document.querySelector('[data-dice-trash]')?.classList.toggle(
-                'playtest-dice-trash--hover',
-                isInsideDiceTrash(moveEvent),
-              );
-            }
+            document.querySelector('[data-piece-trash]')?.classList.toggle(
+              'playtest-piece-trash--hover',
+              isInsidePieceTrash(moveEvent),
+            );
           };
 
           const finish = (finishEvent) => {
+            if (finished) return;
+            finished = true;
             const droppedInTrash = dragStarted
-              && element.matches('[data-die]')
-              && isInsideDiceTrash(finishEvent);
+              && finishEvent.type === 'pointerup'
+              && isInsidePieceTrash(finishEvent);
             if (tapHandler && finishEvent.type === 'pointerup' && !moved && !droppedInTrash) {
               tapHandler();
             }
@@ -859,21 +1192,28 @@
               element.releasePointerCapture(event.pointerId);
             }
             if (dragStarted) element.classList.remove('playtest-dragging');
-            document.querySelector('[data-dice-trash]')?.classList.remove('playtest-dice-trash--hover');
+            document.querySelector('[data-piece-trash]')?.classList.remove('playtest-piece-trash--hover');
             if (droppedInTrash) {
-              removeDie(element);
+              removePlaytestElement(element);
             } else if (dragStarted) {
               savePiecePosition(element);
+              logPiecePlacement(element);
             }
             window.removeEventListener('pointermove', move);
             window.removeEventListener('pointerup', finish);
             window.removeEventListener('pointercancel', finish);
+            window.removeEventListener('mouseup', finish);
+            window.removeEventListener('blur', cancel);
           };
+
+          const cancel = () => finish({ type: 'cancel', clientX: -Infinity, clientY: -Infinity });
 
           element.setPointerCapture?.(event.pointerId);
           window.addEventListener('pointermove', move);
           window.addEventListener('pointerup', finish, { once: true });
           window.addEventListener('pointercancel', finish, { once: true });
+          window.addEventListener('mouseup', finish, { once: true });
+          window.addEventListener('blur', cancel, { once: true });
         });
       }
 
@@ -917,7 +1257,7 @@
       const diceContainer = document.querySelector('.playtest-dice');
       storedDice.forEach((pieceId) => {
         if (document.querySelector(`[data-die][data-piece-id="${pieceId}"]`)) return;
-        diceContainer?.append(createDie(pieceId));
+        diceContainer?.append(createDie(pieceId, storedDieTypes[pieceId] || 'd6'));
       });
 
       document.querySelectorAll('[data-die]').forEach((die) => {
@@ -926,15 +1266,31 @@
 
       document.querySelector('[data-add-die]').addEventListener('click', () => {
         const pieceId = createRandomPieceId('die');
-        const die = createDie(pieceId);
+        const dieType = 'd6';
+        const die = createDie(pieceId, dieType);
         storedDice.push(pieceId);
+        storedDieTypes[pieceId] = dieType;
         diceContainer?.append(die);
         makeDraggable(die, () => rollDie(die));
         saveStoredState();
       });
 
+      document.querySelector('[data-add-d10]').addEventListener('click', () => {
+        const pieceId = createRandomPieceId('die');
+        const dieType = 'd10';
+        const die = createDie(pieceId, dieType);
+        storedDice.push(pieceId);
+        storedDieTypes[pieceId] = dieType;
+        diceContainer?.append(die);
+        makeDraggable(die, () => rollDie(die));
+        saveStoredState();
+      });
+
+      removeStoredPieces();
+      applyInitialBoardSetup();
       restoreStoredPositions();
       restoreRevealedCards();
+      restoreManualPieces();
       restoreStoredFaces();
       buildCardMenu();
 

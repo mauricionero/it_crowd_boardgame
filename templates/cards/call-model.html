@@ -46,7 +46,7 @@
       const boards = Object.freeze({
         MAIN: Object.freeze({
           title: 'Tabuleiro principal',
-          image: '../../assets/boards/base/board-base-v4-main-entrance-right-only.png',
+          image: '../../assets/boards/base/board-complete-18x12-v11.png',
         }),
       });
       const cardList = document.querySelector('[data-card-list]');
@@ -163,13 +163,15 @@
 
       function createStressTrack() {
         const track = document.createElement('article');
+        const stressEffects = { 8: '+1👣', 11: '+1🙂', 13: '+1🧠', 14: '+1⏱️' };
         track.className = 'stress-track';
         track.innerHTML = `
-          <div class="stress-track__title">⚠️ STRESS DA EMPRESA</div>
+          <div class="stress-track__title">⚠️ THE BOSS<br>STRESS</div>
           <div class="stress-track__scale">
-            ${Array.from({ length: 15 }, (_, value) => `
-              <div class="stress-track__value ${[8, 11, 13, 14].includes(value) ? 'stress-track__value--milestone' : ''}">
-                ${value}
+            ${Array.from({ length: 16 }, (_, value) => `
+              <div class="stress-track__value ${[8, 11, 13, 14].includes(value) ? 'stress-track__value--milestone' : ''} ${value === 15 ? 'stress-track__value--terminal' : ''}">
+                ${stressEffects[value] ? `<span class="stress-track__effect">${stressEffects[value]}</span>` : ''}
+                <span>${value}</span>
               </div>
             `).join('')}
           </div>
@@ -194,6 +196,12 @@
           image.src = pawnData.imagePath;
           image.alt = pawnData.name;
           pawn.append(image);
+        } else if (pawnData.icon) {
+          const icon = document.createElement('span');
+          icon.className = 'pawn-disc__icon';
+          icon.textContent = pawnData.icon;
+          icon.setAttribute('aria-hidden', 'true');
+          pawn.append(icon);
         }
 
         return pawn;
@@ -205,7 +213,7 @@
 
         const heading = document.createElement('h1');
         heading.className = 'pawn-sheet__label';
-        heading.textContent = 'Peões — usuários e personagens';
+        heading.textContent = 'Peões — personagens e bombeiros';
         sheet.append(heading);
 
         pawnEntries.forEach(([, pawn]) => {

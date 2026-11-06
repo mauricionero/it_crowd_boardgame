@@ -196,6 +196,13 @@
   height: 15mm !important;
 }
 
+.playtest-alt-preview .playtest-token-face.token-face--morale {
+  flex: 0 0 10mm !important;
+  width: 10mm !important;
+  height: 10mm !important;
+  border-radius: 1.5mm !important;
+}
+
 .playtest-alt-preview .playtest-token-face .token-face__icon {
   font-size: 7mm !important;
 }
@@ -254,6 +261,11 @@ body {
   gap: 12px;
 }
 
+.playtest-header-actions > p {
+  flex: 0 0 auto;
+  white-space: normal;
+}
+
 .playtest-card-menu {
   position: relative;
   z-index: 2500;
@@ -288,6 +300,11 @@ body {
 .playtest-card-menu__category[open] > summary,
 .playtest-card-menu__category > summary:hover {
   background: #fff7db;
+}
+
+.playtest-card-menu__category[open] > summary,
+.playtest-card-menu__category > summary:hover {
+  color: var(--playtest-ink);
 }
 
 .playtest-card-menu__panel {
@@ -381,7 +398,13 @@ body {
   background: #fff7db;
 }
 
-.playtest-dice-trash {
+.playtest-add-die--d10 {
+  border-color: #686aa7;
+  background: #e2e2f3;
+  color: #37386e;
+}
+
+.playtest-piece-trash {
   display: flex;
   min-width: 90px;
   height: 42px;
@@ -398,7 +421,7 @@ body {
   white-space: nowrap;
 }
 
-.playtest-dice-trash--hover {
+.playtest-piece-trash--hover {
   background: #9f3f35;
   box-shadow: 0 0 0 2px #ffd7ce;
 }
@@ -421,16 +444,41 @@ body {
   white-space: nowrap;
 }
 
-.playtest-die[data-result="1"],
-.playtest-die[data-result="2"],
-.playtest-die[data-result="3"],
-.playtest-die[data-result="4"] {
+@keyframes playtest-die-roll {
+  0% {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    transform: rotate(0deg) scale(1);
+  }
+
+  35% {
+    box-shadow: 0 0 0 4px rgba(255, 218, 91, 0.5), 0 5px 14px rgba(0, 0, 0, 0.45);
+    transform: rotate(14deg) scale(1.12);
+  }
+
+  70% {
+    transform: rotate(-14deg) scale(1.12);
+  }
+
+  100% {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    transform: rotate(var(--die-final-rotation, 0deg)) scale(1);
+  }
+}
+
+.playtest-die--rolling {
+  animation: playtest-die-roll 360ms ease-out;
+}
+
+.playtest-die:not(.playtest-die--d10)[data-result="1"],
+.playtest-die:not(.playtest-die--d10)[data-result="2"],
+.playtest-die:not(.playtest-die--d10)[data-result="3"],
+.playtest-die:not(.playtest-die--d10)[data-result="4"] {
   border-color: #b85c54;
   background: #f1d8d3;
 }
 
-.playtest-die[data-result="5"],
-.playtest-die[data-result="6"] {
+.playtest-die:not(.playtest-die--d10)[data-result="5"],
+.playtest-die:not(.playtest-die--d10)[data-result="6"] {
   border-color: #5b9a6b;
   background: #d8ecd9;
 }
@@ -448,6 +496,21 @@ body {
   line-height: 1;
 }
 
+.playtest-die--d10 {
+  border: 0;
+  border-radius: 0;
+  background: #df2f88;
+  color: #fff;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.35));
+  clip-path: polygon(20% 0, 80% 0, 100% 50%, 80% 100%, 20% 100%, 0 50%);
+}
+
+.playtest-die--d10 .playtest-die__face {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
 .playtest-die::after {
   position: absolute;
   top: 2px;
@@ -460,9 +523,19 @@ body {
 }
 
 .playtest-dice {
+  position: relative;
   display: flex;
+  width: 282px;
+  height: 42px;
+  flex: 0 0 282px;
   align-items: center;
   gap: 6px;
+}
+
+.playtest-die--spawned {
+  position: absolute;
+  top: 0;
+  left: 240px;
 }
 
 .playtest-layout {
@@ -518,7 +591,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.4px;
   text-transform: uppercase;
-  writing-mode: vertical-rl;
+  white-space: nowrap;
 }
 
 .playtest-stress-scale {
@@ -559,6 +632,21 @@ body {
 .playtest-stress-ruler__mark--milestone {
   color: #a52f2f;
   font-weight: 900;
+}
+
+.playtest-stress-ruler__mark--terminal {
+  color: #6f2020;
+  font-weight: 900;
+}
+
+.playtest-stress-ruler__effect {
+  position: absolute;
+  right: 16px;
+  color: #7f2525;
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .playtest-stress-ruler__arrow {
@@ -746,6 +834,38 @@ body {
   font-size: 11px;
   letter-spacing: 0.4px;
   text-transform: uppercase;
+}
+
+.playtest-kitchen-item-supply {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  width: 205px;
+  height: 125px;
+}
+
+.playtest-kitchen-item-pile {
+  position: relative;
+  width: 100px;
+  height: 125px;
+}
+
+.playtest-kitchen-item-pile__label {
+  position: absolute;
+  top: -12px;
+  left: 0;
+  width: 100%;
+  color: var(--playtest-muted);
+  font-size: 8px;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.playtest-kitchen-item-shell {
+  position: absolute;
+  top: calc(var(--kitchen-stack-index) * 3px);
+  left: calc(var(--kitchen-stack-index) * 3px);
 }
 
 .playtest-deck {
@@ -969,11 +1089,30 @@ body {
 }
 
 .playtest-material-pawn {
+  position: relative;
   display: flex;
   width: 34px;
   height: 34px;
   align-items: center;
   justify-content: center;
+}
+
+.playtest-pawn__code {
+  display: block;
+  min-width: 20px;
+  padding: 1px 2px;
+  border: 0;
+  border-radius: 3px;
+  background: rgba(255, 247, 219, 0.88);
+  color: #202522;
+  cursor: grab;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 10px;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+  z-index: 2;
 }
 
 .playtest-material-pawn .playtest-pawn__disc {
@@ -1036,6 +1175,17 @@ body {
   font-size: 14px;
 }
 
+.playtest-token-face.token-face--morale {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+}
+
+.playtest-token-face.token-face--morale .token-face__icon {
+  font-size: 11px;
+}
+
 .playtest-character-row {
   display: flex;
   grid-column: 1 / -1;
@@ -1050,7 +1200,7 @@ body {
 
 .playtest-character-tableaus {
   display: flex;
-  min-height: 176px;
+  min-height: 202px;
   align-items: flex-start;
   justify-content: flex-start;
   gap: 18px;
@@ -1061,14 +1211,14 @@ body {
 }
 
 .playtest-character-tableau {
-  flex: 0 0 260px;
-  width: 260px;
+  flex: 0 0 300px;
+  width: 300px;
 }
 
 .playtest-character-tableau__surface {
   position: relative;
-  width: 260px;
-  height: 168px;
+  width: 300px;
+  height: 198px;
 }
 
 .playtest-character-tableau__character-card,
@@ -1079,10 +1229,10 @@ body {
 }
 
 .playtest-character-tableau__character-card {
-  top: 48px;
-  left: 76px;
+  top: 54px;
+  left: 90px;
   z-index: 1;
-  transform: scale(0.34);
+  transform: scale(0.42);
 }
 
 .playtest-character-tableau__initiative-card {
@@ -1103,6 +1253,26 @@ body {
   width: 34px;
   height: 34px;
   border-width: 3px;
+}
+
+.playtest-side-character-tableau {
+  position: relative;
+  flex: 0 0 146px;
+  width: 146px;
+  height: 146px;
+}
+
+.playtest-side-character-tableau .playtest-character-tableau__surface {
+  width: 146px;
+  height: 146px;
+}
+
+.playtest-side-character-tableau .playtest-character-tableau__initiative-card {
+  transform: scale(0.38);
+}
+
+.playtest-side-character-tableau .playtest-character-tableau__pawn {
+  left: 100px;
 }
 
 .playtest-purchased-row {

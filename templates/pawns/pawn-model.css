@@ -68,6 +68,22 @@
   object-fit: contain;
 }
 
+.pawn-disc__icon {
+  font-size: 5.8mm;
+  line-height: 1;
+}
+
+.pawn-disc__code {
+  position: absolute;
+  padding: 0.5mm 1mm;
+  border-radius: 0.7mm;
+  background: rgba(255, 247, 219, 0.88);
+  color: #202522;
+  font-size: 2.5mm;
+  font-weight: 900;
+  line-height: 3mm;
+}
+
 @media print {
   .pawn-sheet {
     width: 210mm;

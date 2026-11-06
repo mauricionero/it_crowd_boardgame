@@ -74,7 +74,16 @@
 
 .token-face--fire-low { background: #d76f2f; }
 .token-face--fire-high { background: #a9272d; }
+.token-face--fatigue,
 .token-face--despondency { background: #6f7095; }
+.token-face--morale {
+  width: 10mm;
+  height: 10mm;
+  flex-basis: 10mm;
+  border-radius: 1.5mm;
+  background: #79b86a;
+}
+.token-face--morale .token-face__icon { font-size: 5.5mm; }
 .token-face--enroll { background: #347a9c; }
 .token-face--meeting { background: #9c7b36; }
 .token-face--waiting { background: #a55d2c; }
@@ -114,7 +123,7 @@
   position: relative;
   display: flex;
   width: 170mm;
-  height: 22mm;
+  height: 28mm;
   grid-column: 1 / -1;
   grid-row: auto;
   flex-direction: column;
@@ -134,7 +143,7 @@
 
 .stress-track__scale {
   display: grid;
-  grid-template-columns: repeat(15, 1fr);
+  grid-template-columns: repeat(16, 1fr);
   align-items: end;
   height: 9mm;
 }
@@ -143,10 +152,18 @@
   position: relative;
   display: flex;
   height: 100%;
-  align-items: flex-end;
+  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  gap: 0.7mm;
   font-size: 2.3mm;
   font-weight: 800;
+}
+
+.stress-track__effect {
+  font-size: 1.8mm;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .stress-track__value::before {
@@ -166,6 +183,11 @@
   width: 0.6mm;
   height: 5mm;
   background: #a52f2f;
+}
+
+.stress-track__value--terminal {
+  color: #6f2020;
+  font-weight: 900;
 }
 
 @media print {
