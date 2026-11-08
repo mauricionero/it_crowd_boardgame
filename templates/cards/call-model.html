@@ -14,7 +14,7 @@
     <section class="export-panel" data-export-panel aria-label="Exportar cartas em PDF">
       <div class="export-panel__heading">
         <strong>Exportar PDF</strong>
-        <span data-export-status>Escolha a qualidade e abra a impressão do navegador.</span>
+        <span data-export-status>Qualidade full: imagens em 300 DPI para impressão.</span>
       </div>
       <fieldset class="export-panel__options">
         <legend>Qualidade</legend>
@@ -23,12 +23,12 @@
           Rascunho
         </label>
         <label>
-          <input type="radio" name="export-quality" value="no-art">
-          Sem artes de background
+          <input type="radio" name="export-quality" value="low">
+          Qualidade rascunho
         </label>
         <label>
           <input type="radio" name="export-quality" value="full" checked>
-          Full — gráfica
+          Qualidade full
         </label>
       </fieldset>
       <button type="button" data-export-pdf>Exportar PDF</button>
@@ -38,6 +38,9 @@
     <script src="card-data.js"></script>
     <script src="card-renderer.js"></script>
     <script>
+      window.ITCrowdUseExportedImages = true;
+      window.ITCrowdExportedImageMode = 'full';
+      window.ITCrowdExportedImageResolution = 'high';
       // O código serve apenas para localizar a arte e conversar sobre a carta.
       // Ele nunca é renderizado na carta.
       const { CARD_TYPES, cards } = window.ITCrowdCardData;
@@ -148,7 +151,8 @@
               .forEach((copy) => sheet.append(copy.back ? createTokenPair(copy) : createTokenFace(copy.front)));
           });
 
-        sheet.append(createStressTrack());
+        const track = createStressTrack();
+        sheet.append(track);
 
         const arrowEntry = tokenEntries.find(([, token]) => token.kind === 'stress-arrow');
         if (arrowEntry) {
@@ -156,6 +160,10 @@
           arrow.className = 'token-arrow';
           arrow.innerHTML = '<div class="token-arrow__icon" aria-hidden="true">➤</div>';
           sheet.append(arrow);
+        }
+
+        if (pawnEntries.length) {
+          appendPawnContents(sheet);
         }
 
         cardList.append(sheet);
@@ -207,12 +215,9 @@
         return pawn;
       }
 
-      function createPawnSheet() {
-        const sheet = document.createElement('section');
-        sheet.className = 'pawn-sheet';
-
+      function appendPawnContents(sheet) {
         const heading = document.createElement('h1');
-        heading.className = 'pawn-sheet__label';
+        heading.className = 'token-sheet__label';
         heading.textContent = 'Peões — personagens e bombeiros';
         sheet.append(heading);
 
@@ -220,12 +225,6 @@
           Array.from({ length: pawn.copies || 1 }, () => pawn)
             .forEach((copy) => sheet.append(createPawn(copy)));
         });
-
-        cardList.append(sheet);
-      }
-
-      if (pawnEntries.length) {
-        createPawnSheet();
       }
 
       Object.values(boards).forEach((board) => {
@@ -253,7 +252,7 @@
       const exportStatus = document.querySelector('[data-export-status]');
       const artImages = Array.from(document.querySelectorAll('.card--background .art-slot img'));
       const backgroundCards = Array.from(document.querySelectorAll('.card--background'));
-      let queuedExportMode = 'full';
+      let queuedExportMode = null;
       let exportModeTask = Promise.resolve();
 
       function restoreOriginalArt() {
@@ -278,23 +277,28 @@
       }
 
       async function applyExportMode(mode) {
-        document.body.dataset.exportMode = mode;
-        document.body.classList.toggle('export-no-art', mode === 'no-art');
-        document.body.classList.toggle('export-draft', mode === 'draft');
-        setDraftCardBackgrounds(mode === 'draft');
+        const htmlDraft = mode === 'draft';
+        const imageResolution = mode === 'full' ? 'high' : 'low';
+        document.body.dataset.exportMode = htmlDraft ? 'draft' : 'images';
+        document.body.classList.remove('export-no-art');
+        document.body.classList.toggle('export-draft', htmlDraft);
+        window.ITCrowdCardRenderer.setExportedImageUsage(!htmlDraft);
+        window.ITCrowdCardRenderer.setExportedImageMode('full');
+        window.ITCrowdCardRenderer.setExportedImageResolution(imageResolution);
+        setDraftCardBackgrounds(htmlDraft);
         restoreOriginalArt();
 
-        if (mode === 'no-art') {
-          exportStatus.textContent = 'As artes principais serão omitidas; fundos, textos e regras permanecem.';
+        if (htmlDraft) {
+          exportStatus.textContent = 'Rascunho: HTML sem as artes completas de fundo.';
           return;
         }
 
         if (mode === 'full') {
-          exportStatus.textContent = 'Usando as artes originais em resolução máxima.';
+          exportStatus.textContent = 'Qualidade full: imagens em 300 DPI para impressão.';
           return;
         }
 
-        exportStatus.textContent = 'Fundos coloridos e ilustrações principais removidos para o rascunho.';
+        exportStatus.textContent = 'Qualidade rascunho: imagens low em 96 DPI.';
       }
 
       function scheduleExportMode(mode) {
@@ -319,9 +323,28 @@
         const selectedMode = exportPanel.querySelector('input[name="export-quality"]:checked').value;
         exportButton.disabled = true;
         await scheduleExportMode(selectedMode);
-        await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        if (selectedMode !== 'draft') {
+          window.ITCrowdCardRenderer.setExportedImageResolution(selectedMode === 'full' ? 'high' : 'low');
+        }
+        await Promise.all(Array.from(document.querySelectorAll('.card-raster-image')).map((image) => {
+          if (image.complete) return Promise.resolve();
+          return new Promise((resolve) => {
+            image.addEventListener('load', resolve, { once: true });
+            image.addEventListener('error', resolve, { once: true });
+          });
+        }));
         window.print();
         exportButton.disabled = false;
+      });
+
+      window.addEventListener('afterprint', () => {
+        const selectedMode = exportPanel.querySelector('input[name="export-quality"]:checked').value;
+        if (selectedMode === 'draft') {
+          window.ITCrowdCardRenderer.setExportedImageUsage(false);
+        } else {
+          window.ITCrowdCardRenderer.setExportedImageUsage(true);
+          window.ITCrowdCardRenderer.setExportedImageResolution(selectedMode === 'full' ? 'high' : 'low');
+        }
       });
 
       exportPanel.querySelectorAll('input[name="export-quality"]').forEach((input) => {

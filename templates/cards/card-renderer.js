@@ -1,6 +1,57 @@
 (() => {
   const { CARD_CREDITS, CARD_TYPES } = window.ITCrowdCardData;
 
+      function exportedImagePath(code) {
+        const root = window.ITCrowdExportedImageRoot || '../../exported-images/cards';
+        const mode = window.ITCrowdExportedImageMode || 'full';
+        const resolution = window.ITCrowdExportedImageResolution || 'low';
+        return `${root}/${mode}/${resolution}/${String(code).toLowerCase()}.png`;
+      }
+
+      function attachExportedImage(article, code) {
+        if (!window.ITCrowdUseExportedImages) return;
+
+        const image = document.createElement('img');
+        image.className = 'card-raster-image';
+        image.dataset.exportedImageCode = code;
+        image.alt = '';
+        image.addEventListener('load', () => {
+          if (window.ITCrowdUseExportedImages) article.classList.add('card--rasterized');
+        });
+        image.addEventListener('error', () => {
+          article.classList.remove('card--rasterized');
+        });
+        image.src = exportedImagePath(code);
+        article.prepend(image);
+      }
+
+      function setExportedImageMode(mode) {
+        window.ITCrowdExportedImageMode = mode;
+        refreshExportedImages();
+      }
+
+      function setExportedImageResolution(resolution) {
+        window.ITCrowdExportedImageResolution = resolution;
+        refreshExportedImages();
+      }
+
+      function setExportedImageUsage(useExportedImages) {
+        window.ITCrowdUseExportedImages = useExportedImages;
+        document.querySelectorAll('[data-exported-image-code]').forEach((image) => {
+          const article = image.closest('[data-card-code]');
+          if (article && !useExportedImages) article.classList.remove('card--rasterized');
+        });
+      }
+
+      function refreshExportedImages() {
+        document.querySelectorAll('[data-exported-image-code]').forEach((image) => {
+          const article = image.closest('[data-card-code]');
+          if (!article) return;
+          article.classList.remove('card--rasterized');
+          image.src = exportedImagePath(image.dataset.exportedImageCode);
+        });
+      }
+
       function createRuleRow(rule) {
         const row = document.createElement('div');
         row.className = 'rule-slot';
@@ -35,6 +86,7 @@
         const creditDate = card.date || CARD_CREDITS.date;
         const article = document.createElement('article');
         article.className = `card card--background card--type-${cardType.id}${cardType.small ? ' card--small' : ''}`;
+        article.dataset.cardCode = code;
         if (card.quote) article.classList.add('card--has-quote');
         article.dataset.cardType = cardType.id;
         article.style.setProperty('--card-background', cardType.backgroundPath
@@ -102,6 +154,13 @@
 
         const artSlot = document.createElement('div');
         artSlot.className = 'art-slot';
+        if (card.initiativeImage) {
+          const characterArt = document.createElement('img');
+          characterArt.className = 'card-initiative__character-art';
+          characterArt.src = card.initiativeImage;
+          characterArt.alt = '';
+          artSlot.append(characterArt);
+        }
         if (cardType.artRoot) {
           const illustration = document.createElement('img');
           illustration.src = `${cardType.artRoot}${code.toLowerCase()}.png`;
@@ -135,6 +194,7 @@
         footer.append(footerCode, footerArtist, footerDate);
         main.append(titleSlot, ...(quote ? [quote] : []), artSlot, rules);
         article.append(header, main, footer);
+        attachExportedImage(article, code);
         return article;
       }
 
@@ -172,6 +232,7 @@
         const creditDate = card.date || CARD_CREDITS.date;
         const article = document.createElement('article');
         article.className = `character-card character-card--type-${cardType.id}`;
+        article.dataset.cardCode = code;
         article.style.setProperty('--border-color', cardType.accentColor);
         article.style.setProperty('--frame-color', cardType.frameColor);
         article.setAttribute('aria-label', `Carta de personagem jogável: ${card.title}`);
@@ -251,8 +312,31 @@
           Object.assign(document.createElement('span'), { textContent: creditDate })
         );
 
+        const itemDock = document.createElement('div');
+        itemDock.className = 'character-card__item-dock';
+        itemDock.setAttribute('aria-label', `Encaixes para ${card.inventoryLimit || 3} itens`);
+        const itemSlotCount = card.inventoryLimit || 3;
+        for (let index = 0; index < itemSlotCount; index += 1) {
+          const itemSlot = document.createElement('span');
+          itemSlot.className = 'character-card__item-slot';
+          itemSlot.setAttribute('aria-label', `Encaixe de item ${index + 1}`);
+          itemDock.append(itemSlot);
+        }
+        if (itemSlotCount > 3) itemDock.classList.add('character-card__item-dock--expanded');
+
+        const equipmentDock = document.createElement('div');
+        equipmentDock.className = 'character-card__equipment-dock';
+        equipmentDock.setAttribute('aria-label', 'Encaixes para até 2 equipamentos equipados');
+        for (let index = 0; index < 2; index += 1) {
+          const equipmentSlot = document.createElement('span');
+          equipmentSlot.className = `character-card__equipment-slot character-card__equipment-slot--${index === 0 ? 'left' : 'right'}`;
+          equipmentSlot.setAttribute('aria-label', `Encaixe de equipamento ${index + 1}`);
+          equipmentDock.append(equipmentSlot);
+        }
+
         content.append(heading, stats, actionSummary, rules, footer);
-        article.append(moraleTrack, portrait, content);
+        article.append(moraleTrack, portrait, content, itemDock, equipmentDock);
+        attachExportedImage(article, code);
         return article;
       }
 
@@ -262,6 +346,9 @@
     createCard,
     createCardBack,
     createPlayerCharacterCard,
+    setExportedImageMode,
+    setExportedImageResolution,
+    setExportedImageUsage,
   });
 })();
 

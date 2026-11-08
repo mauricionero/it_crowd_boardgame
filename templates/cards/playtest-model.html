@@ -100,6 +100,9 @@
     <script src="card-data.js"></script>
     <script src="card-renderer.js"></script>
     <script>
+      window.ITCrowdUseExportedImages = true;
+      window.ITCrowdExportedImageMode = 'full';
+      window.ITCrowdExportedImageResolution = 'low';
       const { CARD_TYPES, cards } = window.ITCrowdCardData;
       const { createCard, createCardBack, createPlayerCharacterCard } = window.ITCrowdCardRenderer;
       const dieResults = [
@@ -435,7 +438,7 @@
       const characterDefinitions = [
         { characterCode: 'PC1', initiativeCode: 'B1', pawnCode: 'P2', label: 'Roy', color: '#d56a38', image: '../../assets/pawns/roy-face.png' },
         { characterCode: 'PC2', initiativeCode: 'B2', pawnCode: 'P3', label: 'Moss', color: '#7658a8', image: '../../assets/pawns/moss-face.png' },
-        { characterCode: 'PC3', initiativeCode: 'B6', pawnCode: 'P7', label: 'Richmond', color: '#343047', image: null, icon: '🦇' },
+        { characterCode: 'PC3', initiativeCode: 'B6', pawnCode: 'P7', label: 'Richmond', color: '#343047', image: '../../assets/pawns/richmond-face.png' },
         { characterCode: null, initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
         { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: null },
       ];

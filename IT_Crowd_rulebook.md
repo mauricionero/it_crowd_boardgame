@@ -18,7 +18,7 @@ Uma missão roteirizada acrescenta objetivos próprios. No modo genérico, os jo
 - Tabuleiro top-down do porão, dividido em tiles quadrados: sala de TI, escritório de Jen, sala de servidores, cozinha, corredor e elevador.
 - Extensão de tabuleiro com escritório de Denholm e corredor para a missão *Yesterday's Jam*.
 - Tiles reversíveis para computadores, servidor, telefones e fio do telefone de Jen.
-- Um tile de telefone para cada personagem jogável, com os lados **Tocando / Em atendimento**. No setup, cada jogador escolhe um escritório para seu personagem; o telefone e o computador desse personagem ficam nesse tile. Os telefones são funcionalmente equivalentes: qualquer telefone livre pode ser atendido, e qualquer personagem pode usar qualquer telefone ou computador.
+- Um tile de telefone para cada personagem jogável, com os lados **Tocando / Em atendimento**. Um telefone livre não fica no cenário: quando o ramal estiver livre, remova seu tile da mesa. No setup, cada jogador escolhe um escritório para seu personagem; o telefone e o computador desse personagem ficam nesse tile quando o telefone estiver em uso. Os telefones são funcionalmente equivalentes: qualquer telefone livre pode ser atendido, e qualquer personagem pode usar qualquer telefone ou computador.
 - O escritório do gerente, localizado à direita do tabuleiro, é reservado à missão e não pode ser escolhido como escritório de um personagem jogável.
 - Peões dos personagens e dois peões de Bombeiro. Usuários comuns são representados apenas pela combinação de cartas `☎️ + 👤`; não há peões genéricos de Usuário.
 - Baralho de Chamados, baralho de Usuários, baralho de Eventos Genéricos e cartas de Missão.
@@ -54,7 +54,7 @@ Use o próprio componente para mostrar o estado sempre que possível: tile virad
 | ⭐ | Efeito de paciência do usuário quando a estrela alcançar sua carta na fila. Cartas especiais podem escrever outros efeitos. |
 | 🛠️ | Preparação da missão; resolva uma única vez quando a missão for revelada e prepare o tabuleiro conforme indicado. |
 | ⏱️ | Ação. Ex.: ⏱️1 = gastar uma ação. |
-| ☎️ | Telefone/chamado. O tile físico tem os lados Tocando / Em atendimento. |
+| ☎️ | Telefone/chamado. O tile físico tem os lados Tocando / Em atendimento; se estiver livre, seu tile é removido do cenário. |
 | ✋ | Efeito especial enquanto `☎️ + 👤` estiver na mão de um personagem. |
 | 🧠 | Inteligência: quantidade de d6 igual ao atributo. |
 | 🙂 | Carisma: quantidade de d6 igual ao atributo. |
@@ -78,8 +78,8 @@ Use o próprio componente para mostrar o estado sempre que possível: tile virad
 | 🎲 ✅ | Role o d6 customizado; com ✅, resolva o efeito. |
 | 📞 | Efeito do Usuário enquanto o telefone está Em atendimento; resolva apenas na Rotina. |
 | 📵 | Todos os telefones ocupados; faça o teste de pressão da Rotina. |
-| ⏸️ | Postergar: gaste uma ação para colocar `☎️ + 👤` no fim da fila de iniciativa. |
-| 📴 | Telefone desligado e livre; não está Tocando nem Em atendimento. |
+| ⏸️ | Postergar: gaste uma ação, remova o tile de telefone e coloque `☎️ + 👤` no fim da fila de iniciativa. |
+| 📴 | Telefone livre; seu tile não está no cenário. |
 | 🎯1 | Primeira etapa de resolução de um Evento ou objetivo numerado. |
 | 🎯2 | Segunda etapa de resolução de um Evento ou objetivo numerado. |
 | 🎯3 | Terceira etapa de resolução de um Evento ou objetivo numerado. |
@@ -98,7 +98,7 @@ Todo espaço do tabuleiro que possui uma regra própria deve ser destacado com o
 
 | Identificador | Espaço | Interação |
 |---|---|---|
-| ☎ TEL | Telefone | Atender, assumir ou manter um chamado em atendimento. |
+| ☎ TEL | Telefone | Atender ou manter um chamado em atendimento. |
 | 🖥️ PC | Computador | Resolver chamados que exigem computador funcional. |
 | 🖥 SRV | Servidor | Restaurar o servidor e aplicar os efeitos da Rotina. |
 | 🛗 ELEV | Elevador | Ponto físico de surgimento e posicionamento. |
@@ -160,9 +160,8 @@ Ações básicas:
 - **Atender:** junto a qualquer `☎️⚡`, gastar ⏱️1, virar o marcador para Em atendimento e comprar uma carta de Chamado e uma carta de Usuário.
 - **Resolver, investigar ou sabotar:** seguir o custo e o teste impressos na carta ou no tile.
 - **Gerar Ânimo:** uma vez por ativação, gaste ⏱️1 para ganhar 1🔋, se o personagem tiver menos de 5🔋.
-- **Postergar:** enquanto segura uma combinação ☎️ + 👤, gaste ⏱️1 para colocar as duas cartas no fim da fila de iniciativa, com o Chamado por cima, e libere o telefone. Qualquer personagem pode resolver o Chamado durante seu turno.
+- **Postergar:** enquanto segura uma combinação ☎️ + 👤, gaste ⏱️1 para desligar o telefone, removendo seu tile da mesa, e colocar as duas cartas no fim da fila de iniciativa, com o Chamado por cima. Qualquer personagem pode resolver o Chamado diretamente da fila durante seu turno.
 - **Recuperar:** gaste ⏱️1 para remover 1🫩 de si ou de um aliado adjacente.
-- **Assumir chamado:** enquanto a combinação ☎️ + 👤 estiver na mão de outro personagem, um personagem junto a um telefone livre pode gastar ⏱️1 para assumir as duas cartas. Mova o marcador Em atendimento para o telefone dele; o telefone anterior fica livre. Os telefones podem ser diferentes: cada um representa um ramal próprio.
 
 ### Regras avançadas: converter ações em recurso
 
@@ -255,7 +254,7 @@ No setup, escolha a ordem dos personagens jogáveis. Resolva a Rotina inicial e,
 
 ## 8. Telefones e Atendimento
 
-Há um telefone por personagem jogável, e cada telefone representa um ramal próprio. Cada tile tem dois lados: **☎️ Tocando** e **☎️ Em atendimento**. Um telefone ocupado por qualquer um desses lados não pode receber outra chamada. Os telefones não precisam ser usados pelo personagem que os escolheu: qualquer personagem pode atender qualquer telefone livre, e outro personagem pode assumir um chamado em outro telefone livre. Quando todos os telefones estiverem ocupados, novos efeitos que tentem aplicar `+ ☎️⚡` não produzem efeito.
+Há um telefone por personagem jogável, e cada telefone representa um ramal próprio. Cada tile tem dois lados: **☎️ Tocando** e **☎️ Em atendimento**. Um telefone livre não tem tile no cenário. Um telefone ocupado por qualquer um desses lados não pode receber outra chamada. Os telefones não precisam ser usados pelo personagem que os escolheu: qualquer personagem pode atender qualquer telefone livre. Quando todos os telefones estiverem ocupados, novos efeitos que tentem aplicar `+ ☎️⚡` não produzem efeito.
 
 Uma carta de Chamado e uma carta de Usuário associadas formam a combinação **☎️ + 👤**. As duas cartas permanecem juntas até o chamado ser concluído ou abandonado.
 
@@ -283,10 +282,9 @@ Estando junto a um `☎️⚡`, gaste ⏱️1, vire o marcador para Em atendimen
 Enquanto a combinação ☎️ + 👤 estiver na mão, o personagem que a segura é o responsável pelo atendimento. Durante sua ativação, ele só pode gastar ações para resolver esse Chamado ou usar **Postergar**; não pode mover, comprar itens ou realizar outras interações. A Rotina resolve automaticamente a linha `📞` da carta de Usuário para cada combinação que continuar na mão. Fora das linhas `☎️` impressas na carta, não há modificadores adicionais do Usuário durante o atendimento.
 
 - **Resolver:** use o custo e os testes impressos na carta de Chamado. Aplique a regra geral de sucessos acumulados e rerrolagens da seção 4. Ao concluir, resolva o `🏁` do Usuário, se houver, e depois o `🏁` do Chamado. Descarte Chamado e Usuário juntos e remova qualquer marcador que esteja Em atendimento.
-- **Postergar:** gaste ⏱️1, libere o telefone e coloque a combinação ☎️ + 👤 no fim da fila de iniciativa, com o Chamado por cima. Qualquer personagem pode continuar a resolução durante o próprio turno. Não faça teste adicional.
-- **Assumir chamado:** enquanto a combinação ☎️ + 👤 estiver na mão de outro personagem, um personagem junto a um telefone livre pode gastar ⏱️1 para assumir as duas cartas. Mova o marcador Em atendimento para o telefone dele; o telefone anterior fica livre. O personagem que assumiu passa a ser o responsável pelo atendimento.
+- **Postergar:** gaste ⏱️1, remova o tile de telefone da mesa e coloque a combinação ☎️ + 👤 no fim da fila de iniciativa, com o Chamado por cima. Qualquer personagem pode continuar a resolução diretamente da fila durante o próprio turno. Não faça teste adicional.
 
-Quando a estrela alcançar a combinação ☎️ + 👤 na iniciativa, resolva a linha `⭐` da carta de Usuário. Se o Chamado ainda não tiver sido concluído, qualquer personagem pode resolvê-lo durante seu turno. A ativação `⭐` é um efeito adicional e não substitui a resolução do Chamado. O usuário permanece representado apenas pelas cartas.
+Quando a estrela alcançar a combinação ☎️ + 👤 na iniciativa, resolva a linha `⭐` da carta de Usuário. Se o Chamado ainda não tiver sido concluído, qualquer personagem pode resolvê-lo diretamente da fila durante seu turno. A ativação `⭐` é um efeito adicional e não substitui a resolução do Chamado. O usuário permanece representado apenas pelas cartas; uma combinação na fila não retorna para a mão.
 
 Quando o chamado for concluído ou abandonado, descarte as duas cartas juntas.
 
@@ -353,10 +351,10 @@ Para usar uma estação, o personagem precisa estar **adjacente ao tile da esta�
 
 O Armário pode ser usado uma vez por rodada; vire seu marcador para o lado **Usada** depois de pegar um Equipamento. A Cafeteira permanece disponível enquanto houver Consumíveis no estoque. A Rotina desvira o marcador do Armário no início da rodada seguinte. Se não houver carta disponível, a ação não produz nada.
 
-Cada personagem tem duas áreas diferentes para Itens:
+Cada personagem tem duas áreas diferentes para Itens. Os encaixes na parte superior da cartela representam o **Inventário**; as cartas colocadas abaixo da cartela ou ficha representam os itens **Equipados**.
 
-- **Inventário:** comporta até **3 cartas de Item**, em qualquer combinação. Durante o Ato 4 de *Yesterday's Jam*, cada token de monitor quebrado também ocupa 1 espaço do inventário; cartas e monitores entram na mesma contagem máxima de 3. Os itens do inventário são carregados, mas seus efeitos de Equipamento não estão ativos.
-- **Equipado:** fica imediatamente abaixo da carta ou ficha do personagem. Apenas cartas de Equipamento ficam nessa área e seus efeitos estão ativos. O personagem pode equipar no máximo **um Equipamento de cada tipo**. Atualmente, os dois Equipamentos disponíveis são do tipo **Óculos**, então o personagem pode manter apenas um deles equipado.
+- **Inventário:** a área superior da cartela comporta até **3 cartas de Item**, em qualquer combinação. Durante o Ato 4 de *Yesterday's Jam*, cada token de monitor quebrado também ocupa 1 espaço do inventário; cartas e monitores entram na mesma contagem máxima de 3. Os itens do inventário são carregados, mas seus efeitos de Equipamento não estão ativos.
+- **Equipado:** fica imediatamente abaixo da carta ou ficha do personagem. A cartela também possui dois encaixes laterais para lembrar esse limite. Apenas cartas de Equipamento ficam nessa área e seus efeitos estão ativos. O personagem pode equipar no máximo **dois Equipamentos**, respeitando o limite de **um Equipamento de cada tipo**. Atualmente, os dois Equipamentos disponíveis são do tipo **Óculos**, então o personagem pode manter apenas um deles equipado.
 
 Para trocar um Equipamento, devolva o que está equipado ao espaço do Armário e pegue o outro na mesma ação de ⏱️1; o novo equipamento também pode ser colocado diretamente na área **Equipado**. Consumíveis permanecem no Inventário até serem usados.
 
@@ -645,8 +643,7 @@ Esta carta resume as ações gerais disponíveis durante a ativação. O manual,
 - **Recuperar:** 🎲 ✅: remove 🫩. Pode recuperar outro personagem adjacente.
 - **Gerar Ânimo:** `⏱️1` → `+🔋`, uma vez por ativação, até 5🔋.
 - **Atender:** `☎️⚡` → Em atendimento; compre ☎️ + 👤.
-- **Postergar:** `⏸️ ⏱️1` → coloque ☎️ + 👤 no fim da iniciativa e libere o telefone.
-- **Assumir:** ☎️ + 👤 da mão de outro; junto a um telefone livre.
+- **Postergar:** `⏸️ ⏱️1` → remova o tile de telefone e coloque ☎️ + 👤 no fim da iniciativa.
 
 ## A3. REFERÊNCIA DO JOGADOR — 🔋 ÂNIMO
 
@@ -906,6 +903,18 @@ Cada carta define uma pessoa específica. A carta de Usuário permanece sempre a
 **⚡** Coloque esta carta no fim da iniciativa.
 
 **⭐** Um personagem pode gastar ⏱️1 e fazer 🙂 ✅ para prestar satisfação sobre uma pendência. Com sucesso, reduza ⚠️ em 1 e descarte esta carta. Se falhar, a carta permanece na iniciativa.
+
+## E11. A aposta do encontro
+
+**⚡** Coloque esta carta no fim da iniciativa.
+
+**⭐** Todos os personagens jogáveis rolam 🙂. Quem obtiver mais ✅ vence. Em caso de empate, apenas os empatados rolam novamente, até haver um vencedor. O vencedor recebe a mensagem da aposta e ganha **+🔋**. **Remova esta carta do jogo.**
+
+## E12. Countdown
+
+**⚡** Coloque esta carta no fim da iniciativa.
+
+**⭐** Todos os personagens jogáveis rolam 🧠. Quem obtiver mais ✅ vence. Em caso de empate, apenas os empatados rolam novamente, até haver um vencedor. O vencedor recebe o convite para participar do *Countdown* e ganha **+🔋**. **Remova esta carta do jogo.**
 
 ---
 

@@ -25,7 +25,68 @@ Os modelos HTML separam o layout da carta do conteúdo e das imagens finais.
 
 O modelo usa o formato principal de 63 × 88 mm. Os espaços possuem `data-slot` para facilitar o preenchimento posterior por texto, ícones ou imagens PNG transparentes. Quando vazios, os slots não exibem bordas, fundos ou placeholders.
 
-O topo do `call-model.html` possui um painel de exportação que não aparece na impressão. A opção **Rascunho** remove os PNGs de fundo colorido e as ilustrações principais, mantendo o fundo claro e a borda HTML; **Sem artes de background** omite apenas as ilustrações principais; **Full — gráfica** mantém os arquivos originais. O botão abre a impressão nativa do navegador, onde é possível escolher **Salvar como PDF**.
+O topo do `call-model.html` possui um painel de exportação que não aparece na impressão. **Rascunho** usa somente o HTML, sem as artes completas de fundo; **Qualidade rascunho** usa os PNGs low; **Qualidade full** usa os PNGs high. O botão abre a impressão nativa do navegador, onde é possível escolher **Salvar como PDF**.
+
+## Exportação rasterizada
+
+O script `../../export_images.py` gera uma imagem PNG independente para cada carta em `../../exported-images/cards/`. Ele usa o Chrome headless para renderizar o mesmo HTML e CSS do modelo, sem duplicar o layout em Python. Por padrão, cada modo gera duas resoluções:
+
+- `low`: 96 DPI, leve para o playtest.
+- `high`: 300 DPI, adequada para impressão e gráfica.
+
+```bash
+python3 export_images.py --mode full
+python3 export_images.py --mode no-art
+python3 export_images.py --mode draft
+```
+
+Use `--resolution low` ou `--resolution high` para gerar apenas uma resolução. O modo padrão é `full` e a resolução padrão é `both`. Use `--code C1` para regenerar somente uma carta. A pasta `exported-images/` é ignorada pelo Git porque contém artefatos gerados. Tanto `call-model.html` quanto `playtest-model.html` procuram primeiro essas imagens; se elas ainda não existirem, usam o renderizador HTML como fallback. O `call-model.html` usa `high` quando **Qualidade full** está selecionada e mantém a resolução escolhida ao imprimir. Depois de regenerar os PNGs, basta recarregar as páginas.
+
+## Exportação para Tabletop Simulator
+
+O script `../../export_tts.py` monta folhas de baralho sem espaço entre as cartas
+e gera os versos correspondentes. O script `../../export_tts_json.py` usa o
+manifesto e as URLs da Cloud para criar o save com a estrutura inicial de decks
+e tabuleiro. A resolução padrão é 150 DPI, suficiente para o uso no TTS e
+mantendo as folhas abaixo do limite recomendado de 4096 px.
+
+```bash
+python3 ../../export_tts.py
+```
+
+Depois de enviar as imagens pelo Cloud Manager do TTS, copie as URLs para
+`tts-export/cloud-urls.json` e execute:
+
+```bash
+python3 ../../export_tts_json.py
+```
+
+As missões seguem a ordem declarada em `card-data.js`; itens de cozinha e de
+armário são exportados como baralhos separados.
+
+### Instalação dos assets no TTS para Windows
+
+Depois de clonar o repositório em outro computador, os PNGs exportados devem
+ser copiados para a pasta local de imagens do Tabletop Simulator:
+
+```text
+C:\Users\<seu-usuário>\Documents\My Games\Tabletop Simulator\Mods\Images
+```
+
+Copie para essa pasta os arquivos de `tts-export/images/decks/` e
+`tts-export/images/board/`. No TTS, abra `Upload > Cloud Manager` e use
+`Upload All` para enviá-los à Steam Cloud. Depois, copie as URLs geradas para
+`tts-export/cloud-urls.json` e rode `export_tts_json.py` novamente.
+
+O save final deve ficar em:
+
+```text
+C:\Users\<seu-usuário>\Documents\My Games\Tabletop Simulator\Mods\Workshop\it-crowd-boardgame.json
+```
+
+Em seguida, abra `Games > Workshop` dentro do TTS. O arquivo
+`cloud-urls.json` é ignorado pelo Git porque as URLs pertencem à conta Steam
+que fez o upload; cada computador pode manter sua própria cópia local.
 
 Cada regra pode declarar `nr_lines` para reservar altura proporcional ao número de linhas que precisa.
 

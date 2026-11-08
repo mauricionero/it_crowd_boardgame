@@ -1,0 +1,471 @@
+{
+  "SaveName": "The IT Crowd Boardgame",
+  "GameMode": "The IT Crowd Boardgame",
+  "Date": "2026-11-08T15:23:26.147456+00:00",
+  "Table": "Table_Custom",
+  "Sky": "Sky_Default",
+  "Note": "Gerado por export_tts_json.py a partir de manifest.json. As imagens precisam estar disponíveis na Steam Cloud.",
+  "Rules": "",
+  "PlayerTurn": "",
+  "Grid": {
+    "Type": 0,
+    "Lines": false,
+    "Snapping": true,
+    "Offset": false,
+    "xSize": 1.0,
+    "ySize": 1.0
+  },
+  "ObjectStates": [
+    {
+      "Name": "Custom_Board",
+      "Transform": {
+        "posX": 0.0,
+        "posY": 0.5,
+        "posZ": 0.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Tabuleiro principal",
+      "Description": "Tabuleiro 18×12 gerado pelo projeto.",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": true,
+      "Grid": true,
+      "Snap": false,
+      "Tooltip": true,
+      "CustomImage": {
+        "ImageURL": "",
+        "ImageSecondaryURL": "",
+        "WidthScale": 1.0
+      },
+      "GUID": "b00001"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": -7.0,
+        "posY": 1.0,
+        "posZ": -7.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Chamados",
+      "Description": "Gerado por export_tts.py · 8 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "CustomDeck": {
+        "1": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000001"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": -3.5,
+        "posY": 1.0,
+        "posZ": -7.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Usuários",
+      "Description": "Gerado por export_tts.py · 8 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208
+      ],
+      "CustomDeck": {
+        "2": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000002"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": 0.0,
+        "posY": 1.0,
+        "posZ": -7.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Eventos genéricos",
+      "Description": "Gerado por export_tts.py · 12 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        301,
+        302,
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309,
+        310,
+        311,
+        312
+      ],
+      "CustomDeck": {
+        "3": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 2,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000003"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": 3.5,
+        "posY": 1.0,
+        "posZ": -7.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Missões",
+      "Description": "Gerado por export_tts.py · 9 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        401,
+        402,
+        403,
+        404,
+        405,
+        406,
+        407,
+        408,
+        409
+      ],
+      "CustomDeck": {
+        "4": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000004"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": 7.0,
+        "posY": 1.0,
+        "posZ": -7.0,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Itens de cozinha",
+      "Description": "Gerado por export_tts.py · 7 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        501,
+        502,
+        503,
+        504,
+        505,
+        506,
+        507
+      ],
+      "CustomDeck": {
+        "5": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000005"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": -7.0,
+        "posY": 1.0,
+        "posZ": -10.5,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Itens de armário",
+      "Description": "Gerado por export_tts.py · 3 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        601,
+        602,
+        603
+      ],
+      "CustomDeck": {
+        "6": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000006"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": -3.5,
+        "posY": 1.0,
+        "posZ": -10.5,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Iniciativa",
+      "Description": "Gerado por export_tts.py · 7 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        701,
+        702,
+        703,
+        704,
+        705,
+        706,
+        707
+      ],
+      "CustomDeck": {
+        "7": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000007"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": 0.0,
+        "posY": 1.0,
+        "posZ": -10.5,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Referências",
+      "Description": "Gerado por export_tts.py · 2 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        801,
+        802
+      ],
+      "CustomDeck": {
+        "8": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000008"
+    },
+    {
+      "Name": "DeckCustom",
+      "Transform": {
+        "posX": 3.5,
+        "posY": 1.0,
+        "posZ": -10.5,
+        "rotX": 0.0,
+        "rotY": 180.0,
+        "rotZ": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "scaleZ": 1.0
+      },
+      "Nickname": "Personagens jogáveis",
+      "Description": "Gerado por export_tts.py · 3 cartas",
+      "ColorDiffuse": {
+        "r": 1.0,
+        "g": 1.0,
+        "b": 1.0
+      },
+      "Locked": false,
+      "Grid": true,
+      "Snap": true,
+      "Autoraise": true,
+      "Sticky": true,
+      "Tooltip": true,
+      "DeckIDs": [
+        901,
+        902,
+        903
+      ],
+      "CustomDeck": {
+        "9": {
+          "FaceURL": "",
+          "BackURL": "",
+          "NumWidth": 5,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false
+        }
+      },
+      "GUID": "000009",
+      "SidewaysCard": true
+    }
+  ]
+}

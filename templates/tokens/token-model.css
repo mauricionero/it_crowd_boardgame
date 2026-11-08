@@ -10,14 +10,15 @@
 }
 
 .token-sheet {
+  position: relative;
   display: grid;
   width: 210mm;
   grid-template-columns: repeat(5, calc(2 * var(--token-size) + var(--token-gap)));
   grid-auto-rows: auto;
   align-content: start;
   gap: var(--token-gap);
-  padding: 10mm;
-  min-height: 0;
+  padding: 10mm 8mm 10mm 32mm;
+  min-height: 297mm;
   background: #fff;
   box-shadow: 0 2mm 8mm rgba(0, 0, 0, 0.35);
   break-before: auto;
@@ -64,12 +65,7 @@
 }
 
 .token-face::after {
-  position: absolute;
-  inset: -1mm;
-  border: 0.2mm dashed rgba(65, 65, 55, 0.48);
-  border-radius: inherit;
-  content: '';
-  pointer-events: none;
+  display: none;
 }
 
 .token-face--fire-low { background: #d76f2f; }
@@ -120,47 +116,57 @@
 }
 
 .stress-track {
-  position: relative;
+  position: absolute;
   display: flex;
-  width: 170mm;
-  height: 28mm;
-  grid-column: 1 / -1;
-  grid-row: auto;
+  width: 20mm;
+  height: 210mm;
   flex-direction: column;
-  justify-content: center;
-  gap: 2mm;
-  padding: 3mm 4mm;
+  align-items: center;
+  padding: 3mm 2mm;
   background: linear-gradient(180deg, #f7efda, #d9c58f);
   color: #263027;
+  top: 10mm;
+  left: 10mm;
 }
 
 .stress-track__title {
-  font-size: 3mm;
+  margin-bottom: 2mm;
+  font-size: 2.5mm;
   font-weight: 900;
   letter-spacing: 0.15mm;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .stress-track__scale {
-  display: grid;
-  grid-template-columns: repeat(16, 1fr);
-  align-items: end;
-  height: 9mm;
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1mm 0;
+  border-right: 0.7mm solid #7f2525;
 }
 
 .stress-track__value {
   position: relative;
   display: flex;
-  height: 100%;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
   align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.7mm;
+  justify-content: flex-end;
+  padding-right: 4mm;
   font-size: 2.3mm;
   font-weight: 800;
 }
 
 .stress-track__effect {
+  position: absolute;
+  right: 8mm;
   font-size: 1.8mm;
   line-height: 1;
   white-space: nowrap;
@@ -168,9 +174,9 @@
 
 .stress-track__value::before {
   position: absolute;
-  bottom: 4mm;
-  width: 0.35mm;
-  height: 3mm;
+  right: -0.7mm;
+  width: 3mm;
+  height: 0.35mm;
   background: #5b6255;
   content: '';
 }
@@ -180,8 +186,8 @@
 }
 
 .stress-track__value--milestone::before {
-  width: 0.6mm;
-  height: 5mm;
+  width: 3.5mm;
+  height: 0.6mm;
   background: #a52f2f;
 }
 
@@ -194,7 +200,7 @@
   .token-sheet {
     width: 210mm;
     height: auto;
-    min-height: 0;
+    min-height: 297mm;
     margin: 0;
     box-shadow: none;
     -webkit-print-color-adjust: exact;

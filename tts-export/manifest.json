@@ -1,0 +1,297 @@
+{
+  "dpi": 150,
+  "cardSheetColumns": 10,
+  "assets": {
+    "images/decks/calls-face.png": {
+      "path": "images/decks/calls-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/calls-back.png": {
+      "path": "images/decks/calls-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/users-face.png": {
+      "path": "images/decks/users-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/users-back.png": {
+      "path": "images/decks/users-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/events-generic-face.png": {
+      "path": "images/decks/events-generic-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/events-generic-back.png": {
+      "path": "images/decks/events-generic-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/missions-face.png": {
+      "path": "images/decks/missions-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/missions-back.png": {
+      "path": "images/decks/missions-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/items-kitchen-face.png": {
+      "path": "images/decks/items-kitchen-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/items-kitchen-back.png": {
+      "path": "images/decks/items-kitchen-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/items-cabinet-face.png": {
+      "path": "images/decks/items-cabinet-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/items-cabinet-back.png": {
+      "path": "images/decks/items-cabinet-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/initiative-face.png": {
+      "path": "images/decks/initiative-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/initiative-back.png": {
+      "path": "images/decks/initiative-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/reference-face.png": {
+      "path": "images/decks/reference-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/reference-back.png": {
+      "path": "images/decks/reference-back.png",
+      "kind": "deck-back"
+    },
+    "images/decks/characters-face.png": {
+      "path": "images/decks/characters-face.png",
+      "kind": "deck-face"
+    },
+    "images/decks/characters-back.png": {
+      "path": "images/decks/characters-back.png",
+      "kind": "deck-back"
+    },
+    "images/board/board-complete-18x12-v11.png": {
+      "path": "images/board/board-complete-18x12-v11.png",
+      "kind": "board"
+    }
+  },
+  "decks": [
+    {
+      "name": "calls",
+      "label": "Chamados",
+      "codes": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "C5",
+        "C6",
+        "C7",
+        "C8"
+      ],
+      "number": 8,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "main",
+      "face": "images/decks/calls-face.png",
+      "back": "images/decks/calls-back.png",
+      "position": [
+        -7.0,
+        -7.0
+      ]
+    },
+    {
+      "name": "users",
+      "label": "Usuários",
+      "codes": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7",
+        "D8"
+      ],
+      "number": 8,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "main",
+      "face": "images/decks/users-face.png",
+      "back": "images/decks/users-back.png",
+      "position": [
+        -3.5,
+        -7.0
+      ]
+    },
+    {
+      "name": "events-generic",
+      "label": "Eventos genéricos",
+      "codes": [
+        "E1",
+        "E2",
+        "E3",
+        "E4",
+        "E5",
+        "E6",
+        "E7",
+        "E8",
+        "E9",
+        "E10",
+        "E11",
+        "E12"
+      ],
+      "number": 12,
+      "columns": 10,
+      "rows": 2,
+      "sideways": false,
+      "size": "main",
+      "face": "images/decks/events-generic-face.png",
+      "back": "images/decks/events-generic-back.png",
+      "position": [
+        0.0,
+        -7.0
+      ]
+    },
+    {
+      "name": "missions",
+      "label": "Missões",
+      "codes": [
+        "F1",
+        "F2",
+        "F3",
+        "F4",
+        "F5",
+        "I1",
+        "I2",
+        "I3",
+        "I4"
+      ],
+      "number": 9,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "main",
+      "face": "images/decks/missions-face.png",
+      "back": "images/decks/missions-back.png",
+      "position": [
+        3.5,
+        -7.0
+      ]
+    },
+    {
+      "name": "items-kitchen",
+      "label": "Itens de cozinha",
+      "codes": [
+        "H1",
+        "H1",
+        "H1",
+        "H1",
+        "H4",
+        "H4",
+        "H4"
+      ],
+      "number": 7,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "small",
+      "face": "images/decks/items-kitchen-face.png",
+      "back": "images/decks/items-kitchen-back.png",
+      "position": [
+        7.0,
+        -7.0
+      ]
+    },
+    {
+      "name": "items-cabinet",
+      "label": "Itens de armário",
+      "codes": [
+        "H2",
+        "H3",
+        "H6"
+      ],
+      "number": 3,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "small",
+      "face": "images/decks/items-cabinet-face.png",
+      "back": "images/decks/items-cabinet-back.png",
+      "position": [
+        -7.0,
+        -10.5
+      ]
+    },
+    {
+      "name": "initiative",
+      "label": "Iniciativa",
+      "codes": [
+        "A1",
+        "B1",
+        "B2",
+        "B3",
+        "B4",
+        "B5",
+        "B6"
+      ],
+      "number": 7,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "main",
+      "face": "images/decks/initiative-face.png",
+      "back": "images/decks/initiative-back.png",
+      "position": [
+        -3.5,
+        -10.5
+      ]
+    },
+    {
+      "name": "reference",
+      "label": "Referências",
+      "codes": [
+        "A2",
+        "A3"
+      ],
+      "number": 2,
+      "columns": 10,
+      "rows": 1,
+      "sideways": false,
+      "size": "main",
+      "face": "images/decks/reference-face.png",
+      "back": "images/decks/reference-back.png",
+      "position": [
+        0.0,
+        -10.5
+      ]
+    },
+    {
+      "name": "characters",
+      "label": "Personagens jogáveis",
+      "codes": [
+        "PC1",
+        "PC2",
+        "PC3"
+      ],
+      "number": 3,
+      "columns": 5,
+      "rows": 1,
+      "sideways": true,
+      "size": "character",
+      "face": "images/decks/characters-face.png",
+      "back": "images/decks/characters-back.png",
+      "position": [
+        3.5,
+        -10.5
+      ]
+    }
+  ],
+  "board": "images/board/board-complete-18x12-v11.png"
+}

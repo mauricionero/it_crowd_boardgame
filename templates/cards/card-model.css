@@ -187,6 +187,36 @@ body {
   color: var(--ink-color);
 }
 
+.card-back {
+  align-items: center;
+  justify-content: center;
+}
+
+.card-back__art {
+  display: block;
+  width: 86%;
+  height: auto;
+  max-height: 30%;
+  object-fit: contain;
+  transform: rotate(-4deg);
+}
+
+.card-back__label {
+  display: block;
+  max-width: 86%;
+  color: #fff7db;
+  font-size: 4.2mm;
+  font-weight: 900;
+  line-height: 1.05;
+  text-align: center;
+  text-shadow: 0.35mm 0.4mm 0 rgba(0, 0, 0, 0.55);
+  transform: rotate(-4deg);
+}
+
+.card--small .card-back__label {
+  font-size: 3.4mm;
+}
+
 .card-header {
   display: flex;
   min-height: 8mm;
@@ -377,6 +407,48 @@ body {
   border: 0;
   background: var(--card-background) center / 100% 100% no-repeat, var(--frame-color);
   box-shadow: none;
+}
+
+.card--background.card-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-raster-image {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  object-fit: fill;
+}
+
+.card--rasterized > .card-raster-image,
+.character-card.card--rasterized > .card-raster-image {
+  display: block;
+}
+
+.card--rasterized > :not(.card-raster-image):not(.playtest-card-back-layer),
+.character-card.card--rasterized > :not(.card-raster-image) {
+  visibility: hidden;
+}
+
+.character-card.card--rasterized {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.character-card.card--rasterized > .card-raster-image {
+  border-radius: 3.2mm;
+}
+
+.playtest-flippable-card > .card-raster-image {
+  z-index: 4;
 }
 
 .card--background .card-header,
@@ -682,6 +754,18 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.card--type-player-initiative .art-slot .card-initiative__character-art {
+  position: absolute;
+  top: -4%;
+  left: 50%;
+  width: 74%;
+  height: 86%;
+  object-fit: contain;
+  object-position: center center;
+  opacity: 1;
+  transform: translateX(-50%);
 }
 
 .card--background .art-slot::after {
@@ -1071,7 +1155,7 @@ body {
   display: grid;
   width: 126mm;
   height: 88mm;
-  grid-template-columns: 15mm 38mm minmax(0, 1fr);
+  grid-template-columns: 22mm 28mm minmax(0, 1fr);
   overflow: hidden;
   border: 2.4mm solid var(--border-color);
   border-radius: 3.2mm;
@@ -1095,11 +1179,12 @@ body {
 
 .character-card__morale-slot {
   position: relative;
+  left: 3.5mm;
   display: block;
   width: 10.5mm;
   height: 11mm;
   flex: 0 0 11mm;
-  border: 0.45mm dashed rgba(121, 184, 106, 0.9);
+  border: 0;
   border-radius: 1.5mm;
   background: rgba(121, 184, 106, 0.12);
 }
@@ -1120,30 +1205,21 @@ body {
   position: relative;
   display: grid;
   min-width: 0;
+  margin-bottom: 0;
   place-items: center;
   overflow: hidden;
-  border-right: 0.8mm solid rgba(255, 247, 219, 0.72);
-  background:
-    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.18), transparent 42%),
-    #173f65;
-}
-
-.character-card__portrait::after {
-  position: absolute;
-  inset: 4mm;
-  border: 0.5mm solid rgba(255, 247, 219, 0.34);
-  border-radius: 2mm;
-  content: '';
-  pointer-events: none;
+  background: transparent;
 }
 
 .character-card__portrait img {
   display: block;
-  width: 32mm;
+  width: 26mm;
   height: 60mm;
   object-fit: contain;
+  object-position: center top;
   image-rendering: pixelated;
   filter: drop-shadow(1.2mm 1.2mm 0 rgba(0, 0, 0, 0.3));
+  transform: translateX(2mm);
 }
 
 .character-card__portrait-placeholder {
@@ -1151,6 +1227,7 @@ body {
   font-size: 22mm;
   line-height: 1;
   text-shadow: 1mm 1mm 0 rgba(0, 0, 0, 0.3);
+  transform: translate(1.5mm, -3mm);
 }
 
 .character-card__content {
@@ -1158,7 +1235,7 @@ body {
   min-width: 0;
   flex-direction: column;
   gap: 2mm;
-  padding: 3.5mm 4mm 2.5mm;
+  padding: 14mm 10mm 3.5mm 6mm;
 }
 
 .character-card__heading {
@@ -1274,6 +1351,89 @@ body {
   text-align: right;
 }
 
+.character-card__item-dock {
+  position: absolute;
+  right: 0;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  height: 7mm;
+  overflow: hidden;
+  border-bottom: 0.45mm solid rgba(23, 32, 25, 0.34);
+  background: rgba(228, 230, 221, 0.64);
+  box-shadow: inset 0 -0.8mm 1.3mm rgba(23, 32, 25, 0.22);
+  pointer-events: none;
+}
+
+.character-card__item-slot {
+  position: absolute;
+  top: 0;
+  width: 44mm;
+  height: 5.4mm;
+  border: 0.45mm solid rgba(23, 32, 25, 0.52);
+  border-top: 0;
+  border-radius: 0 0 1.2mm 1.2mm;
+  background: rgba(110, 120, 113, 0.18);
+  box-shadow: inset 0 -0.8mm 1.1mm rgba(23, 32, 25, 0.34), inset 0 0.45mm 0 rgba(255, 255, 255, 0.3);
+}
+
+.character-card__item-slot:nth-child(1) {
+  left: -9mm;
+}
+
+.character-card__item-slot:nth-child(2) {
+  left: 39mm;
+}
+
+.character-card__item-slot:nth-child(3) {
+  right: auto;
+  left: 87mm;
+}
+
+.character-card__item-dock--expanded .character-card__item-slot:nth-child(1) {
+  left: -29mm;
+}
+
+.character-card__item-dock--expanded .character-card__item-slot:nth-child(2) {
+  left: 17mm;
+}
+
+.character-card__item-dock--expanded .character-card__item-slot:nth-child(3) {
+  left: 63mm;
+}
+
+.character-card__item-dock--expanded .character-card__item-slot:nth-child(4) {
+  right: auto;
+  left: 109mm;
+}
+
+.character-card__equipment-dock {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.character-card__equipment-slot {
+  position: absolute;
+  top: 9.5mm;
+  width: 8.5mm;
+  height: 64mm;
+  border: 0.45mm solid rgba(23, 32, 25, 0.52);
+  background: linear-gradient(90deg, rgba(244, 245, 237, 0.78), rgba(178, 184, 176, 0.86));
+  box-shadow: 0 0 0.8mm rgba(0, 0, 0, 0.2), inset 0 1mm 1.3mm rgba(23, 32, 25, 0.38), inset 0 -0.5mm 0 rgba(255, 255, 255, 0.42);
+}
+
+.character-card__equipment-slot--left {
+  left: 0;
+  border-radius: 0 1.5mm 1.5mm 0;
+}
+
+.character-card__equipment-slot--right {
+  right: 0;
+  border-radius: 1.5mm 0 0 1.5mm;
+}
+
 @media print {
   @page {
     size: A4 portrait;
@@ -1324,4 +1484,5 @@ body {
     break-inside: avoid;
     page-break-inside: avoid;
   }
+
 }
