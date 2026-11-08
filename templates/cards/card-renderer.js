@@ -86,6 +86,7 @@
         const creditDate = card.date || CARD_CREDITS.date;
         const article = document.createElement('article');
         article.className = `card card--background card--type-${cardType.id}${cardType.small ? ' card--small' : ''}`;
+        article.classList.add(`card--code-${String(code).toLowerCase()}`);
         article.dataset.cardCode = code;
         if (card.quote) article.classList.add('card--has-quote');
         article.dataset.cardType = cardType.id;
@@ -160,6 +161,15 @@
           characterArt.src = card.initiativeImage;
           characterArt.alt = '';
           artSlot.append(characterArt);
+        }
+        if (card.itemImage) {
+          const itemArt = document.createElement('img');
+          itemArt.className = 'card-item__art';
+          itemArt.src = card.itemImage;
+          itemArt.alt = '';
+          itemArt.addEventListener('error', () => itemArt.remove());
+          article.classList.add('card--has-item-art');
+          artSlot.append(itemArt);
         }
         if (cardType.artRoot) {
           const illustration = document.createElement('img');

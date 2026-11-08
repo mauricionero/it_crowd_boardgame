@@ -440,7 +440,7 @@
         { characterCode: 'PC2', initiativeCode: 'B2', pawnCode: 'P3', label: 'Moss', color: '#7658a8', image: '../../assets/pawns/moss-face.png' },
         { characterCode: 'PC3', initiativeCode: 'B6', pawnCode: 'P7', label: 'Richmond', color: '#343047', image: '../../assets/pawns/richmond-face.png' },
         { characterCode: null, initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
-        { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: null },
+        { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: '../../assets/pawns/denholm-face.png' },
       ];
 
       function createDeck(definition) {
@@ -704,7 +704,14 @@
           disc.className = 'playtest-pawn__disc';
           disc.style.setProperty('--pawn-border', pawnData.borderColor);
           disc.style.setProperty('--pawn-fill', pawnData.fillColor);
-          if (pawnData.name === 'Bombeiro') disc.textContent = '👨‍🚒';
+          if (pawnData.imagePath) {
+            const image = document.createElement('img');
+            image.src = pawnData.imagePath;
+            image.alt = pawnData.name;
+            disc.append(image);
+          } else if (pawnData.icon) {
+            disc.textContent = pawnData.icon;
+          }
           pawn.append(disc);
           document.querySelector('[data-material-pawns]').append(pawn);
         });
@@ -856,8 +863,14 @@
         disc.className = 'playtest-pawn__disc';
         disc.style.setProperty('--pawn-border', pawnData.borderColor);
         disc.style.setProperty('--pawn-fill', pawnData.fillColor);
-        if (pawnData.name === 'Bombeiro') disc.textContent = '👨‍🚒';
-        else if (pawnData.icon) disc.textContent = pawnData.icon;
+        if (pawnData.imagePath) {
+          const image = document.createElement('img');
+          image.src = pawnData.imagePath;
+          image.alt = pawnData.name;
+          disc.append(image);
+        } else if (pawnData.icon) {
+          disc.textContent = pawnData.icon;
+        }
         pawn.append(disc);
         document.body.append(pawn);
         const computedStyle = window.getComputedStyle(pawn);
@@ -1023,7 +1036,7 @@
         { label: 'Missões', types: [CARD_TYPES.MISSION_EVENT] },
         { label: 'Itens', types: [CARD_TYPES.CONSUMABLE_ITEM, CARD_TYPES.EQUIPMENT_ITEM] },
         { label: 'Referências e iniciativa', types: [CARD_TYPES.ROUTINE, CARD_TYPES.PLAYER_INITIATIVE, CARD_TYPES.PLAYER_CHARACTER, CARD_TYPES.INITIATIVE] },
-        { label: 'Outros', types: [CARD_TYPES.REFERENCE] },
+        { label: 'Referências', types: [CARD_TYPES.REFERENCE, CARD_TYPES.ACTIONS, CARD_TYPES.MORALE] },
         { label: 'Tokens', types: [CARD_TYPES.TOKEN], kind: 'token' },
         { label: 'Tiles', types: [CARD_TYPES.REVERSIBLE_TILE], kind: 'tile' },
         { label: 'Peões', types: [CARD_TYPES.PAWN], kind: 'pawn' },

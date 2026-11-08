@@ -48,7 +48,7 @@ DECK_DEFINITIONS = (
     ("items-kitchen", "Itens de cozinha", {"CONSUMABLE_ITEM"}, DEFAULT_COLUMNS, False),
     ("items-cabinet", "Itens de armário", {"EQUIPMENT_ITEM"}, DEFAULT_COLUMNS, False),
     ("initiative", "Iniciativa", {"ROUTINE", "INITIATIVE", "PLAYER_INITIATIVE"}, DEFAULT_COLUMNS, False),
-    ("reference", "Referências", {"REFERENCE"}, DEFAULT_COLUMNS, False),
+    ("reference", "Referências", {"REFERENCE", "ACTIONS", "MORALE"}, DEFAULT_COLUMNS, False),
     ("characters", "Personagens jogáveis", {"PLAYER_CHARACTER"}, 5, True),
 )
 

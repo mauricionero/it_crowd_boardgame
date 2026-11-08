@@ -48,19 +48,21 @@
           frameColor: '#3e454a',
           backgroundPath: '../../assets/cards/users/user-background-model.png',
           artRoot: '../../assets/illustrations/cards/initiative/',
+          headerPath: '../../assets/illustrations/icons/initiative-header.png',
         }),
         PLAYER_INITIATIVE: Object.freeze({
           id: 'player-initiative',
-          label: 'PERSONAGEM',
+          label: 'INICIATIVA',
           icon: '⭐',
           accentColor: '#2378b8',
           frameColor: '#153d66',
           backgroundPath: '../../assets/cards/users/user-background-model.png',
           artRoot: '../../assets/illustrations/cards/initiative/',
+          headerPath: '../../assets/illustrations/icons/initiative-header.png',
         }),
         PLAYER_CHARACTER: Object.freeze({
           id: 'player-character',
-          label: 'PERSONAGEM JOGÁVEL',
+          label: 'PERSONAGEM',
           icon: '👤',
           accentColor: '#2378b8',
           frameColor: '#153d66',
@@ -86,6 +88,26 @@
           backgroundPath: null,
           artRoot: '',
         }),
+        ACTIONS: Object.freeze({
+          id: 'actions',
+          label: 'AÇÕES',
+          icon: '🚶',
+          accentColor: '#fff7db',
+          frameColor: '#303b42',
+          backgroundPath: null,
+          artRoot: '',
+          headerPath: '../../assets/illustrations/icons/actions-header.png',
+        }),
+        MORALE: Object.freeze({
+          id: 'morale',
+          label: 'ÂNIMO',
+          icon: '🔋',
+          accentColor: '#fff7db',
+          frameColor: '#303b42',
+          backgroundPath: null,
+          artRoot: '',
+          headerPath: '../../assets/illustrations/icons/morale-header.png',
+        }),
         CONSUMABLE_ITEM: Object.freeze({
           id: 'item-consumable',
           label: 'ITEM',
@@ -94,6 +116,7 @@
           frameColor: '#3e2415',
           backgroundPath: null,
           artRoot: '',
+          headerPath: '../../assets/illustrations/icons/coffee-item-header.png',
           small: true,
         }),
         EQUIPMENT_ITEM: Object.freeze({
@@ -104,6 +127,7 @@
           frameColor: '#6b4528',
           backgroundPath: null,
           artRoot: '',
+          headerPath: '../../assets/illustrations/icons/equipment-item-header.png',
           small: true,
         }),
         REVERSIBLE_TILE: Object.freeze({
@@ -151,8 +175,8 @@
           ],
         },
         A2: {
-          type: CARD_TYPES.REFERENCE,
-          title: '🚶 AÇÕES',
+          type: CARD_TYPES.ACTIONS,
+          title: 'AÇÕES',
           rules: [
             { label: ' 👣', line: '👣 = valor do personagem por ação; cada ✅ em 🎲 soma 1 tile.', nr_lines: 2, dense: true },
             { label: '-🫩', line: '⏱️1: remova 🫩 de si ou de um aliado adjacente.', nr_lines: 2 },
@@ -163,8 +187,8 @@
           ],
         },
         A3: {
-          type: CARD_TYPES.REFERENCE,
-          title: '🔋 ÂNIMO',
+          type: CARD_TYPES.MORALE,
+          title: 'ÂNIMO',
           rules: [
             { label: '🔋', line: '+1👣 ou +🙂 ou +🧠 durante 1⏱️', nr_lines: 1 },
             { label: '🔋', line: '+1 no resultado de 🔺', nr_lines: 1 },
@@ -241,6 +265,7 @@
         B4: {
           type: CARD_TYPES.INITIATIVE,
           title: 'DENHOLM',
+          initiativeImage: '../../assets/pawns/denholm-face.png',
           rules: [
             { label: 'ATO 4', line: '1 ação: 👣 = 1 + 3🎲 em direção à sala.', nr_lines: 2, dense: true },
             { label: 'ATO 5', line: 'Siga a regra ⭐ da missão.', nr_lines: 3 },
@@ -249,8 +274,9 @@
         B5: {
           type: CARD_TYPES.INITIATIVE,
           title: 'BOMBEIRO',
+          initiativeImage: '../../assets/pawns/firefighter-face.png',
           rules: [
-            { label: '⭐', line: '2 bombeiros · 2 ações cada: 👣 = 2 + 1🎲 ou apague 🔥 adjacente.', nr_lines: 3 },
+            { label: '⭐', line: '2⏱️: 👣 = 2 + 1🎲 ou apague 🔥 adjacente.', nr_lines: 3 },
             { label: '🔥', line: '🎲 ✅: apague 🔥.', nr_lines: 2 },
             { label: EVENT_ICONS.DISCARD, line: 'Quando não houver fogo no cenário.', nr_lines: 2 },
           ],
@@ -271,7 +297,7 @@
           resolve: [
             {
               label: '📌',
-            line: '🖥️ 🧠 ✅',
+            line: '⏱️1',
             },
           ],
         },
@@ -671,7 +697,8 @@
         },
         H3: {
           type: CARD_TYPES.EQUIPMENT_ITEM,
-          title: 'ÓCULOS GLAMUROSO',
+          title: 'ÓCULOS\nBAD-ASS',
+          itemImage: '../../assets/illustrations/cards/items/bad-ass-glasses.png',
           rules: [
             { label: 'EQUIPADO', line: '+1🙂', nr_lines: 1 },
           ],
@@ -684,9 +711,18 @@
             { label: 'USAR', line: 'Ação livre: +1⏱️.\nDescarte.', nr_lines: 2, dense: true },
           ],
         },
+        H5: {
+          type: CARD_TYPES.CONSUMABLE_ITEM,
+          title: 'LEITE',
+          itemImage: '../../assets/illustrations/cards/items/milk.png',
+          rules: [
+            { label: 'USAR', line: 'Ação livre: +🔋🔋.\nDescarte.', nr_lines: 2, dense: true },
+          ],
+        },
         H6: {
           type: CARD_TYPES.EQUIPMENT_ITEM,
-          title: 'CAMISETA WWW.LADYSPROBLEMS.COM',
+          title: 'CAMISETA LADYSPROBLEMS.COM',
+          itemImage: '../../assets/illustrations/cards/items/ladyproblems-shirt.png',
           rules: [
             { label: 'EQUIPADO', line: '−1🙂\n1×/ativação: remova 🫩 grátis.', nr_lines: 2, dense: true },
           ],
@@ -837,7 +873,7 @@
           copies: 1,
           borderColor: '#6d7378',
           fillColor: '#e0e3e5',
-          imagePath: null,
+          imagePath: '../../assets/pawns/denholm-face.png',
         },
         P6: {
           type: CARD_TYPES.PAWN,
@@ -846,7 +882,7 @@
           copies: 2,
           borderColor: '#c44738',
           fillColor: '#f4d8d3',
-          imagePath: null,
+          imagePath: '../../assets/pawns/firefighter-face.png',
           icon: '👨‍🚒',
         },
         P7: {

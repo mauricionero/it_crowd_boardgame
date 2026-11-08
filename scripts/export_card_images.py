@@ -9,10 +9,13 @@ same CSS and card-data.js used by the templates are used for the exported PNGs.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import json
 import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -21,6 +24,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CARD_DATA_PATH = PROJECT_ROOT / "templates/cards/card-data.js"
 CARD_TEMPLATE_DIR = PROJECT_ROOT / "templates/cards"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "exported-images/cards"
+EXPORT_MANIFEST_NAME = ".export-manifest.json"
 
 CARD_SIZES = {
     "main": (238, 333),
@@ -37,6 +41,8 @@ CARD_TYPES = {
     "PLAYER_INITIATIVE": "main",
     "ROUTINE": "main",
     "REFERENCE": "main",
+    "ACTIONS": "main",
+    "MORALE": "main",
     "CONSUMABLE_ITEM": "small",
     "EQUIPMENT_ITEM": "small",
     "PLAYER_CHARACTER": "character",
@@ -75,11 +81,95 @@ def parse_args() -> argparse.Namespace:
         help="Render only this card code. Repeat the option for multiple cards.",
     )
     parser.add_argument(
+        "--regenerate",
+        choices=("all", "missing"),
+        help="Regenerate all images or only missing/outdated images. Without this option, ask interactively.",
+    )
+    parser.add_argument(
         "--chrome",
         type=Path,
         help="Path to the Chrome executable. Defaults to CHROME_BIN or a detected installation.",
     )
     return parser.parse_args()
+
+
+def choose_regeneration_mode(requested_mode: str | None) -> str:
+    if requested_mode:
+        return requested_mode
+
+    if not sys.stdin.isatty():
+        print("Entrada interativa indisponível; regenerando todas as imagens.")
+        return "all"
+
+    print("Como deseja exportar as imagens?")
+    print("  1. Regenerar todas")
+    print("  2. Gerar apenas as que estão faltando ou desatualizadas")
+
+    while True:
+        answer = input("Escolha [1/2]: ").strip().lower()
+        if answer in {"1", "a", "t", "todas"}:
+            return "all"
+        if answer in {"2", "f", "faltantes", "faltando"}:
+            return "missing"
+        print("Opção inválida. Digite 1 para todas ou 2 para as faltantes.")
+
+
+def read_card_sources() -> dict[str, str]:
+    source = CARD_DATA_PATH.read_text(encoding="utf-8")
+    entry_pattern = re.compile(
+        r"^\s{8}([A-Z][A-Z0-9]*): \{(?P<body>.*?)(?=^\s{8}[A-Z][A-Z0-9]*: \{|\Z)",
+        re.MULTILINE | re.DOTALL,
+    )
+    return {match.group(1): match.group(0) for match in entry_pattern.finditer(source)}
+
+
+def source_fingerprint(card_source: str) -> str:
+    digest = hashlib.sha256()
+    card_data_source = CARD_DATA_PATH.read_text(encoding="utf-8")
+    shared_card_data = card_data_source.split("const cards = {", 1)[0]
+    source_paths = [
+        CARD_TEMPLATE_DIR / "card-renderer.js",
+        CARD_TEMPLATE_DIR / "card-model.css",
+    ]
+
+    for path in source_paths:
+        digest.update(str(path.relative_to(PROJECT_ROOT)).encode("utf-8"))
+        digest.update(path.read_bytes())
+
+    digest.update(shared_card_data.encode("utf-8"))
+    digest.update(card_source.encode("utf-8"))
+
+    asset_references = set(re.findall(r"['\"]([^'\"]+\.(?:png|jpg|jpeg|webp))['\"]", card_source))
+    for reference in sorted(asset_references):
+        asset_path = (CARD_TEMPLATE_DIR / reference).resolve()
+        if not asset_path.is_file():
+            continue
+        digest.update(str(asset_path.relative_to(PROJECT_ROOT)).encode("utf-8"))
+        digest.update(asset_path.read_bytes())
+
+    return digest.hexdigest()
+
+
+def load_export_manifest(path: Path) -> dict:
+    if not path.is_file():
+        return {"version": 1, "images": {}}
+
+    try:
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"version": 1, "images": {}}
+
+    if not isinstance(manifest, dict) or not isinstance(manifest.get("images"), dict):
+        return {"version": 1, "images": {}}
+
+    return manifest
+
+
+def save_export_manifest(path: Path, manifest: dict) -> None:
+    path.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 def find_chrome(explicit_path: Path | None) -> Path:
@@ -213,8 +303,10 @@ def render_card(
 
 def main() -> int:
     args = parse_args()
+    regeneration_mode = choose_regeneration_mode(args.regenerate)
     chrome = find_chrome(args.chrome)
     card_types = read_card_types()
+    card_sources = read_card_sources()
     codes = args.codes or sorted(card_types)
     unknown_codes = sorted(set(codes) - set(card_types))
 
@@ -222,6 +314,13 @@ def main() -> int:
         raise RuntimeError(f"Código(s) desconhecido(s): {', '.join(unknown_codes)}")
 
     resolutions = tuple(RESOLUTION_SETTINGS) if args.resolution == "both" else (args.resolution,)
+    manifest_path = args.output_dir / EXPORT_MANIFEST_NAME
+    manifest = load_export_manifest(manifest_path)
+    manifest["version"] = 1
+    manifest.setdefault("images", {})
+
+    rendered_count = 0
+    skipped_count = 0
 
     with tempfile.TemporaryDirectory(prefix="it-crowd-card-render-") as temp_dir:
         wrapper = Path(temp_dir) / "card.html"
@@ -234,11 +333,28 @@ def main() -> int:
             for code in codes:
                 size = tuple(CARD_SIZES[card_types[code]])
                 output = output_dir / f"{code.lower()}.png"
+                manifest_key = f"{args.mode}/{resolution}/{code.lower()}.png"
+                source_hash = source_fingerprint(card_sources[code])
+                image_is_current = (
+                    output.is_file()
+                    and output.stat().st_size > 0
+                    and manifest["images"].get(manifest_key) == source_hash
+                )
+                if regeneration_mode == "missing" and image_is_current:
+                    skipped_count += 1
+                    print(f"{code} ({resolution}) -> já está atualizada, ignorada: {output}")
+                    continue
                 build_wrapper(code, size, args.mode, wrapper)
                 render_card(chrome, wrapper, output, size, scale)
+                manifest["images"][manifest_key] = source_hash
+                rendered_count += 1
                 print(f"{code} ({resolution}) -> {output}")
 
-    print(f"Exportadas {len(codes)} cartas em {len(resolutions)} resolução(ões).")
+    save_export_manifest(manifest_path, manifest)
+    print(
+        f"Exportadas {rendered_count} imagem(ns) em {len(resolutions)} resolução(ões). "
+        f"Ignoradas por já estarem atualizadas: {skipped_count}."
+    )
     return 0
 
 

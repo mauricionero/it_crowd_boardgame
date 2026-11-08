@@ -128,7 +128,7 @@ body {
   box-shadow: inset 0 0 0 2.4mm var(--border-color);
 }
 
-.export-draft .card--type-reference.card--background {
+.export-draft :is(.card--type-reference, .card--type-actions, .card--type-morale).card--background {
   background: #f4e8c8 !important;
   box-shadow: inset 0 0 0 1.5mm var(--border-color);
 }
@@ -443,6 +443,13 @@ body {
   box-shadow: none !important;
 }
 
+.card--rasterized.card--small {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 .character-card.card--rasterized > .card-raster-image {
   border-radius: 3.2mm;
 }
@@ -598,7 +605,7 @@ body {
 
 .card--type-item-consumable .title-slot,
 .card--type-item-equipment .title-slot {
-  top: 27%;
+  top: 18%;
   left: 8%;
   width: 84%;
   height: 18%;
@@ -624,7 +631,7 @@ body {
 
 .card--type-item-consumable .rules,
 .card--type-item-equipment .rules {
-  top: 47%;
+  top: 51%;
   right: 7%;
   bottom: 8%;
   left: 7%;
@@ -681,6 +688,42 @@ body {
   color: #fff7db;
   overflow: visible;
   transform: rotate(-1.5deg);
+}
+
+.card--background.card--type-item-consumable .title-slot,
+.card--background.card--type-item-equipment .title-slot {
+  top: 18%;
+  left: 8%;
+  width: 84%;
+  height: 18%;
+  padding: 1mm;
+  background: transparent;
+  transform: none;
+}
+
+.card--background.card--type-item-consumable .rule-slot,
+.card--background.card--type-item-equipment .rule-slot {
+  border: 0;
+  border-radius: 1.5mm;
+  background: var(--paper-color);
+}
+
+.card--background.card--type-item-consumable .rule-slot::before,
+.card--background.card--type-item-equipment .rule-slot::before {
+  display: none;
+}
+
+.card--background.card--has-item-art .art-slot {
+  top: 40%;
+  right: 6%;
+  bottom: 30%;
+  left: 6%;
+  display: block;
+  overflow: visible;
+}
+
+.card--background.card--has-item-art .card-item__art {
+  object-fit: contain;
 }
 
 .card--type-event-mission .title-slot {
@@ -756,6 +799,7 @@ body {
   object-fit: cover;
 }
 
+.card--type-initiative .art-slot .card-initiative__character-art,
 .card--type-player-initiative .art-slot .card-initiative__character-art {
   position: absolute;
   top: -4%;
@@ -766,6 +810,17 @@ body {
   object-position: center center;
   opacity: 1;
   transform: translateX(-50%);
+}
+
+.card--code-b4 .art-slot .card-initiative__character-art {
+  top: -4%;
+  width: 70%;
+}
+
+.card--code-b5 .art-slot .card-initiative__character-art {
+  top: 3%;
+  width: 78%;
+  height: 68%;
 }
 
 .card--background .art-slot::after {
@@ -780,6 +835,14 @@ body {
   );
   content: '';
   pointer-events: none;
+}
+
+.card--background.card--has-item-art .art-slot {
+  background: transparent;
+}
+
+.card--background.card--has-item-art .art-slot::after {
+  display: none;
 }
 
 .card--background .rules {
@@ -939,7 +1002,9 @@ body {
   gap: 0.15mm;
 }
 
-.card--type-reference.card--background {
+.card--type-reference.card--background,
+.card--type-actions.card--background,
+.card--type-morale.card--background {
   border: 1.5mm solid var(--border-color);
   border-radius: 3.2mm;
   background:
@@ -952,12 +1017,22 @@ body {
   display: none;
 }
 
+.card--type-actions .card-header,
+.card--type-morale .card-header {
+  display: flex;
+}
+
 .card--type-reference .title-slot {
   top: 5%;
   left: 7%;
   width: 86%;
   height: 14%;
   transform: none;
+}
+
+.card--type-actions .title-slot,
+.card--type-morale .title-slot {
+  display: none;
 }
 
 .card--type-reference .card-title {
@@ -967,11 +1042,15 @@ body {
   text-shadow: 0.45mm 0.55mm 0 #15242c, 0 0 1.2mm rgba(0, 0, 0, 0.55);
 }
 
+.card--type-actions .art-slot,
+.card--type-morale .art-slot,
 .card--type-reference .art-slot {
   display: none;
 }
 
-.card--type-reference .rules {
+.card--type-reference .rules,
+.card--type-actions .rules,
+.card--type-morale .rules {
   top: 20%;
   right: 5%;
   bottom: 4%;
@@ -981,7 +1060,9 @@ body {
   justify-content: flex-start;
 }
 
-.card--type-reference .rule-slot {
+.card--type-reference .rule-slot,
+.card--type-actions .rule-slot,
+.card--type-morale .rule-slot {
   display: grid;
   flex: 0 0 auto;
   min-height: calc(var(--rule-lines, 1) * 3.4mm + 2.6mm);
@@ -993,7 +1074,9 @@ body {
   background: url('../../assets/illustrations/icons/call-rule-panel.png') center / 100% 140% no-repeat;
 }
 
-.card--type-reference .rule-slot__label {
+.card--type-reference .rule-slot__label,
+.card--type-actions .rule-slot__label,
+.card--type-morale .rule-slot__label {
   grid-column: 1;
   align-self: center;
   color: #174b77;
@@ -1002,7 +1085,9 @@ body {
   white-space: nowrap;
 }
 
-.card--type-reference .rule-slot__content {
+.card--type-reference .rule-slot__content,
+.card--type-actions .rule-slot__content,
+.card--type-morale .rule-slot__content {
   grid-column: 2;
   align-self: center;
   margin-top: 0;
@@ -1014,7 +1099,9 @@ body {
   overflow-wrap: anywhere;
 }
 
-.card--type-reference .rule-slot__effect {
+.card--type-reference .rule-slot__effect,
+.card--type-actions .rule-slot__effect,
+.card--type-morale .rule-slot__effect {
   display: none;
 }
 
@@ -1066,7 +1153,9 @@ body {
   font-size: 3.5mm;
 }
 
-.card--type-reference .rule-slot__label--short {
+.card--type-reference .rule-slot__label--short,
+.card--type-actions .rule-slot__label--short,
+.card--type-morale .rule-slot__label--short {
   font-size: 2.9mm;
 }
 
