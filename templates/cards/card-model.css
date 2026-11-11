@@ -35,10 +35,11 @@ body {
   position: fixed;
   z-index: 20;
   top: 4mm;
-  left: 50%;
+  right: 56mm;
   display: flex;
-  width: min(186mm, calc(100vw - 12mm));
+  width: auto;
   align-items: center;
+  flex-wrap: wrap;
   gap: 4mm;
   padding: 3mm 4mm;
   border: 0.35mm solid #526054;
@@ -46,7 +47,57 @@ body {
   background: #f4e8c8;
   box-shadow: 0 1.5mm 5mm rgba(0, 0, 0, 0.35);
   color: #172019;
-  transform: translateX(-50%);
+}
+
+.export-type-filter {
+  position: fixed;
+  z-index: 20;
+  top: 4mm;
+  right: 4mm;
+  display: flex;
+  width: 48mm;
+  flex-direction: column;
+  gap: 1.5mm;
+  padding: 3mm;
+  border: 0.35mm solid #526054;
+  border-radius: 3mm;
+  background: #f4e8c8;
+  box-shadow: 0 1.5mm 5mm rgba(0, 0, 0, 0.35);
+  color: #172019;
+  font-size: 2.3mm;
+}
+
+.export-type-filter > strong {
+  font-size: 2.8mm;
+}
+
+.export-type-filter > span {
+  color: #526054;
+  font-size: 2mm;
+  line-height: 1.2;
+}
+
+.export-type-filter [data-export-type-options] {
+  display: grid;
+  gap: 1mm;
+}
+
+.export-type-filter label,
+.export-panel__layout label {
+  display: inline-flex;
+  align-items: center;
+  gap: 1mm;
+  cursor: pointer;
+}
+
+.export-type-filter input,
+.export-panel__layout input {
+  margin: 0;
+  accent-color: #238653;
+}
+
+.export-component-hidden {
+  display: none !important;
 }
 
 .export-panel__heading {
@@ -72,6 +123,26 @@ body {
   padding: 0;
   border: 0;
   font-size: 2.3mm;
+}
+
+.export-panel__layout {
+  display: flex;
+  flex-basis: 100%;
+  gap: 2mm;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 2.3mm;
+  order: 4;
+}
+
+.export-panel__layout legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .export-panel__options legend {
@@ -167,6 +238,21 @@ body {
   box-shadow: 0 2mm 8mm rgba(0, 0, 0, 0.35);
   break-after: page;
   page-break-after: always;
+}
+
+.a4-sheet--small-cards {
+  grid-template-columns: repeat(4, 44mm);
+  grid-template-rows: repeat(4, 63mm);
+  gap: 2mm;
+  padding: 19.5mm 14mm;
+}
+
+.export-tight .a4-sheet {
+  gap: 0;
+}
+
+.export-tight .a4-sheet--small-cards {
+  gap: 0;
 }
 
 .a4-sheet:last-child {
@@ -274,6 +360,7 @@ body {
   justify-content: center;
   padding: 1mm 2mm;
   background: var(--paper-color);
+  opacity: 0.9;
 }
 
 .title-slot__text,
@@ -326,6 +413,7 @@ body {
   min-height: 11mm;
   padding: 1.5mm;
   background: var(--paper-color);
+  opacity: 0.85;
 }
 
 .rule-slot__label,
@@ -434,6 +522,13 @@ body {
 .card--rasterized > :not(.card-raster-image):not(.playtest-card-back-layer),
 .character-card.card--rasterized > :not(.card-raster-image) {
   visibility: hidden;
+}
+
+.card--rasterized.card--background {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
 }
 
 .character-card.card--rasterized {
@@ -665,10 +760,34 @@ body {
   line-height: 1.05;
 }
 
+.card--type-item-consumable .rule-slot--dense .rule-slot__content,
+.card--type-item-equipment .rule-slot--dense .rule-slot__content {
+  font-size: 2.1mm;
+  line-height: 1;
+}
+
 .card--type-item-consumable .card-footer,
 .card--type-item-equipment .card-footer {
   color: rgba(255, 247, 219, 0.94);
   font-size: 1.35mm;
+}
+
+.card--background.card--collection-item {
+  border: 1.8mm solid #d8a52c;
+  background:
+    linear-gradient(145deg, rgba(255, 244, 169, 0.18), transparent 42%),
+    var(--card-background) center / 100% 100% no-repeat,
+    #7b5118;
+  box-shadow: inset 0 0 0 0.7mm rgba(255, 225, 123, 0.34);
+}
+
+.card--collection-item .card-header__art {
+  filter: drop-shadow(0 0.35mm 0 rgba(73, 39, 8, 0.42));
+}
+
+.card--background.card--collection-item .title-slot {
+  top: 24%;
+  height: 19%;
 }
 
 .card--background .card-main {
@@ -713,17 +832,88 @@ body {
   display: none;
 }
 
+.card--background.card--type-item-consumable .rule-slot,
+.card--background.card--type-item-equipment .rule-slot {
+  display: block;
+  line-height: 0.8;
+  padding: 1.5mm 4.5%;
+}
+
+.card--background.card--type-item-consumable .rule-slot__label,
+.card--background.card--type-item-equipment .rule-slot__label {
+  display: inline;
+  grid-column: auto;
+  grid-row: auto;
+  align-self: auto;
+  margin-right: 1.5mm;
+  font-size: 2.4mm;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.card--background.card--type-item-consumable .rule-slot__label::after,
+.card--background.card--type-item-equipment .rule-slot__label::after {
+  display: inline-block;
+  position: static;
+  width: 0.2mm;
+  height: 3.2mm;
+  margin-left: 1.5mm;
+  vertical-align: -0.8mm;
+}
+
+.card--background.card--type-item-consumable .rule-slot__content,
+.card--background.card--type-item-equipment .rule-slot__content {
+  display: inline;
+  grid-column: auto;
+  margin-top: 0;
+  font-size: 2.55mm;
+  line-height: 1.05;
+  white-space: pre-line;
+}
+
+.card--background.card--type-item-consumable .rule-slot--dense .rule-slot__content,
+.card--background.card--type-item-equipment .rule-slot--dense .rule-slot__content {
+  font-size: 1.9mm;
+  line-height: 1;
+}
+
 .card--background.card--has-item-art .art-slot {
-  top: 40%;
-  right: 6%;
-  bottom: 30%;
-  left: 6%;
+  top: 35%;
+  right: 5.5%;
+  bottom: 27%;
+  left: 5.5%;
   display: block;
   overflow: visible;
 }
 
 .card--background.card--has-item-art .card-item__art {
   object-fit: contain;
+  transform: scale(1.1);
+  transform-origin: center center;
+}
+
+.card--background.card--type-item-consumable .rules,
+.card--background.card--type-item-equipment .rules {
+  top: 74%;
+  bottom: 8%;
+}
+
+.card--background.card--type-item-consumable .rule-slot,
+.card--background.card--type-item-equipment .rule-slot {
+  padding-right: 2.5%;
+  padding-left: 2.5%;
+}
+
+.card--background.card--type-item-consumable .rule-slot__content,
+.card--background.card--type-item-equipment .rule-slot__content {
+  font-size: 2.45mm;
+  line-height: 0.8;
+}
+
+.card--background.card--type-item-consumable .rule-slot--dense .rule-slot__content,
+.card--background.card--type-item-equipment .rule-slot--dense .rule-slot__content {
+  font-size: 1.85mm;
+  line-height: 0.75;
 }
 
 .card--type-event-mission .title-slot {
@@ -776,11 +966,19 @@ body {
   white-space: pre-line;
 }
 
-.card--type-event-generic.card--has-quote .card-quote,
-.card--type-event-mission.card--has-quote .card-quote {
-  top: 47.5%;
-  height: 4.5%;
-  font-size: 2mm;
+.card--type-call .card-quote--with-rules,
+.card--type-event-generic .card-quote--with-rules,
+.card--type-event-mission .card-quote--with-rules,
+.card--type-user .card-quote--with-rules {
+  position: relative;
+  top: auto;
+  right: auto;
+  left: auto;
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  margin: 0 0 0.6%;
+  font-size: 2.25mm;
 }
 
 .card--background .art-slot {
@@ -797,6 +995,16 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.card--code-f1 .art-slot img {
+  height: 110%;
+  transform: translateY(-9%);
+}
+
+.card--code-f3 .art-slot img {
+  height: 115%;
+  transform: translateY(-15%);
 }
 
 .card--type-initiative .art-slot .card-initiative__character-art,
@@ -887,6 +1095,7 @@ body {
 .card--background .rule-slot > * {
   position: relative;
   z-index: 1;
+  top: 0.4mm;
 }
 
 .card--background .rule-slot__label,
@@ -940,11 +1149,16 @@ body {
 }
 
 .card--type-user .rule-slot {
+  flex: 0 0 auto;
+  min-height: calc(
+    var(--rule-lines, 1) * var(--rule-line-height) + var(--rule-padding-block)
+  );
   grid-template-columns: max-content minmax(0, 1fr);
   grid-template-rows: auto auto;
   column-gap: 1.2mm;
   align-content: center;
   align-items: center;
+  padding: calc(var(--rule-padding-block) / 2) 4.5%;
 }
 
 .card--type-user .rule-slot__label {
@@ -995,6 +1209,10 @@ body {
   justify-content: flex-end;
   gap: 0.15mm;
   top: 52%;
+}
+
+.card--type-call .rules--1 {
+  top: 75%;
 }
 
 .card--type-routine .rules {
@@ -1239,6 +1457,24 @@ body {
   page-break-after: auto;
 }
 
+.export-tight .character-sheet {
+  gap: 0;
+}
+
+.export-tight .tile-sheet {
+  grid-template-columns: repeat(6, calc(2 * var(--tile-size)));
+  gap: 0;
+}
+
+.export-tight .tile-pair {
+  width: calc(2 * var(--tile-size));
+  gap: 0;
+}
+
+.export-tight .tile-pair--compact {
+  width: var(--tile-size);
+}
+
 .character-card {
   position: relative;
   display: grid;
@@ -1332,6 +1568,7 @@ body {
   flex-direction: column;
   gap: 0.7mm;
   color: #fff7db;
+  opacity: 0.9;
 }
 
 .character-card__kicker {
@@ -1400,9 +1637,12 @@ body {
   color: var(--ink-color);
   font-size: 3.1mm;
   line-height: 1.05;
+  opacity: 0.85;
 }
 
 .character-card__rule strong {
+  position: relative;
+  top: 0.4mm;
   color: #174b77;
   font-size: 3mm;
   font-weight: 900;
@@ -1414,6 +1654,8 @@ body {
 }
 
 .character-card__rule span {
+  position: relative;
+  top: 0.4mm;
   min-width: 0;
   white-space: pre-line;
   overflow-wrap: anywhere;
@@ -1523,6 +1765,28 @@ body {
   border-radius: 1.5mm 0 0 1.5mm;
 }
 
+.card--background.card--type-item-consumable .rule-slot--dense .rule-slot__content,
+.card--background.card--type-item-equipment .rule-slot--dense .rule-slot__content {
+  font-size: 2mm;
+  line-height: 0.8 !important;
+}
+
+.card--background.card--code-h8 .rule-slot--dense .rule-slot__content {
+  line-height: 0.8;
+}
+
+.card--background.card--code-h16 .rule-slot--dense {
+  line-height: 0.6;
+}
+
+.card--background.card--code-h16 .rule-slot--dense .rule-slot__content {
+  line-height: 0.6 !important;
+}
+
+.card--background.card--code-h16 .rule-slot--dense > * {
+  top: -0.4mm;
+}
+
 @media print {
   @page {
     size: A4 portrait;
@@ -1542,6 +1806,10 @@ body {
   }
 
   .export-panel {
+    display: none !important;
+  }
+
+  .export-type-filter {
     display: none !important;
   }
 

@@ -14,11 +14,14 @@
         const image = document.createElement('img');
         image.className = 'card-raster-image';
         image.dataset.exportedImageCode = code;
+        image.dataset.exportLoading = 'true';
         image.alt = '';
         image.addEventListener('load', () => {
+          image.dataset.exportLoading = 'false';
           if (window.ITCrowdUseExportedImages) article.classList.add('card--rasterized');
         });
         image.addEventListener('error', () => {
+          image.dataset.exportLoading = 'false';
           article.classList.remove('card--rasterized');
         });
         image.src = exportedImagePath(code);
@@ -27,12 +30,12 @@
 
       function setExportedImageMode(mode) {
         window.ITCrowdExportedImageMode = mode;
-        refreshExportedImages();
+        return refreshExportedImages();
       }
 
       function setExportedImageResolution(resolution) {
         window.ITCrowdExportedImageResolution = resolution;
-        refreshExportedImages();
+        return refreshExportedImages();
       }
 
       function setExportedImageUsage(useExportedImages) {
@@ -44,12 +47,28 @@
       }
 
       function refreshExportedImages() {
-        document.querySelectorAll('[data-exported-image-code]').forEach((image) => {
+        const refreshes = Array.from(document.querySelectorAll('[data-exported-image-code]')).map((image) => {
           const article = image.closest('[data-card-code]');
-          if (!article) return;
+          if (!article) return Promise.resolve();
           article.classList.remove('card--rasterized');
-          image.src = exportedImagePath(image.dataset.exportedImageCode);
+          const nextSrc = new URL(
+            exportedImagePath(image.dataset.exportedImageCode),
+            document.baseURI
+          ).href;
+          if (image.src === nextSrc && image.complete && image.naturalWidth > 0) {
+            image.dataset.exportLoading = 'false';
+            return Promise.resolve();
+          }
+
+          image.dataset.exportLoading = 'true';
+          image.src = nextSrc;
+          return new Promise((resolve) => {
+            const finish = () => resolve();
+            image.addEventListener('load', finish, { once: true });
+            image.addEventListener('error', finish, { once: true });
+          });
         });
+        return Promise.all(refreshes);
       }
 
       function createRuleRow(rule) {
@@ -87,24 +106,31 @@
         const article = document.createElement('article');
         article.className = `card card--background card--type-${cardType.id}${cardType.small ? ' card--small' : ''}`;
         article.classList.add(`card--code-${String(code).toLowerCase()}`);
+        if (card.collectionOnly) article.classList.add('card--collection-item');
         article.dataset.cardCode = code;
         if (card.quote) article.classList.add('card--has-quote');
         article.dataset.cardType = cardType.id;
-        article.style.setProperty('--card-background', cardType.backgroundPath
-          ? `url('${cardType.backgroundPath}')`
+        const cardBackgroundPath = card.collectionOnly
+          ? '../../assets/cards/items-collectibles/collectible-item-background-model.png'
+          : cardType.backgroundPath;
+        article.style.setProperty('--card-background', cardBackgroundPath
+          ? `url('${cardBackgroundPath}')`
           : 'none');
-        article.style.setProperty('--border-color', cardType.accentColor);
-        article.style.setProperty('--frame-color', cardType.frameColor);
+        article.style.setProperty('--border-color', card.collectionOnly ? '#d8a52c' : cardType.accentColor);
+        article.style.setProperty('--frame-color', card.collectionOnly ? '#5b3a14' : cardType.frameColor);
         article.style.setProperty('--header-color', cardType.headerColor || '#fff7db');
         article.setAttribute('aria-label', `Carta de ${cardType.label}: ${card.title}`);
 
         const header = document.createElement('header');
         header.className = 'card-header';
 
-        if (cardType.headerPath) {
+        const headerPath = card.collectionOnly
+          ? '../../assets/illustrations/icons/collectible-item-header.png'
+          : cardType.headerPath;
+        if (headerPath) {
           const headerArt = document.createElement('img');
           headerArt.className = 'card-header__art';
-          headerArt.src = cardType.headerPath;
+          headerArt.src = headerPath;
           headerArt.alt = cardType.label;
           header.append(headerArt);
         } else {
@@ -185,6 +211,17 @@
         rules.classList.add(`rules--${ruleRows.length}`);
         ruleRows.forEach(rule => rules.append(createRuleRow(rule)));
 
+        const quoteBelongsWithRules = quote && [
+          CARD_TYPES.CALL.id,
+          CARD_TYPES.GENERIC_EVENT.id,
+          CARD_TYPES.MISSION_EVENT.id,
+          CARD_TYPES.USER.id,
+        ].includes(cardType.id);
+        if (quoteBelongsWithRules) {
+          quote.classList.add('card-quote--with-rules');
+          rules.prepend(quote);
+        }
+
         const footer = document.createElement('footer');
         footer.className = 'card-footer';
         footer.setAttribute('aria-label', `Créditos: ${code}, ${artist}, ${creditDate}`);
@@ -202,7 +239,12 @@
         footerDate.textContent = creditDate;
 
         footer.append(footerCode, footerArtist, footerDate);
-        main.append(titleSlot, ...(quote ? [quote] : []), artSlot, rules);
+        main.append(
+          titleSlot,
+          ...(quote && !quoteBelongsWithRules ? [quote] : []),
+          artSlot,
+          rules
+        );
         article.append(header, main, footer);
         attachExportedImage(article, code);
         return article;

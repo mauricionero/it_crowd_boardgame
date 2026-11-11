@@ -170,7 +170,7 @@
             { label: '☎️⚡', line: '🔺 → 7–8: +⚠️ | 9–10: +⚠️; remova o tile ☎️ e ponha ☎️ + 👤 na fila.', nr_lines: 3, dense: true },
             { label: ' 📞', line: 'Para cada ☎️ + 👤 ainda na mão, resolva o efeito 📞 da carta de Usuário.', nr_lines: 2, dense: true },
             { label: '📞📞', line: 'Todos os telefones ocupados:\n🎲 ✅: +⚠️.', nr_lines: 2, dense: true },
-            { label: ' 🦠', line: 'Servidor infectado: 🔺 → 6–8: +⚠️.\n9-10: +⚠️ e espalha para algum PC', nr_lines: 2 },
+            { label: ' 🦠', line: '🗄️ infectado: 🔺 → 6–8: +⚠️.\n9-10: +⚠️ e espalha para algum 🖥️', nr_lines: 2 },
             { label: ' 🔥', line: 'Para cada fogo, 🎲 ✅: baixo vira alto e alto cria 1 baixo adjacente.', nr_lines: 3, dense: false },
           ],
         },
@@ -249,7 +249,7 @@
           attributes: '🧠 2   ·   🙂 1   ·   👣 = 4 + 1🎲',
           actions: '⭐ 3 ações por ativação',
           rules: [
-            { label: '', line: 'CLIMA PESADO: 1× por turno, ação livre: transfira 1🔋 de um personagem no mesmo hambiente para si.', nr_lines: 3, dense: true },
+            { label: '', line: 'CONFORMADO: remova 1 🫩 de si por turno sem custo.', nr_lines: 3, dense: true },
           ],
         },
         B3: {
@@ -288,7 +288,7 @@
           rules: [
             { label: 'ATRIBUTOS', line: '🧠2 · 🙂1 · 👣 = 4 + 1🎲', nr_lines: 1, dense: true },
             { label: '⭐', line: '3 ações.', nr_lines: 2 },
-            { label: '', line: 'CLIMA PESADO: 1× por turno, ação livre: transfira 1🔋 de um personagem no mesmo hambiente para si.', nr_lines: 3, dense: true },
+            { label: '', line: 'CONFORMADO: remova 1 🫩 de si por turno sem custo.', nr_lines: 3, dense: true },
           ],
         },
         C1: {
@@ -363,7 +363,8 @@
         },
         C7: {
           type: CARD_TYPES.CALL,
-          title: 'O MOUSE SUMIU',
+          title: 'ESTÁ PLUGADO NA TOMADA?',
+          quote: 'Vocẽ precisa por na tomada!',
           resolve: [
             {
               label: '📌',
@@ -373,7 +374,8 @@
         },
         C8: {
           type: CARD_TYPES.CALL,
-          title: 'A IMPRESSORA NÃO IMPRIME',
+          title: 'IMPRESSORA NÃO FUNCIONA',
+          quote: 'Acho que precisa de papel...',
           resolve: [
             {
               label: '📌',
@@ -381,48 +383,59 @@
             },
           ],
         },
+        C9: {
+          type: CARD_TYPES.CALL,
+          title: 'RECUPERE O ACESSO AO SERVIDOR',
+          quote: 'Access the data supply and connect to the matrix',
+          resolve: [
+            {
+              label: '📌',
+              line: '🗄️ 🧠 ✅✅',
+            },
+          ],
+        },
         D1: {
           type: CARD_TYPES.USER,
           title: 'O PACIENTE',
-          quote: 'Só queria saber se alguém está cuidando disso.',
+          quote: 'Quem escreveu Missa Brevis em D Menor?..',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '-' },
-            { label: '⭐', line: '🔺 8–10: +⚠️' },
-            { label: '🏁', line: '−⚠️' },
+            { label: '✋', line: '-', nr_lines: 1 },
+            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '⭐', line: '🔺 8–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '−⚠️', nr_lines: 2 },
           ],
         },
         D2: {
           type: CARD_TYPES.USER,
-          title: 'O IMPACIENTE',
-          quote: 'Estou esperando há tempo demais.',
+          title: 'PRIME, O COLECIONADOR',
+          quote: 'A fan of tiny biscuits. You are full of surprises.',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '🎲 ✅: +⚠️' },
-            { label: '⭐', line: '🔺 6–10: +⚠️' },
-            { label: '🏁', line: '-' },
+            { label: '✋', line: '', nr_lines: 2 },
+            { label: '📞', line: '', nr_lines: 2 },
+            { label: '⭐', line: '🔺 4–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '1🏆 aleatório.', nr_lines: 2, dense: true },
           ],
         },
         D3: {
           type: CARD_TYPES.USER,
-          title: 'O IRRITADO',
-          quote: 'Eu já expliquei isso três vezes!',
+          title: 'BILL CROUSE',
+          quote: 'Sabe, eu fui o último com ela.',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '🎲 ✅: +⚠️' },
-            { label: '⭐', line: '🔺 5–10: +⚠️' },
-            { label: '🏁', line: '-' },
+            { label: '✋', line: '−🙂', nr_lines: 2 },
+            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '⭐', line: '🔺 8–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '+🔋', nr_lines: 2 },
           ],
         },
         D4: {
           type: CARD_TYPES.USER,
-          title: 'O PILHADO',
-          quote: 'Quero falar com o responsável. Agora!',
+          title: 'SOBRINHO DO CHEFE',
+          quote: 'Meu tio disse que vocês resolvem isso agora.',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '🎲 ✅: +⚠️' },
-            { label: '⭐', line: '🔺 6–10: +⚠️' },
-            { label: '🏁', line: '-' },
+            { label: '✋', line: '+🔋 ao concluir sem ir pra fila ⭐', nr_lines: 2, dense: true },
+            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '⭐', line: '🔺 6–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '-', nr_lines: 1 },
           ],
         },
         D5: {
@@ -430,10 +443,10 @@
           title: 'O CONFUSO',
           quote: 'BING BONG NOISE',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '🔺 10: +⚠️' },
-            { label: '⭐', line: '🔺 8–10: +⚠️' },
-            { label: '🏁', line: '-' },
+            { label: '✋', line: '-', nr_lines: 1 },
+            { label: '📞', line: '🔺 10: +⚠️', nr_lines: 2 },
+            { label: '⭐', line: '🔺 8–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '-', nr_lines: 1 },
           ],
         },
         D6: {
@@ -441,10 +454,10 @@
           title: 'SENHORA CARENTE',
           quote: '0118 999 881 999 119 725... 3',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '-' },
-            { label: '⭐', line: '🔺 9–10: +⚠️' },
-            { label: '🏁', line: '+🔋' },
+            { label: '✋', line: '-', nr_lines: 1 },
+            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '⭐', line: '🔺 9–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '+🔋', nr_lines: 2 },
           ],
         },
         D7: {
@@ -452,26 +465,49 @@
           title: 'THE BOSS',
           quote: '',
           rules: [
-            { label: '✋', line: '-' },
-            { label: '📞', line: '🎲 ✅: +⚠️' },
-            { label: '⭐', line: '🔺 4–10: +⚠️' },
-            { label: '🏁', line: '-' },
+            { label: '✋', line: '-', nr_lines: 1 },
+            { label: '📞', line: '🎲 ✅: +⚠️', nr_lines: 2 },
+            { label: '⭐', line: '🔺 4–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '-', nr_lines: 1 },
           ],
         },
         D8: {
           type: CARD_TYPES.USER,
-          title: 'AMIGO TAGARELA',
-          quote: 'E aí, cara, quanto tempo?!',
+          title: 'AMIGA DO FRIENDFACE',
+          quote: 'E aí, o que tem aprontado?!',
           rules: [
             { label: '✋', line: '⏱️1 · 🙂 ✅: +🔋', nr_lines: 2, dense: true },
-            { label: '📞', line: '-' },
-            { label: '⭐', line: '-' },
-            { label: '🏁', line: '−⚠️' },
+            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '⭐', line: '-', nr_lines: 1 },
+            { label: '🏁', line: '+🔋🔋', nr_lines: 2 },
+          ],
+        },
+        D9: {
+          type: CARD_TYPES.USER,
+          title: 'MICHAEL, THE MAGNIFICENT',
+          quote: 'Im not a magician.',
+          rules: [
+            { label: '✋', line: '-', nr_lines: 1 },
+            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '⭐', line: 'Se vazia: coloque 1 item de qualquer inventário nesta carta.', nr_lines: 2, dense: true },
+            { label: '🏁', line: 'Devolva o item; +🔋.', nr_lines: 2, dense: true },
+          ],
+        },
+        D10: {
+          type: CARD_TYPES.USER,
+          title: 'O SPOILER',
+          quote: 'É nesse filme que ele estava morto no final né!',
+          rules: [
+            { label: '✋', line: '-🙂', nr_lines: 2 },
+            { label: '📞', line: '+🫩', nr_lines: 2 },
+            { label: '⭐', line: '🔺 4–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '-🫩', nr_lines: 2, dense: true },
           ],
         },
         E1: {
           type: CARD_TYPES.GENERIC_EVENT,
           title: 'MAIS UM CHAMADO',
+          quote: 'Pode apertar Ctrl + Alt + Del?',
           rules: [
             {
               label: EVENT_ICONS.NOW,
@@ -485,10 +521,11 @@
         E2: {
           type: CARD_TYPES.GENERIC_EVENT,
           title: 'ESPALHAR VÍRUS',
+          quote: 'Não parece importante ou legal, mas precisamos de um firewall...',
           rules: [
             {
               label: EVENT_ICONS.NOW,
-              line: 'Se o servidor estiver 🦠: infecte um PC. Caso contrário: 🎲 ❌: infecte o servidor.',
+              line: 'Se 🗄️ estiver 🦠: infecte um 🖥️. Caso contrário: 🎲 ✅: infecte 🗄️.',
               effect: EVENT_ICONS.DISCARD,
               nr_lines: 5,
               dense: true,
@@ -497,36 +534,38 @@
         },
         E3: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'O SERVIDOR ESTÁ TOSSINDO',
+          title: 'A LUZINHA VERMELHA',
+          quote: 'flash flash flash..... flash',
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Vire o tile do servidor para o lado infectado.', effect: EVENT_ICONS.DISCARD, nr_lines: 3 },
+            { label: EVENT_ICONS.NOW, line: 'Vire o tile de 🗄️ para o lado infectado.', effect: EVENT_ICONS.DISCARD, nr_lines: 3 },
           ],
         },
         E4: {
           type: CARD_TYPES.GENERIC_EVENT,
           title: 'SOLICITAÇÃO URGENTE\nDA DIRETORIA',
+          quote: 'Isso não é um troféu de cabeça de sorvete?',
           rules: [
             { label: EVENT_ICONS.NOW, line: 'Coloque esta carta no fim da iniciativa.', nr_lines: 2 },
             {
               label: EVENT_ICONS.STEP_1,
               line: '1⏱️ 🖥️ 🧠 ✅✅ para preparar o relatório.',
-              nr_lines: 3,
+              nr_lines: 1,
               dense: true,
             },
             {
               label: EVENT_ICONS.STEP_2,
               line: '1⏱️ 🖥️ 🙂 ✅ para enviar o relatório.',
               effect: EVENT_ICONS.DISCARD,
-              nr_lines: 3,
+              nr_lines: 2,
               dense: true,
             },
-            { label: EVENT_ICONS.ONGOING, line: '+⚠️', nr_lines: 2 },
+            { label: EVENT_ICONS.ONGOING, line: '+⚠️', nr_lines: 1 },
           ],
         },
         E5: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'MOSS EXPLICA A SOLUÇÃO',
-          quote: 'O problema era simples. A explicação, não.',
+          title: 'ALMOÇO EM EQUIPE',
+          quote: 'Hajam naturalmente... Mais normal!.. Só relaxem..',
           rules: [
             {
               label: EVENT_ICONS.NOW,
@@ -539,22 +578,23 @@
         },
         E6: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'A SINERGIA DA DIRETORIA',
-          quote: 'Ninguém sabe o que significa, mas todos precisam parecer ocupados.',
+          title: 'GUERRA CONTRA O STRESS!',
+          quote: 'Quem estiver estressado, será demitido!',
           rules: [
             { label: EVENT_ICONS.NOW, line: '+⚠️ e coloque esta carta no fim da iniciativa.\nSe nenhum ☎️ ativo: + ☎️⚡', nr_lines: 3 },
-            { label: EVENT_ICONS.TEST, line: 'Cada jogador: 🎲 🙂\n❌: +🫩 | ✅: −⚠️\n🗑️', nr_lines: 3 },
+            { label: EVENT_ICONS.TEST, line: 'Cada jogador: 🎲 🙂\n❌: +🫩 | ✅: −⚠️;\n🗑️', nr_lines: 3 },
           ],
         },
         E7: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'RELATÓRIO ATRASADO',
+          title: 'RELATÓRIO DO FGTS',
+          quote: '1800 billion billions!',
           rules: [
             { label: EVENT_ICONS.NOW, line: 'Coloque esta carta no fim da iniciativa.', nr_lines: 2 },
             {
               label: EVENT_ICONS.STEP_1,
               line: 'Preparar relatório:\n1⏱️ 🖥️ 🧠 ✅',
-              nr_lines: 3,
+              nr_lines: 2,
             },
             {
               label: EVENT_ICONS.STEP_2,
@@ -562,13 +602,13 @@
               effect: EVENT_ICONS.DISCARD,
               nr_lines: 2,
             },
-            { label: EVENT_ICONS.ONGOING, line: '🎲 ✅: +⚠️', nr_lines: 2 },
+            { label: EVENT_ICONS.ONGOING, line: '🎲 ✅: +⚠️', nr_lines: 1 },
           ],
         },
         E8: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'DOIS ☎️⚡',
-          quote: 'Alô? Alô? ALÔ?!',
+          title: 'AH NÃO!',
+          quote: 'Is it a PC or a Mac?',
           rules: [
             {
               label: EVENT_ICONS.NOW,
@@ -582,7 +622,7 @@
         E9: {
           type: CARD_TYPES.GENERIC_EVENT,
           title: 'REUNIÃO DO MARKETING',
-          quote: 'Precisamos alinhar o alinhamento.',
+          quote: 'Cavalheiros, ergam suas taças.',
           rules: [
             { label: EVENT_ICONS.NOW, line: 'Mantenha esta carta no topo dos Eventos. Avance a iniciativa', nr_lines: 2 },
             { label: EVENT_ICONS.ONGOING, line: '🔺 → 1–6: 🗑️ | 9–10: −⚠️', nr_lines: 2, dense: true },
@@ -590,17 +630,17 @@
         },
         E10: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'DAR SATISFAÇÕES',
-          quote: 'Só queria explicar uma coisa sobre aquele assunto... que não importa mais.',
+          title: 'AJUSTE EXECUTIVO',
+          quote: 'Damn this electric pants!',
           rules: [
             { label: EVENT_ICONS.NOW, line: 'Coloque esta carta no fim da iniciativa.', nr_lines: 2 },
-            { label: EVENT_ICONS.STEP_1, line: '1⏱️ 🖥️ 🙂 ✅. Sucesso: −2⚠️ e 🗑️.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.STEP_1, line: '1⏱️ 🖥️ 🙂+🧠 ✅✅. Sucesso: −2⚠️ e 🗑️.', nr_lines: 3, dense: true },
           ],
         },
         E11: {
           type: CARD_TYPES.GENERIC_EVENT,
-          title: 'A APOSTA DO ENCONTRO',
-          quote: 'Quem consegue um encontro primeiro mandando um e-mail cafajeste?',
+          title: 'A APOSTA',
+          quote: 'Perfil cafageste online. P.S.: No dogs!!',
           rules: [
             { label: EVENT_ICONS.NOW, line: 'Todos rolam 🙂. Mais ✅ vence; empate: só os empatados rolam novamente. Vencedor: +🔋🔋. Remova do jogo.', nr_lines: 5 },
           ],
@@ -608,9 +648,27 @@
         E12: {
           type: CARD_TYPES.GENERIC_EVENT,
           title: 'COUNTDOWN',
-          quote: 'Você foi convidado para participar do programa Countdown.',
+          quote: "Você foi convidado para o Countdown!",
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Todos rolam 🧠. Mais ✅ vence; empate: só os empatados rolam novamente. Vencedor: +🔋🔋. Remova do jogo.', nr_lines: 5 },
+            { label: EVENT_ICONS.NOW, line: 'Todos rolam 🧠. Quem rolar mais ✅ vence; empate: só os empatados rolam novamente. Vencedor: +🔋🔋. Remova do jogo.', nr_lines: 5 },
+          ],
+        },
+        E13: {
+          type: CARD_TYPES.GENERIC_EVENT,
+          title: 'DESLIGOU O FERRO DE SOLDA?',
+          quote: 'Então eu ligo... e VOU EMBORA!',
+          rules: [
+            { label: EVENT_ICONS.NOW, line: '🔺 → 1–6: ☎️⚡, 🗑️ | 7–10: 1🔥 no escritório principal e coloque no fim da iniciativa.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.ONGOING, line: 'Chamar bombeiros: 1⏱️ adj. 🖥️: 🙂 ✅ → 2👨‍🚒 no 🛗 + BOMBEIRO na fila.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando não houver 🔥 no cenário.', nr_lines: 1 },
+          ],
+        },
+        E14: {
+          type: CARD_TYPES.GENERIC_EVENT,
+          title: 'O ACHADO!',
+          quote: 'Olha o que estava no fundo da gaveta!',
+          rules: [
+            { label: EVENT_ICONS.NOW, line: 'Todos rolam 🎲🎲🎲. Mais ✅: 🏆. Empate: ninguém ganha. 🗑️', nr_lines: 4, dense: true },
           ],
         },
         F1: {
@@ -625,7 +683,7 @@
             {
               label: '⚔️',
               line: 'Técnico adjacente:\n🧠 vs 🙂 da Jen. Vitória: 🗑️',
-              nr_lines: 4,
+              nr_lines: 2,
               dense: true,
             },
           ],
@@ -635,12 +693,11 @@
           title: "YESTERDAY'S JAM",
           subtitle: '2 — SINCLAIR ZX81',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua as duas sabotagens antes que Jen chegue ao escritório de gerente.', nr_lines: 2 },
-            { label: '⭐', line: 'Jen: 👣 = 2 + 1🎲, ou remova 💬\nSe faltar sabotagem ao chegar: +1 🙂.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Infecte o PC de Jen antes que ela chegue à cadeira.', nr_lines: 2 },
+            { label: '⭐', line: 'Jen: 👣 = 2 + 1🎲, ou remova 💬\nSe não sabotar PC ao chegar: +1🙂 Jen.', nr_lines: 2, dense: true },
             { label: 'DISTRAIR', line: 'Jen: ⏱️ 🙂 vs 🙂. Vitória: +💬.', nr_lines: 1, dense: true },
-            { label: EVENT_ICONS.STEP_1, line: 'No computador: 1⏱️ 🧠 ✅.', effect: 'vire o tile', nr_lines: 2 },
-            { label: EVENT_ICONS.STEP_1, line: 'No telefone de Jen: 1⏱️.', effect: 'vire o tile', nr_lines: 2 },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando Jen chegar à cadeira. Revele a próxima missão', nr_lines: 2 },
+            { label: EVENT_ICONS.STEP_1, line: 'No computador: 1⏱️ 🧠 ✅✅.', effect: 'vire o tile', nr_lines: 2 },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando Jen chegar à cadeira. Revele a próxima missão.', nr_lines: 2 },
           ],
         },
         F3: {
@@ -648,11 +705,11 @@
           title: "YESTERDAY'S JAM",
           subtitle: '3 — AHAM, AHAM, CLARO...',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Credibilidade: 3.', nr_lines: 2, dense: true },
-            { label: '🦠', line: 'PC de Jen infectado: −1🙂 para a Jen.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.TEST, line: 'Se jogador no escritório de Jen:\n🎲 ✅: Jen tenta usar o telefone:\nSe sabotado: 🗑️. | Se OK: +1🙂 Jen.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Credibilidade: 3.', nr_lines: 1 },
+            { label: '🦠', line: 'PC de Jen infectado: −1🙂 para a Jen.', nr_lines: 1, dense: true },
+            { label: '⭐', line: 'Jen tenta o 1º Chamado da iniciativa, só com 🙂.\n🧠: +⚠️; falha: +⚠️.', nr_lines: 3, dense: true },
             { label: '⚔️', line: 'Confronto direto: técnico a frente da mesa: 🧠 vs 🙂 da Jen.', effect: 'vitória: −1 Credibilidade', nr_lines: 3, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando a incompetência for comprovada ou a Credibilidade chegar a 0. Revele a próxima missão.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando a Credibilidade chegar a 0. Revele a próxima missão.', nr_lines: 2, dense: true },
           ],
         },
         F4: {
@@ -662,9 +719,9 @@
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Esconda todos os fogos antes de Denholm entrar na sala.', nr_lines: 2, dense: true },
             { label: EVENT_ICONS.PREP, line: 'Fogo baixo no armario de baixo; Denholm no elevador; 2 🖥️ no escritório de Jen e 2 🖥️ no escritório principal.', nr_lines: 3, dense: true },
-            { label: '⭐', line: 'Dhenolm: 1 ação · 👣 = 2 + 2🎲 em direção à sala.', nr_lines: 3, dense: true },
-            { label: '🖥️', line: '⏱️1 pega 1🖥️; ⏱️1 solta quantos 🖥️ quiser.\nCada monitor ocupa 1 inventário; limite combinado: 3.', nr_lines: 3, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando Denholm entrar e todos os fogos estiverem escondidos. Revele a próxima missão.', nr_lines: 2, dense: true },
+            { label: '⭐', line: 'Dhenolm: 1 ação · 👣 = 3 + 1🎲 em direção à sala.', nr_lines: 2, dense: true },
+            { label: '🖥️', line: '⏱️1 pega 1🖥️; ⏱️1 solta 1 ou mais 🖥️.\nCada monitor ocupa 1 inventário', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando Denholm entrar e todos os fogos estiverem escondidos. Revele a próxima missão.', nr_lines: 3, dense: true },
           ],
         },
         F5: {
@@ -673,17 +730,18 @@
           subtitle: '5 — ARE YOU STRESSED?',
           rules: [
             { label: EVENT_ICONS.PREP, line: 'Jen na cadeira; Denholm diante da mesa.', nr_lines: 2 },
-            { label: EVENT_ICONS.STEP_1, line: 'Chame os bombeiros: 🖥️ 🙂 ✅ + 🧠 ✅: 2 bombeiros no elevador', nr_lines: 3 },
-            { label: EVENT_ICONS.STEP_2, line: 'Bombeiros devem apagar todos os 🔥.', nr_lines: 2, dense: true },
-            { label: '⭐', line: 'Dhenolm: 2⏱️:\n💬: remova 1\nARE YOU SURE?: 🎲 ✅: +🫩 Jen.\nSe 🫩3+ na Jen, aumente no Boss stress', nr_lines: 4, dense: true },
-            { label: 'DISTRAIR', line: '🙂 ✅✅. Vitória: +💬,\nDerrota: 🫩', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.STEP_1, line: 'Chame os bombeiros: 🖥️ 🙂 ✅ + 🧠 ✅: 2 bombeiros no elevador', nr_lines: 2 },
+            { label: EVENT_ICONS.STEP_2, line: 'Bombeiros devem apagar todos os 🔥.', nr_lines: 1, dense: true },
+            { label: '⭐', line: 'Dhenolm: 2⏱️:\n* 💬: remova 1;\n* ARE YOU SURE?: 🎲 ✅: +🫩 Jen.\nSe 🫩3+ na Jen, aumente no Boss stress', nr_lines: 5, dense: true },
+            { label: '💬', line: 'DISTRAIR: 🙂 ✅✅. Vitória: +💬,\nDerrota: 🫩', nr_lines: 2, dense: true },
             { label: EVENT_ICONS.DISCARD, line: 'Quando não houver fogo no cenário.', nr_lines: 2 },
           ],
         },
         H1: {
           type: CARD_TYPES.CONSUMABLE_ITEM,
           copies: 4,
-          title: 'XÍCARA DE CAFÉ',
+          title: 'CAFÉ',
+          itemImage: '../../assets/illustrations/cards/items/coffee.png',
           rules: [
             { label: 'USAR', line: 'Ação livre:\n+1🧠 +1👣 até o final do turno.\nDescarte.', nr_lines: 3, dense: true },
           ],
@@ -691,6 +749,7 @@
         H2: {
           type: CARD_TYPES.EQUIPMENT_ITEM,
           title: 'SLIGHTLY LARGER GLASSES',
+          itemImage: '../../assets/illustrations/cards/items/slightly-larger-glasses.png',
           rules: [
             { label: 'EQUIPADO', line: '+1🧠', nr_lines: 1 },
           ],
@@ -705,10 +764,11 @@
         },
         H4: {
           type: CARD_TYPES.CONSUMABLE_ITEM,
-          copies: 3,
-          title: 'BARRINHA DE PROTEÍNA',
+          copies: 2,
+          title: 'SMARTIES',
+          itemImage: '../../assets/illustrations/cards/items/smarties.png',
           rules: [
-            { label: 'USAR', line: 'Ação livre: +1⏱️.\nDescarte.', nr_lines: 2, dense: true },
+            { label: 'USAR', line: 'Ação livre: -1🫩.\nDescarte.', nr_lines: 2, dense: true },
           ],
         },
         H5: {
@@ -721,27 +781,116 @@
         },
         H6: {
           type: CARD_TYPES.EQUIPMENT_ITEM,
-          title: 'CAMISETA LADYSPROBLEMS.COM',
+          title: 'CAMISETA LADYSPROBLEMS',
           itemImage: '../../assets/illustrations/cards/items/ladyproblems-shirt.png',
           rules: [
-            { label: 'EQUIPADO', line: '−1🙂\n1×/ativação: remova 🫩 grátis.', nr_lines: 2, dense: true },
+            { label: 'EQUIPADO', line: '−1🙂\n1×/ativação: remova 1🫩.', nr_lines: 2, dense: true },
+          ],
+        },
+        H7: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          title: 'CACHIMBO',
+          itemImage: '../../assets/illustrations/cards/items/moss-pipe.png',
+          rules: [
+            { label: 'EQUIPADO', line: '1x por turno:\nre-role qualquer quantidade de 🎲🙂, inclusive ⛔.', nr_lines: 3, dense: true },
+          ],
+        },
+        H9: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          title: 'CAMISETA RTFM',
+          itemImage: '../../assets/illustrations/cards/items/rtfm-shirt.png',
+          rules: [
+            { label: 'EQUIPADO', line: '+1🙂', nr_lines: 1 },
+          ],
+        },
+        H8: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'RELÓGIO',
+          itemImage: '../../assets/illustrations/cards/items/watch.png',
+          rules: [
+            { label: 'EQUIP', line: '1×/turno: ⏱️1 → topo.', nr_lines: 1, dense: true },
+            { label: 'USAR', line: '−⚠️.', nr_lines: 1, dense: true },
+          ],
+        },
+        H10: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'TARANTINO SOUTH-KOREAN DVD',
+          itemImage: '../../assets/illustrations/cards/items/tarantino-south-korean-dvd.png',
+          rules: [
+            { label: 'USAR', line: '−⚠️.', nr_lines: 1, dense: true },
+          ],
+        },
+        H11: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'TROFÉU BIGGEST SHIT HEAD AWARD',
+          itemImage: '../../assets/illustrations/cards/items/biggest-shit-head-trophy.png',
+          rules: [
+            { label: 'USAR', line: 'Conclua 1 Chamado.', nr_lines: 1, dense: true },
+          ],
+        },
+        H12: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'TEAPOT DO COUNTDOWN',
+          itemImage: '../../assets/illustrations/cards/items/teapot-countdown.png',
+          rules: [
+            { label: 'USAR', line: '−⚠️ ou conclua 1 Chamado.', nr_lines: 2, dense: true },
+          ],
+        },
+        H13: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'CALENDÁRIO NERDY',
+          itemImage: '../../assets/illustrations/cards/items/nerdy-calendar.png',
+          rules: [
+            { label: 'USAR', line: '−⚠️ ou conclua 1 Chamado.', nr_lines: 2, dense: true },
+          ],
+        },
+        H14: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'THE INTERNET',
+          itemImage: '../../assets/illustrations/cards/items/the-internet.png',
+          rules: [
+            { label: 'USAR', line: '−⚠️ ou conclua 1 Chamado.', nr_lines: 2, dense: true },
+          ],
+        },
+        H15: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'CARTÃO DO CLUBE 8+',
+          itemImage: '../../assets/illustrations/cards/items/countdown-8-plus-card.png',
+          rules: [
+            { label: 'USAR', line: '−⚠️ ou conclua 1 Chamado.', nr_lines: 2, dense: true },
+          ],
+        },
+        H16: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          collectionOnly: true,
+          title: 'JEN 2',
+          itemImage: '../../assets/illustrations/cards/items/jen-2.png',
+          rules: [
+            { label: 'POSSE', line: 'Chamados que exigem apenas 🙂✅ ou 1⏱️ são resolvidos automaticamente.', nr_lines: 3, dense: true },
           ],
         },
         I1: {
           type: CARD_TYPES.MISSION_EVENT,
           title: 'TELEFONE MALDITO!',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua os 3 chamados iniciais.', nr_lines: 2 },
-            { label: EVENT_ICONS.PREP, line: '+ ☎️⚡ nos 3 telefones.', nr_lines: 2 },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando não houver telefones, usuários ou pendências.', nr_lines: 2 },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua todos os chamados e telefones.', nr_lines: 2 },
+            { label: EVENT_ICONS.PREP, line: '+ ☎️⚡ em todos os telefones.', nr_lines: 2 },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando não houver telefones e pendências.', nr_lines: 2 },
           ],
         },
         I2: {
           type: CARD_TYPES.MISSION_EVENT,
           title: 'FIREWALL',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Deixe os 3 computadores e o servidor funcionais.', nr_lines: 2 },
-            { label: EVENT_ICONS.PREP, line: 'Comece com os 4 tiles infectados.', nr_lines: 2 },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Deixe os 3 🖥️ e o 🗄️ funcionais.', nr_lines: 2 },
+            { label: EVENT_ICONS.PREP, line: 'Comece com os 4 🖥️ infectados (🦠).', nr_lines: 2 },
             { label: EVENT_ICONS.DISCARD, line: 'Quando os 4 tiles estiverem funcionais.', nr_lines: 2 },
           ],
         },
@@ -749,8 +898,8 @@
           type: CARD_TYPES.MISSION_EVENT,
           title: 'ESQUECI DO CLIENTE',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua 2 chamados e envie o relatório.', nr_lines: 2 },
-            { label: EVENT_ICONS.PREP, line: 'Coloque 2 ☎️ + 👤 no fim da iniciativa.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua todos os chamados e envie o relatório.', nr_lines: 2 },
+            { label: EVENT_ICONS.PREP, line: 'Coloque 2(☎️ + 👤) no fim da iniciativa e a carta de evento "SOLICITAÇÃO URGENTE DA DIRETORIA".', nr_lines: 2, dense: true },
             { label: EVENT_ICONS.DISCARD, line: 'Quando os 2 chamados e o relatório forem concluídos.', nr_lines: 2 },
           ],
         },
@@ -758,14 +907,24 @@
           type: CARD_TYPES.MISSION_EVENT,
           title: 'FIM DO EXPEDIENTE',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Complete 6 rodadas sem o Stress chegar a 8.', nr_lines: 2 },
-            { label: EVENT_ICONS.PREP, line: 'Preparação: --', nr_lines: 2 },
-            { label: EVENT_ICONS.DISCARD, line: 'Após 6 rodadas. Derrota: Stress chegar a 8.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Sobreviva 6 rodadas.', nr_lines: 2 },
+            { label: EVENT_ICONS.PREP, line: 'Preparação: Comece com o stress em 8.', nr_lines: 2 },
+            { label: EVENT_ICONS.DISCARD, line: 'Após 6 rodadas sem estourar o stress.', nr_lines: 2, dense: true },
+          ],
+        },
+        I5: {
+          type: CARD_TYPES.MISSION_EVENT,
+          title: 'QUEM TEM MAIS ITENS RAROS?',
+          quote: 'Meu DVD é mais raro!',
+          rules: [
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Primeiro jogador com 3🏆 vence.', nr_lines: 1, dense: true },
+            { label: '🏆', line: '1⏱️ + 🔋🔋 + 🧠🙂 ✅✅✅: pegue 1🏆 do topo.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando alguém tiver 3🏆.', nr_lines: 1, dense: true },
           ],
         },
         G1: {
           type: CARD_TYPES.REVERSIBLE_TILE,
-          copies: 3,
+          copies: 4,
           compact: true,
           front: { icon: '🖥️', tone: 'functional' },
           back: { icon: '🦠', tone: 'infected' },
@@ -777,7 +936,7 @@
         },
         G3: {
           type: CARD_TYPES.REVERSIBLE_TILE,
-          copies: 3,
+          copies: 4,
           compact: true,
           front: { icon: '⚡︎\n☎️', tone: 'connected' },
           back: { icon: '📞', tone: 'disconnected' },
@@ -836,7 +995,7 @@
         T12: {
           type: CARD_TYPES.TOKEN,
           kind: 'morale',
-          copies: 6,
+          copies: 15,
           front: { icon: '🔋', tone: 'morale' },
         },
         P2: {

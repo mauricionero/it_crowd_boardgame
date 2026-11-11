@@ -4,6 +4,9 @@
 The browser remains the source of truth for layout. This script only creates a
 small one-card HTML wrapper and asks Chrome to render it headlessly, so the
 same CSS and card-data.js used by the templates are used for the exported PNGs.
+
+Pass a code directly to force one card, for example:
+    python3 scripts/export_card_images.py E11
 """
 
 from __future__ import annotations
@@ -57,6 +60,12 @@ RESOLUTION_SETTINGS = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
+        "card_code",
+        nargs="?",
+        metavar="CÓDIGO",
+        help="Render only one card, for example: E11."
+    )
+    parser.add_argument(
         "--mode",
         choices=("full", "no-art", "draft"),
         default="full",
@@ -93,9 +102,15 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def choose_regeneration_mode(requested_mode: str | None) -> str:
+def choose_regeneration_mode(
+    requested_mode: str | None,
+    has_requested_codes: bool
+) -> str:
     if requested_mode:
         return requested_mode
+
+    if has_requested_codes:
+        return "all"
 
     if not sys.stdin.isatty():
         print("Entrada interativa indisponível; regenerando todas as imagens.")
@@ -104,14 +119,25 @@ def choose_regeneration_mode(requested_mode: str | None) -> str:
     print("Como deseja exportar as imagens?")
     print("  1. Regenerar todas")
     print("  2. Gerar apenas as que estão faltando ou desatualizadas")
+    print("  3. Regenerar uma carta específica")
 
     while True:
-        answer = input("Escolha [1/2]: ").strip().lower()
+        answer = input("Escolha [1/2/3]: ").strip().lower()
         if answer in {"1", "a", "t", "todas"}:
             return "all"
         if answer in {"2", "f", "faltantes", "faltando"}:
             return "missing"
-        print("Opção inválida. Digite 1 para todas ou 2 para as faltantes.")
+        if answer in {"3", "c", "carta", "código", "codigo"}:
+            return "single"
+        print("Opção inválida. Digite 1, 2 ou 3.")
+
+
+def prompt_card_code() -> str:
+    while True:
+        code = input("Código da carta (ex.: E11): ").strip().upper()
+        if code:
+            return code
+        print("Informe um código de carta.")
 
 
 def read_card_sources() -> dict[str, str]:
@@ -289,6 +315,7 @@ def render_card(
         "--disable-gpu",
         "--hide-scrollbars",
         "--allow-file-access-from-files",
+        "--default-background-color=00000000",
         f"--force-device-scale-factor={scale}",
         f"--window-size={width},{height}",
         "--virtual-time-budget=1500",
@@ -303,16 +330,30 @@ def render_card(
 
 def main() -> int:
     args = parse_args()
-    regeneration_mode = choose_regeneration_mode(args.regenerate)
-    chrome = find_chrome(args.chrome)
+    requested_codes = list(args.codes or [])
+    if args.card_code:
+        requested_codes.append(args.card_code)
+
+    regeneration_mode = choose_regeneration_mode(args.regenerate, bool(requested_codes))
+    if regeneration_mode == "single":
+        requested_codes.append(prompt_card_code())
+        regeneration_mode = "all"
+
     card_types = read_card_types()
     card_sources = read_card_sources()
-    codes = args.codes or sorted(card_types)
+    codes = list(
+        dict.fromkeys(
+            code.strip().upper()
+            for code in requested_codes
+            if code.strip()
+        )
+    ) or sorted(card_types)
     unknown_codes = sorted(set(codes) - set(card_types))
 
     if unknown_codes:
         raise RuntimeError(f"Código(s) desconhecido(s): {', '.join(unknown_codes)}")
 
+    chrome = find_chrome(args.chrome)
     resolutions = tuple(RESOLUTION_SETTINGS) if args.resolution == "both" else (args.resolution,)
     manifest_path = args.output_dir / EXPORT_MANIFEST_NAME
     manifest = load_export_manifest(manifest_path)

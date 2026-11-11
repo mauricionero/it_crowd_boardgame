@@ -34,7 +34,7 @@ from scripts.export_card_images import (
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "tts-export"
-BOARD_SOURCE = PROJECT_ROOT / "assets/boards/base/board-complete-18x12-v11.png"
+BOARD_SOURCE = PROJECT_ROOT / "assets/boards/base/board-complete-18x12-v12.png"
 
 DEFAULT_COLUMNS = 10
 DEFAULT_DPI = 150

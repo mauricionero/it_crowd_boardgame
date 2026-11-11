@@ -107,7 +107,7 @@ O custo de ação não aparece no modelo: cada linha de resolução custa uma a�
 
 ## Dados e artes
 
-O objeto `cards` em `card-data.js` é a fonte compartilhada dos dados renderizados. Para criar outra carta, adicione uma nova entrada com seu código, por exemplo `C2`. As entradas `G1`–`G7` geram tiles quadrados, `T1`–`T12` geram tokens ou marcadores auxiliares e `P2`–`P7` geram peões de personagens e bombeiros. O `call-model.html` importa `card-data.js` e `card-renderer.js`; o futuro tabuleiro jogável poderá importar os mesmos dois arquivos para criar cartas arrastáveis sem duplicar o conteúdo.
+O objeto `cards` em `card-data.js` é a fonte canônica dos dados das cartas e peças renderizados. Textos, rótulos, efeitos, códigos, quantidades e metadados devem ser alterados aqui; não mantenha uma cópia desses dados no manual. Para criar outra carta, adicione uma nova entrada com seu código, por exemplo `C2`. As entradas `G1`–`G7` geram tiles quadrados, `T1`–`T12` geram tokens ou marcadores auxiliares e `P2`–`P7` geram peões de personagens e bombeiros. O `call-model.html` importa `card-data.js` e `card-renderer.js`; o tabuleiro jogável importa os mesmos arquivos para criar cartas arrastáveis sem duplicar o conteúdo.
 
 `../../assets/illustrations/cards/calls/<codigo-em-minúsculas>.png`
 

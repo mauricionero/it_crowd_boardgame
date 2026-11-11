@@ -39,7 +39,7 @@
           <div class="playtest-board">
             <img
               class="playtest-board__image"
-              src="../../assets/boards/base/board-complete-18x12-v11.png"
+              src="../../assets/boards/base/board-complete-18x12-v12.png"
               alt="Tabuleiro principal"
             >
             <div class="playtest-station-tile playtest-station-tile--kitchen" data-kitchen-tile aria-label="Tile da estação da Cozinha"></div>
@@ -61,9 +61,9 @@
         </section>
       </aside>
 
-      <section class="playtest-priority-row" aria-label="Fila de prioridade">
-        <h2>Fila de prioridade</h2>
-        <div class="playtest-priority-queue" data-priority-queue aria-label="Cartas na fila de prioridade">
+      <section class="playtest-priority-row" aria-label="Fila de iniciativa">
+        <h2>Fila de iniciativa</h2>
+        <div class="playtest-priority-queue" data-priority-queue aria-label="Cartas na fila de iniciativa">
           <span class="playtest-priority-star" data-piece-id="priority-star" aria-label="Estrela sobre a carta de Rotina">⭐</span>
         </div>
       </section>
@@ -114,6 +114,16 @@
         { face: '✅', label: 'sucesso bloqueado', blocked: true },
       ];
       const POSITION_STORAGE_KEY = 'it-crowd-playtest-positions-v1';
+      const PRIORITY_LAYOUT_VERSION = 2;
+      const PRIORITY_INITIAL_POSITIONS = [
+        ['priority-star', -0.028, 1.135],
+        ['priority-A1', -0.063, 1.179],
+        ['deck-event-generic', 0.037, 1.179],
+        ['initiative-B1', 0.147, 1.182],
+        ['initiative-B2', 0.242, 1.182],
+        ['initiative-B6', 0.337, 1.182],
+        ['deck-event-mission', 0.439, 1.182],
+      ];
       const storedState = readStoredState();
       const storedPositions = storedState.positions;
       const storedDecks = storedState.decks;
@@ -123,6 +133,7 @@
       const storedDieTypes = storedState.dieTypes;
       const storedRemovedDice = storedState.removedDice;
       const storedRemovedPieces = storedState.removedPieces;
+      let storedPriorityLayoutVersion = storedState.priorityLayoutVersion;
       let revealedCardSequence = storedRevealedCards.reduce((highestSequence, record) => {
         const match = String(record.pieceId || '').match(/-(\d+)$/);
         const sequence = match ? Number(match[1]) : 0;
@@ -161,11 +172,12 @@
               dieTypes: parsed.dieTypes || {},
               removedDice: parsed.removedDice || [],
               removedPieces: parsed.removedPieces || [],
+              priorityLayoutVersion: parsed.priorityLayoutVersion || 0,
             };
           }
-          return { positions: parsed, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [] };
+          return { positions: parsed, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0 };
         } catch (error) {
-          return { positions: {}, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [] };
+          return { positions: {}, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0 };
         }
       }
 
@@ -180,6 +192,7 @@
             dieTypes: storedDieTypes,
             removedDice: storedRemovedDice,
             removedPieces: storedRemovedPieces,
+            priorityLayoutVersion: storedPriorityLayoutVersion,
           }));
         } catch (error) {
           // A sessão de playtest continua funcionando mesmo se o armazenamento estiver indisponível.
@@ -188,6 +201,52 @@
 
       function getPieceId(element) {
         return element.dataset.pieceId || element.closest('[data-piece-id]')?.dataset.pieceId;
+      }
+
+      function isPriorityPieceId(pieceId) {
+        return pieceId === 'priority-star'
+          || pieceId === 'priority-A1'
+          || pieceId.startsWith('initiative-')
+          || pieceId.startsWith('deck-event-');
+      }
+
+      function getBoardRelativePosition(left, top) {
+        const board = document.querySelector('.playtest-board');
+        if (!board) return null;
+        const boardRect = board.getBoundingClientRect();
+        if (!boardRect.width || !boardRect.height) return null;
+
+        return {
+          boardX: (left - (boardRect.left + window.scrollX)) / boardRect.width,
+          boardY: (top - (boardRect.top + window.scrollY)) / boardRect.height,
+        };
+      }
+
+      function buildStoredPosition(element, left, top, zIndex) {
+        const pieceId = getPieceId(element);
+        const position = {
+          ...storedPositions[pieceId],
+          left,
+          top,
+          z: Number.isFinite(zIndex) ? zIndex : 1000,
+        };
+        if (pieceId && isPriorityPieceId(pieceId)) {
+          const boardPosition = getBoardRelativePosition(left, top);
+          if (boardPosition) Object.assign(position, boardPosition);
+        }
+        return position;
+      }
+
+      function resetPriorityLayoutIfNeeded() {
+        if (storedPriorityLayoutVersion === PRIORITY_LAYOUT_VERSION) return;
+
+        PRIORITY_INITIAL_POSITIONS.forEach(([pieceId]) => {
+          delete storedPositions[pieceId];
+          const removedIndex = storedRemovedPieces.indexOf(pieceId);
+          if (removedIndex >= 0) storedRemovedPieces.splice(removedIndex, 1);
+        });
+        storedPriorityLayoutVersion = PRIORITY_LAYOUT_VERSION;
+        saveStoredState();
       }
 
       function savePieceFace(element, property, value) {
@@ -206,12 +265,7 @@
         const top = Number.parseFloat(element.style.top);
         if (!pieceId || !Number.isFinite(left) || !Number.isFinite(top)) return;
         const zIndex = Number.parseInt(element.style.zIndex, 10);
-        storedPositions[pieceId] = {
-          ...storedPositions[pieceId],
-          left,
-          top,
-          z: Number.isFinite(zIndex) ? zIndex : 1000,
-        };
+        storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex);
         const revealedCard = storedRevealedCards.find((card) => card.pieceId === pieceId);
         if (revealedCard) {
           revealedCard.left = left;
@@ -271,11 +325,27 @@
 
       function restoreStoredPositions() {
         document.querySelectorAll('[data-piece-id]').forEach((element) => {
-          const position = storedPositions[element.dataset.pieceId];
+          const pieceId = element.dataset.pieceId;
+          const position = storedPositions[pieceId];
           if (!position) return;
           const zIndex = Number.isFinite(position.z) ? position.z : 1000;
           topLayerIndex = Math.max(topLayerIndex, zIndex);
-          moveElementToDocumentPosition(element, position.left, position.top, zIndex);
+          let left = position.left;
+          let top = position.top;
+          if (isPriorityPieceId(pieceId)
+            && Number.isFinite(position.boardX)
+            && Number.isFinite(position.boardY)) {
+            const board = document.querySelector('.playtest-board');
+            if (board) {
+              const boardRect = board.getBoundingClientRect();
+              left = boardRect.left + window.scrollX + boardRect.width * position.boardX;
+              top = boardRect.top + window.scrollY + boardRect.height * position.boardY;
+            }
+          }
+          moveElementToDocumentPosition(element, left, top, zIndex);
+          if (isPriorityPieceId(pieceId)) {
+            document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
+          }
         });
       }
 
@@ -315,6 +385,7 @@
         { label: 'Usuários', type: CARD_TYPES.USER, preview: 'D1' },
         { label: 'Eventos', type: CARD_TYPES.GENERIC_EVENT, preview: 'E1' },
         { label: 'Missões', type: CARD_TYPES.MISSION_EVENT, preview: 'I1' },
+        { label: '🏆 Colecionáveis', type: CARD_TYPES.EQUIPMENT_ITEM, preview: 'H10', deckId: 'collection', filter: (card) => card.collectionOnly },
       ];
 
       function shuffle(entries) {
@@ -447,10 +518,10 @@
         const deck = document.createElement('article');
         deck.className = `playtest-deck${cards[definition.preview].type.small ? ' playtest-deck--small' : ''}`;
         deck.setAttribute('aria-label', definition.label);
-        const deckId = `deck-${definition.type.id}`;
+        const deckId = definition.deckId || `deck-${definition.type.id}`;
         deck.dataset.pieceId = deckId;
         const entries = Object.entries(cards)
-          .filter(([, card]) => card.type === definition.type)
+          .filter(([, card]) => card.type === definition.type && (!definition.filter || definition.filter(card)))
           .flatMap(([code, card]) => Array.from({ length: card.copies || 1 }, () => [code, card]));
         const savedCodes = storedDecks[deckId];
         const deckEntries = Array.isArray(savedCodes)
@@ -525,7 +596,7 @@
         });
 
       Object.entries(cards)
-        .filter(([, card]) => card.type === CARD_TYPES.EQUIPMENT_ITEM)
+        .filter(([, card]) => card.type === CARD_TYPES.EQUIPMENT_ITEM && !card.collectionOnly)
         .forEach(([code, card]) => {
           const itemShell = document.createElement('div');
           itemShell.className = 'playtest-item-choice-shell';
@@ -942,7 +1013,31 @@
 
         moveElementToDocumentPosition(element, left, top, zIndex);
         document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
-        storedPositions[pieceId] = { left, top, z: zIndex };
+        storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex);
+      }
+
+      function applyInitialPrioritySetup() {
+        const board = document.querySelector('.playtest-board');
+        if (!board) return;
+
+        const boardRect = board.getBoundingClientRect();
+        const boardLeft = boardRect.left + window.scrollX;
+        const boardTop = boardRect.top + window.scrollY;
+        let zIndex = 2250;
+
+        PRIORITY_INITIAL_POSITIONS.forEach(([pieceId, x, y]) => {
+          if (storedPositions[pieceId]) return;
+          const element = document.querySelector(`[data-piece-id="${pieceId}"]`);
+          saveInitialPiecePosition(
+            element,
+            boardLeft + boardRect.width * x,
+            boardTop + boardRect.height * y,
+            zIndex
+          );
+          zIndex += 1;
+        });
+
+        saveStoredState();
       }
 
       function applyInitialBoardSetup() {
@@ -986,14 +1081,6 @@
           place(`item-${code}`, 0.30 + index * 0.09, 0.98);
         });
 
-        // A fila começa com o baralho de Eventos, os três personagens jogáveis
-        // e o baralho de Missões, todos alinhados pela borda superior.
-        place('deck-event-generic', 0.039, 1.182);
-        place('initiative-B1', 0.147, 1.182);
-        place('initiative-B2', 0.242, 1.182);
-        place('initiative-B6', 0.337, 1.182);
-        place('deck-event-mission', 0.439, 1.182);
-
         // O armário fica na faixa inferior do mapa, e os personagens começam em cena.
         place('station-cabinet', 0.453, 0.866);
         place('station-kitchen', 0.170, 0.226);
@@ -1001,19 +1088,21 @@
         place('pawn-P2', 0.315, 0.640); // Roy
         place('pawn-P3', 0.456, 0.315); // Moss
         place('pawn-P4', 0.842, 0.396); // Jen
+        place('pawn-P7', 0.128, 0.717); // Richmond
 
         place('token-T6-1', 0.693, 0.874);
         place('token-T6-2', 0.702, 0.876);
         place('token-T6-3', 0.840, 0.560);
         place('token-T6-4', 0.849, 0.555);
 
-        place('tile-G7-1', 0.788, 0.226);
         place('tile-G2-1', 0.167, 0.472);
 
+        place('tile-G1-4', 0.121, 0.786);
         place('tile-G1-3', 0.355, 0.626);
         place('tile-G1-2', 0.452, 0.387);
         place('tile-G1-1', 0.810, 0.384);
 
+        place('kitchen-item-H5-1', 0.024, 0.005);
         place('kitchen-item-H1-4', 0.026, 0.181);
         place('kitchen-item-H1-3', 0.028, 0.184);
         place('kitchen-item-H1-2', 0.030, 0.187);
@@ -1109,6 +1198,54 @@
       let altPressed = false;
       let altPreviewTarget = null;
       let altPreviewElement = null;
+      const DRAG_START_DISTANCE_PX = 1;
+      let pieceContextMenu = null;
+
+      function hidePieceContextMenu() {
+        pieceContextMenu?.remove();
+        pieceContextMenu = null;
+      }
+
+      function sendPieceToBack(element) {
+        const pieceElements = [...document.querySelectorAll('[data-piece-id]')]
+          .filter((piece) => !piece.closest('.playtest-alt-preview'));
+        const zIndexes = pieceElements
+          .map((piece) => Number.parseInt(piece.style.zIndex, 10))
+          .filter(Number.isFinite);
+        const lowestZIndex = zIndexes.length ? Math.min(...zIndexes) : 1000;
+        element.style.zIndex = String(Math.max(1, lowestZIndex - 1));
+        savePiecePosition(element);
+        hidePieceContextMenu();
+      }
+
+      function showPieceContextMenu(element, clientX, clientY) {
+        hidePieceContextMenu();
+
+        const menu = document.createElement('div');
+        menu.className = 'playtest-piece-context-menu';
+        menu.dataset.pieceContextMenu = '';
+
+        const sendToBackButton = document.createElement('button');
+        sendToBackButton.type = 'button';
+        sendToBackButton.className = 'playtest-piece-context-menu__button';
+        sendToBackButton.innerHTML = '<span class="playtest-piece-context-menu__icon" aria-hidden="true">↙</span><span>Enviar para trás</span>';
+        sendToBackButton.addEventListener('click', () => sendPieceToBack(element));
+        menu.append(sendToBackButton);
+        document.body.append(menu);
+
+        const menuRect = menu.getBoundingClientRect();
+        menu.style.left = `${Math.min(clientX, window.innerWidth - menuRect.width - 8)}px`;
+        menu.style.top = `${Math.min(clientY, window.innerHeight - menuRect.height - 8)}px`;
+        pieceContextMenu = menu;
+        sendToBackButton.focus();
+      }
+
+      document.addEventListener('pointerdown', (event) => {
+        if (!event.target.closest('[data-piece-context-menu]')) hidePieceContextMenu();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') hidePieceContextMenu();
+      });
 
       function hideAltPreview() {
         altPreviewElement?.remove();
@@ -1184,7 +1321,7 @@
           };
 
           const move = (moveEvent) => {
-            if (Math.hypot(moveEvent.pageX - event.pageX, moveEvent.pageY - event.pageY) <= 4) return;
+            if (Math.hypot(moveEvent.pageX - event.pageX, moveEvent.pageY - event.pageY) < DRAG_START_DISTANCE_PX) return;
             moved = true;
             if (!dragStarted) startDrag();
             element.style.left = `${startLeft + moveEvent.pageX - event.pageX}px`;
@@ -1230,6 +1367,11 @@
           window.addEventListener('pointercancel', finish, { once: true });
           window.addEventListener('mouseup', finish, { once: true });
           window.addEventListener('blur', cancel, { once: true });
+        });
+
+        element.addEventListener('contextmenu', (event) => {
+          event.preventDefault();
+          showPieceContextMenu(element, event.clientX, event.clientY);
         });
       }
 
@@ -1302,8 +1444,10 @@
         saveStoredState();
       });
 
+      resetPriorityLayoutIfNeeded();
       removeStoredPieces();
       applyInitialBoardSetup();
+      applyInitialPrioritySetup();
       restoreStoredPositions();
       restoreRevealedCards();
       restoreManualPieces();

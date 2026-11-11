@@ -31,8 +31,23 @@
           Qualidade full
         </label>
       </fieldset>
+      <fieldset class="export-panel__layout">
+        <legend>Layout</legend>
+        <label>
+          <input type="checkbox" data-export-tight>
+          Colar cartas borda com borda
+        </label>
+      </fieldset>
       <button type="button" data-export-pdf>Exportar PDF</button>
     </section>
+    <aside class="export-type-filter" data-export-type-filter aria-label="Tipos de cartas incluídos no PDF">
+      <strong>Itens incluídos</strong>
+      <span>Marque os tipos que deseja exportar.</span>
+      <strong>Cartas</strong>
+      <div data-export-type-options></div>
+      <strong>Componentes</strong>
+      <div data-export-component-options></div>
+    </aside>
     <main class="card-list" data-card-list aria-label="Modelos de cartas"></main>
 
     <script src="card-data.js"></script>
@@ -49,41 +64,147 @@
       const boards = Object.freeze({
         MAIN: Object.freeze({
           title: 'Tabuleiro principal',
-          image: '../../assets/boards/base/board-complete-18x12-v11.png',
+          image: '../../assets/boards/base/board-complete-18x12-v12.png',
         }),
       });
       const cardList = document.querySelector('[data-card-list]');
-      const cardEntries = Object.entries(cards).filter(([, card]) => (
-        card.type !== CARD_TYPES.REVERSIBLE_TILE &&
-        card.type !== CARD_TYPES.TOKEN &&
-        card.type !== CARD_TYPES.PAWN &&
-        card.type !== CARD_TYPES.PLAYER_CHARACTER
-      ));
+      const allCardEntries = Object.entries(cards)
+        .filter(([, card]) => (
+          card.type !== CARD_TYPES.REVERSIBLE_TILE &&
+          card.type !== CARD_TYPES.TOKEN &&
+          card.type !== CARD_TYPES.PAWN &&
+          card.type !== CARD_TYPES.PLAYER_CHARACTER
+        ))
+        .flatMap(([code, card]) => Array.from({ length: card.copies || 1 }, () => [code, card]));
       const characterEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.PLAYER_CHARACTER);
       const tileEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.REVERSIBLE_TILE);
       const tokenEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.TOKEN);
       const pawnEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.PAWN);
       const cardsPerSheet = 9;
+      const smallCardsPerSheet = 16;
 
-      for (let index = 0; index < cardEntries.length; index += cardsPerSheet) {
-        const sheet = document.createElement('section');
-        sheet.className = 'a4-sheet';
-        sheet.setAttribute('aria-label', `Folha A4 ${Math.floor(index / cardsPerSheet) + 1}`);
+      const cardTypeFilterDefinitions = [
+        { id: 'calls', label: 'Chamados', fileName: 'chamados', types: [CARD_TYPES.CALL] },
+        { id: 'users', label: 'Usuários', fileName: 'usuarios', types: [CARD_TYPES.USER] },
+        { id: 'generic-events', label: 'Eventos genéricos', fileName: 'eventos-genericos', types: [CARD_TYPES.GENERIC_EVENT] },
+        { id: 'missions', label: 'Missões', fileName: 'missoes', types: [CARD_TYPES.MISSION_EVENT] },
+        { id: 'initiative', label: 'Iniciativa e rotina', fileName: 'iniciativa-rotina', types: [CARD_TYPES.INITIATIVE, CARD_TYPES.PLAYER_INITIATIVE, CARD_TYPES.ROUTINE] },
+        { id: 'items', label: 'Itens', fileName: 'itens', types: [CARD_TYPES.CONSUMABLE_ITEM, CARD_TYPES.EQUIPMENT_ITEM] },
+        { id: 'references', label: 'Ações, Ânimo e referências', fileName: 'acoes-animo-referencias', types: [CARD_TYPES.REFERENCE, CARD_TYPES.ACTIONS, CARD_TYPES.MORALE] },
+        { id: 'characters', label: 'Personagens jogáveis', fileName: 'personagens', types: [CARD_TYPES.PLAYER_CHARACTER] },
+      ];
+      const selectedCardTypeFilters = new Set(cardTypeFilterDefinitions.map(({ id }) => id));
+      const componentFilterDefinitions = [
+        { id: 'tiles', label: 'Tiles G + régua de Stress', fileName: 'tiles' },
+        { id: 'tokens', label: 'Tokens', fileName: 'tokens' },
+        { id: 'pawns', label: 'Peões', fileName: 'peoes' },
+        { id: 'board', label: 'Tabuleiro', fileName: 'tabuleiro' },
+      ];
+      const selectedComponentFilters = new Set(componentFilterDefinitions.map(({ id }) => id));
+      const typeOptions = document.querySelector('[data-export-type-options]');
+      const componentOptions = document.querySelector('[data-export-component-options]');
 
-        cardEntries.slice(index, index + cardsPerSheet).forEach(([code, card]) => {
-          sheet.append(createCard(code, card));
+      function renderCardSheets() {
+        cardList.querySelectorAll('.a4-sheet, .character-sheet').forEach((sheet) => sheet.remove());
+
+        const filteredCardEntries = allCardEntries.filter(([, card]) => cardTypeFilterDefinitions.some((definition) => (
+          selectedCardTypeFilters.has(definition.id) && definition.types.includes(card.type)
+        )));
+        const firstFixedSheet = cardList.firstElementChild;
+
+        const cardGroups = [
+          { entries: filteredCardEntries.filter(([, card]) => !card.type.small), className: 'a4-sheet', perSheet: cardsPerSheet },
+          { entries: filteredCardEntries.filter(([, card]) => card.type.small), className: 'a4-sheet a4-sheet--small-cards', perSheet: smallCardsPerSheet },
+        ];
+
+        cardGroups.forEach(({ entries, className, perSheet }) => {
+          for (let index = 0; index < entries.length; index += perSheet) {
+            const sheet = document.createElement('section');
+            sheet.className = className;
+            sheet.setAttribute('aria-label', `Folha A4 ${Math.floor(index / perSheet) + 1}`);
+            sheet.dataset.cardSheet = '';
+
+            entries.slice(index, index + perSheet).forEach(([code, card]) => {
+              sheet.append(createCard(code, card));
+            });
+
+            cardList.insertBefore(sheet, firstFixedSheet);
+          }
         });
 
-        cardList.append(sheet);
+        if (selectedCardTypeFilters.has('characters') && characterEntries.length) {
+          const sheet = document.createElement('section');
+          sheet.className = 'character-sheet';
+          sheet.setAttribute('aria-label', 'Folha A4 de personagens jogáveis');
+          sheet.dataset.characterSheet = '';
+          characterEntries.forEach(([code, card]) => sheet.append(createPlayerCharacterCard(code, card)));
+          cardList.insertBefore(sheet, cardList.querySelector('[data-card-sheet]') || cardList.firstChild);
+        }
       }
 
-      if (characterEntries.length) {
-        const sheet = document.createElement('section');
-        sheet.className = 'character-sheet';
-        sheet.setAttribute('aria-label', 'Folha A4 de personagens jogáveis');
-        characterEntries.forEach(([code, card]) => sheet.append(createPlayerCharacterCard(code, card)));
-        cardList.append(sheet);
+      function getExportFileSuffix() {
+        const allCardsSelected = selectedCardTypeFilters.size === cardTypeFilterDefinitions.length;
+        const allComponentsSelected = selectedComponentFilters.size === componentFilterDefinitions.length;
+        if (allCardsSelected && allComponentsSelected) return 'all';
+
+        const selectedNames = cardTypeFilterDefinitions
+          .filter(({ id }) => selectedCardTypeFilters.has(id))
+          .map(({ fileName }) => fileName);
+        selectedNames.push(...componentFilterDefinitions
+          .filter(({ id }) => selectedComponentFilters.has(id))
+          .map(({ fileName }) => fileName));
+
+        return selectedNames.join('-') || 'none';
       }
+
+      function applyComponentFilters() {
+        document.querySelectorAll('[data-export-component]').forEach((element) => {
+          const isVisible = selectedComponentFilters.has(element.dataset.exportComponent);
+          element.hidden = !isVisible;
+          element.classList.toggle('export-component-hidden', !isVisible);
+        });
+
+        document.querySelectorAll('.token-sheet').forEach((sheet) => {
+          const hasVisibleComponent = Array.from(sheet.querySelectorAll('[data-export-component]'))
+            .some((element) => !element.hidden);
+          sheet.hidden = !hasVisibleComponent;
+          sheet.classList.toggle('export-component-hidden', !hasVisibleComponent);
+        });
+      }
+
+      cardTypeFilterDefinitions.forEach(({ id, label }) => {
+        const optionLabel = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = true;
+        input.dataset.exportType = id;
+        input.addEventListener('change', () => {
+          if (input.checked) selectedCardTypeFilters.add(id);
+          else selectedCardTypeFilters.delete(id);
+          renderCardSheets();
+          rememberExportSources();
+          applyExportMode(currentExportMode);
+        });
+        optionLabel.append(input, document.createTextNode(label));
+        typeOptions.append(optionLabel);
+      });
+
+      componentFilterDefinitions.forEach(({ id, label }) => {
+        const optionLabel = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = true;
+        input.dataset.exportComponentFilter = id;
+        input.addEventListener('change', () => {
+          if (input.checked) selectedComponentFilters.add(id);
+          else selectedComponentFilters.delete(id);
+          applyComponentFilters();
+        });
+        optionLabel.append(input, document.createTextNode(label));
+        componentOptions.append(optionLabel);
+      });
+
+      renderCardSheets();
 
       function createTileFace(face, compact = false) {
         const tile = document.createElement('article');
@@ -99,6 +220,7 @@
       function createTileSheet(label) {
         const sheet = document.createElement('section');
         sheet.className = 'tile-sheet';
+        sheet.dataset.exportComponent = 'tiles';
 
         const heading = document.createElement('h1');
         heading.className = 'tile-sheet__label';
@@ -141,6 +263,7 @@
 
         const heading = document.createElement('h1');
         heading.className = 'token-sheet__label';
+        heading.dataset.exportComponent = 'tokens';
         heading.textContent = label;
         sheet.append(heading);
 
@@ -148,16 +271,22 @@
           .filter(([, token]) => token.kind !== 'stress-arrow' && token.front)
           .forEach(([, token]) => {
             Array.from({ length: token.copies || 1 }, () => token)
-              .forEach((copy) => sheet.append(copy.back ? createTokenPair(copy) : createTokenFace(copy.front)));
+              .forEach((copy) => {
+                const tokenPiece = copy.back ? createTokenPair(copy) : createTokenFace(copy.front);
+                tokenPiece.dataset.exportComponent = 'tokens';
+                sheet.append(tokenPiece);
+              });
           });
 
         const track = createStressTrack();
+        track.dataset.exportComponent = 'tiles';
         sheet.append(track);
 
         const arrowEntry = tokenEntries.find(([, token]) => token.kind === 'stress-arrow');
         if (arrowEntry) {
           const arrow = document.createElement('article');
           arrow.className = 'token-arrow';
+          arrow.dataset.exportComponent = 'tiles';
           arrow.innerHTML = '<div class="token-arrow__icon" aria-hidden="true">➤</div>';
           sheet.append(arrow);
         }
@@ -218,18 +347,24 @@
       function appendPawnContents(sheet) {
         const heading = document.createElement('h1');
         heading.className = 'token-sheet__label';
+        heading.dataset.exportComponent = 'pawns';
         heading.textContent = 'Peões — personagens e bombeiros';
         sheet.append(heading);
 
         pawnEntries.forEach(([, pawn]) => {
           Array.from({ length: pawn.copies || 1 }, () => pawn)
-            .forEach((copy) => sheet.append(createPawn(copy)));
+            .forEach((copy) => {
+              const pawn = createPawn(copy);
+              pawn.dataset.exportComponent = 'pawns';
+              sheet.append(pawn);
+            });
         });
       }
 
       Object.values(boards).forEach((board) => {
         const sheet = document.createElement('section');
         sheet.className = 'board-sheet';
+        sheet.dataset.exportComponent = 'board';
         sheet.setAttribute('aria-label', board.title);
 
         const image = document.createElement('img');
@@ -247,23 +382,26 @@
         cardList.append(sheet);
       });
 
+      applyComponentFilters();
+
       const exportPanel = document.querySelector('[data-export-panel]');
       const exportButton = document.querySelector('[data-export-pdf]');
       const exportStatus = document.querySelector('[data-export-status]');
-      const artImages = Array.from(document.querySelectorAll('.card--background .art-slot img'));
-      const backgroundCards = Array.from(document.querySelectorAll('.card--background'));
+      const tightLayoutInput = document.querySelector('[data-export-tight]');
+      const originalDocumentTitle = document.title;
+      let currentExportMode = 'full';
       let queuedExportMode = null;
       let exportModeTask = Promise.resolve();
 
       function restoreOriginalArt() {
-        artImages.forEach((image) => {
+        document.querySelectorAll('.card--background .art-slot img').forEach((image) => {
           const originalSrc = image.dataset.exportOriginalSrc;
           if (originalSrc) image.src = originalSrc;
         });
       }
 
       function setDraftCardBackgrounds(isDraft) {
-        backgroundCards.forEach((card) => {
+        document.querySelectorAll('.card--background').forEach((card) => {
           const originalBackground = card.dataset.exportOriginalBackground;
 
           if (isDraft) {
@@ -276,15 +414,28 @@
         });
       }
 
+      function rememberExportSources() {
+        document.querySelectorAll('.card--background .art-slot img').forEach((image) => {
+          if (!image.dataset.exportOriginalSrc) image.dataset.exportOriginalSrc = image.src;
+        });
+
+        document.querySelectorAll('.card--background').forEach((card) => {
+          if (!card.dataset.exportOriginalBackground) {
+            card.dataset.exportOriginalBackground = card.style.getPropertyValue('--card-background');
+          }
+        });
+      }
+
       async function applyExportMode(mode) {
+        currentExportMode = mode;
         const htmlDraft = mode === 'draft';
         const imageResolution = mode === 'full' ? 'high' : 'low';
         document.body.dataset.exportMode = htmlDraft ? 'draft' : 'images';
         document.body.classList.remove('export-no-art');
         document.body.classList.toggle('export-draft', htmlDraft);
         window.ITCrowdCardRenderer.setExportedImageUsage(!htmlDraft);
-        window.ITCrowdCardRenderer.setExportedImageMode('full');
-        window.ITCrowdCardRenderer.setExportedImageResolution(imageResolution);
+        window.ITCrowdExportedImageMode = 'full';
+        await window.ITCrowdCardRenderer.setExportedImageResolution(imageResolution);
         setDraftCardBackgrounds(htmlDraft);
         restoreOriginalArt();
 
@@ -301,6 +452,20 @@
         exportStatus.textContent = 'Qualidade rascunho: imagens low em 96 DPI.';
       }
 
+      function waitForExportedImages() {
+        return Promise.all(Array.from(document.querySelectorAll('.card-raster-image')).map((image) => {
+          if (image.dataset.exportLoading !== 'true' && image.complete && image.naturalWidth > 0) {
+            return Promise.resolve();
+          }
+
+          return new Promise((resolve) => {
+            const finish = () => resolve();
+            image.addEventListener('load', finish, { once: true });
+            image.addEventListener('error', finish, { once: true });
+          });
+        }));
+      }
+
       function scheduleExportMode(mode) {
         if (mode === queuedExportMode) return exportModeTask;
 
@@ -311,33 +476,23 @@
         return exportModeTask;
       }
 
-      artImages.forEach((image) => {
-        image.dataset.exportOriginalSrc = image.src;
-      });
-
-      backgroundCards.forEach((card) => {
-        card.dataset.exportOriginalBackground = card.style.getPropertyValue('--card-background');
+      rememberExportSources();
+      tightLayoutInput.addEventListener('change', () => {
+        document.body.classList.toggle('export-tight', tightLayoutInput.checked);
       });
 
       exportButton.addEventListener('click', async () => {
         const selectedMode = exportPanel.querySelector('input[name="export-quality"]:checked').value;
         exportButton.disabled = true;
         await scheduleExportMode(selectedMode);
-        if (selectedMode !== 'draft') {
-          window.ITCrowdCardRenderer.setExportedImageResolution(selectedMode === 'full' ? 'high' : 'low');
-        }
-        await Promise.all(Array.from(document.querySelectorAll('.card-raster-image')).map((image) => {
-          if (image.complete) return Promise.resolve();
-          return new Promise((resolve) => {
-            image.addEventListener('load', resolve, { once: true });
-            image.addEventListener('error', resolve, { once: true });
-          });
-        }));
+        await waitForExportedImages();
+        document.title = `${originalDocumentTitle}-${getExportFileSuffix()}`;
         window.print();
         exportButton.disabled = false;
       });
 
       window.addEventListener('afterprint', () => {
+        document.title = originalDocumentTitle;
         const selectedMode = exportPanel.querySelector('input[name="export-quality"]:checked').value;
         if (selectedMode === 'draft') {
           window.ITCrowdCardRenderer.setExportedImageUsage(false);

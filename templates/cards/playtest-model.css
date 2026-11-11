@@ -22,6 +22,49 @@
   filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.45));
 }
 
+.playtest-piece-context-menu {
+  position: fixed;
+  z-index: 4000;
+  min-width: 170px;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  background: #222924;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.playtest-piece-context-menu__button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 9px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #f4f1dd;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+}
+
+.playtest-piece-context-menu__button:hover,
+.playtest-piece-context-menu__button:focus-visible {
+  outline: none;
+  background: rgba(227, 185, 76, 0.2);
+}
+
+.playtest-piece-context-menu__icon {
+  display: inline-grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  color: #f4f1dd;
+  font-size: 20px;
+  line-height: 1;
+}
+
 .playtest-drag-placeholder {
   visibility: hidden;
   pointer-events: none;
