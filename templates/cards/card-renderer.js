@@ -99,6 +99,52 @@
         return row;
       }
 
+      function createFloorBadge(floor = 'B') {
+        const badge = document.createElement('span');
+        const floorLabel = String(floor).trim().toUpperCase() || 'B';
+        const isBasement = floorLabel === 'B';
+
+        badge.className = `card-floor${isBasement ? ' card-floor--basement' : ''}`;
+        const floorIcon = document.createElement('span');
+        floorIcon.className = 'card-floor__icon';
+        floorIcon.textContent = '📍';
+        floorIcon.setAttribute('aria-hidden', 'true');
+
+        const floorNumber = document.createElement('span');
+        floorNumber.className = 'card-floor__label';
+        floorNumber.textContent = floorLabel;
+        floorNumber.setAttribute('aria-hidden', 'true');
+
+        badge.append(floorIcon, floorNumber);
+        badge.setAttribute(
+          'aria-label',
+          isBasement ? 'Andar B, porão' : `Andar ${floorLabel}`
+        );
+        badge.title = isBasement ? 'Porão (B)' : `Andar ${floorLabel}`;
+        return badge;
+      }
+
+      function createFloorBadges(floors) {
+        const group = document.createElement('div');
+        const normalizedFloors = Array.from(new Set(
+          (Array.isArray(floors) ? floors : [floors])
+            .map((floor) => String(floor || '').trim().toUpperCase())
+            .filter(Boolean)
+        ));
+        const floorList = (normalizedFloors.length ? normalizedFloors : ['B'])
+          .sort((left, right) => {
+            if (left === 'B') return 1;
+            if (right === 'B') return -1;
+            return 0;
+          });
+
+        group.className = 'card-floor-group';
+        if (floorList.length > 1) group.classList.add('card-floor-group--stacked');
+        group.setAttribute('aria-label', `Andares: ${floorList.join(', ')}`);
+        floorList.forEach((floor) => group.append(createFloorBadge(floor)));
+        return group;
+      }
+
       function createCard(code, card) {
         const cardType = card.type || CARD_TYPES.CALL;
         const artist = card.artist || CARD_CREDITS.artist;
@@ -110,6 +156,7 @@
         article.dataset.cardCode = code;
         if (card.quote) article.classList.add('card--has-quote');
         article.dataset.cardType = cardType.id;
+        article.dataset.requiredFloors = (card.requiredFloors || [card.floor || 'B']).join(',');
         const cardBackgroundPath = card.collectionOnly
           ? '../../assets/cards/items-collectibles/collectible-item-background-model.png'
           : cardType.backgroundPath;
@@ -126,7 +173,7 @@
 
         const headerPath = card.collectionOnly
           ? '../../assets/illustrations/icons/collectible-item-header.png'
-          : cardType.headerPath;
+          : card.headerPath === undefined ? cardType.headerPath : card.headerPath;
         if (headerPath) {
           const headerArt = document.createElement('img');
           headerArt.className = 'card-header__art';
@@ -144,7 +191,7 @@
 
           const headerText = document.createElement('span');
           headerText.className = 'card-header__text';
-          headerText.textContent = [cardType.icon, cardType.label].filter(Boolean).join(' ');
+          headerText.textContent = [card.itemIcon || cardType.icon, cardType.label].filter(Boolean).join(' ');
           header.append(headerText);
         }
 
@@ -199,7 +246,7 @@
         }
         if (cardType.artRoot) {
           const illustration = document.createElement('img');
-          illustration.src = `${cardType.artRoot}${code.toLowerCase()}.png`;
+          illustration.src = card.illustrationPath || `${cardType.artRoot}${code.toLowerCase()}.png`;
           illustration.alt = '';
           illustration.addEventListener('error', () => illustration.remove());
           artSlot.append(illustration);
@@ -245,7 +292,7 @@
           artSlot,
           rules
         );
-        article.append(header, main, footer);
+        article.append(header, main, footer, createFloorBadges(card.requiredFloors || card.floor));
         attachExportedImage(article, code);
         return article;
       }
@@ -254,23 +301,30 @@
         const cardType = card.type || CARD_TYPES.CALL;
         const article = document.createElement('article');
         article.className = `card card--background card-back card--type-${cardType.id}${cardType.small ? ' card--small' : ''}`;
-        article.style.setProperty('--card-background', cardType.backgroundPath
-          ? `url('${cardType.backgroundPath}')`
+        if (card.collectionOnly) article.classList.add('card--collection-item');
+        const cardBackgroundPath = card.collectionOnly
+          ? '../../assets/cards/items-collectibles/collectible-item-background-model.png'
+          : cardType.backgroundPath;
+        article.style.setProperty('--card-background', cardBackgroundPath
+          ? `url('${cardBackgroundPath}')`
           : 'none');
-        article.style.setProperty('--border-color', cardType.accentColor);
-        article.style.setProperty('--frame-color', cardType.frameColor);
+        article.style.setProperty('--border-color', card.collectionOnly ? '#d8a52c' : cardType.accentColor);
+        article.style.setProperty('--frame-color', card.collectionOnly ? '#5b3a14' : cardType.frameColor);
         article.setAttribute('aria-label', `Verso do baralho: ${cardType.label}`);
 
-        if (cardType.headerPath) {
+        const headerPath = card.collectionOnly
+          ? '../../assets/illustrations/icons/collectible-item-header.png'
+          : card.headerPath === undefined ? cardType.headerPath : card.headerPath;
+        if (headerPath) {
           const headerArt = document.createElement('img');
           headerArt.className = 'card-back__art';
-          headerArt.src = cardType.headerPath;
+          headerArt.src = headerPath;
           headerArt.alt = cardType.label;
           article.append(headerArt);
         } else {
           const label = document.createElement('strong');
           label.className = 'card-back__label';
-          label.textContent = [cardType.icon, cardType.label].filter(Boolean).join(' ');
+          label.textContent = [card.itemIcon || cardType.icon, cardType.label].filter(Boolean).join(' ');
           article.append(label);
         }
 
@@ -387,7 +441,7 @@
         }
 
         content.append(heading, stats, actionSummary, rules, footer);
-        article.append(moraleTrack, portrait, content, itemDock, equipmentDock);
+        article.append(moraleTrack, portrait, content, itemDock, equipmentDock, createFloorBadges(card.requiredFloors || card.floor));
         attachExportedImage(article, code);
         return article;
       }

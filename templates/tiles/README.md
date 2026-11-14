@@ -20,6 +20,6 @@ Como referência, uma folha A4 paisagem em 300 DPI teria 3508 × 2480 px, e este
 
 ## Impressão
 
-O arquivo gera uma única folha vertical com cada frente e verso lado a lado. Os códigos G1–G7 existem apenas no hash para organização e não são impressos nos tiles. O manual continua sendo a referência para identificar cada componente.
+O arquivo gera uma única folha vertical com cada frente e verso lado a lado. Os códigos G1–G6 existem apenas no hash para organização e não são impressos nos tiles. O manual continua sendo a referência para identificar cada componente.
 
 Os tiles usam somente ícone, estado e uma regra curta. O rótulo e os dados do componente vêm de `../cards/card-data.js`; explicações completas permanecem no manual para preservar a leitura no tamanho reduzido.

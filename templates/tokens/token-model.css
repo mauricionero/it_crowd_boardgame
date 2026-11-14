@@ -80,6 +80,20 @@
   background: #79b86a;
 }
 .token-face--morale .token-face__icon { font-size: 5.5mm; }
+.token-face--infection-marker {
+  width: 10mm;
+  height: 10mm;
+  flex-basis: 10mm;
+  border: 0.35mm solid #681c21;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 157, 121, 0.45), transparent 26%),
+    radial-gradient(circle at 52% 62%, #c8423b, #7f2027 72%);
+  box-shadow:
+    inset 0 0 0 0.45mm rgba(255, 217, 192, 0.2),
+    0 0.28mm 0.55mm rgba(68, 19, 24, 0.42);
+}
+.token-face--infection-marker .token-face__icon { font-size: 5.5mm; }
 .token-face--enroll { background: #347a9c; }
 .token-face--meeting { background: #9c7b36; }
 .token-face--waiting { background: #a55d2c; }

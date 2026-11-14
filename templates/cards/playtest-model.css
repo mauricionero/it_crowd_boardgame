@@ -5,6 +5,10 @@
   --playtest-ink: #172019;
   --playtest-muted: #a9b1a7;
   --playtest-accent: #e3b94c;
+  --playtest-base-board-width: 200mm;
+  --playtest-tile-size: 11.1mm;
+  --playtest-token-size: 7.5mm;
+  --playtest-pawn-size: 9mm;
 }
 
 * {
@@ -20,6 +24,12 @@
 .playtest-draggable.playtest-dragging {
   cursor: grabbing;
   filter: drop-shadow(0 8px 8px rgba(0, 0, 0, 0.45));
+}
+
+/* Pieces placed on a board follow the board's responsive scale. */
+[data-board-piece="true"] {
+  transform: scale(var(--playtest-board-piece-scale, 1));
+  transform-origin: center;
 }
 
 .playtest-piece-context-menu {
@@ -215,6 +225,11 @@
   height: 88mm !important;
 }
 
+.playtest-alt-preview .playtest-revealed-card.card--small {
+  width: 44mm !important;
+  height: 63mm !important;
+}
+
 .playtest-alt-preview .playtest-tile-face {
   flex: 0 0 12.9mm !important;
   width: 12.9mm !important;
@@ -230,7 +245,7 @@
 }
 
 .playtest-alt-preview .playtest-tile-face .tile-face__icon {
-  font-size: 6mm !important;
+  font-size: 5mm !important;
 }
 
 .playtest-alt-preview .playtest-token-face {
@@ -307,6 +322,26 @@ body {
 .playtest-header-actions > p {
   flex: 0 0 auto;
   white-space: normal;
+}
+
+.playtest-setup-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--playtest-muted);
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.playtest-setup-select select {
+  max-width: 154px;
+  padding: 5px 6px;
+  border: 1px solid #728074;
+  border-radius: 5px;
+  background: #202522;
+  color: #fff7db;
+  font: inherit;
 }
 
 .playtest-card-menu {
@@ -578,13 +613,14 @@ body {
 .playtest-die--spawned {
   position: absolute;
   top: 0;
-  left: 240px;
+  /* Mantém dados adicionados dentro da faixa central, antes dos controles. */
+  left: 102px;
 }
 
 .playtest-layout {
   display: grid;
   width: min(1500px, 100%);
-  grid-template-columns: minmax(780px, 1fr) 300px;
+  grid-template-columns: minmax(780px, calc(var(--playtest-base-board-width) + 82px)) 260px;
   grid-template-rows: auto auto;
   gap: 12px;
   margin: 0 auto;
@@ -592,7 +628,7 @@ body {
 
 .playtest-board-panel {
   min-width: 0;
-  padding: 12px;
+  padding: 12px 12px 120px;
   border: 1px solid #59655b;
   border-radius: 10px;
   background: #141814;
@@ -606,6 +642,16 @@ body {
   align-items: stretch;
 }
 
+.playtest-board-group {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 2mm;
+  width: min(100%, var(--playtest-base-board-width));
+  justify-self: start;
+}
+
 .playtest-board {
   position: relative;
   width: 100%;
@@ -616,8 +662,30 @@ body {
   aspect-ratio: 1680 / 945;
 }
 
+.playtest-board-group .playtest-board {
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 0;
+}
+
+.playtest-board--floor-1 {
+  order: -1;
+  aspect-ratio: 1512 / 1040;
+}
+
+.playtest-board--base {
+  aspect-ratio: 1680 / 945;
+}
+
+.playtest-board[hidden] {
+  display: none;
+}
+
 .playtest-stress-ruler {
+  position: relative;
+  z-index: 2400;
   display: flex;
+  align-self: start;
   min-height: 0;
   flex-direction: column;
   align-items: center;
@@ -735,11 +803,6 @@ body {
   white-space: nowrap;
 }
 
-.playtest-item-supply--kitchen {
-  top: 142px;
-  left: -38px;
-}
-
 .playtest-item-supply--cabinet {
   bottom: -92px;
   left: calc(50% - 90px);
@@ -752,35 +815,12 @@ body {
   pointer-events: auto;
 }
 
-.playtest-station-tile {
-  position: absolute;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.playtest-station-tile > .playtest-tile-face {
-  pointer-events: auto;
-}
-
-.playtest-station-tile--kitchen {
-  top: 112px;
-  left: 112px;
-}
-
 .playtest-tile-face.tile-face--supply {
   background: linear-gradient(145deg, #b58b52, #4b321f 72%);
 }
 
 .playtest-tile-face.tile-face--supply-used {
   background: linear-gradient(145deg, #7b6b5b, #302925 72%);
-}
-
-.playtest-tile-face.tile-face--kitchen-station {
-  background: linear-gradient(145deg, #9b6334, #4b2b1d 72%);
-}
-
-.playtest-tile-face.tile-face--kitchen-station-used {
-  background: linear-gradient(145deg, #6d594c, #302725 72%);
 }
 
 .playtest-deck--small .playtest-deck__stack {
@@ -831,6 +871,17 @@ body {
   font-size: 11px;
 }
 
+.playtest-kitchen-item-source,
+.playtest-deposit-item-source {
+  position: fixed;
+  top: -10000px;
+  left: -10000px;
+  width: 205px;
+  height: 125px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .playtest-side-panel {
   display: flex;
   min-width: 0;
@@ -877,6 +928,43 @@ body {
   font-size: 11px;
   letter-spacing: 0.4px;
   text-transform: uppercase;
+}
+
+.playtest-side-materials {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  padding-top: 10px;
+  border-top: 1px solid #59655b;
+}
+
+.playtest-side-materials h3,
+.playtest-side-material-group h4 {
+  margin: 0;
+  color: var(--playtest-muted);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.playtest-side-material-group {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.playtest-side-materials .playtest-materials {
+  min-height: 0;
+  gap: 6px;
+  padding: 6px;
+}
+
+.playtest-side-materials .playtest-material-pawns {
+  min-height: 42px;
+  gap: 6px;
+  padding: 6px;
 }
 
 .playtest-kitchen-item-supply {
@@ -1169,33 +1257,33 @@ body {
 }
 
 .playtest-tile-face {
-  flex: 0 0 46px;
-  width: 46px;
-  height: 46px;
-  border-width: 2px;
-  border-radius: 5px;
+  flex: 0 0 var(--playtest-tile-size);
+  width: var(--playtest-tile-size);
+  height: var(--playtest-tile-size);
+  border-width: 0.53mm;
+  border-radius: 1.32mm;
 }
 
 .playtest-tile-face[data-tile-code="G1"],
 .playtest-tile-face[data-tile-code="G3"] {
-  flex-basis: 23px;
-  width: 23px;
+  flex-basis: calc(var(--playtest-tile-size) / 2);
+  width: calc(var(--playtest-tile-size) / 2);
 }
 
 .playtest-tile-face .tile-face__content {
-  padding: 2px;
+  padding: 0.53mm;
 }
 
 .playtest-tile-face .tile-face__icon {
-  font-size: 23px;
+  font-size: 5.1mm;
 }
 
 .playtest-tile-face[data-tile-code="G1"] .tile-face__icon {
-  font-size: 16px;
+  font-size: 3.6mm;
 }
 
 .playtest-tile-face[data-tile-code="G3"] .tile-face__icon {
-  font-size: 14px;
+  font-size: 3.2mm;
   line-height: 0.85;
   white-space: pre-line;
 }
@@ -1205,28 +1293,28 @@ body {
 }
 
 .playtest-token-face {
-  flex: 0 0 32px;
-  width: 32px;
-  height: 32px;
+  flex: 0 0 var(--playtest-token-size);
+  width: var(--playtest-token-size);
+  height: var(--playtest-token-size);
 }
 
 .playtest-token-face .token-face__icon {
-  font-size: 18px;
+  font-size: 4.76mm;
 }
 
 .playtest-token-face.token-face--fire-high .token-face__icon {
-  font-size: 14px;
+  font-size: 3.7mm;
 }
 
 .playtest-token-face.token-face--morale {
-  flex: 0 0 18px;
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
+  flex: 0 0 4.76mm;
+  width: 4.76mm;
+  height: 4.76mm;
+  border-radius: 0.8mm;
 }
 
 .playtest-token-face.token-face--morale .token-face__icon {
-  font-size: 11px;
+  font-size: 2.91mm;
 }
 
 .playtest-character-row {
@@ -1246,8 +1334,9 @@ body {
   min-height: 202px;
   align-items: flex-start;
   justify-content: flex-start;
+  flex-wrap: wrap;
   gap: 18px;
-  overflow-x: auto;
+  overflow-x: hidden;
   padding: 8px;
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.22);
@@ -1303,6 +1392,23 @@ body {
   flex: 0 0 146px;
   width: 146px;
   height: 146px;
+}
+
+.playtest-side-character-stack {
+  position: relative;
+  width: 166px;
+  height: 166px;
+}
+
+.playtest-side-character-stack .playtest-side-character-tableau {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.playtest-side-character-stack .playtest-side-character-tableau[data-side-character="B7"] {
+  z-index: 3;
+  transform: translate(12px, 8px);
 }
 
 .playtest-side-character-tableau .playtest-character-tableau__surface {

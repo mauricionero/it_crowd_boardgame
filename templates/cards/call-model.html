@@ -41,8 +41,9 @@
       <button type="button" data-export-pdf>Exportar PDF</button>
     </section>
     <aside class="export-type-filter" data-export-type-filter aria-label="Tipos de cartas incluídos no PDF">
-      <strong>Itens incluídos</strong>
-      <span>Marque os tipos que deseja exportar.</span>
+      <strong>Andares incluídos</strong>
+      <span>Selecione o material que entra no PDF.</span>
+      <div data-export-floor-options></div>
       <strong>Cartas</strong>
       <div data-export-type-options></div>
       <strong>Componentes</strong>
@@ -64,7 +65,13 @@
       const boards = Object.freeze({
         MAIN: Object.freeze({
           title: 'Tabuleiro principal',
-          image: '../../assets/boards/base/board-complete-18x12-v12.png',
+          image: '../../assets/boards/base/board-complete-18x12-v13.png',
+          floor: 'B',
+        }),
+        FLOOR_1: Object.freeze({
+          title: 'Tabuleiro — Andar 1',
+          image: '../../assets/boards/floor-1/board-floor-1-16x11-v1.png',
+          floor: '1',
         }),
       });
       const cardList = document.querySelector('[data-card-list]');
@@ -94,6 +101,11 @@
         { id: 'characters', label: 'Personagens jogáveis', fileName: 'personagens', types: [CARD_TYPES.PLAYER_CHARACTER] },
       ];
       const selectedCardTypeFilters = new Set(cardTypeFilterDefinitions.map(({ id }) => id));
+      const floorFilterDefinitions = [
+        { id: 'floor-b', label: 'B — Porão', fileName: 'base', floor: 'B' },
+        { id: 'floor-1', label: 'Andar 1 — Marketing', fileName: 'andar-1', floor: '1' },
+      ];
+      const selectedFloors = new Set(floorFilterDefinitions.map(({ id }) => id));
       const componentFilterDefinitions = [
         { id: 'tiles', label: 'Tiles G + régua de Stress', fileName: 'tiles' },
         { id: 'tokens', label: 'Tokens', fileName: 'tokens' },
@@ -102,6 +114,7 @@
       ];
       const selectedComponentFilters = new Set(componentFilterDefinitions.map(({ id }) => id));
       const typeOptions = document.querySelector('[data-export-type-options]');
+      const floorOptions = document.querySelector('[data-export-floor-options]');
       const componentOptions = document.querySelector('[data-export-component-options]');
 
       function renderCardSheets() {
@@ -112,40 +125,59 @@
         )));
         const firstFixedSheet = cardList.firstElementChild;
 
-        const cardGroups = [
-          { entries: filteredCardEntries.filter(([, card]) => !card.type.small), className: 'a4-sheet', perSheet: cardsPerSheet },
-          { entries: filteredCardEntries.filter(([, card]) => card.type.small), className: 'a4-sheet a4-sheet--small-cards', perSheet: smallCardsPerSheet },
-        ];
+        function addSheet(sheet, floor) {
+          if (floor === 'B') cardList.insertBefore(sheet, firstFixedSheet);
+          else cardList.append(sheet);
+        }
 
-        cardGroups.forEach(({ entries, className, perSheet }) => {
-          for (let index = 0; index < entries.length; index += perSheet) {
-            const sheet = document.createElement('section');
-            sheet.className = className;
-            sheet.setAttribute('aria-label', `Folha A4 ${Math.floor(index / perSheet) + 1}`);
-            sheet.dataset.cardSheet = '';
+        function addCardSheets(entries, floor, floorLabel) {
+          const cardGroups = [
+            { entries: entries.filter(([, card]) => !card.type.small), className: 'a4-sheet', perSheet: cardsPerSheet },
+            { entries: entries.filter(([, card]) => card.type.small), className: 'a4-sheet a4-sheet--small-cards', perSheet: smallCardsPerSheet },
+          ];
 
-            entries.slice(index, index + perSheet).forEach(([code, card]) => {
-              sheet.append(createCard(code, card));
-            });
+          cardGroups.forEach(({ entries: groupEntries, className, perSheet }) => {
+            for (let index = 0; index < groupEntries.length; index += perSheet) {
+              const sheet = document.createElement('section');
+              sheet.className = className;
+              sheet.setAttribute('aria-label', `Folha A4 ${floorLabel} ${Math.floor(index / perSheet) + 1}`);
+              sheet.dataset.cardSheet = '';
+              sheet.dataset.floor = floor;
 
-            cardList.insertBefore(sheet, firstFixedSheet);
-          }
-        });
+              groupEntries.slice(index, index + perSheet).forEach(([code, card]) => {
+                sheet.append(createCard(code, card));
+              });
 
-        if (selectedCardTypeFilters.has('characters') && characterEntries.length) {
+              addSheet(sheet, floor);
+            }
+          });
+        }
+
+        function addCharacterSheet(entries, floor, floorLabel) {
+          if (!selectedCardTypeFilters.has('characters') || !entries.length) return;
+
           const sheet = document.createElement('section');
           sheet.className = 'character-sheet';
-          sheet.setAttribute('aria-label', 'Folha A4 de personagens jogáveis');
+          sheet.setAttribute('aria-label', `Folha A4 de personagens jogáveis — ${floorLabel}`);
           sheet.dataset.characterSheet = '';
-          characterEntries.forEach(([code, card]) => sheet.append(createPlayerCharacterCard(code, card)));
-          cardList.insertBefore(sheet, cardList.querySelector('[data-card-sheet]') || cardList.firstChild);
+          sheet.dataset.floor = floor;
+          entries.forEach(([code, card]) => sheet.append(createPlayerCharacterCard(code, card)));
+          addSheet(sheet, floor);
         }
+
+        floorFilterDefinitions
+          .filter(({ id }) => selectedFloors.has(id))
+          .forEach(({ floor, label }) => {
+            addCharacterSheet(characterEntries.filter(([, card]) => card.floor === floor), floor, label);
+            addCardSheets(filteredCardEntries.filter(([, card]) => card.floor === floor), floor, label);
+          });
       }
 
       function getExportFileSuffix() {
         const allCardsSelected = selectedCardTypeFilters.size === cardTypeFilterDefinitions.length;
         const allComponentsSelected = selectedComponentFilters.size === componentFilterDefinitions.length;
-        if (allCardsSelected && allComponentsSelected) return 'all';
+        const allFloorsSelected = selectedFloors.size === floorFilterDefinitions.length;
+        if (allCardsSelected && allComponentsSelected && allFloorsSelected) return 'all';
 
         const selectedNames = cardTypeFilterDefinitions
           .filter(({ id }) => selectedCardTypeFilters.has(id))
@@ -153,18 +185,26 @@
         selectedNames.push(...componentFilterDefinitions
           .filter(({ id }) => selectedComponentFilters.has(id))
           .map(({ fileName }) => fileName));
+        if (!allFloorsSelected) {
+          selectedNames.push(...floorFilterDefinitions
+            .filter(({ id }) => selectedFloors.has(id))
+            .map(({ fileName }) => fileName));
+        }
 
         return selectedNames.join('-') || 'none';
       }
 
       function applyComponentFilters() {
         document.querySelectorAll('[data-export-component]').forEach((element) => {
-          const isVisible = selectedComponentFilters.has(element.dataset.exportComponent);
+          const isVisible = selectedComponentFilters.has(element.dataset.exportComponent)
+            && floorFilterDefinitions.some(({ id, floor }) => (
+              selectedFloors.has(id) && floor === (element.dataset.floor || 'B')
+            ));
           element.hidden = !isVisible;
           element.classList.toggle('export-component-hidden', !isVisible);
         });
 
-        document.querySelectorAll('.token-sheet').forEach((sheet) => {
+        document.querySelectorAll('.token-sheet, .expansion-component-sheet').forEach((sheet) => {
           const hasVisibleComponent = Array.from(sheet.querySelectorAll('[data-export-component]'))
             .some((element) => !element.hidden);
           sheet.hidden = !hasVisibleComponent;
@@ -189,6 +229,24 @@
         typeOptions.append(optionLabel);
       });
 
+      floorFilterDefinitions.forEach(({ id, label }) => {
+        const optionLabel = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = true;
+        input.dataset.exportFloor = id;
+        input.addEventListener('change', () => {
+          if (input.checked) selectedFloors.add(id);
+          else selectedFloors.delete(id);
+          renderCardSheets();
+          rememberExportSources();
+          applyExportMode(currentExportMode);
+          applyComponentFilters();
+        });
+        optionLabel.append(input, document.createTextNode(label));
+        floorOptions.append(optionLabel);
+      });
+
       componentFilterDefinitions.forEach(({ id, label }) => {
         const optionLabel = document.createElement('label');
         const input = document.createElement('input');
@@ -204,8 +262,6 @@
         componentOptions.append(optionLabel);
       });
 
-      renderCardSheets();
-
       function createTileFace(face, compact = false) {
         const tile = document.createElement('article');
         tile.className = `tile-face tile-face--${face.tone}${compact ? ' tile-face--compact' : ''}`;
@@ -217,17 +273,18 @@
         return tile;
       }
 
-      function createTileSheet(label) {
+      function createTileSheet(label, entries, floor) {
         const sheet = document.createElement('section');
         sheet.className = 'tile-sheet';
         sheet.dataset.exportComponent = 'tiles';
+        sheet.dataset.floor = floor;
 
         const heading = document.createElement('h1');
         heading.className = 'tile-sheet__label';
         heading.textContent = label;
         sheet.append(heading);
 
-        tileEntries.forEach(([, tile]) => {
+        entries.forEach(([, tile]) => {
           Array.from({ length: tile.copies || 1 }, () => tile)
             .forEach((copy) => {
               const pair = document.createElement('div');
@@ -239,9 +296,12 @@
         cardList.append(sheet);
       }
 
-      if (tileEntries.length) {
-        createTileSheet('Tiles G — recorte cada par e cole frente com verso');
-      }
+      floorFilterDefinitions.forEach(({ floor, label }) => {
+        const entries = tileEntries.filter(([, tile]) => (tile.floor || 'B') === floor);
+        if (entries.length && floor !== '1') {
+          createTileSheet(`Tiles G — ${label} · recorte cada par e cole frente com verso`, entries, floor);
+        }
+      });
 
       function createTokenFace(face) {
         const token = document.createElement('article');
@@ -257,43 +317,87 @@
         return pair;
       }
 
-      function createTokenSheet(label) {
+      function createTokenSheet(label, entries, floor) {
         const sheet = document.createElement('section');
         sheet.className = 'token-sheet';
+        sheet.dataset.floor = floor;
 
         const heading = document.createElement('h1');
         heading.className = 'token-sheet__label';
         heading.dataset.exportComponent = 'tokens';
+        heading.dataset.floor = floor;
         heading.textContent = label;
         sheet.append(heading);
 
-        tokenEntries
+        entries
           .filter(([, token]) => token.kind !== 'stress-arrow' && token.front)
           .forEach(([, token]) => {
             Array.from({ length: token.copies || 1 }, () => token)
               .forEach((copy) => {
                 const tokenPiece = copy.back ? createTokenPair(copy) : createTokenFace(copy.front);
                 tokenPiece.dataset.exportComponent = 'tokens';
+                tokenPiece.dataset.floor = floor;
                 sheet.append(tokenPiece);
               });
           });
 
-        const track = createStressTrack();
-        track.dataset.exportComponent = 'tiles';
-        sheet.append(track);
+        if (floor === 'B') {
+          const track = createStressTrack();
+          track.dataset.exportComponent = 'tiles';
+          track.dataset.floor = 'B';
+          sheet.append(track);
 
-        const arrowEntry = tokenEntries.find(([, token]) => token.kind === 'stress-arrow');
-        if (arrowEntry) {
-          const arrow = document.createElement('article');
-          arrow.className = 'token-arrow';
-          arrow.dataset.exportComponent = 'tiles';
-          arrow.innerHTML = '<div class="token-arrow__icon" aria-hidden="true">➤</div>';
-          sheet.append(arrow);
+          const arrowEntry = entries.find(([, token]) => token.kind === 'stress-arrow');
+          if (arrowEntry) {
+            const arrow = document.createElement('article');
+            arrow.className = 'token-arrow';
+            arrow.dataset.exportComponent = 'tiles';
+            arrow.dataset.floor = 'B';
+            arrow.innerHTML = '<div class="token-arrow__icon" aria-hidden="true">➤</div>';
+            sheet.append(arrow);
+          }
+
+          if (pawnEntries.length) {
+            appendPawnContents(sheet);
+          }
         }
 
-        if (pawnEntries.length) {
-          appendPawnContents(sheet);
-        }
+        cardList.append(sheet);
+      }
+
+      function createExpansionComponentSheet(label, tiles, tokens, floor) {
+        const sheet = document.createElement('section');
+        sheet.className = 'tile-sheet expansion-component-sheet';
+        sheet.dataset.floor = floor;
+
+        const heading = document.createElement('h1');
+        heading.className = 'tile-sheet__label';
+        heading.textContent = label;
+        sheet.append(heading);
+
+        tiles.forEach(([, tile]) => {
+          Array.from({ length: tile.copies || 1 }, () => tile)
+            .forEach((copy) => {
+              const pair = document.createElement('div');
+              pair.className = `tile-pair${copy.compact ? ' tile-pair--compact' : ''}`;
+              pair.dataset.exportComponent = 'tiles';
+              pair.dataset.floor = floor;
+              pair.append(createTileFace(copy.front, copy.compact), createTileFace(copy.back, copy.compact));
+              sheet.append(pair);
+            });
+        });
+
+        tokens
+          .filter(([, token]) => token.kind !== 'stress-arrow' && token.front)
+          .forEach(([, token]) => {
+            Array.from({ length: token.copies || 1 }, () => token)
+              .forEach((copy) => {
+                const tokenPiece = copy.back ? createTokenPair(copy) : createTokenFace(copy.front);
+                tokenPiece.dataset.exportComponent = 'tokens';
+                tokenPiece.dataset.floor = floor;
+                sheet.append(tokenPiece);
+              });
+          });
 
         cardList.append(sheet);
       }
@@ -316,9 +420,17 @@
         return track;
       }
 
-      if (tokenEntries.length) {
-        createTokenSheet('Tokens — recorte cada par reversível e cole frente com verso');
-      }
+      floorFilterDefinitions.forEach(({ floor, label }) => {
+        const entries = tokenEntries.filter(([, token]) => (token.floor || 'B') === floor);
+        if (floor === '1') {
+          const tiles = tileEntries.filter(([, tile]) => (tile.floor || 'B') === floor);
+          if (tiles.length || entries.length) {
+            createExpansionComponentSheet(`Componentes — ${label} · recorte tiles frente/verso e fichas`, tiles, entries, floor);
+          }
+        } else if (entries.length || floor === 'B') {
+          createTokenSheet(`Tokens — ${label} · recorte cada par reversível e cole frente com verso`, entries, floor);
+        }
+      });
 
       function createPawn(pawnData) {
         const pawn = document.createElement('article');
@@ -348,6 +460,7 @@
         const heading = document.createElement('h1');
         heading.className = 'token-sheet__label';
         heading.dataset.exportComponent = 'pawns';
+        heading.dataset.floor = 'B';
         heading.textContent = 'Peões — personagens e bombeiros';
         sheet.append(heading);
 
@@ -356,6 +469,7 @@
             .forEach((copy) => {
               const pawn = createPawn(copy);
               pawn.dataset.exportComponent = 'pawns';
+              pawn.dataset.floor = 'B';
               sheet.append(pawn);
             });
         });
@@ -365,6 +479,7 @@
         const sheet = document.createElement('section');
         sheet.className = 'board-sheet';
         sheet.dataset.exportComponent = 'board';
+        sheet.dataset.floor = board.floor;
         sheet.setAttribute('aria-label', board.title);
 
         const image = document.createElement('img');
@@ -382,6 +497,7 @@
         cardList.append(sheet);
       });
 
+      renderCardSheets();
       applyComponentFilters();
 
       const exportPanel = document.querySelector('[data-export-panel]');

@@ -18,7 +18,7 @@ Uma missão roteirizada acrescenta objetivos próprios. No modo genérico, os jo
 - Tabuleiro top-down do porão, dividido em tiles quadrados: sala de TI, escritório de Jen, sala de servidores, cozinha, corredor e elevador.
 - Extensão de tabuleiro com escritório de Denholm e corredor para a missão *Yesterday's Jam*.
 - Tiles reversíveis para computadores, servidor e telefones.
-- Quatro tiles de computador e quatro tiles de telefone, com os lados **Tocando / Em atendimento**. Há um ramal para cada personagem jogável escolhido; os tiles excedentes ficam disponíveis para uso. Um telefone livre não fica no cenário: quando o ramal estiver livre, remova seu tile da mesa. No setup, cada jogador escolhe um escritório para seu personagem; o telefone e o computador desse personagem ficam nesse tile quando o telefone estiver em uso. Os telefones são funcionalmente equivalentes: qualquer telefone livre pode ser atendido, e qualquer personagem pode usar qualquer telefone ou computador.
+- Quatro tiles de computador e quatro tiles de telefone, com os lados **Tocando / Em atendimento**. No setup, ative no porão **exatamente um ramal por personagem jogável**; os tiles de telefone excedentes ficam fora da partida. Um telefone livre não fica no cenário: quando o ramal estiver livre, remova seu tile da mesa. Cada jogador escolhe um escritório para seu personagem; o telefone e o computador desse personagem ficam nesse tile quando o telefone estiver em uso. Os telefones ativos são funcionalmente equivalentes: qualquer personagem pode usar qualquer telefone ou computador ativo.
 - O escritório do gerente, localizado à direita do tabuleiro, é reservado à missão e não pode ser escolhido como escritório de um personagem jogável.
 - Peões dos personagens e dois peões de Bombeiro. Usuários comuns são representados apenas pela combinação de cartas `☎️ + 👤`; não há peões genéricos de Usuário.
 - Baralho de Chamados, baralho de Usuários, baralho de Eventos Genéricos, cartas de Missão e baralho de Colecionáveis `🏆`.
@@ -56,10 +56,25 @@ Use o próprio componente para mostrar o estado sempre que possível: tile virad
 | ⭐ | Efeito de paciência do usuário quando a estrela alcançar sua carta na fila. Cartas especiais podem escrever outros efeitos. |
 | 🛠️ | Preparação da missão; resolva uma única vez quando a missão for revelada e prepare o tabuleiro conforme indicado. |
 | 📌 | Objetivo de uma carta de Missão. |
+| 📍B / 📍1 | Andar de origem ou andar mínimo exigido pela carta. |
 | 🎯1 / 🎯2 / 🎯3 | Etapas numeradas de resolução de um Evento ou objetivo. |
 | ⚔️ | Confronto ou interação direta entre personagens. |
 | 🗑️ | Descarte a carta após resolver o efeito ou cumprir a condição indicada. |
 | 🔄 | Vire a carta 90°. |
+
+### Andares e expansões
+
+Todo componente de carta traz no canto superior direito um ou mais marcadores **📍**. Eles identificam o andar de origem da carta e permitem separar os baralhos por expansão.
+
+| Marcador | Significado |
+|---|---|
+| **📍B** | Porão (*Basement*), o andar do jogo base. O mesmo **B** aparece no piso do elevador 2 × 2. |
+| **📍1** | Andar 1, expansão de escritórios e Marketing. |
+| **📍B** + **📍1** | A carta requer os dois andares. Futuras expansões seguirão a mesma convenção com novos números. |
+
+Em cartas comuns, o marcador identifica a expansão à qual a carta pertence. Em uma **Missão**, os marcadores listam os **andares mínimos obrigatórios** para aquela missão funcionar. Antes do setup, confira os marcadores da missão e monte todos os tabuleiros indicados.
+
+É permitido incluir andares adicionais, desde que os andares exigidos estejam presentes. Adicione também as cartas e componentes desses andares aos baralhos normais: há mais problemas disponíveis e a partida fica mais difícil. Cada manual de expansão informa quais cartas, tiles e componentes devem entrar ao habilitar seu andar.
 
 ### Chamados, telefones e usuários
 
@@ -118,7 +133,6 @@ Use o próprio componente para mostrar o estado sempre que possível: tile virad
 | 🖥️ PC | Computador | Resolver chamados que exigem computador funcional. |
 | 🗄️ SRV | Servidor | Restaurar o servidor e aplicar os efeitos da Rotina. |
 | 🛗 ELEV | Elevador | Ponto físico de surgimento e posicionamento. |
-| ☕ CAF | Cafeteira ou micro-ondas da Cozinha | Retirar Item Consumível. |
 | 🧰 SUP | Armário de suprimentos | Produzir Item Equipamento. |
 | 🚪 DNH | Porta de Denholm | Interações específicas da missão. |
 
@@ -186,7 +200,7 @@ Ações básicas:
 - **Comprar um dado:** antes de um teste de atributo, gaste **⏱️1** para adicionar **+1 dado** ao atributo usado naquele teste. O dado extra vale para a rolagem e suas rerrolagens, não altera o atributo da ficha e é descartado ao terminar o teste. O custo é adicional ao custo normal da tarefa.
 - **Ânimo:** cada personagem pode guardar até **5🔋**. Além das fontes indicadas nas cartas, cada personagem pode gerar 1🔋 por turno conforme a ação **Gerar Ânimo**. Gaste os tokens conforme a carta de referência **🔋 Ânimo**.
 - **Interrupções:** um jogador pode gastar **🔋** a qualquer momento, inclusive durante a ativação de outro personagem e antes de resolver uma carta de Evento ou Missão. A opção de colocar **1🫩** para ganhar **1 ação extra** também pode ser declarada como interrupção. Resolva a interrupção antes de continuar a resolução interrompida; respeite os momentos indicados na carta de referência para declarar cada bônus.
-- **Reabastecer café:** estando adjacente ao tile **☕ CAFÉ**, gaste **⏱️2** para retornar à Cozinha todas as cartas de **Xícara de café** removidas do jogo. Não mova cafés que ainda estejam no inventário nem crie cópias extras.
+- **Reabastecer café:** estando em qualquer tile da **Cozinha**, gaste **⏱️2** para retornar à Cozinha todas as cartas de **Xícara de café** removidas do jogo. Não mova cafés que ainda estejam no inventário nem crie cópias extras.
 
 ### Cansaço
 
@@ -273,7 +287,7 @@ No setup, escolha a ordem dos personagens jogáveis. Posicione primeiro a carta 
 
 ## 8. Telefones e Atendimento
 
-Há quatro tiles de telefone disponíveis no jogo. Cada telefone representa um ramal próprio e tem dois lados: **☎️ Tocando** e **☎️ Em atendimento**. Um telefone livre não tem tile no cenário. Um telefone ocupado por qualquer um desses lados não pode receber outra chamada. Os telefones não precisam ser usados pelo personagem que os escolheu: qualquer personagem pode atender qualquer telefone livre. Quando todos os telefones estiverem ocupados, novos efeitos que tentem aplicar `+ ☎️⚡` não produzem efeito.
+O jogo fornece quatro tiles de telefone, mas cada partida ativa no porão somente **um telefone por personagem jogável**. Deixe os tiles excedentes fora da partida; essa limitação reduz a quantidade de atendimentos simultâneos e controla a dificuldade conforme o número de jogadores. Cada telefone ativo representa um ramal próprio e tem dois lados: **☎️ Tocando** e **☎️ Em atendimento**. Um telefone livre não tem tile no cenário. Um telefone ocupado por qualquer um desses lados não pode receber outra chamada. Os telefones não precisam ser usados pelo personagem que os escolheu: qualquer personagem pode atender qualquer telefone livre. Quando todos os telefones ativos estiverem ocupados, novos efeitos que tentem aplicar `+ ☎️⚡` não produzem efeito.
 
 Uma carta de Chamado e uma carta de Usuário associadas formam a combinação **☎️ + 👤**. As duas cartas permanecem juntas até o chamado ser concluído.
 
@@ -357,26 +371,27 @@ Itens representam recursos improvisados do escritório. Produzir ou usar um item
 
 ### Estações de produção
 
-- No setup, separe os baralhos de Consumíveis e Equipamentos. Coloque todas as cartas de Consumíveis disponíveis no estoque da Cozinha. Coloque as cartas de Equipamentos na parte inferior do mapa, também parcialmente para fora do mapa, junto ao Armário.
-- Posicione o tile **🧰 SUP** do Armário na parte inferior do mapa, próximo às cartas de Equipamento. Posicione o tile **☕ CAF** dentro da Cozinha, representando a fonte dos itens da cozinha. Esses tiles são as estações: o personagem precisa ficar adjacente a eles para comprar.
-- **☕ CAF — Cafeteira:** mantém o estoque de Itens Consumíveis disponíveis.
+- No setup, separe os baralhos de Consumíveis e Equipamentos. Coloque todas as cartas de Consumíveis disponíveis viradas para cima e empilhadas dentro da Cozinha. Coloque as cartas de Equipamentos viradas para cima, encostadas no Armário e parcialmente para fora do tabuleiro.
 - **🧰 SUP — Armário de suprimentos:** produz um Item Equipamento.
 
-O tabuleiro deve destacar esses dois espaços com **✦ ☕ CAF** e **✦ 🧰 SUP**. A posição física das cartas no playtest serve para lembrar a origem de cada item; o cenário pode alterar essas posições sem mudar a regra.
+O tile **🧰 SUP** é a estação do Armário. A posição física das cartas no playtest serve para lembrar a origem de cada item; o cenário pode alterar essas posições sem mudar a regra.
 
-Para usar uma estação, o personagem precisa estar **adjacente ao tile da estação**.
+Para pegar um Consumível, o personagem deve entrar na Cozinha. Não é necessário procurar um tile específico nem gastar uma ação adicional: a movimentação até a Cozinha já representa pegar o item. Pegue uma carta disponível da pilha.
 
-- **Consumível:** um personagem adjacente ao tile **☕ CAF** pode gastar ⏱️1 para pegar uma carta de Consumível disponível no estoque da Cozinha. Não é necessário preparar o café. Cada carta consumida é removida do jogo.
+- **Consumível:** a carta é retirada da pilha da Cozinha quando o personagem entra no ambiente. Não é necessário preparar o café. Cada carta consumida é removida do jogo.
 - **Equipamento:** junto ao tile **🧰 SUP**, gaste ⏱️1 para escolher e pegar qualquer carta de Equipamento disponível. O equipamento pode ser colocado diretamente na área **Equipado** nessa mesma ação, respeitando o limite de um por tipo; caso contrário, vai para o Inventário.
-- **Colecionável:** mantenha as oito cartas únicas do baralho de Colecionáveis separadas do Armário. No setup, embaralhe esse baralho e deixe-o virado para baixo, ao alcance dos jogadores. Quando uma carta mandar comprar um Colecionável, compre a carta do topo e coloque-a na **Coleção** do jogador. Colecionáveis não ocupam o Inventário nem os encaixes de Equipado, salvo quando a própria carta disser **EQUIPADO**. Eles não podem ser comprados no tile **🧰 SUP**.
+- **Colecionável:** mantenha as nove cartas únicas do baralho de Colecionáveis separadas do Armário. No setup, embaralhe esse baralho e deixe-o virado para baixo, ao alcance dos jogadores. Quando uma carta mandar comprar um Colecionável, compre a carta do topo e coloque-a na **Coleção** do jogador. Colecionáveis não ocupam o Inventário nem os encaixes de Equipado, salvo quando a própria carta disser **EQUIPADO**. Eles não podem ser comprados no tile **🧰 SUP**.
 - **Contexto do Colecionador:** os `🏆` vêm do Colecionador, um funcionário da mesma empresa que guarda uma coleção de itens raros e estranhos. Quando um jogador obtém um desses itens, é como se tivesse conseguido uma peça por meio de uma troca ou de um favor entre colegas; não é uma compra normal no Armário.
 - **Usar um Colecionável:** quando uma carta tiver a linha **USAR** ou **CONSUMIR**, o efeito representa cobrar esse favor do Colecionador. Resolva o efeito e devolva a carta ao baralho de Colecionáveis; embaralhe o baralho antes de deixá-lo novamente virado para baixo. Cartas com **POSSE** ou **EQUIPADO** permanecem na Coleção enquanto o efeito estiver ativo.
+- **H18 — Mochila do Moss:** a carta permanece na **Coleção** e não ocupa Inventário. Posicione 1 Item sobre ela; esse Item conta normalmente para o limite de Inventário, mas usa o espaço extra da mochila. O Item pode ser retirado ou trocado normalmente.
 
-O Armário pode ser usado uma vez por rodada; vire seu marcador para o lado **Usada** depois de pegar um Equipamento. A Cafeteira permanece disponível enquanto houver Consumíveis no estoque. A Rotina desvira o marcador do Armário no início da rodada seguinte. Se não houver carta disponível, a ação não produz nada.
+O Armário pode ser usado uma vez por rodada; vire seu marcador para o lado **Usada** depois de pegar um Equipamento. A Rotina desvira o marcador do Armário no início da rodada seguinte. Se não houver carta disponível, a ação não produz nada.
 
 Cada personagem tem duas áreas diferentes para Itens. Os encaixes na parte superior da cartela representam o **Inventário**; as cartas colocadas abaixo da cartela ou ficha representam os itens **Equipados**.
 
 As cartas de **Colecionável** ficam abertas na **Coleção** do jogador, ao lado da cartela. Elas representam itens que pertencem ao jogador, mas não estão sendo carregados no cenário. A Coleção não tem limite de cartas e não ocupa os encaixes de Inventário ou Equipado.
+
+**Vitória pessoal opcional:** antes da partida, os jogadores podem combinar que, ao final, o personagem com mais cartas **🏆** na Coleção também alcança uma vitória pessoal. Colecionáveis podem ser trocados normalmente entre personagens, mas não ocupam espaço no Inventário.
 
 - **Inventário:** a área superior da cartela comporta até **3 cartas de Item**, em qualquer combinação. Richmond comporta até **4 cartas de Item**. Durante o Ato 4 de *Yesterday's Jam*, cada token de monitor quebrado também ocupa 1 espaço do inventário; cartas e monitores entram na mesma contagem máxima. Os itens do inventário são carregados, mas seus efeitos de Equipamento não estão ativos.
 - **Equipado:** fica imediatamente abaixo da carta ou ficha do personagem. A cartela também possui dois encaixes laterais para lembrar esse limite. Apenas cartas de Equipamento ficam nessa área e seus efeitos estão ativos. O personagem pode equipar no máximo **dois Equipamentos**, respeitando o limite de **um Equipamento de cada tipo**.
@@ -416,6 +431,8 @@ Personagens, Denholm e o Bombeiro que forem colocados no elevador também estão
 ## 13. Missões
 
 As cartas de missão seguem uma ordem fixa e não são embaralhadas. O manual contém a história, a preparação e as exceções de cada ato; a carta ativa serve apenas como lembrete visual do objetivo, dos números e dos efeitos principais.
+
+Os marcadores **📍** no canto superior direito da carta de Missão indicam seus andares mínimos. Todas as missões atuais mostram **📍B**, portanto usam somente o porão. Uma futura missão marcada **📍B** + **📍1** exige os dois tabuleiros, mas pode usar outros andares adicionais se os jogadores quiserem uma partida mais difícil.
 
 Quando a estrela chega à posição **Missão**, resolva o efeito ⭐ da carta de ato revelada. A carta permanece exposta sobre o topo do baralho e ativa até que sua condição de descarte seja cumprida. Ao concluir um ato, descarte sua carta, aplique a preparação do ato seguinte e revele o próximo ato quando a estrela voltar à posição **Missão**.
 

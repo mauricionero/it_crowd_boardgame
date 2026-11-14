@@ -17,7 +17,6 @@
         <div class="playtest-die playtest-die--d10" data-die data-die-type="d10" data-result="1" data-piece-id="die-d10-1" role="button" tabindex="0" aria-label="Dado d10 1: resultado 1" title="Clique para rolar o dado"><span class="playtest-die__face">1</span></div>
       </div>
       <div class="playtest-header-actions">
-        <p>Protótipo visual · sem regras automáticas · posicionamento inicial fixo</p>
         <details class="playtest-card-menu" data-card-menu>
           <summary>+ Carta</summary>
           <div class="playtest-card-menu__panel" data-card-menu-categories></div>
@@ -25,6 +24,12 @@
         <button type="button" class="playtest-add-die" data-add-die>+ 🎲 d6</button>
         <button type="button" class="playtest-add-die playtest-add-die--d10" data-add-d10>+ 🔺 d10</button>
         <div class="playtest-piece-trash" data-piece-trash aria-label="Lixeira de elementos">🗑️ Lixeira</div>
+        <label class="playtest-setup-select">Ao resetar:
+          <select data-setup-mode aria-label="Setup a carregar ao resetar">
+            <option value="base">Só Porão</option>
+            <option value="marketing">Porão + Andar 1</option>
+          </select>
+        </label>
         <button type="button" class="playtest-reset" data-reset-layout>Resetar posições</button>
       </div>
     </header>
@@ -36,28 +41,49 @@
             <h2>THE BOSS<br>STRESS</h2>
             <div class="playtest-stress-scale" data-stress-scale></div>
           </section>
-          <div class="playtest-board">
-            <img
-              class="playtest-board__image"
-              src="../../assets/boards/base/board-complete-18x12-v12.png"
-              alt="Tabuleiro principal"
-            >
-            <div class="playtest-station-tile playtest-station-tile--kitchen" data-kitchen-tile aria-label="Tile da estação da Cozinha"></div>
-            <section class="playtest-item-supply playtest-item-supply--cabinet" data-item-supply="cabinet" aria-label="Itens do armário">
-              <div data-cabinet-tile aria-label="Tile do armário de suprimentos"></div>
-              <div class="playtest-item-choices" data-equipment-choices></div>
-            </section>
+          <div class="playtest-board-group" data-board-group>
+            <div class="playtest-board playtest-board--base" data-board="base">
+              <img
+                class="playtest-board__image"
+                src="../../assets/boards/base/board-complete-18x12-v13.png"
+                alt="Tabuleiro do Porão"
+              >
+              <section class="playtest-item-supply playtest-item-supply--cabinet" data-item-supply="cabinet" aria-label="Itens do armário">
+                <div data-cabinet-tile aria-label="Tile do armário de suprimentos"></div>
+                <div class="playtest-item-choices" data-equipment-choices></div>
+              </section>
+            </div>
+            <div class="playtest-board playtest-board--floor-1" data-board="floor-1" hidden>
+              <img
+                class="playtest-board__image"
+                src="../../assets/boards/floor-1/board-floor-1-16x11-v1.png"
+                alt="Tabuleiro do Andar 1 — Marketing"
+              >
+            </div>
           </div>
         </div>
         <p class="playtest-board__caption">Área do cenário. As peças ainda são apenas referências posicionadas para o setup inicial.</p>
+        <div class="playtest-kitchen-item-source" data-kitchen-item-deck aria-hidden="true"></div>
+        <div class="playtest-deposit-item-source" data-deposit-item-deck aria-hidden="true"></div>
       </section>
 
       <aside class="playtest-side-panel" aria-label="Baralhos">
         <h2>Baralhos</h2>
         <section class="playtest-decks" data-decks aria-label="Baralhos empilhados"></section>
-        <section class="playtest-side-item-deck" aria-label="Estoque de consumíveis da cozinha">
-          <h3>☕ Consumíveis da cozinha</h3>
-          <div class="playtest-kitchen-item-supply" data-kitchen-item-deck></div>
+        <section class="playtest-side-materials" aria-label="Tokens, tiles e peões">
+          <h3>Tokens e tiles</h3>
+          <section class="playtest-side-material-group" aria-label="Tiles">
+            <h4>Tiles</h4>
+            <div class="playtest-materials playtest-materials--tiles" data-tiles aria-label="Todos os tiles disponíveis"></div>
+          </section>
+          <section class="playtest-side-material-group" aria-label="Tokens">
+            <h4>Tokens</h4>
+            <div class="playtest-materials playtest-materials--tokens" data-tokens aria-label="Todos os tokens disponíveis"></div>
+          </section>
+          <section class="playtest-side-material-group" aria-label="Peões">
+            <h4>Peões</h4>
+            <div class="playtest-material-pawns" data-material-pawns aria-label="Fichas de usuários e bombeiro"></div>
+          </section>
         </section>
       </aside>
 
@@ -68,33 +94,11 @@
         </div>
       </section>
 
-      <section class="playtest-bottom" aria-label="Tiles e tokens">
-        <section class="playtest-material-area playtest-tile-area">
-          <h2>Tiles</h2>
-          <div class="playtest-materials playtest-materials--tiles" data-tiles aria-label="Todos os tiles disponíveis"></div>
-          <h3 class="playtest-material-subheading">Fichas</h3>
-          <div class="playtest-material-pawns" data-material-pawns aria-label="Fichas de usuários e bombeiro"></div>
-        </section>
-
-        <section class="playtest-material-area playtest-token-area">
-          <h2>Tokens</h2>
-          <div class="playtest-materials playtest-materials--tokens" data-tokens aria-label="Todos os tokens disponíveis"></div>
-        </section>
-      </section>
-
       <section class="playtest-character-row" aria-label="Fichas dos personagens">
         <h2>Fichas dos personagens</h2>
         <div class="playtest-character-tableaus" data-character-tableaus></div>
       </section>
 
-      <section class="playtest-purchased-row" aria-label="Área para cartas compradas">
-        <h2>Cartas compradas</h2>
-        <div class="playtest-purchased-zones">
-          <section class="playtest-purchased-zone" aria-label="Chamados comprados">
-            <h3>Chamados</h3>
-          </section>
-        </div>
-      </section>
     </main>
 
     <script src="card-data.js"></script>
@@ -114,19 +118,29 @@
         { face: '✅', label: 'sucesso bloqueado', blocked: true },
       ];
       const POSITION_STORAGE_KEY = 'it-crowd-playtest-positions-v1';
-      const PRIORITY_LAYOUT_VERSION = 2;
+      const INITIAL_BOARD_LAYOUT_VERSION = 4;
+      const INITIAL_TILE_LAYOUT_VERSION = 3;
+      const INITIAL_PAWN_LAYOUT_VERSION = 1;
+      const INITIAL_KITCHEN_ITEM_LAYOUT_VERSION = 3;
+      const INITIAL_PAPER_LAYOUT_VERSION = 4;
+      const INITIAL_ACTION_LAYOUT_VERSION = 2;
+      const INITIAL_ROUTINE_LAYOUT_VERSION = 2;
+      const PRIORITY_LAYOUT_VERSION = 9;
       const PRIORITY_INITIAL_POSITIONS = [
         ['priority-star', -0.028, 1.135],
         ['priority-A1', -0.063, 1.179],
+        ['priority-A4', -0.063, 1.529],
         ['deck-event-generic', 0.037, 1.179],
         ['initiative-B1', 0.147, 1.182],
         ['initiative-B2', 0.242, 1.182],
         ['initiative-B6', 0.337, 1.182],
-        ['deck-event-mission', 0.439, 1.182],
+        ['initiative-B3', 0.432, 1.182],
+        ['deck-event-mission', 0.534, 1.182],
       ];
       const storedState = readStoredState();
       const storedPositions = storedState.positions;
       const storedDecks = storedState.decks;
+      const storedDeckSetupMode = storedState.deckSetupMode;
       const storedRevealedCards = storedState.revealedCards;
       const storedManualPieces = storedState.manualPieces;
       const storedDice = storedState.dice;
@@ -134,6 +148,20 @@
       const storedRemovedDice = storedState.removedDice;
       const storedRemovedPieces = storedState.removedPieces;
       let storedPriorityLayoutVersion = storedState.priorityLayoutVersion;
+      let storedBoardLayoutVersion = storedState.boardLayoutVersion;
+      let storedTileLayoutVersion = storedState.tileLayoutVersion;
+      let storedPawnLayoutVersion = storedState.pawnLayoutVersion;
+      let storedKitchenItemLayoutVersion = storedState.kitchenItemLayoutVersion;
+      let storedPaperLayoutVersion = storedState.paperLayoutVersion;
+      let storedActionLayoutVersion = storedState.actionLayoutVersion;
+      let storedRoutineLayoutVersion = storedState.routineLayoutVersion;
+      const setupMode = storedState.setupMode;
+      const activeFloors = new Set(setupMode === 'marketing' ? ['B', '1'] : ['B']);
+
+      function isActiveForSetup(card) {
+        const requiredFloors = card.requiredFloors || [card.floor || 'B'];
+        return requiredFloors.every((floor) => activeFloors.has(floor));
+      }
       let revealedCardSequence = storedRevealedCards.reduce((highestSequence, record) => {
         const match = String(record.pieceId || '').match(/-(\d+)$/);
         const sequence = match ? Number(match[1]) : 0;
@@ -162,10 +190,12 @@
       function readStoredState() {
         try {
           const parsed = JSON.parse(localStorage.getItem(POSITION_STORAGE_KEY) || '{}');
-          if (parsed.positions) {
+          const setupMode = parsed.setupMode === 'marketing' ? 'marketing' : 'base';
+          if (parsed.positions || parsed.setupMode) {
             return {
-              positions: parsed.positions,
+              positions: parsed.positions || {},
               decks: parsed.decks || {},
+              deckSetupMode: parsed.deckSetupMode || null,
               revealedCards: normalizeRevealedCards(parsed.revealedCards || []),
               manualPieces: parsed.manualPieces || [],
               dice: parsed.dice || [],
@@ -173,11 +203,19 @@
               removedDice: parsed.removedDice || [],
               removedPieces: parsed.removedPieces || [],
               priorityLayoutVersion: parsed.priorityLayoutVersion || 0,
+              boardLayoutVersion: parsed.boardLayoutVersion || 0,
+              tileLayoutVersion: parsed.tileLayoutVersion || 0,
+              pawnLayoutVersion: parsed.pawnLayoutVersion || 0,
+              kitchenItemLayoutVersion: parsed.kitchenItemLayoutVersion || 0,
+              paperLayoutVersion: parsed.paperLayoutVersion || 0,
+              actionLayoutVersion: parsed.actionLayoutVersion || 0,
+              routineLayoutVersion: parsed.routineLayoutVersion || 0,
+              setupMode,
             };
           }
-          return { positions: parsed, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0 };
+          return { positions: parsed, decks: {}, deckSetupMode: null, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0, boardLayoutVersion: 0, tileLayoutVersion: 0, pawnLayoutVersion: 0, kitchenItemLayoutVersion: 0, paperLayoutVersion: 0, actionLayoutVersion: 0, routineLayoutVersion: 0, setupMode };
         } catch (error) {
-          return { positions: {}, decks: {}, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0 };
+          return { positions: {}, decks: {}, deckSetupMode: null, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0, boardLayoutVersion: 0, tileLayoutVersion: 0, pawnLayoutVersion: 0, kitchenItemLayoutVersion: 0, paperLayoutVersion: 0, actionLayoutVersion: 0, routineLayoutVersion: 0, setupMode: 'base' };
         }
       }
 
@@ -186,6 +224,7 @@
           localStorage.setItem(POSITION_STORAGE_KEY, JSON.stringify({
             positions: storedPositions,
             decks: storedDecks,
+            deckSetupMode: setupMode,
             revealedCards: storedRevealedCards,
             manualPieces: storedManualPieces,
             dice: storedDice,
@@ -193,6 +232,14 @@
             removedDice: storedRemovedDice,
             removedPieces: storedRemovedPieces,
             priorityLayoutVersion: storedPriorityLayoutVersion,
+            boardLayoutVersion: storedBoardLayoutVersion,
+            tileLayoutVersion: storedTileLayoutVersion,
+            pawnLayoutVersion: storedPawnLayoutVersion,
+            kitchenItemLayoutVersion: storedKitchenItemLayoutVersion,
+            paperLayoutVersion: storedPaperLayoutVersion,
+            actionLayoutVersion: storedActionLayoutVersion,
+            routineLayoutVersion: storedRoutineLayoutVersion,
+            setupMode,
           }));
         } catch (error) {
           // A sessão de playtest continua funcionando mesmo se o armazenamento estiver indisponível.
@@ -205,24 +252,24 @@
 
       function isPriorityPieceId(pieceId) {
         return pieceId === 'priority-star'
-          || pieceId === 'priority-A1'
+          || pieceId.startsWith('priority-A')
           || pieceId.startsWith('initiative-')
           || pieceId.startsWith('deck-event-');
       }
 
-      function getBoardRelativePosition(left, top) {
-        const board = document.querySelector('.playtest-board');
-        if (!board) return null;
-        const boardRect = board.getBoundingClientRect();
-        if (!boardRect.width || !boardRect.height) return null;
+      function getPriorityQueueRelativePosition(left, top) {
+        const queue = document.querySelector('[data-priority-queue]');
+        if (!queue) return null;
+        const queueRect = queue.getBoundingClientRect();
+        if (!queueRect.width || !queueRect.height) return null;
 
         return {
-          boardX: (left - (boardRect.left + window.scrollX)) / boardRect.width,
-          boardY: (top - (boardRect.top + window.scrollY)) / boardRect.height,
+          queueX: (left - (queueRect.left + window.scrollX)) / queueRect.width,
+          queueY: (top - (queueRect.top + window.scrollY)) / queueRect.height,
         };
       }
 
-      function buildStoredPosition(element, left, top, zIndex) {
+      function buildStoredPosition(element, left, top, zIndex, boardAnchor = null) {
         const pieceId = getPieceId(element);
         const position = {
           ...storedPositions[pieceId],
@@ -230,9 +277,21 @@
           top,
           z: Number.isFinite(zIndex) ? zIndex : 1000,
         };
+        const anchor = boardAnchor || position.boardAnchor;
+        if (pieceId && anchor) {
+          const board = document.querySelector(`.playtest-board--${anchor}`);
+          if (board) {
+            const boardRect = board.getBoundingClientRect();
+            if (boardRect.width && boardRect.height) {
+              position.boardAnchor = anchor;
+              position.boardX = (left - (boardRect.left + window.scrollX)) / boardRect.width;
+              position.boardY = (top - (boardRect.top + window.scrollY)) / boardRect.height;
+            }
+          }
+        }
         if (pieceId && isPriorityPieceId(pieceId)) {
-          const boardPosition = getBoardRelativePosition(left, top);
-          if (boardPosition) Object.assign(position, boardPosition);
+          const queuePosition = getPriorityQueueRelativePosition(left, top);
+          if (queuePosition) Object.assign(position, queuePosition);
         }
         return position;
       }
@@ -246,6 +305,85 @@
           if (removedIndex >= 0) storedRemovedPieces.splice(removedIndex, 1);
         });
         storedPriorityLayoutVersion = PRIORITY_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialBoardLayoutIfNeeded() {
+        if (storedBoardLayoutVersion >= INITIAL_BOARD_LAYOUT_VERSION) return;
+
+        ['character-PC1', 'character-PC2', 'character-PC3', 'character-PC4'].forEach((pieceId) => {
+          delete storedPositions[pieceId];
+        });
+        Object.entries(storedPositions).forEach(([pieceId, position]) => {
+          const zIndex = Number(position.z);
+          if (zIndex >= 2200 && zIndex < 2250) delete storedPositions[pieceId];
+        });
+        storedBoardLayoutVersion = INITIAL_BOARD_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialTileLayoutIfNeeded() {
+        if (storedTileLayoutVersion >= INITIAL_TILE_LAYOUT_VERSION) return;
+
+        [
+          'station-cabinet',
+          'station-kitchen',
+          'tile-G1-1',
+          'tile-G1-2',
+          'tile-G1-3',
+          'tile-G1-4',
+          'tile-G2-1',
+          'tile-G4-1',
+        ].forEach((pieceId) => delete storedPositions[pieceId]);
+        storedTileLayoutVersion = INITIAL_TILE_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialPawnLayoutIfNeeded() {
+        if (storedPawnLayoutVersion >= INITIAL_PAWN_LAYOUT_VERSION) return;
+
+        delete storedPositions['pawn-P4'];
+        storedPawnLayoutVersion = INITIAL_PAWN_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialKitchenItemLayoutIfNeeded() {
+        if (storedKitchenItemLayoutVersion >= INITIAL_KITCHEN_ITEM_LAYOUT_VERSION) return;
+
+        [
+          'kitchen-item-H5-1',
+          'kitchen-item-H4-1',
+          'kitchen-item-H4-2',
+          'kitchen-item-H1-1',
+          'kitchen-item-H1-2',
+          'kitchen-item-H1-3',
+          'kitchen-item-H1-4',
+        ].forEach((pieceId) => delete storedPositions[pieceId]);
+        storedKitchenItemLayoutVersion = INITIAL_KITCHEN_ITEM_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialPaperLayoutIfNeeded() {
+        if (storedPaperLayoutVersion >= INITIAL_PAPER_LAYOUT_VERSION) return;
+
+        delete storedPositions['deposit-item-H17-1'];
+        storedPaperLayoutVersion = INITIAL_PAPER_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialActionLayoutIfNeeded() {
+        if (storedActionLayoutVersion >= INITIAL_ACTION_LAYOUT_VERSION) return;
+
+        ['action-card', 'action-card-A5'].forEach((pieceId) => delete storedPositions[pieceId]);
+        storedActionLayoutVersion = INITIAL_ACTION_LAYOUT_VERSION;
+        saveStoredState();
+      }
+
+      function resetInitialRoutineLayoutIfNeeded() {
+        if (storedRoutineLayoutVersion >= INITIAL_ROUTINE_LAYOUT_VERSION) return;
+
+        delete storedPositions['priority-A4'];
+        storedRoutineLayoutVersion = INITIAL_ROUTINE_LAYOUT_VERSION;
         saveStoredState();
       }
 
@@ -332,14 +470,24 @@
           topLayerIndex = Math.max(topLayerIndex, zIndex);
           let left = position.left;
           let top = position.top;
-          if (isPriorityPieceId(pieceId)
+          if (!isPriorityPieceId(pieceId)
+            && position.boardAnchor
             && Number.isFinite(position.boardX)
             && Number.isFinite(position.boardY)) {
-            const board = document.querySelector('.playtest-board');
+            const board = document.querySelector(`.playtest-board--${position.boardAnchor}`);
             if (board) {
               const boardRect = board.getBoundingClientRect();
               left = boardRect.left + window.scrollX + boardRect.width * position.boardX;
               top = boardRect.top + window.scrollY + boardRect.height * position.boardY;
+            }
+          } else if (isPriorityPieceId(pieceId)
+            && Number.isFinite(position.queueX)
+            && Number.isFinite(position.queueY)) {
+            const queue = document.querySelector('[data-priority-queue]');
+            if (queue) {
+              const queueRect = queue.getBoundingClientRect();
+              left = queueRect.left + window.scrollX + queueRect.width * position.queueX;
+              top = queueRect.top + window.scrollY + queueRect.height * position.queueY;
             }
           }
           moveElementToDocumentPosition(element, left, top, zIndex);
@@ -366,12 +514,12 @@
 
         document.querySelectorAll('.playtest-tile-face').forEach((tile) => {
           const face = storedPositions[getPieceId(tile)]?.face;
-          if (face && face !== 'front') setTileFace(tile, face);
+          if (face) setTileFace(tile, face);
         });
 
         document.querySelectorAll('.playtest-token-face').forEach((token) => {
           const face = storedPositions[getPieceId(token)]?.face;
-          if (face && face !== 'front') setTokenFace(token, face);
+          if (face) setTokenFace(token, face);
         });
 
         document.querySelectorAll('[data-die]').forEach((die) => {
@@ -510,8 +658,9 @@
         { characterCode: 'PC1', initiativeCode: 'B1', pawnCode: 'P2', label: 'Roy', color: '#d56a38', image: '../../assets/pawns/roy-face.png' },
         { characterCode: 'PC2', initiativeCode: 'B2', pawnCode: 'P3', label: 'Moss', color: '#7658a8', image: '../../assets/pawns/moss-face.png' },
         { characterCode: 'PC3', initiativeCode: 'B6', pawnCode: 'P7', label: 'Richmond', color: '#343047', image: '../../assets/pawns/richmond-face.png' },
-        { characterCode: null, initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
+        { characterCode: 'PC4', initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
         { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: '../../assets/pawns/denholm-face.png' },
+        { characterCode: null, initiativeCode: 'B7', pawnCode: 'P8', label: 'Douglas', color: '#7f4d43', image: '../../assets/pawns/douglas-face.png' },
       ];
 
       function createDeck(definition) {
@@ -522,10 +671,11 @@
         deck.dataset.pieceId = deckId;
         const entries = Object.entries(cards)
           .filter(([, card]) => card.type === definition.type && (!definition.filter || definition.filter(card)))
+          .filter(([, card]) => isActiveForSetup(card))
           .flatMap(([code, card]) => Array.from({ length: card.copies || 1 }, () => [code, card]));
-        const savedCodes = storedDecks[deckId];
+        const savedCodes = storedDeckSetupMode === setupMode ? storedDecks[deckId] : null;
         const deckEntries = Array.isArray(savedCodes)
-          ? savedCodes.map((code) => [code, cards[code]]).filter(([, card]) => card)
+          ? savedCodes.map((code) => [code, cards[code]]).filter(([, card]) => card && isActiveForSetup(card))
           : definition.type === CARD_TYPES.MISSION_EVENT ? entries : shuffle(entries);
         deck.playtestDeckState = {
           cards: deckEntries,
@@ -568,8 +718,10 @@
       );
 
       const kitchenItemSupply = document.querySelector('[data-kitchen-item-deck]');
-      Object.entries(cards)
-        .filter(([, card]) => card.type === CARD_TYPES.CONSUMABLE_ITEM)
+      if (kitchenItemSupply) Object.entries(cards)
+        .filter(([, card]) => card.type === CARD_TYPES.CONSUMABLE_ITEM
+          && (card.location || 'kitchen') === 'kitchen'
+          && isActiveForSetup(card))
         .forEach(([code, card]) => {
           const itemPile = document.createElement('div');
           itemPile.className = 'playtest-kitchen-item-pile';
@@ -595,8 +747,26 @@
           });
         });
 
+      const depositItemSupply = document.querySelector('[data-deposit-item-deck]');
+      if (depositItemSupply) Object.entries(cards)
+        .filter(([, card]) => card.type === CARD_TYPES.CONSUMABLE_ITEM
+          && card.location === 'deposit'
+          && isActiveForSetup(card))
+        .forEach(([code, card]) => {
+          Array.from({ length: card.copies || 1 }, (_, copyIndex) => {
+            const itemShell = document.createElement('div');
+            itemShell.className = 'playtest-item-choice-shell playtest-deposit-item-shell';
+            itemShell.dataset.pieceId = `deposit-item-${code}-${copyIndex + 1}`;
+            itemShell.setAttribute('aria-label', `${card.title} ${copyIndex + 1}`);
+            const itemCard = createPlaytestCard(code, card);
+            itemCard.classList.add('playtest-item-choice');
+            itemShell.append(itemCard);
+            depositItemSupply.append(itemShell);
+          });
+        });
+
       Object.entries(cards)
-        .filter(([, card]) => card.type === CARD_TYPES.EQUIPMENT_ITEM && !card.collectionOnly)
+        .filter(([, card]) => card.type === CARD_TYPES.EQUIPMENT_ITEM && !card.collectionOnly && isActiveForSetup(card))
         .forEach(([code, card]) => {
           const itemShell = document.createElement('div');
           itemShell.className = 'playtest-item-choice-shell';
@@ -608,7 +778,7 @@
           document.querySelector('[data-equipment-choices]').append(itemShell);
         });
 
-      const priorityCodes = ['A1'];
+      const priorityCodes = ['A1', ...(activeFloors.has('1') ? ['A4'] : [])];
 
       priorityCodes.forEach((code) => {
         const cardShell = document.createElement('div');
@@ -629,6 +799,14 @@
       moraleCardShell.dataset.pieceId = 'morale-card';
       moraleCardShell.append(createPlaytestCard('A3', cards.A3));
       document.querySelector('[data-character-tableaus]').append(moraleCardShell);
+
+      if (activeFloors.has('1')) {
+        const floorActionCardShell = document.createElement('div');
+        floorActionCardShell.className = 'playtest-action-card-shell';
+        floorActionCardShell.dataset.pieceId = 'action-card-A5';
+        floorActionCardShell.append(createPlaytestCard('A5', cards.A5));
+        document.querySelector('[data-character-tableaus]').append(floorActionCardShell);
+      }
 
       const stressScale = document.querySelector('[data-stress-scale]');
       const stressEffects = { 8: '+1👣', 11: '+1🙂', 13: '+1🧠', 14: '+1⏱️' };
@@ -671,11 +849,18 @@
 
       const characterTableaus = document.querySelector('[data-character-tableaus]');
       const decksArea = document.querySelector('[data-decks]');
+      const sideCharacterStack = document.createElement('div');
+      sideCharacterStack.className = 'playtest-side-character-stack';
+      sideCharacterStack.setAttribute('aria-label', 'Cartas de iniciativa de Denholm e Douglas');
+      decksArea.append(sideCharacterStack);
 
       characterDefinitions.forEach((definition) => {
         const tableau = document.createElement('article');
         tableau.className = 'playtest-character-tableau';
-        if (!definition.characterCode) tableau.classList.add('playtest-side-character-tableau');
+        if (!definition.characterCode) {
+          tableau.classList.add('playtest-side-character-tableau');
+          tableau.dataset.sideCharacter = definition.initiativeCode;
+        }
         tableau.setAttribute('aria-label', `Área de ${definition.label}`);
 
         const initiativeCard = createCard(definition.initiativeCode, cards[definition.initiativeCode]);
@@ -694,12 +879,14 @@
         }
         surface.append(initiativeCard, createTableauPawn(definition));
         tableau.append(surface);
-        (definition.characterCode ? characterTableaus : decksArea).append(tableau);
+        (definition.characterCode ? characterTableaus : sideCharacterStack).append(tableau);
       });
 
-      const tileEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.REVERSIBLE_TILE);
-      const materialTileEntries = tileEntries.filter(([code]) => !['G5', 'G6'].includes(code));
-      const tokenEntries = Object.entries(cards).filter(([, card]) => card.type === CARD_TYPES.TOKEN);
+      const tileEntries = Object.entries(cards)
+        .filter(([, card]) => card.type === CARD_TYPES.REVERSIBLE_TILE && isActiveForSetup(card));
+      const materialTileEntries = tileEntries.filter(([code]) => code !== 'G5');
+      const tokenEntries = Object.entries(cards)
+        .filter(([, card]) => card.type === CARD_TYPES.TOKEN && isActiveForSetup(card));
 
       function createPlaytestTile(code, tileData, copyIndex) {
         const tile = document.createElement('article');
@@ -747,14 +934,12 @@
       cabinetTile.dataset.pieceId = 'station-cabinet';
       document.querySelector('[data-cabinet-tile]').append(cabinetTile);
 
-      const kitchenTile = createPlaytestTile('G6', cards.G6, 0);
-      kitchenTile.dataset.pieceId = 'station-kitchen';
-      document.querySelector('[data-kitchen-tile]').append(kitchenTile);
-
       materialTileEntries.forEach(([code, tileData]) => {
-        Array.from({ length: tileData.copies || 1 }, (_, copyIndex) => (
-          document.querySelector('[data-tiles]').append(createPlaytestTile(code, tileData, copyIndex))
-        ));
+        Array.from({ length: tileData.copies || 1 }, (_, copyIndex) => {
+          const tile = createPlaytestTile(code, tileData, copyIndex);
+          if (code === 'G4') setTileFace(tile, 'back');
+          document.querySelector('[data-tiles]').append(tile);
+        });
       });
 
       const materialPawnEntries = [
@@ -880,7 +1065,7 @@
         storedRevealedCards.forEach((record) => {
           if (storedRemovedPieces.includes(record.pieceId)) return;
           const card = cards[record.code];
-          if (card) createRevealedCard(record.code, card, record);
+          if (card && isActiveForSetup(card)) createRevealedCard(record.code, card, record);
         });
       }
 
@@ -995,7 +1180,7 @@
         storedManualPieces.forEach((record) => {
           if (storedRemovedPieces.includes(record.pieceId)) return;
           const pieceData = cards[record.code];
-          if (pieceData && (record.kind === 'tile' || record.kind === 'token' || record.kind === 'pawn')) {
+          if (pieceData && isActiveForSetup(pieceData) && (record.kind === 'tile' || record.kind === 'token' || record.kind === 'pawn')) {
             topLayerIndex = Math.max(topLayerIndex, record.z || 1000);
             if (record.kind === 'pawn') {
               createManualPawnPiece(record.code, pieceData, record);
@@ -1006,51 +1191,82 @@
         });
       }
 
-      function saveInitialPiecePosition(element, left, top, zIndex) {
+      function saveInitialPiecePosition(element, left, top, zIndex, boardAnchor = null) {
         if (!element) return;
         const pieceId = getPieceId(element);
         if (!pieceId) return;
 
         moveElementToDocumentPosition(element, left, top, zIndex);
         document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
-        storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex);
+        storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex, boardAnchor);
       }
 
       function applyInitialPrioritySetup() {
-        const board = document.querySelector('.playtest-board');
-        if (!board) return;
+        const queue = document.querySelector('[data-priority-queue]');
+        if (!queue) return;
 
-        const boardRect = board.getBoundingClientRect();
-        const boardLeft = boardRect.left + window.scrollX;
-        const boardTop = boardRect.top + window.scrollY;
         let zIndex = 2250;
+        const priorityPieces = PRIORITY_INITIAL_POSITIONS
+          .map(([pieceId]) => ({
+            pieceId,
+            element: document.querySelector(`[data-piece-id="${pieceId}"]`),
+          }))
+          .filter(({ element }) => element);
+        const piecesToDetach = priorityPieces.filter(({ element }) => (
+          window.getComputedStyle(element).position !== 'absolute'
+          && window.getComputedStyle(element).position !== 'fixed'
+        ));
 
-        PRIORITY_INITIAL_POSITIONS.forEach(([pieceId, x, y]) => {
-          if (storedPositions[pieceId]) return;
-          const element = document.querySelector(`[data-piece-id="${pieceId}"]`);
-          saveInitialPiecePosition(
-            element,
-            boardLeft + boardRect.width * x,
-            boardTop + boardRect.height * y,
-            zIndex
-          );
+        piecesToDetach.forEach(({ element }) => {
+          moveElementToDocumentPosition(element, 0, 0, zIndex);
+          document.querySelectorAll(`[data-drag-placeholder-for="${getPieceId(element)}"]`).forEach((placeholder) => placeholder.remove());
           zIndex += 1;
         });
+
+        const piecesToPlace = priorityPieces.filter(({ pieceId }) => !storedPositions[pieceId]);
+
+        // Remover os baralhos da coluna lateral primeiro estabiliza a altura da fila.
+        const queueRect = queue.getBoundingClientRect();
+        const queueTop = queueRect.top + window.scrollY;
+        const queueCardTop = queueTop + 27;
+        const queueLeft = queueRect.left + window.scrollX;
+        const priorityGap = 8;
+        let nextCardLeft = queueLeft;
+
+        piecesToPlace
+          .filter(({ pieceId }) => pieceId !== 'priority-star' && pieceId !== 'priority-A4')
+          .forEach(({ pieceId, element }) => {
+            const top = queueCardTop;
+            const left = nextCardLeft;
+            element.style.left = `${left}px`;
+            element.style.top = `${top}px`;
+            element.style.zIndex = String(zIndex);
+            storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex);
+            nextCardLeft += element.getBoundingClientRect().width + priorityGap;
+            zIndex += 1;
+          });
+
+        const firstCard = piecesToPlace.find(({ pieceId }) => pieceId === 'priority-A1');
+        if (firstCard) {
+          const firstCardRect = firstCard.element.getBoundingClientRect();
+          const star = piecesToPlace.find(({ pieceId }) => pieceId === 'priority-star');
+          if (star) {
+            const starRect = star.element.getBoundingClientRect();
+            const left = firstCardRect.left + (firstCardRect.width - starRect.width) / 2;
+            const top = queueTop;
+            star.element.style.left = `${left}px`;
+            star.element.style.top = `${top}px`;
+            star.element.style.zIndex = String(zIndex);
+            storedPositions[star.pieceId] = buildStoredPosition(star.element, left, top, zIndex);
+            zIndex += 1;
+          }
+        }
 
         saveStoredState();
       }
 
       function applyInitialBoardSetup() {
-        const hasStoredSession = Object.keys(storedPositions).length > 0
-          || Object.keys(storedDecks).length > 0
-          || storedRevealedCards.length > 0
-          || storedManualPieces.length > 0
-          || storedDice.length > 0
-          || storedRemovedDice.length > 0
-          || storedRemovedPieces.length > 0;
-        if (hasStoredSession) return;
-
-        const board = document.querySelector('.playtest-board');
+        const board = document.querySelector('.playtest-board--base');
         if (!board) return;
         const boardRect = board.getBoundingClientRect();
         const boardLeft = boardRect.left + window.scrollX;
@@ -1062,19 +1278,18 @@
         let zIndex = 2200;
 
         const place = (pieceId, x, y) => {
-          const position = point(x, y);
           const element = document.querySelector(`[data-piece-id="${pieceId}"]`);
-          saveInitialPiecePosition(element, position.left, position.top, zIndex);
+          if (element && (
+            element.matches('.playtest-tile-face, .playtest-token-face, .playtest-character-tableau__pawn, .playtest-material-pawn')
+            || element.querySelector('.playtest-tile-face')
+          )) {
+            element.dataset.boardPiece = 'true';
+          }
+          if (storedPositions[pieceId] || storedRemovedPieces.includes(pieceId)) return;
+          const position = point(x, y);
+          saveInitialPiecePosition(element, position.left, position.top, zIndex, 'base');
           zIndex += 1;
         };
-
-        // Consumíveis ficam em duas pilhas fora da borda esquerda do mapa.
-        ['H1', 'H4'].forEach((code, pileIndex) => {
-          const copyCount = cards[code]?.copies || 1;
-          for (let copyIndex = 1; copyIndex <= copyCount; copyIndex += 1) {
-            place(`kitchen-item-${code}-${copyIndex}`, -0.073, 0.155 + pileIndex * 0.18);
-          }
-        });
 
         // Equipamentos ficam abertos abaixo do tabuleiro, da esquerda para a direita.
         ['H2', 'H3', 'H6'].forEach((code, index) => {
@@ -1082,40 +1297,165 @@
         });
 
         // O armário fica na faixa inferior do mapa, e os personagens começam em cena.
-        place('station-cabinet', 0.453, 0.866);
-        place('station-kitchen', 0.170, 0.226);
+        place('station-cabinet', 0.439, 0.867);
+        // Consumíveis ficam virados para cima e empilhados dentro da Cozinha.
+        [
+          'kitchen-item-H5-1',
+          'kitchen-item-H4-2',
+          'kitchen-item-H4-1',
+          'kitchen-item-H1-4',
+          'kitchen-item-H1-3',
+          'kitchen-item-H1-2',
+          'kitchen-item-H1-1',
+        ].forEach((pieceId) => place(pieceId, 0.035, 0.255));
 
-        place('pawn-P2', 0.315, 0.640); // Roy
-        place('pawn-P3', 0.456, 0.315); // Moss
-        place('pawn-P4', 0.842, 0.396); // Jen
-        place('pawn-P7', 0.128, 0.717); // Richmond
+        place('pawn-P2', 0.274, 0.629); // Roy
+        place('pawn-P3', 0.446, 0.310); // Moss
+        place('pawn-P4', 0.901, 0.387); // Jen, na cadeira da gerência
+        place('pawn-P7', 0.048, 0.714); // Richmond
 
-        place('token-T6-1', 0.693, 0.874);
-        place('token-T6-2', 0.702, 0.876);
-        place('token-T6-3', 0.840, 0.560);
-        place('token-T6-4', 0.849, 0.555);
+        place('token-T6-1', 0.724, 0.876);
+        place('token-T6-2', 0.735, 0.883);
+        place('token-T6-3', 0.913, 0.565);
+        place('token-T6-4', 0.903, 0.555);
 
-        place('tile-G2-1', 0.167, 0.472);
+        place('tile-G2-1', 0.104, 0.463);
 
-        place('tile-G1-4', 0.121, 0.786);
-        place('tile-G1-3', 0.355, 0.626);
-        place('tile-G1-2', 0.452, 0.387);
-        place('tile-G1-1', 0.810, 0.384);
-
-        place('kitchen-item-H5-1', 0.024, 0.005);
-        place('kitchen-item-H1-4', 0.026, 0.181);
-        place('kitchen-item-H1-3', 0.028, 0.184);
-        place('kitchen-item-H1-2', 0.030, 0.187);
-        place('kitchen-item-H1-1', 0.032, 0.187);
-        place('kitchen-item-H4-3', 0.031, 0.359);
-        place('kitchen-item-H4-2', 0.028, 0.360);
-        place('kitchen-item-H4-1', 0.030, 0.359);
+        place('tile-G1-4', 0.048, 0.784);
+        place('tile-G1-3', 0.326, 0.620);
+        place('tile-G1-2', 0.443, 0.379);
+        place('tile-G1-1', 0.842, 0.380);
 
         place('item-H6', 0.551, 0.934);
         place('item-H3', 0.481, 0.933);
         place('item-H2', 0.411, 0.933);
 
+        place('action-card', -0.081, 1.902);
+        place('morale-card', 0.060, 1.900);
+
         saveStoredState();
+      }
+
+      // Posições manuais das cartas e componentes exclusivos do Andar 1.
+      // Este método só roda quando o setup Marketing está ativo.
+      function applyInitialFloorOneCardSetup() {
+        if (!activeFloors.has('1')) return;
+
+        const baseBoard = document.querySelector('.playtest-board--base');
+        const floorOneBoard = document.querySelector('.playtest-board--floor-1');
+        const baseBoardRect = baseBoard?.getBoundingClientRect();
+        const floorOneBoardRect = floorOneBoard?.getBoundingClientRect();
+        if (!baseBoardRect || !floorOneBoardRect) return;
+
+        const placeRelativeToBoard = (pieceId, board, boardRect, boardX, boardY, zIndex) => {
+          const element = document.querySelector(`[data-piece-id="${pieceId}"]`);
+          if (!element || storedPositions[pieceId] || storedRemovedPieces.includes(pieceId)) return;
+
+          saveInitialPiecePosition(
+            element,
+            boardRect.left + window.scrollX + boardRect.width * boardX,
+            boardRect.top + window.scrollY + boardRect.height * boardY,
+            zIndex,
+            board.dataset.board
+          );
+        };
+
+        const baseActionCard = document.querySelector('[data-piece-id="action-card"]');
+        const baseActionZIndex = Number.parseInt(baseActionCard?.style.zIndex, 10);
+        placeRelativeToBoard(
+          'action-card-A5',
+          baseBoard,
+          baseBoardRect,
+          -0.081,
+          2.049,
+          Number.isFinite(baseActionZIndex) ? baseActionZIndex - 1 : 2201
+        );
+
+        const baseRoutineCard = document.querySelector('[data-piece-id="priority-A1"]');
+        const baseRoutineZIndex = Number.parseInt(baseRoutineCard?.style.zIndex, 10);
+        placeRelativeToBoard(
+          'priority-A4',
+          baseBoard,
+          baseBoardRect,
+          -0.092,
+          1.528,
+          Number.isFinite(baseRoutineZIndex) ? baseRoutineZIndex - 1 : 2249
+        );
+
+        const printerTile = document.querySelector('[data-piece-id="tile-G4-1"]');
+        if (printerTile && !storedPositions['tile-G4-1'] && !storedRemovedPieces.includes('tile-G4-1')) {
+          printerTile.dataset.boardPiece = 'true';
+          saveInitialPiecePosition(
+            printerTile,
+            floorOneBoardRect.left + window.scrollX + floorOneBoardRect.width * 0.267,
+            floorOneBoardRect.top + window.scrollY + floorOneBoardRect.height * 0.106,
+            2200,
+            'floor-1'
+          );
+        }
+
+        // Ajuste manual do papel: place('deposit-item-H17-1', 0.005, -0.259);
+        placeRelativeToBoard(
+          'deposit-item-H17-1',
+          baseBoard,
+          baseBoardRect,
+          0.005,
+          -0.259,
+          2201
+        );
+
+        saveStoredState();
+      }
+
+      function ensureStackedActionCards() {
+        const baseActionCard = document.querySelector('[data-piece-id="action-card"]');
+        const floorActionCard = document.querySelector('[data-piece-id="action-card-A5"]');
+        if (!baseActionCard || !floorActionCard) return;
+
+        const baseActionZIndex = Number.parseInt(baseActionCard.style.zIndex, 10);
+        const floorActionZIndex = Number.parseInt(floorActionCard.style.zIndex, 10);
+        const topActionZIndex = Math.max(
+          Number.isFinite(floorActionZIndex) ? floorActionZIndex + 1 : 0,
+          Number.isFinite(baseActionZIndex) ? baseActionZIndex : 0
+        );
+        baseActionCard.style.zIndex = String(topActionZIndex);
+        storedPositions['action-card'] = buildStoredPosition(
+          baseActionCard,
+          Number.parseFloat(baseActionCard.style.left),
+          Number.parseFloat(baseActionCard.style.top),
+          topActionZIndex,
+          'base'
+        );
+        saveStoredState();
+      }
+
+      function syncStressRulerHeight() {
+        const ruler = document.querySelector('.playtest-stress-ruler');
+        const baseBoard = document.querySelector('.playtest-board--base');
+        if (!ruler || !baseBoard) return;
+        ruler.style.height = `${baseBoard.getBoundingClientRect().height}px`;
+      }
+
+      function syncBoardPieceScale() {
+        const baseBoard = document.querySelector('.playtest-board--base');
+        if (!baseBoard) return;
+        document.querySelectorAll('[data-piece-id]').forEach((piece) => {
+          const position = storedPositions[getPieceId(piece)];
+          if (!position?.boardAnchor || isPriorityPieceId(getPieceId(piece))) return;
+          const board = document.querySelector(`.playtest-board--${position.boardAnchor}`);
+          if (!board || !Number.isFinite(position.boardX) || !Number.isFinite(position.boardY)) return;
+          const boardRect = board.getBoundingClientRect();
+          piece.style.left = `${boardRect.left + window.scrollX + boardRect.width * position.boardX}px`;
+          piece.style.top = `${boardRect.top + window.scrollY + boardRect.height * position.boardY}px`;
+        });
+        const baseBoardWidthMm = Number.parseFloat(
+          window.getComputedStyle(document.documentElement).getPropertyValue('--playtest-base-board-width')
+        );
+        const baseBoardWidthPx = baseBoardWidthMm * (96 / 25.4);
+        const scale = baseBoard.getBoundingClientRect().width / baseBoardWidthPx;
+        document.querySelectorAll('[data-board-piece="true"]').forEach((piece) => {
+          piece.style.setProperty('--playtest-board-piece-scale', scale.toFixed(4));
+        });
       }
 
       const cardMenuCategories = [
@@ -1136,8 +1476,6 @@
         G2: 'Servidor',
         G3: 'Telefone',
         G5: 'Armário',
-        G6: 'Cafeteira',
-        G7: 'Fio do telefone',
         T1: 'Fogo',
         T2: 'Cansaço',
         T3: 'Distração',
@@ -1165,6 +1503,7 @@
             ]
             : Object.entries(cards)
               .filter(([, card]) => categoryDefinition.types.includes(card.type))
+              .filter(([, card]) => isActiveForSetup(card))
               .filter(([, card]) => categoryDefinition.kind !== 'token' || card.front)
               .map(([code, card]) => ({ code, card, menuCode: code }));
 
@@ -1444,21 +1783,53 @@
         saveStoredState();
       });
 
-      resetPriorityLayoutIfNeeded();
-      removeStoredPieces();
-      applyInitialBoardSetup();
-      applyInitialPrioritySetup();
-      restoreStoredPositions();
-      restoreRevealedCards();
-      restoreManualPieces();
-      restoreStoredFaces();
-      buildCardMenu();
+      const setupModeSelect = document.querySelector('[data-setup-mode]');
+      setupModeSelect.value = setupMode;
+      document.querySelector('[data-board="floor-1"]').hidden = setupMode !== 'marketing';
 
-      document.querySelector('[data-reset-layout]').addEventListener('click', () => {
-        if (!window.confirm('Resetar todas as posições da mesa de playtest?')) return;
-        localStorage.removeItem(POSITION_STORAGE_KEY);
-        window.location.reload();
+      function initializePlaytestLayout() {
+        resetInitialBoardLayoutIfNeeded();
+        resetInitialTileLayoutIfNeeded();
+        resetInitialPawnLayoutIfNeeded();
+        resetInitialKitchenItemLayoutIfNeeded();
+        resetInitialPaperLayoutIfNeeded();
+        resetInitialActionLayoutIfNeeded();
+        resetInitialRoutineLayoutIfNeeded();
+        syncStressRulerHeight();
+        resetPriorityLayoutIfNeeded();
+        removeStoredPieces();
+        applyInitialBoardSetup();
+        applyInitialPrioritySetup();
+        applyInitialFloorOneCardSetup();
+        restoreStoredPositions();
+        ensureStackedActionCards();
+        restoreRevealedCards();
+        restoreManualPieces();
+        restoreStoredFaces();
+        syncBoardPieceScale();
+        buildCardMenu();
+
+        document.querySelector('[data-reset-layout]').addEventListener('click', () => {
+          const selectedSetupMode = setupModeSelect.value;
+          const selectedSetupName = selectedSetupMode === 'marketing'
+            ? 'Porão + Andar 1 — Marketing'
+            : 'Só Porão';
+          if (!window.confirm(`Carregar o setup “${selectedSetupName}” e resetar todas as posições da mesa?`)) return;
+          localStorage.setItem(POSITION_STORAGE_KEY, JSON.stringify({ setupMode: selectedSetupMode }));
+          window.location.reload();
+        });
+      }
+
+      window.addEventListener('resize', () => {
+        syncStressRulerHeight();
+        syncBoardPieceScale();
       });
+
+      if (document.readyState === 'complete') {
+        initializePlaytestLayout();
+      } else {
+        window.addEventListener('load', initializePlaytestLayout, { once: true });
+      }
     </script>
   </body>
 </html>
