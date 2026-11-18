@@ -1389,6 +1389,14 @@ body {
   display: flex;
 }
 
+.card--type-actions.card--background,
+.card--type-morale.card--background {
+  border: 0;
+  border-radius: 3.2mm;
+  background: var(--card-background) center / 100% 100% no-repeat, var(--frame-color);
+  box-shadow: none;
+}
+
 .card--type-reference .title-slot {
   top: 5%;
   left: 7%;

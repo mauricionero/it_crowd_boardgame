@@ -18,8 +18,7 @@ Uma missão roteirizada acrescenta objetivos próprios. No modo genérico, os jo
 - Tabuleiro top-down do porão, dividido em tiles quadrados: sala de TI, escritório de Jen, sala de servidores, cozinha, corredor e elevador.
 - Extensão de tabuleiro com escritório de Denholm e corredor para a missão *Yesterday's Jam*.
 - Tiles reversíveis para computadores, servidor e telefones.
-- Quatro tiles de computador e quatro tiles de telefone, com os lados **Tocando / Em atendimento**. No setup, ative no porão **exatamente um ramal por personagem jogável**; os tiles de telefone excedentes ficam fora da partida. Um telefone livre não fica no cenário: quando o ramal estiver livre, remova seu tile da mesa. Cada jogador escolhe um escritório para seu personagem; o telefone e o computador desse personagem ficam nesse tile quando o telefone estiver em uso. Os telefones ativos são funcionalmente equivalentes: qualquer personagem pode usar qualquer telefone ou computador ativo.
-- O escritório do gerente, localizado à direita do tabuleiro, é reservado à missão e não pode ser escolhido como escritório de um personagem jogável.
+- Quatro tiles de computador e quatro tiles de telefone, com os lados **Tocando / Em atendimento**. No setup, ative no porão **exatamente um ramal por personagem jogável**; os tiles de telefone excedentes ficam fora da partida. Um telefone livre não fica no cenário: quando o ramal estiver livre, remova seu tile da mesa. Cada jogador escolhe uma mesa de escritório com cadeira para seu personagem; o telefone e o computador desse personagem ficam nesse tile quando o telefone estiver em uso. Qualquer personagem pode usar qualquer computador ou telefone que esteja no cenário junto a uma cadeira. Se uma missão definir uma posição ou restringir uma sala, a regra da missão tem prioridade.
 - Peões dos personagens e dois peões de Bombeiro. Usuários comuns são representados apenas pela combinação de cartas `☎️ + 👤`; não há peões genéricos de Usuário.
 - Baralho de Chamados, baralho de Usuários, baralho de Eventos Genéricos, cartas de Missão e baralho de Colecionáveis `🏆`.
 - Uma carta fixa de **Rotina** e uma estrela para indicar a iniciativa.
@@ -36,7 +35,7 @@ O elevador ocupa **2 × 2 tiles**. A área serve como ponto físico de surgiment
 
 ### Escritórios dos jogadores
 
-No setup, cada jogador escolhe um tile de escritório para seu personagem, exceto o escritório do gerente à direita do tabuleiro, que é reservado à missão. Coloque nesse escritório o computador correspondente ao personagem. Essa escolha serve apenas para definir a posição inicial desses componentes: qualquer personagem pode usar qualquer telefone ou computador. Se uma missão definir uma posição específica para um componente, a regra da missão tem prioridade.
+No setup, cada jogador escolhe qualquer tile de escritório com cadeira para seu personagem, inclusive o escritório do gerente à direita do tabuleiro. Coloque nesse escritório o computador correspondente ao personagem. Essa escolha serve apenas para definir a posição inicial desses componentes: qualquer personagem pode usar qualquer computador ou telefone que esteja no cenário junto a uma cadeira. Se uma missão definir uma posição específica ou restringir uma sala, a regra da missão tem prioridade.
 
 ### Ponto de surgimento
 
@@ -56,7 +55,7 @@ Use o próprio componente para mostrar o estado sempre que possível: tile virad
 | ⭐ | Efeito de paciência do usuário quando a estrela alcançar sua carta na fila. Cartas especiais podem escrever outros efeitos. |
 | 🛠️ | Preparação da missão; resolva uma única vez quando a missão for revelada e prepare o tabuleiro conforme indicado. |
 | 📌 | Objetivo de uma carta de Missão. |
-| 📍B / 📍1 | Andar de origem ou andar mínimo exigido pela carta. |
+| 📍B / 📍1️⃣ | Andar de origem ou andar mínimo exigido pela carta. |
 | 🎯1 / 🎯2 / 🎯3 | Etapas numeradas de resolução de um Evento ou objetivo. |
 | ⚔️ | Confronto ou interação direta entre personagens. |
 | 🗑️ | Descarte a carta após resolver o efeito ou cumprir a condição indicada. |
@@ -69,8 +68,8 @@ Todo componente de carta traz no canto superior direito um ou mais marcadores **
 | Marcador | Significado |
 |---|---|
 | **📍B** | Porão (*Basement*), o andar do jogo base. O mesmo **B** aparece no piso do elevador 2 × 2. |
-| **📍1** | Andar 1, expansão de escritórios e Marketing. |
-| **📍B** + **📍1** | A carta requer os dois andares. Futuras expansões seguirão a mesma convenção com novos números. |
+| **📍1️⃣** | Andar 1, expansão de escritórios e Marketing. |
+| **📍B** + **📍1️⃣** | A carta requer os dois andares. Futuras expansões seguirão a mesma convenção com novos números. |
 
 Em cartas comuns, o marcador identifica a expansão à qual a carta pertence. Em uma **Missão**, os marcadores listam os **andares mínimos obrigatórios** para aquela missão funcionar. Antes do setup, confira os marcadores da missão e monte todos os tabuleiros indicados.
 
@@ -177,9 +176,9 @@ Quando uma regra usar **A vs B**, cada lado rola uma quantidade de d6 igual ao p
 
 **Empate:** nenhum lado vence e nenhum efeito do confronto acontece. A ação ou ativação usada é gasta. O confronto só pode ser repetido se a regra permitir uma nova tentativa.
 
-Quando uma regra indicar um atributo combinado, como **🧠 + 🙂**, some os dados dos dois atributos e conte os resultados 5 ou 6 como sucessos no mesmo teste.
+Quando uma regra indicar um atributo combinado, como **🧠 + 🙂 = ✅✅**, some os dados dos dois atributos e conte os resultados 5 ou 6 como sucessos no mesmo teste. Nesse exemplo, são necessários 2 sucessos no total, vindos de qualquer combinação dos dois atributos.
 
-Quando uma regra indicar atributos diferentes e um sucesso diferente para cada, como **🧠✅ 🙂✅✅**, sao rolagens independentes para cada atributo, nesse caso seria 1 sucesso para 🧠 e 2 sucessos para 🙂.
+Quando uma regra indicar atributos diferentes e um sucesso diferente para cada, como **🧠✅, 🙂✅**, são rolagens independentes para cada atributo: nesse caso, é necessário 1 sucesso de 🧠 e 1 sucesso de 🙂. Um sucesso de um atributo não substitui o requisito do outro.
 
 ## 5. Personagens e ações
 
@@ -198,7 +197,7 @@ Ações básicas:
 
 - **Trocar ação por Cansaço:** durante sua ativação, um personagem pode gastar **⏱️1** para remover **1🫩** de si ou de um aliado adjacente. Alternativamente, pode colocar **1🫩** sobre si para realizar **1 ação extra imediatamente**; esse 🫩 passa a reduzir as ações disponíveis normalmente na próxima ativação. A opção de colocar 🫩 pode ser usada no máximo **2 vezes por ativação**. Não é permitido ultrapassar 3🫩, o personagem com 3🫩 ficará incapacitado até receber ajuda pois não tem ações para conseguir se recuperar.
 - **Comprar um dado:** antes de um teste de atributo, gaste **⏱️1** para adicionar **+1 dado** ao atributo usado naquele teste. O dado extra vale para a rolagem e suas rerrolagens, não altera o atributo da ficha e é descartado ao terminar o teste. O custo é adicional ao custo normal da tarefa.
-- **Ânimo:** cada personagem pode guardar até **5🔋**. Além das fontes indicadas nas cartas, cada personagem pode gerar 1🔋 por turno conforme a ação **Gerar Ânimo**. Gaste os tokens conforme a carta de referência **🔋 Ânimo**.
+- **Ânimo:** cada personagem pode guardar até **5🔋**. Além das fontes indicadas nas cartas, cada personagem pode gerar 1🔋 por turno conforme a ação **Gerar Ânimo**. Para pagar um custo, retire da cartela a quantidade indicada de marcadores e devolva-os à reserva comum; depois aplique o efeito conforme a carta de referência **🔋 Ânimo**.
 - **Interrupções:** um jogador pode gastar **🔋** a qualquer momento, inclusive durante a ativação de outro personagem e antes de resolver uma carta de Evento ou Missão. A opção de colocar **1🫩** para ganhar **1 ação extra** também pode ser declarada como interrupção. Resolva a interrupção antes de continuar a resolução interrompida; respeite os momentos indicados na carta de referência para declarar cada bônus.
 - **Reabastecer café:** estando em qualquer tile da **Cozinha**, gaste **⏱️2** para retornar à Cozinha todas as cartas de **Xícara de café** removidas do jogo. Não mova cafés que ainda estejam no inventário nem crie cópias extras.
 
@@ -226,7 +225,7 @@ Exemplo: caso 1 personagem esteja com 🫩 na sua ativação, significa que ele 
 | Roy | 3 | 2 | `3 + 1🎲` |
 | Moss | 4 | 1 | `3 + 2🎲` |
 | Richmond | 2 | 1 | `4 + 1🎲` |
-| Jen | 1 | 3 | `3 + 1🎲` |
+| Jen | 0 | 3 | `3 + 1🎲` |
 | Denholm (NPC) | 1 | 2 | `1 + 3🎲` |
 
 **Roy — Pequena Vitória:** ao concluir um Chamado, ganhe 1🔋.
@@ -235,7 +234,7 @@ Exemplo: caso 1 personagem esteja com 🫩 na sua ativação, significa que ele 
 
 **Richmond — Conformado:** 1× por turno, remova 1🫩 de si sem gastar ⏱️.
 
-**Jen — Sabe lidar com gente:** ao concluir com sucesso um chamado social, reduz 1⚠️.
+**Jen — Liderança:** Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão. Qualquer Chamado concluído faz Jen receber +🔋.
 
 ## 6. Movimento e ocupação dos tiles
 
@@ -287,7 +286,7 @@ No setup, escolha a ordem dos personagens jogáveis. Posicione primeiro a carta 
 
 ## 8. Telefones e Atendimento
 
-O jogo fornece quatro tiles de telefone, mas cada partida ativa no porão somente **um telefone por personagem jogável**. Deixe os tiles excedentes fora da partida; essa limitação reduz a quantidade de atendimentos simultâneos e controla a dificuldade conforme o número de jogadores. Cada telefone ativo representa um ramal próprio e tem dois lados: **☎️ Tocando** e **☎️ Em atendimento**. Um telefone livre não tem tile no cenário. Um telefone ocupado por qualquer um desses lados não pode receber outra chamada. Os telefones não precisam ser usados pelo personagem que os escolheu: qualquer personagem pode atender qualquer telefone livre. Quando todos os telefones ativos estiverem ocupados, novos efeitos que tentem aplicar `+ ☎️⚡` não produzem efeito.
+O jogo fornece quatro tiles de telefone, mas cada partida ativa no porão somente **um telefone por personagem jogável**. Deixe os tiles excedentes fora da partida; essa limitação reduz a quantidade de atendimentos simultâneos e controla a dificuldade conforme o número de jogadores. Cada mesa de jogador definida no setup, com um computador, também representa um ramal ativo do TI. Cada telefone ativo tem dois lados: **☎️ Tocando** e **☎️ Em atendimento**. Quando uma chamada surgir, coloque o tile **☎️ Tocando** em qualquer lugar visível do cenário; ele é apenas um marcador e não define onde o atendimento precisa acontecer. Um personagem pode atender a chamada em qualquer mesa de jogador com computador, sem precisar estar junto ao tile. Um telefone ocupado por qualquer um desses lados não pode receber outra chamada. Quando todos os telefones ativos estiverem ocupados, novos efeitos que tentem aplicar `+ ☎️⚡` não produzem efeito.
 
 Uma carta de Chamado e uma carta de Usuário associadas formam a combinação **☎️ + 👤**. As duas cartas permanecem juntas até o chamado ser concluído.
 
@@ -309,14 +308,15 @@ Resolva os itens na ordem indicada, antes de a estrela avançar:
 
 ### Atender um telefone
 
-Estando junto a um `☎️⚡`, gaste ⏱️1, vire o marcador para Em atendimento e compre **uma carta de Chamado e uma carta de Usuário**. Associe imediatamente as duas cartas na mão do personagem: Chamado por cima e Usuário ligeiramente deslocado para identificação. O jogador conhece o problema e o perfil de quem ligou antes de escolher como agir.
+Estando em qualquer mesa de jogador com computador, gaste ⏱️1, mova o tile **☎️ Tocando** para essa mesa e vire o marcador para **Em atendimento**. Compre **uma carta de Chamado e uma carta de Usuário**. Associe imediatamente as duas cartas na mão do personagem: Chamado por cima e Usuário ligeiramente deslocado para identificação. O jogador conhece o problema e o perfil de quem ligou antes de escolher como agir.
 
-Enquanto a combinação ☎️ + 👤 estiver na mão, o personagem que a segura é o responsável pelo atendimento. Durante sua ativação, ele só pode gastar ações para resolver esse Chamado ou usar **Postergar**; não pode mover, comprar itens ou realizar outras interações. A Rotina resolve automaticamente a linha `📞` da carta de Usuário para cada combinação que continuar na mão. Fora das linhas `☎️` impressas na carta, não há modificadores adicionais do Usuário durante o atendimento.
+Enquanto a combinação ☎️ + 👤 estiver na mão, o personagem que a segura é o responsável pelo atendimento. Durante sua ativação, ele **não pode se movimentar**; pode gastar ações para resolver esse Chamado, usar **Postergar** ou realizar outras ações permitidas. A Rotina resolve automaticamente a linha `📞` da carta de Usuário para cada combinação que continuar na mão. Fora das linhas `☎️` impressas na carta, não há modificadores adicionais do Usuário durante o atendimento.
 
 - **Resolver:** use o custo e os testes impressos na carta de Chamado. Aplique a regra geral de sucessos acumulados e rerrolagens da seção 4. Ao concluir, resolva o `🏁` do Usuário, se houver, e depois o `🏁` do Chamado. Descarte Chamado e Usuário juntos e remova qualquer marcador que esteja Em atendimento.
 - **Postergar:** gaste ⏱️1, remova o tile de telefone da mesa e coloque a combinação ☎️ + 👤 no fim da fila de iniciativa, com o Chamado por cima. Qualquer personagem pode continuar a resolução diretamente da fila durante o próprio turno. Não faça teste adicional.
+- **Recuperar um chamado:** durante a ativação, o jogador da vez pode gastar ⏱️1 para mover uma combinação ☎️ + 👤 da iniciativa ou da mão de outro jogador para a própria mão. Não é permitido transferir o conjunto diretamente para a mão de outro jogador.
 
-Quando a estrela alcançar a combinação ☎️ + 👤 na iniciativa, resolva a linha `⭐` da carta de Usuário. Se o Chamado ainda não tiver sido concluído, qualquer personagem pode resolvê-lo diretamente da fila durante seu turno. A ativação `⭐` é um efeito adicional e não substitui a resolução do Chamado. O usuário permanece representado apenas pelas cartas; uma combinação na fila não retorna para a mão.
+Quando a estrela alcançar a combinação ☎️ + 👤 na iniciativa, resolva a linha `⭐` da carta de Usuário. Se o Chamado ainda não tiver sido concluído, qualquer personagem pode resolvê-lo diretamente da fila durante seu turno ou o jogador da vez pode recuperá-lo pagando ⏱️1. A ativação `⭐` é um efeito adicional e não substitui a resolução do Chamado. O usuário permanece representado apenas pelas cartas.
 
 Quando o chamado for concluído, descarte as duas cartas juntas.
 
@@ -358,7 +358,7 @@ Uma ficha de fogo representa um incêndio em um tile. O fogo começa pelo lado *
 
 **Apagar 🔥:** quando uma regra disser para apagar um fogo, remova a ficha do cenário, seja ela **🔥 Fogo baixo** ou **🔥🔥 Fogo alto**.
 
-- Um tile com fogo não pode ser atravessado nem ocupado por personagens, usuários ou bombeiros.
+- O fogo não bloqueia a passagem, mas nenhum personagem pode terminar o movimento ou a ativação em um tile com **🔥**. Personagens podem atravessar tiles com fogo; ao atravessar um tile com fogo, coloque **1🫩** no personagem. Cada ficha de fogo causa no máximo **1🫩 por ação**; atravessar mais de um fogo na mesma ação pode causar 1🫩 por ficha. **O Bombeiro é a única exceção à penalidade:** ele pode atravessar tiles com fogo sem receber **🫩**, mas também não pode terminar seu movimento ou ativação sobre um tile com fogo.
 - Na Rotina, faça 🎲 ✅ para cada fogo ativo. Com sucesso, o fogo se alastra:
   - se estiver baixo, vire a ficha para o lado Fogo alto;
   - se estiver alto, coloque 1 nova ficha de Fogo baixo em um tile adjacente livre que ainda não tenha fogo.
@@ -376,9 +376,9 @@ Itens representam recursos improvisados do escritório. Produzir ou usar um item
 
 O tile **🧰 SUP** é a estação do Armário. A posição física das cartas no playtest serve para lembrar a origem de cada item; o cenário pode alterar essas posições sem mudar a regra.
 
-Para pegar um Consumível, o personagem deve entrar na Cozinha. Não é necessário procurar um tile específico nem gastar uma ação adicional: a movimentação até a Cozinha já representa pegar o item. Pegue uma carta disponível da pilha.
+Para pegar um Consumível, o personagem deve entrar na Cozinha e gastar ⏱️1. Não é necessário procurar um tile específico: escolha uma carta disponível da pilha.
 
-- **Consumível:** a carta é retirada da pilha da Cozinha quando o personagem entra no ambiente. Não é necessário preparar o café. Cada carta consumida é removida do jogo.
+- **Consumível:** gaste ⏱️1 para retirar uma carta disponível da pilha da Cozinha. Não é necessário preparar o café. Para consumir, siga o texto da carta; quando ela disser **Ação livre**, o uso não gasta outra ação. Cada carta consumida é removida do jogo.
 - **Equipamento:** junto ao tile **🧰 SUP**, gaste ⏱️1 para escolher e pegar qualquer carta de Equipamento disponível. O equipamento pode ser colocado diretamente na área **Equipado** nessa mesma ação, respeitando o limite de um por tipo; caso contrário, vai para o Inventário.
 - **Colecionável:** mantenha as nove cartas únicas do baralho de Colecionáveis separadas do Armário. No setup, embaralhe esse baralho e deixe-o virado para baixo, ao alcance dos jogadores. Quando uma carta mandar comprar um Colecionável, compre a carta do topo e coloque-a na **Coleção** do jogador. Colecionáveis não ocupam o Inventário nem os encaixes de Equipado, salvo quando a própria carta disser **EQUIPADO**. Eles não podem ser comprados no tile **🧰 SUP**.
 - **Contexto do Colecionador:** os `🏆` vêm do Colecionador, um funcionário da mesma empresa que guarda uma coleção de itens raros e estranhos. Quando um jogador obtém um desses itens, é como se tivesse conseguido uma peça por meio de uma troca ou de um favor entre colegas; não é uma compra normal no Armário.
@@ -387,18 +387,18 @@ Para pegar um Consumível, o personagem deve entrar na Cozinha. Não é necessá
 
 O Armário pode ser usado uma vez por rodada; vire seu marcador para o lado **Usada** depois de pegar um Equipamento. A Rotina desvira o marcador do Armário no início da rodada seguinte. Se não houver carta disponível, a ação não produz nada.
 
-Cada personagem tem duas áreas diferentes para Itens. Os encaixes na parte superior da cartela representam o **Inventário**; as cartas colocadas abaixo da cartela ou ficha representam os itens **Equipados**.
+Cada personagem tem duas áreas diferentes para Itens. Os espaços acima da cartela representam o **Inventário**; os dois encaixes laterais representam os itens **Equipados**.
 
 As cartas de **Colecionável** ficam abertas na **Coleção** do jogador, ao lado da cartela. Elas representam itens que pertencem ao jogador, mas não estão sendo carregados no cenário. A Coleção não tem limite de cartas e não ocupa os encaixes de Inventário ou Equipado.
 
 **Vitória pessoal opcional:** antes da partida, os jogadores podem combinar que, ao final, o personagem com mais cartas **🏆** na Coleção também alcança uma vitória pessoal. Colecionáveis podem ser trocados normalmente entre personagens, mas não ocupam espaço no Inventário.
 
 - **Inventário:** a área superior da cartela comporta até **3 cartas de Item**, em qualquer combinação. Richmond comporta até **4 cartas de Item**. Durante o Ato 4 de *Yesterday's Jam*, cada token de monitor quebrado também ocupa 1 espaço do inventário; cartas e monitores entram na mesma contagem máxima. Os itens do inventário são carregados, mas seus efeitos de Equipamento não estão ativos.
-- **Equipado:** fica imediatamente abaixo da carta ou ficha do personagem. A cartela também possui dois encaixes laterais para lembrar esse limite. Apenas cartas de Equipamento ficam nessa área e seus efeitos estão ativos. O personagem pode equipar no máximo **dois Equipamentos**, respeitando o limite de **um Equipamento de cada tipo**.
+- **Equipado:** fica nos dois encaixes laterais da cartela. Apenas cartas de Equipamento ficam nessa área e seus efeitos estão ativos. O personagem pode equipar no máximo **dois Equipamentos**, respeitando o limite de **um Equipamento de cada tipo**.
 
-Para trocar um Equipamento, devolva o que está equipado ao espaço do Armário e pegue o outro na mesma ação de ⏱️1; o novo equipamento também pode ser colocado diretamente na área **Equipado**. Consumíveis permanecem no Inventário até serem usados.
+Equipar ou desequipar um Equipamento custa **⏱️1**. Em uma única ação, é permitido desequipar um Equipamento e equipar outro imediatamente, desde que um item saia e outro entre como substituição. Para trocar um Equipamento, devolva o que está equipado ao espaço do Armário e pegue o outro na mesma ação de ⏱️1; o novo equipamento também pode ser colocado diretamente na área **Equipado**. Consumíveis permanecem no Inventário até serem usados.
 
-Um técnico adjacente a outro personagem pode transferir qualquer quantidade de Itens entre os dois gastando **⏱️1**. A troca não exige uma ação de movimento nem custa uma ação por item.
+Um técnico adjacente a outro personagem pode gastar **⏱️1** para trocar 1 Item com o outro personagem. Cada um pode entregar 1 Item nessa mesma ação. Se o personagem que gastou a ação receber um Equipamento, pode equipá-lo imediatamente sem custo adicional. A troca não exige uma ação de movimento; a diagonal conta como adjacência.
 
 - **Consumível (☕):** resolve o efeito uma vez e é removido do jogo.
 - **Equipamento (🧰):** permanece com o personagem enquanto o efeito estiver ativo. A própria carta informa quando o equipamento é descartado.
@@ -407,7 +407,7 @@ Em regra geral, os Itens alteram uma rolagem, removem uma penalidade ou reduzem 
 
 ## 11. The Boss Stress
 
-O **The Boss Stress** (⚠️) vai de 0 a 15. No setup, coloque a seta em 0, salvo se a missão indicar outro valor. Aumente ou reduza o Stress conforme as cartas e missões determinarem; ele nunca passa de 15.
+O **The Boss Stress** (⚠️) vai de 0 a 15. No setup, coloque a seta em 0, salvo se a missão indicar outro valor. Aumente ou reduza o Stress conforme as cartas e missões determinarem; 15 é o último nível da régua. Se um efeito fizer o Stress passar de 15, é fim de jogo: a equipe será demitida e o novo chefe poderá transformar o porão de TI em algo “mais útil”, como um banheiro enorme para toda a empresa.
 
 Quando o Stress alcançar um dos marcos abaixo pela primeira vez, o efeito correspondente é desbloqueado para todos os personagens jogáveis. Os efeitos são permanentes e cumulativos, mesmo que o Stress diminua depois:
 
@@ -418,7 +418,7 @@ Quando o Stress alcançar um dos marcos abaixo pela primeira vez, o efeito corre
 
 Os símbolos impressos na régua servem como lembrete; não é necessário fazer um teste adicional ao alcançar um marco.
 
-Se o Stress chegar a **15**, a partida termina em derrota. Uma missão pode substituir essa condição por uma condição própria.
+Se o Stress passar de **15**, a partida termina em derrota. Uma missão pode substituir essa condição por uma condição própria.
 
 ## 12. Elevador
 
@@ -430,9 +430,11 @@ Personagens, Denholm e o Bombeiro que forem colocados no elevador também estão
 
 ## 13. Missões
 
+Antes do setup, os jogadores devem escolher qual missão querem jogar. A missão funciona como a “fase” da partida: ela define a preparação, os andares necessários, os objetivos e as condições especiais. A **campanha principal** usa missões com atos; para uma **partida rápida**, escolha uma missão individual.
+
 As cartas de missão seguem uma ordem fixa e não são embaralhadas. O manual contém a história, a preparação e as exceções de cada ato; a carta ativa serve apenas como lembrete visual do objetivo, dos números e dos efeitos principais.
 
-Os marcadores **📍** no canto superior direito da carta de Missão indicam seus andares mínimos. Todas as missões atuais mostram **📍B**, portanto usam somente o porão. Uma futura missão marcada **📍B** + **📍1** exige os dois tabuleiros, mas pode usar outros andares adicionais se os jogadores quiserem uma partida mais difícil.
+Os marcadores **📍** no canto superior direito da carta de Missão indicam seus andares mínimos. Todas as missões atuais mostram **📍B**, portanto usam somente o porão. Uma futura missão marcada **📍B** + **📍1️⃣** exige os dois tabuleiros, mas pode usar outros andares adicionais se os jogadores quiserem uma partida mais difícil.
 
 Quando a estrela chega à posição **Missão**, resolva o efeito ⭐ da carta de ato revelada. A carta permanece exposta sobre o topo do baralho e ativa até que sua condição de descarte seja cumprida. Ao concluir um ato, descarte sua carta, aplique a preparação do ato seguinte e revele o próximo ato quando a estrela voltar à posição **Missão**.
 
@@ -475,7 +477,7 @@ Se Jen chegar à cadeira antes de o computador ser infectado, aumente 🙂 de Je
 
 **Descarte:** assim que Jen chegar à cadeira.
 
-## F3. Aham, aham, claro...
+## F3. Quer conectar na Data Matrix?
 
 *A equipe agora precisa provar que Jen é uma fraude. Denholm espera uma demonstração simples; a equipe espera que o computador infectado faça o trabalho por ela.*
 
@@ -489,9 +491,9 @@ Se Jen chegar à cadeira antes de o computador ser infectado, aumente 🙂 de Je
 
 **Descarte:** quando a Credibilidade chegar a 0.
 
-## F4. Four, I mean, five, I mean, FIRE!
+## F4. Que screen saver realista!
 
-*Moss colocou fogo no escritório e só percebeu quando as chamas ficaram grandes demais. Agora a equipe precisa esconder o incêndio com monitores quebrados antes que Denholm saia do elevador e entre na sala principal.*
+*Moss está recuperando uma placa de circuito com o ferro de solda. Ele acha que o ferro está ligado e o desliga — mas ele já estava desligado. Durante o expediente, o escritório começa a pegar fogo. Roy percebe as chamas e vê que o Boss Denholm está descendo para o porão; então improvisa, colocando monitores velhos na frente do fogo para fazer parecer que aquilo é apenas uma proteção de tela.*
 
 **Preparação:** coloque 1 ficha de fogo baixo no armário inferior. Coloque Denholm no elevador e sua carta no fim da iniciativa. Coloque 2 tokens de monitor quebrado no escritório de Jen e 2 no escritório principal. Jen permanece onde terminou o ato anterior.
 
@@ -515,7 +517,7 @@ Se Jen chegar à cadeira antes de o computador ser infectado, aumente 🙂 de Je
 
 ### Objetivos
 
-1. **Chamar os bombeiros:** um personagem junto a um computador funcional pode gastar ⏱️1 e fazer o teste combinado `🙂 ✅ + 🧠 ✅`. Com sucesso, coloque **2 bombeiros** no elevador e **uma carta do Bombeiro** no fim da iniciativa. Quando ela for ativada, os dois bombeiros agem juntos.
+1. **Chamar os bombeiros:** use a ação correspondente da carta de Ações. Com sucesso, coloque **2 bombeiros** no elevador e **uma carta do Bombeiro** no fim da iniciativa. Quando ela for ativada, os dois bombeiros agem juntos.
 2. **Apagar 🔥:** os bombeiros devem alcançar cada fogo e apagá-lo conforme as regras da sua carta.
 
 ### Are you sure?
@@ -535,8 +537,8 @@ Um personagem jogável adjacente a Denholm pode gastar ⏱️1 para fazer **🙂
 
 1. **Nova gerente** — Jen chega ao porão e se aproxima do técnico mais próximo. Um técnico adjacente tenta descobrir que ela não entende de computadores.
 2. **Sinclair ZX81** — infectar o PC antes que Jen chegue à cadeira; se ela chegar primeiro, seu Carisma aumenta.
-3. **Aham, aham, claro...** — deixar que Jen tente resolver Chamados sociais e provar sua incompetência com confrontos diretos.
-4. **Four, I mean, five, I mean, FIRE!** — esconder todos os fogos antes que Denholm entre na sala.
+3. **Quer conectar na Data Matrix?** — deixar que Jen tente resolver Chamados sociais e provar sua incompetência com confrontos diretos.
+4. **Que screen saver realista!** — esconder todos os fogos antes que Denholm entre na sala.
 5. **Are you stressed?** — chamar os bombeiros e reduzir todos os fogos antes que o **The Boss Stress** cause a derrota.
 
 O texto curto impresso de cada ato está em `templates/cards/card-data.js`; este manual contém a preparação, o contexto e as exceções necessárias para resolvê-lo.
@@ -546,7 +548,7 @@ O texto curto impresso de cada ato está em `templates/cards/card-data.js`; este
 - **Telefone maldito!:** comece com `+ ☎️⚡` nos 3 telefones. Vitória quando todos os chamados iniciais forem concluídos e não houver telefones, usuários ou pendências associados a eles.
 - **Firewall:** comece com todos os computadores dos escritórios escolhidos e o servidor infectados. Vitória quando todos esses tiles estiverem funcionais.
 - **Esqueci do cliente:** comece com duas combinações ☎️ + 👤 no fim da iniciativa e coloque a carta **Preciso desse relatório para ontem** no topo do baralho de Eventos Genéricos. Vitória quando as duas combinações forem concluídas e o relatório for enviado.
-- **Fim do expediente:** comece com o Stress em 8 e sobreviva seis rodadas sem ele chegar a 15. Ao cumprir as seis rodadas, a missão é concluída.
+- **Fim do expediente:** comece com o Stress em 8 e sobreviva seis rodadas sem ele passar de 15. Ao cumprir as seis rodadas, a missão é concluída.
 - **Quem tem mais itens raros?:** missão competitiva opcional. Durante a missão, qualquer jogador pode tentar obter o topo do baralho 🏆 pagando `1⏱️` e `🔋🔋`, e fazendo um teste combinado `🧠🙂` com **3✅** de dificuldade. Se passar, pega a carta do topo sem revelá-la antes. O primeiro jogador a reunir 3 `🏆` vence e a missão é descartada. Os `🏆` já obtidos antes da missão também contam.
 
 ## 14. Pontos para playtest

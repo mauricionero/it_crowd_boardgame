@@ -92,9 +92,9 @@
           id: 'actions',
           label: 'AÇÕES',
           icon: '🚶',
-          accentColor: '#fff7db',
+          accentColor: '#c9cbc2',
           frameColor: '#303b42',
-          backgroundPath: null,
+          backgroundPath: '../../assets/cards/actions/action-background-model.png',
           artRoot: '',
           headerPath: '../../assets/illustrations/icons/actions-header.png',
         }),
@@ -104,7 +104,7 @@
           icon: '🔋',
           accentColor: '#fff7db',
           frameColor: '#303b42',
-          backgroundPath: null,
+          backgroundPath: '../../assets/cards/actions/action-background-model.png',
           artRoot: '',
           headerPath: '../../assets/illustrations/icons/morale-header.png',
         }),
@@ -172,10 +172,10 @@
           type: CARD_TYPES.ROUTINE,
           title: 'PORÃO',
           rules: [
-            { label: '☎️⚡', line: '🔺 → 7–8: +⚠️ | 9–10: +⚠️; remova o tile ☎️ e ponha ☎️ + 👤 na fila.', nr_lines: 2, dense: true },
+            { label: '☎️⚡', line: '🔺 → 7–8: +⚠️ | 9–10: +⚠️; remova o tile ☎️ e coloque ☎️ + 👤 na iniciativa.', nr_lines: 2, dense: true },
             { label: ' 📞', line: 'Para cada ☎️ + 👤 ainda na mão, resolva o efeito 📞 da carta de Usuário.', nr_lines: 2, dense: true },
             { label: '📞📞', line: 'Todos os telefones ocupados:\n🎲 ✅: +⚠️.', nr_lines: 2, dense: true },
-            { label: '⚠️0–2', line: 'se stress 2 ou menos: +☎️⚡', nr_lines: 2, dense: true },
+            { label: '⚠️', line: 'se ⚠️ igual ou menor que a quantidade de personagens jogaveis: +☎️⚡', nr_lines: 2, dense: true },
             { label: '🗄️🦠', line: '🔺 → 6–8: +⚠️.\n9-10: +⚠️ e espalha para algum 🖥️ no porão', nr_lines: 2 },
             { label: ' 🔥', line: 'Para cada fogo, 🎲 ✅: baixo vira alto e alto cria 1 baixo adjacente.', nr_lines: 3, dense: false },
           ],
@@ -188,6 +188,7 @@
             { label: '-🫩', line: '⏱️1: remova 🫩 de si ou de um aliado adjacente.', nr_lines: 2 },
             { label: '+🔋', line: '1×/turno: ⏱️1 → +🔋, até 5.', nr_lines: 1 },
             { label: '-🦠', line: '🖥️ PC: ⏱️1 · 🧠 ✅✅\n🗄️ SRV: ⏱️1 · 🧠 ✅✅✅', nr_lines: 2 },
+            { label: ' 👨‍🚒', line: '⏱️1 · 🖥️ 🙂 + 🧠 = ✅✅ → 2👨‍🚒 no 🛗 + BOMBEIRO na iniciativa.', nr_lines: 2, dense: true },
             { label: ' 📞', line: '☎️⚡ → Em atendimento;\ncompre ☎️ + 👤.', nr_lines: 2 },
             { label: ' ⏸️', line: '⏱️1 · ☎️ + 👤 → fila; remova o tile ☎️.', nr_lines: 1 },
           ],
@@ -197,7 +198,7 @@
           title: 'ÂNIMO',
           rules: [
             { label: '🔋', line: '+1👣 ou +🙂 ou +🧠 durante 1⏱️', nr_lines: 1 },
-            { label: '🔋', line: '+1 no resultado de 🔺', nr_lines: 1 },
+            { label: '🔋', line: '+1 ou -1 no resultado de 🔺', nr_lines: 1 },
             { label: '🔋', line: 'rerolar 1 dado sem 🔒', nr_lines: 1 },
             { label: '🔋🔋', line: '+⏱️', nr_lines: 1 },
             { label: '🔋🔋', line: '+1🎲 em uma rolagem', nr_lines: 1 },
@@ -283,10 +284,10 @@
           title: 'JEN BARBER',
           subtitle: 'GERENTE · BOA DE CONVERSA',
           characterImage: '../../assets/pawns/jen-face.png',
-          attributes: '🧠 1   ·   🙂 3   ·   👣 = 3 + 1🎲',
+          attributes: '🧠 0   ·   🙂 3   ·   👣 = 3 + 1🎲',
           actions: '⭐ 3 ações por ativação',
           rules: [
-            { label: '', line: 'RESILIENTE: Qualquer chamado que gere ⚠️, Jen pode trocar por 🫩 em si (se 🫩 menor que 3)', nr_lines: 3, dense: true },
+            { label: 'LIDERANÇA', line: 'Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão.\nQualquer Chamado concluído: Jen recebe +🔋.', nr_lines: 3, dense: true },
           ],
         },
         B3: {
@@ -294,9 +295,9 @@
           title: 'JEN BARBER',
           initiativeImage: '../../assets/pawns/jen-face.png',
           rules: [
-            { label: 'ATRIBUTOS', line: '🧠1 · 🙂3 · 👣 = 3 + 1🎲', nr_lines: 1, dense: true },
+            { label: 'ATRIBUTOS', line: '🧠0 · 🙂3 · 👣 = 3 + 1🎲', nr_lines: 1, dense: true },
             { label: '⭐', line: '3 ações.', nr_lines: 2 },
-            { label: 'SOCIAL', line: 'RESILIENTE: Qualquer chamado que gere ⚠️, Jen pode trocar por 🫩 em si (se 🫩 menor que 3)', nr_lines: 3, dense: true },
+            { label: 'LIDERANÇA', line: 'Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão.\nQualquer Chamado concluído: Jen recebe +🔋.', nr_lines: 3, dense: true },
           ],
         },
         B4: {
@@ -334,10 +335,9 @@
           title: 'DOUGLAS',
           initiativeImage: '../../assets/pawns/douglas-face.png',
           rules: [
-            { label: 'ATRIBUTOS', line: '🧠1 · 🙂1 · 👣 = 3 + 2🎲', nr_lines: 1, dense: true },
-            { label: '⭐', line: 'mova em direção ao personagem mais próximo', nr_lines: 2, dense: true },
-            { label: '⭐', line: '🔺 3–6: remova 1🔋 do personagem mais próximo;\n7-8: +⚠️\n9–10: coloque 1🔥 no tile de Douglas.', nr_lines: 4, dense: true },
-            { label: '⭐', line: '+🫩 para todos personagens adjacentes.', nr_lines: 2, dense: true },
+            { label: 'ATRIB.', line: '3⏱️ · 🧠1 · 🙂1 · 👣 = 2 + 1🎲', nr_lines: 1, dense: true },
+            { label: '⭐', line: '🔺 1-6: mova em direção ao personagem mais próximo;\n7-8: +🫩 no personagem mais próximo;\n9-10: +⚠️ e aumente ou coloque 1🔥 no tile de Douglas.', nr_lines: 6, dense: true },
+            { label: '⭐', line: 'Final do turno: +🫩 para todos personagens adjacentes.', nr_lines: 2, dense: true },
           ],
         },
         C1: {
@@ -530,10 +530,10 @@
           title: 'SOBRINHO DO CHEFE',
           quote: 'Meu tio disse que vocês resolvem isso agora.',
           rules: [
-            { label: '✋', line: '+🔋 ao concluir sem ir pra fila ⭐', nr_lines: 2, dense: true },
+            { label: '✋', line: '−🧠', nr_lines: 2, dense: true },
             { label: '📞', line: '-', nr_lines: 1 },
             { label: '⭐', line: '🔺 6–10: +⚠️', nr_lines: 2 },
-            { label: '🏁', line: '-', nr_lines: 1 },
+            { label: '🏁', line: '+🔋 se concluir na mão', nr_lines: 1 },
           ],
         },
         D5: {
@@ -561,7 +561,7 @@
         D7: {
           type: CARD_TYPES.USER,
           title: 'THE BOSS',
-          quote: '',
+          quote: 'Apenas 2 coisas: Um sonho e $ 6 milhões.',
           rules: [
             { label: '✋', line: '-', nr_lines: 1 },
             { label: '📞', line: '🎲 ✅: +⚠️', nr_lines: 2 },
@@ -571,11 +571,11 @@
         },
         D8: {
           type: CARD_TYPES.USER,
-          title: 'AMIGA DO FRIENDFACE',
+          title: 'AMIZADE DO FRIENDFACE',
           quote: 'E aí, o que tem aprontado?!',
           rules: [
             { label: '✋', line: '⏱️1 · 🙂 ✅: +🔋', nr_lines: 2, dense: true },
-            { label: '📞', line: '-', nr_lines: 1 },
+            { label: '📞', line: '🔺 6–10: + ☎️⚡', nr_lines: 1 },
             { label: '⭐', line: '-', nr_lines: 1 },
             { label: '🏁', line: '+🔋🔋', nr_lines: 2 },
           ],
@@ -632,10 +632,10 @@
           title: 'JULY OU JUDIE?',
           quote: 'É July, ou Judie? Definitivamente uma delas.',
           rules: [
-            { label: '✋', line: '🔺 1–5: −🙂 | 6–10: +🙂', nr_lines: 2, dense: true },
+            { label: '✋', line: '🔺 1–5: +🙂 | 6–10: -🙂', nr_lines: 2, dense: true },
             { label: '📞', line: '-', nr_lines: 1 },
-            { label: '⭐', line: '🔺 1–5: −🫩 | 6–10: +🔋', nr_lines: 2, dense: true },
-            { label: '🏁', line: '-', nr_lines: 1 },
+            { label: '⭐', line: '🔺 1–5: -🫩 | 6–10: -🔋', nr_lines: 2, dense: true },
+            { label: '🏁', line: '🔺 1–5: +🔋 | 6–10: -🔋', nr_lines: 2 },
           ],
         },
         E1: {
@@ -659,7 +659,7 @@
           rules: [
             {
               label: EVENT_ICONS.NOW,
-              line: 'Se 🗄️ estiver 🦠: infecte um 🖥️. Caso contrário: 🎲 ✅: infecte 🗄️.',
+              line: 'Se 🗄️ estiver 🦠: infecte um 🖥️. Caso contrário: 🔺 1–5: infecte 🗄️',
               effect: EVENT_ICONS.DISCARD,
               nr_lines: 5,
               dense: true,
@@ -760,7 +760,7 @@
           quote: 'Cavalheiros, ergam suas taças.',
           rules: [
             { label: EVENT_ICONS.NOW, line: '+ ☎️⚡; Mantenha esta carta no topo dos Eventos. Avance a iniciativa', nr_lines: 2 },
-            { label: EVENT_ICONS.ONGOING, line: '🔺 → 1–6: 🗑️ | 9–10: −⚠️;\n🖥️ 📍1 não infectam', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.ONGOING, line: '🔺 → 1–6: 🗑️ | 9–10: −⚠️;\n🖥️ 📍1️⃣ não infectam', nr_lines: 2, dense: true },
           ],
         },
         E10: {
@@ -795,9 +795,7 @@
           title: 'DESLIGOU O FERRO DE SOLDA?',
           quote: 'Então eu ligo... e VOU EMBORA!',
           rules: [
-            { label: EVENT_ICONS.NOW, line: '🔺 → 1–6: ☎️⚡, 🗑️ | 7–10: 1🔥 no escritório principal e coloque no fim da iniciativa.', nr_lines: 3, dense: true },
-            { label: EVENT_ICONS.ONGOING, line: 'Chamar bombeiros: 1⏱️ adj. 🖥️: 🙂 ✅ → 2👨‍🚒 no 🛗 + BOMBEIRO na fila.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando não houver 🔥 no cenário.', nr_lines: 1 },
+            { label: EVENT_ICONS.NOW, line: '🔺 → 1–6: ☎️⚡, 🗑️ | 7–10: 1🔥 no porão.', nr_lines: 3 },
           ],
         },
         E14: {
@@ -805,7 +803,7 @@
           title: 'O ACHADO!',
           quote: 'Olha o que estava no fundo da gaveta!',
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Todos rolam 🎲🎲🎲. Mais ✅: 🏆; 🗑️', nr_lines: 4, dense: true },
+            { label: EVENT_ICONS.NOW, line: 'Se stress menor que 4: ☎️⚡\nTodos rolam 🎲🎲🎲. Vencedor: 🏆\n🗑️', nr_lines: 4, dense: true },
           ],
         },
         E15: {
@@ -814,7 +812,7 @@
           title: 'MARKETEIRO NERD',
           quote: 'Ouvi dizer que ele tem até uma Black Lotus...',
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Posicione esta carta na Copa do 📍1.\n🔺 → 1–5: ☎️⚡', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.NOW, line: 'Posicione esta carta na Copa do 📍1️⃣.\nSe nenhum ☎️ ocupado: + ☎️⚡', nr_lines: 2, dense: true },
             { label: '🏁', line: 'Na Copa: 1⏱️ 🙂✅: 1🏆, 🗑️', nr_lines: 2, dense: true },
           ],
         },
@@ -832,6 +830,7 @@
           floor: FLOORS.OFFICE_1,
           title: 'MAIS UM CHAMADO...',
           quote: 'Só uma perguntinha...',
+          illustrationPath: '../../assets/illustrations/cards/events-generic/e17.png',
           rules: [
             { label: EVENT_ICONS.NOW, line: '+ ☎️⚡. 🗑️', nr_lines: 2, dense: true },
           ],
@@ -843,7 +842,7 @@
           quote: 'Manda para todo mundo.',
           illustrationPath: '../../assets/illustrations/cards/events-generic/e18.png',
           rules: [
-            { label: EVENT_ICONS.NOW, line: '🗄️🦠; 🔺 → 1–7: infecte o 🖥️📍1 do número sorteado; 🗑️', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.NOW, line: '🗄️🦠; 🔺 → 1–7: infecte o 🖥️📍1️⃣ do número sorteado; 🗑️', nr_lines: 3, dense: true },
           ],
         },
         E19: {
@@ -853,7 +852,7 @@
           quote: 'O servidor está compartilhando tudo.',
           illustrationPath: '../../assets/illustrations/cards/events-generic/e19.png',
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Se 🗄️🦠: 🔺 → 1–7: infecte o 🖥️📍1 do número sorteado. Senão: 🗄️🦠. 🗑️', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.NOW, line: 'Se 🗄️🦠: 🔺 → 1–7: infecte o 🖥️📍1️⃣ do número sorteado. Senão: 🗄️🦠. 🗑️', nr_lines: 2, dense: true },
           ],
         },
         F1: {
@@ -877,6 +876,7 @@
           type: CARD_TYPES.MISSION_EVENT,
           title: "YESTERDAY'S JAM",
           subtitle: '2 — SINCLAIR ZX81',
+          quote: 'Estranho, ela nem se importou com o ZX81',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Infecte o PC de Jen antes que ela chegue à cadeira.', nr_lines: 2 },
             { label: '⭐', line: 'Jen: 👣 = 2 + 1🎲, ou remova 💬\nSe não sabotar PC ao chegar: +1🙂 Jen.', nr_lines: 2, dense: true },
@@ -888,7 +888,8 @@
         F3: {
           type: CARD_TYPES.MISSION_EVENT,
           title: "YESTERDAY'S JAM",
-          subtitle: '3 — AHAM, AHAM, CLARO...',
+          subtitle: '3 — QUER CONECTAR NA MATRIX?',
+          quote: 'Vocês estão inventando tudo isso',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Credibilidade: 3.', nr_lines: 1 },
             { label: '🦠', line: 'PC de Jen infectado: −1🙂 para a Jen.', nr_lines: 1, dense: true },
@@ -900,7 +901,8 @@
         F4: {
           type: CARD_TYPES.MISSION_EVENT,
           title: "YESTERDAY'S JAM",
-          subtitle: '4 — FOUR, I MEAN, FIVE, I MEAN, FIRE!',
+          subtitle: '4 — QUE SCREEN SAVER REALISTA!',
+          quote: 'Espere um pouco... Cadê a Jen?',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Esconda todos os fogos antes de Denholm entrar na sala.', nr_lines: 2, dense: true },
             { label: EVENT_ICONS.PREP, line: 'Fogo baixo no armario de baixo; Denholm no elevador; 2 🖥️ no escritório de Jen e 2 🖥️ no escritório principal.', nr_lines: 3, dense: true },
@@ -913,11 +915,12 @@
           type: CARD_TYPES.MISSION_EVENT,
           title: "YESTERDAY'S JAM",
           subtitle: '5 — ARE YOU STRESSED?',
+          quote: 'Are you sure? Are you sure?',
           rules: [
             { label: EVENT_ICONS.PREP, line: 'Jen na cadeira; Denholm diante da mesa.', nr_lines: 2 },
-            { label: EVENT_ICONS.STEP_1, line: 'Chame os bombeiros: 🖥️ 🙂 ✅ + 🧠 ✅: 2 bombeiros no elevador', nr_lines: 2 },
+            { label: EVENT_ICONS.STEP_1, line: 'Chame os bombeiros.', nr_lines: 1 },
             { label: EVENT_ICONS.STEP_2, line: 'Bombeiros devem apagar todos os 🔥.', nr_lines: 1, dense: true },
-            { label: '⭐', line: 'Dhenolm: 2⏱️:\n* 💬: remova 1;\n* ARE YOU SURE?: 🎲 ✅: +🫩 Jen.\nSe 🫩3+ na Jen, aumente no Boss stress', nr_lines: 5, dense: true },
+            { label: '⭐', line: 'Dhenolm: 2⏱️:\n* 💬: remova 1;\n* ARE YOU SURE?: 🎲 ✅: +🫩 Jen.\nSe 🫩3+ na Jen, aumente no Boss stress', nr_lines: 4, dense: true },
             { label: '💬', line: 'DISTRAIR: 🙂 ✅✅. Vitória: +💬,\nDerrota: 🫩', nr_lines: 2, dense: true },
             { label: EVENT_ICONS.DISCARD, line: 'Quando não houver fogo no cenário.', nr_lines: 2 },
           ],
@@ -931,22 +934,10 @@
           quote: 'Precisamos sacanear a Jen!',
           illustrationPath: '../../assets/illustrations/cards/events-mission/f6.jpg',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Monte 🏆THE INTERNET', nr_lines: 1, dense: true },
-            { label: EVENT_ICONS.PREP, line: '🏆THE INTERNET no 🗄️; Jen participa normalmente.', nr_lines: 1, dense: true },
-            { label: '🎯', line: 'Não Jen, 🗄️: 1⏱️ 🧠✅. Sucesso: 🏆THE INTERNET no inventário. 🗑️', nr_lines: 3, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Revele a próxima missão.', nr_lines: 1, dense: true },
-          ],
-        },
-        F7: {
-          type: CARD_TYPES.MISSION_EVENT,
-          floor: FLOORS.OFFICE_1,
-          requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
-          title: 'FUNCIONÁRIA DO MÊS',
-          subtitle: '2 — ENTREGUE PARA JEN',
-          quote: 'Isso Jen, é A INTERNET!',
-          rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: '🏆THE INTERNET com Jen.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando Jen estiver no andar 1\ncom 🏆THE INTERNET', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Jen com a 🏆THE INTERNET', nr_lines: 1, dense: true },
+            { label: EVENT_ICONS.PREP, line: '🏆THE INTERNET no 🗄️\n🏆A CHAVE no almoxarifado 📍1️⃣', nr_lines: 1, dense: true },
+            { label: '🎯', line: 'Jen deve levar 🏆THE INTERNET no inventário até o andar 1. 🗑️', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando Jen estiver no andar 1\ncom 🏆THE INTERNET. Revele a próxima missão.', nr_lines: 1, dense: true },
           ],
         },
         F8: {
@@ -954,13 +945,13 @@
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
-          subtitle: '3 — PREPARADA PARA O DISCURSO',
+          subtitle: '2 — PREPARADA PARA O DISCURSO',
           quote: 'Cuidado!',
           illustrationPath: '../../assets/illustrations/cards/events-mission/f8.png',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Jen com 🏆THE INTERNET na Sala 1.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.PREP, line: '🗄️🦠; 🖥️📍1🦠: (PC 5 e 6)', nr_lines: 2, dense: true },
-            { label: '⭐', line: 'Para cada 🖥️📍1🦠: mova Jen 3 tiles em direção a ele. Se adj. a algum 🖥️🦠: +⚠️.', nr_lines: 3, dense: true },
+            { label: EVENT_ICONS.PREP, line: '🗄️🦠; 🖥️📍1️⃣🦠: (PC 1, 5 e 6)', nr_lines: 2, dense: true },
+            { label: '⭐', line: 'Para cada 🖥️📍1️⃣🦠: mova Jen 3 tiles em direção a ele. Se adj. a algum 🖥️🦠: +⚠️.', nr_lines: 3, dense: true },
             { label: EVENT_ICONS.DISCARD, line: 'Quando Jen e 🏆THE INTERNET estiverem na Sala 1.', nr_lines: 2, dense: true },
           ],
         },
@@ -969,14 +960,15 @@
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
-          subtitle: '4 — O DISCURSO',
+          subtitle: '3 — O DISCURSO',
           quote: 'Isso, é A INTERNET!',
           illustrationPath: '../../assets/illustrations/cards/events-mission/f9.png',
           rules: [
-            { label: EVENT_ICONS.PREP, line: 'Remova todo 🔋 de Jen.', nr_lines: 2, dense: true },
             { label: EVENT_ICONS.PREP, line: 'Jen usa ⏱️ apenas para discursar, rerolar ou comprar 🎲.', nr_lines: 2, dense: true },
-            { label: '🎤', line: 'Jen 🎲🙂 → 2✅: +🔋 | 0✅: −🔋.', nr_lines: 1, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando Jen tiver 3🔋.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.PREP, line: 'Douglas na sala do PC 7; coloque DOUGLAS no fim da iniciativa.', nr_lines: 2, dense: true },
+            { label: '🎤', line: 'Jen 🎲🙂 → 2✅: +💬 | 0✅: +⚠️.', nr_lines: 1, dense: true },
+            { label: '🎯', line: 'Douglas não pode entrar no escritório de Jen antes de 4💬.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando Jen tiver 4💬.', nr_lines: 2, dense: true },
           ],
         },
         F10: {
@@ -984,13 +976,11 @@
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
-          subtitle: '5 — DOUGLAS LOCAÇO DE ROHYPNOL',
+          subtitle: '4 — DOUGLAS LOCAÇO DE ROHYPNOL',
           quote: 'Rápido, tranque o Douglas no escritório!',
           illustrationPath: '../../assets/illustrations/cards/events-mission/f10.png',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Douglas dentro do escritório do 🖥️7.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.PREP, line: 'Douglas no fim da Sala 1; coloque DOUGLAS no fim da iniciativa.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando Douglas entrar no escritório do 🖥️7.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Pegue 🏆A CHAVE no almoxarifado.\nDouglas dentro do escritório do 🖥️7.\nPersonagem com 🏆A CHAVE deve estar adjacente a porta para trancar', nr_lines: 5, dense: true },
           ],
         },
         H1: {
@@ -1043,7 +1033,7 @@
           title: 'CAMISETA LADYSPROBLEMS',
           itemImage: '../../assets/illustrations/cards/items/ladyproblems-shirt.png',
           rules: [
-            { label: 'EQUIPADO', line: '−1🙂\n1×/ativação: remova 1🫩.', nr_lines: 2, dense: true },
+            { label: 'EQUIPADO', line: '−1🙂\n1×/ativação: +🔋.', nr_lines: 2, dense: true },
           ],
         },
         H7: {
@@ -1070,7 +1060,7 @@
           title: 'RELÓGIO',
           itemImage: '../../assets/illustrations/cards/items/watch.png',
           rules: [
-            { label: 'EQUIP', line: '1×/turno: ⏱️1 → topo.', nr_lines: 1, dense: true },
+            { label: '', line: '1×/turno: ⏱️1 → topo.', nr_lines: 1, dense: true },
             { label: 'USAR', line: '−⚠️.', nr_lines: 1, dense: true },
           ],
         },
@@ -1108,7 +1098,7 @@
           title: 'CALENDÁRIO NERDY',
           itemImage: '../../assets/illustrations/cards/items/nerdy-calendar.png',
           rules: [
-            { label: 'USAR', line: '−⚠️ ou conclua 1 Chamado.', nr_lines: 2, dense: true },
+            { label: '', line: 'A cada rodada, você pode alterar a ordem de iniciativa dos personagens.', nr_lines: 2, dense: true },
           ],
         },
         H14: {
@@ -1177,9 +1167,20 @@
             { label: 'EQUIPADO', line: '−1🧠 +1🙂', nr_lines: 1 },
           ],
         },
+        H21: {
+          type: CARD_TYPES.EQUIPMENT_ITEM,
+          floor: FLOORS.OFFICE_1,
+          collectionOnly: true,
+          title: 'A CHAVE',
+          itemImage: '../../assets/illustrations/cards/items/facilities-master-key.png',
+          rules: [
+            { label: 'USAR', line: '−⚠️.', nr_lines: 1, dense: true },
+          ],
+        },
         I1: {
           type: CARD_TYPES.MISSION_EVENT,
           title: 'TELEFONE MALDITO!',
+          quote: 'Have you tried turning it off and on again?',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua todos os chamados e telefones.', nr_lines: 2 },
             { label: EVENT_ICONS.PREP, line: '+ ☎️⚡ em todos os telefones.', nr_lines: 2 },
@@ -1189,6 +1190,7 @@
         I2: {
           type: CARD_TYPES.MISSION_EVENT,
           title: 'FIREWALL',
+          quote: 'AHHH!',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Deixe os 3 🖥️ e o 🗄️ funcionais.', nr_lines: 2 },
             { label: EVENT_ICONS.PREP, line: 'Comece com os 4 🖥️ infectados (🦠).', nr_lines: 2 },
@@ -1198,6 +1200,7 @@
         I3: {
           type: CARD_TYPES.MISSION_EVENT,
           title: 'ESQUECI DO CLIENTE',
+          quote: 'Você tentou um reboot inesperado?',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Conclua todos os chamados e envie o relatório.', nr_lines: 2 },
             { label: EVENT_ICONS.PREP, line: 'Coloque 2(☎️ + 👤) no fim da iniciativa e a carta de evento "SOLICITAÇÃO URGENTE DA DIRETORIA".', nr_lines: 2, dense: true },
@@ -1207,10 +1210,12 @@
         I4: {
           type: CARD_TYPES.MISSION_EVENT,
           title: 'FIM DO EXPEDIENTE',
+          quote: 'Não quero fumar lá fora. É muito soviético.',
           rules: [
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Sobreviva 6 rodadas.', nr_lines: 2 },
-            { label: EVENT_ICONS.PREP, line: 'Preparação: Comece com o stress em 8.', nr_lines: 2 },
-            { label: EVENT_ICONS.DISCARD, line: 'Após 6 rodadas sem estourar o stress.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Sobreviva 8 rodadas.', nr_lines: 1 },
+            { label: EVENT_ICONS.PREP, line: 'coloque sobre essa missão 🔺 em 1; ⚠️ inicial = 👤 jogáveis.', nr_lines: 2, dense: true },
+            { label: '⭐', line: '🔺: 3–7: +☎️⚡ | 8–10: revele 1 Evento sobre esta carta.', nr_lines: 2, dense: true },
+            { label: '⭐', line: 'Aumente 1 no 🔺. Ao chegar em 9, essa missão conclui em vitória.', nr_lines: 2, dense: true },
           ],
         },
         I5: {
@@ -1228,11 +1233,11 @@
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'CC PARA TODOS',
-          quote: 'Manda para todo mundo.',
+          quote: 'Parece legítimo.',
           rules: [
-            { label: EVENT_ICONS.PREP, line: '🗄️🦠; infecte os 🖥️📍1: 1, 3, 5 e 7.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.OBJECTIVE, line: 'Todos os 🖥️📍1 funcionais.', nr_lines: 2, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Quando todos os 🖥️📍1 estiverem funcionais.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.PREP, line: '🗄️🦠; infecte os 🖥️📍1️⃣: 1, 3, 5 e 7.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Todos os 🖥️📍1️⃣ funcionais.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando todos os 🖥️📍1️⃣ estiverem funcionais.', nr_lines: 2, dense: true },
           ],
         },
         I7: {
@@ -1256,7 +1261,18 @@
           rules: [
             { label: EVENT_ICONS.PREP, line: '🗄️🦠; 🖨️🚫; todos os ☎️⚡.', nr_lines: 3, dense: true },
             { label: EVENT_ICONS.OBJECTIVE, line: '🗄️✅ + 🖨️✅ + 0🦠 + 0 chamados abertos.', nr_lines: 3, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Sem ☎️⚡ ou ☎️+👤 na mão ou na fila.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Sem ☎️⚡ ou ☎️+👤 na mão ou na iniciativa.', nr_lines: 2, dense: true },
+          ],
+        },
+        I9: {
+          type: CARD_TYPES.MISSION_EVENT,
+          title: 'FOUR, I MEAN, FIVE, I MEAN, FIRE!!',
+          quote: 'E-mail: Necessito de assistência imediata.',
+          illustrationPath: '../../assets/illustrations/cards/events-mission/i9.png',
+          rules: [
+            { label: EVENT_ICONS.PREP, line: 'Coloque 3🔥 em tiles diferentes não adjacentes.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.OBJECTIVE, line: 'Chame os Bombeiros e apague todos os 🔥.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Quando não houver 🔥 no cenário.', nr_lines: 2, dense: true },
           ],
         },
         G1: {

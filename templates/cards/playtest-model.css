@@ -1411,6 +1411,15 @@ body {
   transform: translate(12px, 8px);
 }
 
+.playtest-side-character-stack .playtest-side-character-tableau[data-side-character="B5"] {
+  z-index: 2;
+  transform: translate(6px, 4px);
+}
+
+.playtest-side-character-stack .playtest-side-character-tableau[data-side-character="B4"] {
+  z-index: 1;
+}
+
 .playtest-side-character-tableau .playtest-character-tableau__surface {
   width: 146px;
   height: 146px;

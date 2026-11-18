@@ -45,7 +45,7 @@
             <div class="playtest-board playtest-board--base" data-board="base">
               <img
                 class="playtest-board__image"
-                src="../../assets/boards/base/board-complete-18x12-v13.png"
+                src="../../assets/boards/base/board-complete-18x12-v18.png"
                 alt="Tabuleiro do Porão"
               >
               <section class="playtest-item-supply playtest-item-supply--cabinet" data-item-supply="cabinet" aria-label="Itens do armário">
@@ -168,6 +168,18 @@
         return Math.max(highestSequence, sequence);
       }, 0);
       let topLayerIndex = 1000;
+      const ALT_PREVIEW_Z_INDEX = 10000;
+
+      function rememberLayerIndex(zIndex) {
+        const numericZIndex = Number(zIndex);
+        if (Number.isFinite(numericZIndex)) topLayerIndex = Math.max(topLayerIndex, numericZIndex);
+      }
+
+      function nextLayerIndex() {
+        if (!Number.isFinite(topLayerIndex)) topLayerIndex = 1000;
+        topLayerIndex += 1;
+        return topLayerIndex;
+      }
 
       function normalizeRevealedCards(records) {
         const usedPieceIds = new Set();
@@ -459,6 +471,7 @@
         element.style.height = computedStyle.height;
         element.style.margin = '0';
         element.style.zIndex = String(zIndex);
+        rememberLayerIndex(zIndex);
       }
 
       function restoreStoredPositions() {
@@ -660,6 +673,7 @@
         { characterCode: 'PC3', initiativeCode: 'B6', pawnCode: 'P7', label: 'Richmond', color: '#343047', image: '../../assets/pawns/richmond-face.png' },
         { characterCode: 'PC4', initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
         { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: '../../assets/pawns/denholm-face.png' },
+        { characterCode: null, initiativeCode: 'B5', pawnCode: 'P6', label: 'Bombeiro', color: '#c44738', image: '../../assets/pawns/firefighter-face.png' },
         { characterCode: null, initiativeCode: 'B7', pawnCode: 'P8', label: 'Douglas', color: '#7f4d43', image: '../../assets/pawns/douglas-face.png' },
       ];
 
@@ -851,7 +865,7 @@
       const decksArea = document.querySelector('[data-decks]');
       const sideCharacterStack = document.createElement('div');
       sideCharacterStack.className = 'playtest-side-character-stack';
-      sideCharacterStack.setAttribute('aria-label', 'Cartas de iniciativa de Denholm e Douglas');
+      sideCharacterStack.setAttribute('aria-label', 'Cartas de iniciativa de Denholm, Bombeiro e Douglas');
       decksArea.append(sideCharacterStack);
 
       characterDefinitions.forEach((definition) => {
@@ -1597,6 +1611,7 @@
 
         const preview = document.createElement('div');
         preview.className = 'playtest-alt-preview';
+        preview.style.zIndex = String(ALT_PREVIEW_Z_INDEX);
         const clone = element.cloneNode(true);
         clone.classList.remove('playtest-dragging');
         preview.append(clone);
@@ -1654,8 +1669,8 @@
 
           const startDrag = () => {
             dragStarted = true;
-            topLayerIndex += 1;
-            moveElementToDocumentPosition(element, startLeft, startTop, topLayerIndex);
+            const zIndex = nextLayerIndex();
+            moveElementToDocumentPosition(element, startLeft, startTop, zIndex);
             element.classList.add('playtest-dragging');
           };
 

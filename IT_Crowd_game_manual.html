@@ -1,0 +1,1907 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>THE IT CROWD — Manual do Jogo</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      :root {
+        --ink: #20251f;
+        --muted: #677066;
+        --paper: #f4efdf;
+        --paper-dark: #e6dcc0;
+        --green: #23332b;
+        --green-light: #3e5a47;
+        --yellow: #e7bb43;
+        --red: #a84438;
+        --blue: #277eb9;
+        --shadow: 0 5px 16px rgba(29, 34, 28, 0.18);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        background: #d9d8ce;
+      }
+
+      body {
+        max-width: 186mm;
+        margin: 0 auto;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-size: 10.5pt;
+        line-height: 1.42;
+      }
+
+      h1,
+      h2,
+      h3,
+      p,
+      ol,
+      ul,
+      figure {
+        margin-top: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Trebuchet MS", Inter, sans-serif;
+        line-height: 1.05;
+      }
+
+      h2 {
+        margin-bottom: 7mm;
+        color: var(--green);
+        font-size: 23pt;
+      }
+
+      h3 {
+        margin-bottom: 3mm;
+        color: var(--green-light);
+        font-size: 14pt;
+      }
+
+      p {
+        margin-bottom: 3.5mm;
+      }
+
+      a {
+        color: #9b3f35;
+        font-weight: 800;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 2px;
+      }
+
+      a:visited {
+        color: #9b3f35;
+      }
+
+      .tip a {
+        color: #f5d66f;
+      }
+
+      .tip a:visited {
+        color: #f5d66f;
+      }
+
+      a:hover,
+      .tip a:hover {
+        color: #fff7d6;
+      }
+
+      .page {
+        min-height: 273mm;
+        padding: 4mm 2mm 0;
+        break-after: page;
+      }
+
+      .page:last-child {
+        break-after: auto;
+      }
+
+      .cover {
+        display: flex;
+        position: relative;
+        min-height: 273mm;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 13mm 11mm 10mm;
+        border: 1px solid #bdad7d;
+        border-radius: 7mm;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 42%),
+          linear-gradient(145deg, #eee4c5, #d9c792);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .cover::after {
+        display: block;
+        position: absolute;
+        width: 150%;
+        height: 18mm;
+        left: -20mm;
+        bottom: 0;
+        border-top: 3px solid rgba(35, 51, 43, 0.35);
+        background: repeating-linear-gradient(90deg, transparent 0 22mm, rgba(35, 51, 43, 0.12) 22mm 22.5mm);
+        content: '';
+        transform: none;
+      }
+
+      .eyebrow {
+        margin-bottom: 5mm;
+        color: var(--red);
+        font-size: 10pt;
+        font-weight: 900;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+      }
+
+      .cover h1 {
+        max-width: 145mm;
+        margin-bottom: 7mm;
+        color: var(--green);
+        font-size: 39pt;
+        letter-spacing: -1.8px;
+        text-transform: uppercase;
+      }
+
+      .cover-subtitle {
+        max-width: 125mm;
+        color: #4c5a4d;
+        font-size: 17pt;
+        font-weight: 800;
+      }
+
+      .cover-rule {
+        width: 55mm;
+        height: 3px;
+        margin: 8mm 0;
+        background: var(--yellow);
+      }
+
+      .cover-note {
+        max-width: 118mm;
+        padding: 5mm;
+        border-left: 4px solid var(--red);
+        background: rgba(255, 250, 231, 0.65);
+        font-size: 11pt;
+      }
+
+      .cover-footer {
+        display: flex;
+        justify-content: space-between;
+        color: #596257;
+        font-size: 9pt;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .section-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 2mm;
+        margin-bottom: 4mm;
+        color: var(--red);
+        font-size: 10pt;
+        font-weight: 900;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .intro {
+        max-width: 155mm;
+        margin-bottom: 8mm;
+        font-size: 12pt;
+      }
+
+      .callout {
+        margin: 5mm 0 7mm;
+        padding: 4mm 5mm;
+        border: 1px solid #d5c68f;
+        border-left: 5px solid var(--yellow);
+        border-radius: 3mm;
+        background: #fff8df;
+        box-shadow: 0 2px 7px rgba(70, 60, 32, 0.08);
+      }
+
+      .callout strong {
+        color: var(--green);
+      }
+
+      .board-figure {
+        float: right;
+        width: 59%;
+        margin: 0 0 5mm 7mm;
+      }
+
+      .board-figure img {
+        display: block;
+        width: 100%;
+        border: 3px solid #28372f;
+        border-radius: 3mm;
+        box-shadow: var(--shadow);
+      }
+
+      .board-figure img[src*="exported-images/cards/"] {
+        border: 0;
+        box-shadow: 0 2px 7px rgba(35, 51, 43, 0.22);
+      }
+
+      figcaption {
+        margin-top: 2mm;
+        color: var(--muted);
+        font-size: 8.5pt;
+        line-height: 1.25;
+      }
+
+      .clear {
+        clear: both;
+      }
+
+      .setup-standard {
+        margin: 0 0 7mm;
+        break-inside: avoid;
+      }
+
+      .setup-standard img {
+        display: block;
+        width: 100%;
+        border: 2px solid #28372f;
+        border-radius: 3mm;
+        box-shadow: var(--shadow);
+      }
+
+      .event-example-shot {
+        margin: 0 0 7mm;
+        break-inside: avoid;
+      }
+
+      .event-example-shot img {
+        display: block;
+        width: 100%;
+        max-height: 58mm;
+        object-fit: contain;
+        border-radius: 3mm;
+        background: transparent;
+        box-shadow: var(--shadow);
+      }
+
+      .event-persistent {
+        display: flex;
+        align-items: flex-start;
+        gap: 4mm;
+        margin: 6mm 0;
+        padding: 4mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+        break-inside: avoid;
+      }
+
+      .event-persistent img {
+        display: block;
+        flex: 0 0 25mm;
+        width: 25mm;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.25);
+      }
+
+      .event-persistent p {
+        margin: 0;
+      }
+
+      .character-tableaux {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+        gap: 5mm;
+        margin: 5mm 0 7mm;
+        break-inside: avoid;
+      }
+
+      .character-example {
+        margin: 0;
+        padding: 3mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+      }
+
+      .character-example img {
+        display: block;
+        width: 100%;
+        max-height: 83mm;
+        object-fit: contain;
+        border-radius: 2mm;
+      }
+
+      .character-example figcaption {
+        margin-top: 2mm;
+        color: var(--green);
+        font-size: 8.5pt;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .queue-pair-example {
+        display: grid;
+        grid-template-columns: 48mm minmax(0, 1fr);
+        align-items: center;
+        gap: 7mm;
+        margin: 5mm 0 7mm;
+        padding: 4mm 5mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+        break-inside: avoid;
+      }
+
+      .queue-pair-example__stack {
+        position: relative;
+        height: 72mm;
+      }
+
+      .queue-pair-example__stack img {
+        position: absolute;
+        width: 39mm;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.28);
+      }
+
+      .queue-pair-example__user {
+        top: 8mm;
+        left: 1mm;
+        z-index: 1;
+      }
+
+      .queue-pair-example__call {
+        top: 0;
+        left: 9mm;
+        z-index: 2;
+      }
+
+      .queue-pair-example__copy {
+        margin: 0;
+        font-size: 10.5pt;
+        line-height: 1.35;
+      }
+
+      .queue-pair-example__copy strong {
+        color: var(--green);
+      }
+
+      .queue-pair-float {
+        float: right;
+        width: 51mm;
+        margin: -2mm 0 5mm 7mm;
+        break-inside: avoid;
+      }
+
+      .queue-pair-float__stack {
+        position: relative;
+        height: 88mm;
+      }
+
+      .queue-pair-float__stack::before {
+        position: absolute;
+        top: -2mm;
+        left: 0;
+        width: 100%;
+        color: #f5c94f;
+        content: '⭐';
+        font-size: 17pt;
+        line-height: 1;
+        text-align: center;
+        text-shadow: 0 1px 1px rgba(64, 44, 12, 0.45);
+        z-index: 3;
+      }
+
+      .queue-pair-float__stack img {
+        position: absolute;
+        width: 39mm;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.28);
+      }
+
+      .queue-pair-float__user {
+        top: 31mm;
+        left: 9mm;
+        z-index: 1;
+      }
+
+      .queue-pair-float__call {
+        top: 10mm;
+        left: 0;
+        z-index: 2;
+      }
+
+      .queue-pair-float figcaption {
+        margin-top: 1mm;
+        color: var(--muted);
+        font-size: 8.5pt;
+        line-height: 1.2;
+      }
+
+      .kitchen-example {
+        display: grid;
+        grid-template-columns: 31mm minmax(0, 1fr);
+        gap: 4mm;
+        margin: 6mm 0 7mm;
+        padding: 4mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+        break-inside: avoid;
+      }
+
+      .kitchen-example__cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5mm;
+        overflow: hidden;
+      }
+
+      .kitchen-example__cards img {
+        display: block;
+        width: 27mm;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.24);
+      }
+
+      .kitchen-example__board {
+        position: relative;
+        min-height: 88mm;
+        overflow: hidden;
+        border: 1px solid #28372f;
+        border-radius: 2mm;
+        background: #d7c69e;
+      }
+
+      .kitchen-example__board img {
+        position: absolute;
+        top: -18mm;
+        left: 0;
+        width: 260mm;
+        max-width: none;
+        height: auto;
+      }
+
+      .kitchen-example figcaption {
+        grid-column: 1 / -1;
+        margin-top: 0;
+        color: var(--muted);
+        font-size: 8.5pt;
+        line-height: 1.2;
+      }
+
+      .armory-example {
+        margin: 6mm 0 7mm;
+        padding: 4mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+        break-inside: avoid;
+      }
+
+      .armory-example__board {
+        position: relative;
+        height: 43mm;
+        overflow: hidden;
+        border: 1px solid #28372f;
+        border-radius: 2mm;
+        background: #d7c69e;
+      }
+
+      .armory-example__board img {
+        position: absolute;
+        top: -125mm;
+        left: -55mm;
+        width: 260mm;
+        max-width: none;
+        height: auto;
+      }
+
+      .armory-example__tile {
+        position: absolute;
+        bottom: 4.5mm;
+        left: calc(50% - 39mm);
+        z-index: 1;
+        display: flex;
+        width: 14mm;
+        height: 14mm;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #41515b;
+        border-radius: 2mm;
+        background: linear-gradient(145deg, #315b70, #173b4d);
+        box-shadow: 1px 2px 0 rgba(24, 31, 33, 0.4);
+        color: #f7f0d7;
+        font-size: 12pt;
+        line-height: 0.9;
+      }
+
+      .armory-example__tile small {
+        margin-top: 1mm;
+        font-size: 6pt;
+        font-weight: 900;
+        letter-spacing: 0.3px;
+      }
+
+      .armory-example__cards {
+        display: flex;
+        justify-content: center;
+        gap: 3mm;
+        margin-top: 3mm;
+      }
+
+      .armory-example__cards img {
+        display: block;
+        width: 31mm;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.24);
+      }
+
+      .armory-example figcaption {
+        margin-top: 2mm;
+        color: var(--muted);
+        font-size: 8.5pt;
+        line-height: 1.2;
+      }
+
+      .collection-example {
+        display: flex;
+        float: right;
+        gap: 3mm;
+        width: 61mm;
+        margin: 0 0 3mm 5mm;
+      }
+
+      .collection-example img {
+        display: block;
+        width: 28mm;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.24);
+      }
+
+      .campaign-intro {
+        margin-bottom: 7mm;
+        padding: 5mm;
+        border: 1px solid #d5c68f;
+        border-left: 5px solid var(--red);
+        border-radius: 3mm;
+        background: #fff8df;
+      }
+
+      .campaign-act {
+        display: flow-root;
+        min-height: 39mm;
+        margin: 0 0 6mm;
+        padding-bottom: 4mm;
+        border-bottom: 1px solid #d5c68f;
+        break-inside: avoid;
+      }
+
+      .campaign-act:last-child {
+        border-bottom: 0;
+      }
+
+      .campaign-act figure {
+        float: right;
+        width: 29mm;
+        margin: 0 0 2mm 6mm;
+      }
+
+      .campaign-act img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.25);
+      }
+
+      .campaign-act figcaption {
+        margin-top: 1mm;
+        color: var(--muted);
+        font-size: 7.5pt;
+        font-weight: 800;
+        line-height: 1.1;
+        text-align: center;
+      }
+
+      .campaign-act h3 {
+        margin-bottom: 2mm;
+        color: var(--red);
+        font-size: 13pt;
+      }
+
+      .campaign-act p {
+        margin-bottom: 0;
+      }
+
+      .steps {
+        counter-reset: setup-step;
+        padding: 0;
+        list-style: none;
+      }
+
+      .steps > li {
+        position: relative;
+        min-height: 14mm;
+        margin-bottom: 5mm;
+        padding-left: 14mm;
+      }
+
+      .steps > li::before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: grid;
+        width: 9mm;
+        height: 9mm;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--green);
+        color: #fff8df;
+        content: counter(setup-step);
+        counter-increment: setup-step;
+        font-size: 11pt;
+        font-weight: 900;
+      }
+
+      .steps strong {
+        color: var(--green);
+      }
+
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4mm;
+        margin: 6mm 0;
+      }
+
+      .mini-card {
+        min-height: 28mm;
+        padding: 4mm;
+        border: 1px solid #c5b98f;
+        border-radius: 3mm;
+        background: rgba(255, 252, 238, 0.76);
+      }
+
+      .mini-card .icon {
+        float: left;
+        margin-right: 3mm;
+        font-size: 24pt;
+        line-height: 1;
+      }
+
+      .mini-card strong {
+        display: block;
+        margin-bottom: 1mm;
+        color: var(--green);
+      }
+
+      .character-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4mm;
+        margin: 5mm 0 7mm;
+      }
+
+      .character {
+        padding: 3mm;
+        border: 1px solid #bfb58e;
+        border-radius: 3mm;
+        background: #fff9e8;
+        text-align: center;
+      }
+
+      .character img {
+        display: block;
+        width: 22mm;
+        height: 22mm;
+        margin: 0 auto 2mm;
+        object-fit: contain;
+        image-rendering: pixelated;
+      }
+
+      .character strong {
+        display: block;
+        color: var(--green);
+        font-size: 10pt;
+        text-transform: uppercase;
+      }
+
+      .character small {
+        display: block;
+        margin-top: 1.5mm;
+        color: var(--muted);
+        font-size: 8pt;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .character-triad {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.8fr) minmax(22mm, 0.45fr);
+        gap: 4mm;
+        align-items: end;
+        margin: 5mm 0 7mm;
+        break-inside: avoid;
+      }
+
+      .character-triad figure {
+        margin: 0;
+        padding: 3mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+      }
+
+      .character-triad img {
+        display: block;
+        width: 100%;
+        height: 52mm;
+        object-fit: contain;
+        border-radius: 2mm;
+      }
+
+      .character-triad__pawn img {
+        height: 34mm;
+      }
+
+      .character-triad figcaption {
+        margin-top: 2mm;
+        color: var(--green);
+        font-size: 8pt;
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .deck-row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 4mm;
+        margin: 6mm 0;
+      }
+
+      .deck {
+        position: relative;
+        display: flex;
+        min-height: 38mm;
+        align-items: center;
+        justify-content: center;
+        padding: 4mm 2mm;
+        border: 2px solid var(--deck-color, var(--green));
+        border-radius: 3mm;
+        background: var(--deck-bg, #2c4334);
+        color: #fff8df;
+        text-align: center;
+        box-shadow: 2px 3px 0 rgba(35, 51, 43, 0.22);
+      }
+
+      .deck::after {
+        position: absolute;
+        inset: 2mm;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 2mm;
+        content: '';
+      }
+
+      .deck strong {
+        position: relative;
+        z-index: 1;
+        font-size: 11pt;
+        line-height: 1.08;
+        text-transform: uppercase;
+      }
+
+      .deck small {
+        display: block;
+        margin-top: 2mm;
+        color: rgba(255, 248, 223, 0.8);
+        font-size: 8.5pt;
+        font-weight: 700;
+        text-transform: none;
+      }
+
+      .queue {
+        display: flex;
+        align-items: center;
+        gap: 2mm;
+        margin: 7mm 0;
+        padding: 6mm 4mm;
+        overflow: hidden;
+        border: 1px solid #bdb38b;
+        border-radius: 3mm;
+        background: #fff9e8;
+      }
+
+      .queue-item {
+        flex: 1 1 0;
+        min-height: 18mm;
+        padding: 4mm 2mm;
+        border-radius: 2mm;
+        background: var(--green);
+        color: #fff8df;
+        font-size: 8.5pt;
+        font-weight: 900;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      .queue-item:nth-child(2) {
+        background: #6a3a8d;
+      }
+
+      .queue-item:nth-child(3) {
+        background: #277eb9;
+      }
+
+      .queue-item:nth-child(4) {
+        background: #9d3029;
+      }
+
+      .queue-arrow {
+        color: var(--red);
+        font-size: 15pt;
+        font-weight: 900;
+      }
+
+      .queue-example {
+        display: flex;
+        align-items: flex-end;
+        gap: 3mm;
+        margin: 6mm 0 3mm;
+        padding: 5mm 4mm 4mm;
+        overflow: hidden;
+        border: 1px solid #bdb38b;
+        border-radius: 3mm;
+        background: #fff9e8;
+      }
+
+      .queue-example__card {
+        flex: 0 0 27mm;
+        margin: 0;
+        text-align: center;
+      }
+
+      .queue-example__card--current {
+        position: relative;
+        padding-top: 7mm;
+      }
+
+      .queue-example__card--current::before {
+        position: absolute;
+        top: -1mm;
+        left: 50%;
+        color: #f4c84e;
+        content: '⭐';
+        font-size: 17pt;
+        line-height: 1;
+        text-shadow: 0 1px 1px rgba(58, 45, 16, 0.4);
+        transform: translateX(-50%);
+      }
+
+      .queue-example__card img {
+        display: block;
+        width: 27mm;
+        height: 38mm;
+        object-fit: cover;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.25);
+      }
+
+      .queue-example__card figcaption {
+        min-height: 8mm;
+        margin-top: 1.5mm;
+        color: var(--green);
+        font-size: 7pt;
+        font-weight: 900;
+        line-height: 1.1;
+        text-transform: uppercase;
+      }
+
+      .queue-example__arrow {
+        align-self: center;
+        margin-bottom: 8mm;
+        color: var(--red);
+        font-size: 15pt;
+        font-weight: 900;
+      }
+
+      .queue-star-note {
+        margin: 0 0 6mm;
+        padding: 3mm 4mm;
+        border-left: 4px solid var(--yellow);
+        background: #fff4c9;
+        color: var(--green);
+        font-size: 10pt;
+      }
+
+      .caption-note {
+        margin: -1mm 0 6mm;
+        color: var(--muted);
+        font-size: 8.5pt;
+        font-style: italic;
+      }
+
+      .routine-steps {
+        display: grid;
+        gap: 3mm;
+        margin: 5mm 0 7mm;
+        padding: 0;
+        list-style: none;
+      }
+
+      .routine-steps li {
+        padding: 3.5mm 4mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+      }
+
+      .routine-steps strong {
+        display: block;
+        margin-bottom: 1mm;
+        color: var(--green);
+      }
+
+      .routine-fire-card {
+        float: right;
+        width: 30mm;
+        margin: 0 0 5mm 6mm;
+        break-inside: avoid;
+      }
+
+      .routine-fire-card img {
+        display: block;
+        width: 100%;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.25);
+      }
+
+      .routine-fire-copy {
+        margin-bottom: 7mm;
+      }
+
+      .routine-card-figure {
+        float: right;
+        width: 40mm;
+        margin: 0 0 5mm 6mm;
+        break-inside: avoid;
+      }
+
+      .routine-card-figure img {
+        display: block;
+        width: 100%;
+        border-radius: 2mm;
+        box-shadow: 1px 2px 0 rgba(35, 51, 43, 0.25);
+      }
+
+      .routine-fire-copy h3 {
+        margin-top: 6mm;
+      }
+
+      .routine-fire-copy ul {
+        margin-bottom: 5mm;
+      }
+
+      .quick-reference {
+        width: 100%;
+        margin: 5mm 0 8mm;
+        border-collapse: separate;
+        border-spacing: 0;
+        overflow: hidden;
+        border: 1px solid #cfc298;
+        border-radius: 3mm;
+        background: #fff9e8;
+        font-size: 9pt;
+      }
+
+      .quick-reference th,
+      .quick-reference td {
+        padding: 2.5mm 3mm;
+        border-right: 1px solid #dfd5b0;
+        border-bottom: 1px solid #dfd5b0;
+        vertical-align: top;
+        text-align: left;
+      }
+
+      .quick-reference th:last-child,
+      .quick-reference td:last-child {
+        border-right: 0;
+      }
+
+      .quick-reference tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .quick-reference thead th {
+        background: var(--green);
+        color: #fff8df;
+        font-size: 8.5pt;
+        letter-spacing: 0.4px;
+        text-transform: uppercase;
+      }
+
+      .quick-reference tbody tr:nth-child(even) td {
+        background: #f4edcf;
+      }
+
+      .quick-reference td:first-child {
+        width: 25%;
+        color: var(--green);
+        font-size: 13pt;
+        font-weight: 900;
+        line-height: 1.1;
+        white-space: nowrap;
+      }
+
+      .quick-reference .group-row td {
+        padding: 2mm 3mm;
+        background: #e7bb43;
+        color: var(--green);
+        font-size: 8.5pt;
+        font-weight: 900;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .quick-reference .group-row td:first-child {
+        width: auto;
+        font-size: 8.5pt;
+        white-space: normal;
+      }
+
+      .reference-note {
+        padding: 4mm 5mm;
+        border-left: 5px solid var(--red);
+        border-radius: 2mm;
+        background: #fff0dc;
+        color: var(--green);
+      }
+
+      .reference-note a {
+        color: var(--red);
+        font-weight: 900;
+      }
+
+      .mission-format {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4mm;
+        margin: 5mm 0 7mm;
+      }
+
+      .mission-format__example {
+        padding: 4mm;
+        border: 1px solid #d5c68f;
+        border-radius: 3mm;
+        background: #fff8df;
+      }
+
+      .mission-format__example strong,
+      .mission-format__example span,
+      .mission-format__example small {
+        display: block;
+      }
+
+      .mission-format__example strong {
+        margin-bottom: 2mm;
+        color: var(--red);
+        font-size: 8.5pt;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .mission-format__example span {
+        color: var(--green);
+        font-family: "Trebuchet MS", Inter, sans-serif;
+        font-size: 13pt;
+        font-weight: 900;
+        line-height: 1.05;
+        text-transform: uppercase;
+      }
+
+      .mission-format__example small {
+        margin-top: 2mm;
+        color: var(--muted);
+        font-size: 8.5pt;
+        font-weight: 800;
+      }
+
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3mm 8mm;
+        margin: 6mm 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .checklist li::before {
+        margin-right: 2mm;
+        color: var(--green-light);
+        content: '☐';
+        font-size: 14pt;
+        font-weight: 900;
+        vertical-align: -1px;
+      }
+
+      .tip {
+        padding: 4mm;
+        border-radius: 3mm;
+        background: var(--green);
+        color: #f8f0d8;
+      }
+
+      .tip,
+      .mini-card,
+      .character,
+      .character-triad figure,
+      .character-example,
+      .mission-format__example {
+        box-shadow: 0 2px 8px rgba(35, 51, 43, 0.14);
+      }
+
+      figure img {
+        box-shadow: 1px 2px 5px rgba(35, 51, 43, 0.16);
+      }
+
+      .event-example-shot img,
+      .event-persistent img,
+      .routine-fire-card img,
+      .routine-card-figure img,
+      .campaign-act img,
+      .character-example img,
+      .kitchen-example__cards img,
+      .armory-example__cards img,
+      .collection-example img,
+      .queue-pair-float__stack img {
+        box-shadow: none;
+      }
+
+      img[src*="exported-images/cards/"] {
+        box-shadow: 0 2px 7px rgba(35, 51, 43, 0.22);
+      }
+
+      .queue-example__card img {
+        box-shadow: 0 2px 7px rgba(35, 51, 43, 0.22);
+      }
+
+      .tip strong {
+        color: var(--yellow);
+      }
+
+      .footer-note {
+        margin-top: 10mm;
+        color: var(--muted);
+        font-size: 8.5pt;
+        font-style: italic;
+      }
+
+      @media screen and (max-width: 800px) {
+        body {
+          padding: 8mm;
+        }
+
+        .board-figure {
+          float: none;
+          width: 100%;
+          margin: 0 0 6mm;
+        }
+
+        .character-row,
+        .deck-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .queue {
+          flex-wrap: wrap;
+        }
+
+        .queue-example {
+          overflow-x: auto;
+        }
+
+        .character-tableaux {
+          grid-template-columns: 1fr;
+        }
+
+        .character-triad {
+          grid-template-columns: 1fr;
+        }
+
+        .routine-fire-card {
+          float: none;
+          width: 42mm;
+          margin: 0 auto 5mm;
+        }
+
+        .routine-card-figure {
+          float: none;
+          width: 52mm;
+          margin: 0 auto 6mm;
+        }
+
+        .mission-format {
+          grid-template-columns: 1fr;
+        }
+
+        .queue-item {
+          min-width: 42%;
+        }
+      }
+
+      @media print {
+        html,
+        body {
+          background: var(--paper);
+        }
+
+        body {
+          max-width: 186mm;
+          margin: 0 auto;
+        }
+
+        .page {
+          width: auto;
+          min-height: 270mm;
+          margin: 0 auto;
+        }
+
+        .cover {
+          width: auto;
+          height: 270mm;
+          min-height: 270mm;
+          margin: 0 auto;
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+
+        .cover {
+          box-shadow: none;
+        }
+
+        img {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+
+        h2,
+        h3 {
+          break-after: avoid-page;
+          page-break-after: avoid;
+        }
+
+        p,
+        li {
+          orphans: 3;
+          widows: 3;
+        }
+
+        .print-atomic,
+        .callout,
+        .tip,
+        .mini-grid,
+        .mini-card,
+        .deck-row,
+        .deck,
+        .character-row,
+        .character,
+        .board-figure,
+        .setup-standard,
+        .queue-example,
+        .queue-example__card,
+        .routine-card-figure,
+        .routine-fire-card,
+        .event-example-shot,
+        .character-triad,
+        .character-tableaux,
+        .character-example,
+        .kitchen-example,
+        .armory-example,
+        .collection-example,
+        .mission-format,
+        .mission-format__example,
+        .queue-pair-float,
+        .steps > li {
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="cover">
+      <div>
+        <div class="eyebrow">The IT Crowd · Manual do jogo</div>
+        <h1>Manual do Jogo</h1>
+        <div class="cover-subtitle">Como ser um bom técnico de TI da Reynholm Industries</div>
+        <div class="cover-rule"></div>
+        <p class="cover-note"><strong>Não deixe o Stress subir demais!</strong> Se isso acontecer, a equipe de TI será demitida e o porão ganhará um uso mais útil: um banheiro bem grande.</p>
+      </div>
+      <div class="cover-footer">
+        <span>Regras, setup e consulta</span>
+        <span>Reynholm Industries · TI</span>
+      </div>
+    </section>
+
+    <main>
+      <section class="page">
+        <div class="section-kicker">Comece pela mesa</div>
+        <h2>1. Identifique o jogo base</h2>
+        <figure class="board-figure">
+          <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Tabuleiro completo do Porão, com a sala de servidores escura à esquerda e o elevador marcado com B">
+          <figcaption>O tabuleiro do Porão é o cenário padrão. Missões podem reservar salas ou posições específicas quando necessário.</figcaption>
+        </figure>
+        <p class="intro">Abra uma mesa grande e coloque o tabuleiro do Porão no centro. Deixe espaço abaixo para a fila de iniciativa e para as cartelas dos personagens.</p>
+        <ol class="steps">
+          <li><strong>Use o tabuleiro com o elevador marcado com B.</strong> Esse é o cenário do jogo base.</li>
+          <li><strong>Deixe a régua The Boss Stress à esquerda</strong> e coloque a seta no <strong>0</strong>.</li>
+          <li><strong>Confira o marcador 📍B.</strong> Ele aparece no canto superior direito das cartas e identifica os componentes do jogo base.</li>
+          <li><strong>Escolha qualquer mesa com cadeira.</strong> Isso inclui a sala do gerente à direita; uma missão pode reservar ou limitar esse espaço quando necessário.</li>
+        </ol>
+        <div class="callout clear"><strong>Regra de ouro:</strong> se uma missão trouxer uma preparação própria, a instrução da missão tem prioridade sobre este setup.</div>
+
+        <h2>2. Escolha os personagens</h2>
+        <p>Escolham de 1 a 4 personagens jogáveis. Cada jogador escolhe qualquer escritório com cadeira no mapa.</p>
+        <div class="character-row">
+          <div class="character"><img src="assets/pawns/roy-face.png" alt="Peão de Roy"><strong>Roy</strong><small>🧠3 · 🙂2 · 👣 = 3 + 2🎲</small></div>
+          <div class="character"><img src="assets/pawns/moss-face.png" alt="Peão de Moss"><strong>Moss</strong><small>🧠4 · 🙂0 · 👣 = 4 + 1🎲</small></div>
+          <div class="character"><img src="assets/pawns/jen-face.png" alt="Peão de Jen"><strong>Jen</strong><small>🧠0 · 🙂3 · 👣 = 3 + 1🎲</small></div>
+          <div class="character"><img src="assets/pawns/richmond-face.png" alt="Peão de Richmond"><strong>Richmond</strong><small>🧠2 · 🙂1 · 👣 = 4 + 2🎲</small></div>
+        </div>
+        <ol class="steps">
+          <li><strong>Coloque a cartela e a ficha</strong> de cada personagem na área dos jogadores.</li>
+          <li><strong>Coloque o peão na cadeira escolhida como escritório.</strong> Essa escolha define apenas a posição inicial do personagem; ela não limita o computador ou telefone que ele pode usar.</li>
+          <li><strong>Coloque um tile de computador funcional</strong> no escritório escolhido. O computador escolhido serve apenas para marcar a posição inicial; qualquer personagem pode usar qualquer computador.</li>
+          <li><strong>Separe um telefone por personagem jogável.</strong> Telefones livres ficam fora do cenário; coloque um tile de telefone na mesa somente quando o ramal estiver tocando ou em atendimento.</li>
+        </ol>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Peças na mesa</div>
+        <h2>Exemplo de posicionamento padrão</h2>
+        <figure class="setup-standard">
+          <img src="assets/guides/setup-standard-base.png" alt="Print do playtest mostrando um exemplo de posicionamento padrão do jogo base">
+          <figcaption>Exemplo de posicionamento padrão no playtest: o tabuleiro fica no centro, os itens disponíveis ficam agrupados ao lado e as cartelas permanecem abaixo. As cadeiras continuam sendo escolhidas pelos jogadores; o print serve como referência visual da organização física da mesa.</figcaption>
+        </figure>
+        <h2>3. Prepare o cenário</h2>
+        <p class="intro">Use o lado funcional dos tiles. Os marcadores que não forem usados imediatamente ficam separados ao alcance de todos.</p>
+        <div class="mini-grid">
+          <div class="mini-card"><span class="icon">🖥️</span><strong>Computadores</strong>Coloque 1 computador funcional no escritório de cada personagem.</div>
+          <div class="mini-card"><span class="icon">🗄️</span><strong>Servidor</strong>Coloque o servidor no lado funcional na sala de servidores.</div>
+          <div class="mini-card"><span class="icon">🧰</span><strong>Armário</strong>Coloque o tile do armário disponível na faixa inferior do mapa.</div>
+          <div class="mini-card"><span class="icon">☕</span><strong>Cozinha</strong>Empilhe as cartas de consumíveis viradas para cima perto da cozinha.</div>
+          <div class="mini-card"><span class="icon">🫩 🔋 💬</span><strong>Marcadores</strong>Deixe Cansaço, Ânimo e Distração em uma reserva comum.</div>
+          <div class="mini-card"><span class="icon">🔥</span><strong>Fogo e monitores</strong>Deixe fichas de fogo e monitores quebrados separados; missões podem colocá-los no cenário.</div>
+        </div>
+
+        <div class="callout"><strong>Telefones:</strong> use exatamente 1 ramal por personagem jogável para limitar a pressão. O tile de um telefone livre não fica sobre a mesa.</div>
+
+        <h3>O que fica fora do cenário no início</h3>
+        <p>Tiles de telefone livres, bombeiros e personagens especiais não entram no mapa por padrão. Chamados e Usuários são representados pelas cartas <strong>☎️ + 👤</strong>; personagens especiais só entram quando uma missão ou carta mandar.</p>
+
+        <h2>4. Monte os baralhos</h2>
+        <p>Confira o marcador <strong>📍B</strong> e prepare os baralhos do jogo base:</p>
+        <div class="deck-row">
+          <div class="deck" style="--deck-bg:#164c2c;--deck-color:#26834b"><strong>Chamados<small>embaralhe</small></strong></div>
+          <div class="deck" style="--deck-bg:#12518a;--deck-color:#277eb9"><strong>Usuários<small>embaralhe</small></strong></div>
+          <div class="deck" style="--deck-bg:#542477;--deck-color:#8651a8"><strong>Eventos<small>embaralhe</small></strong></div>
+          <div class="deck" style="--deck-bg:#8e241f;--deck-color:#c44738"><strong>Missões<small>mantenha a ordem</small></strong></div>
+          <div class="deck" style="--deck-bg:#b37c16;--deck-color:#e7bb43"><strong>🏆 Colecionáveis<small>embaralhe</small></strong></div>
+        </div>
+        <ol class="steps">
+          <li><strong>Chamados, Usuários e Eventos:</strong> embaralhe cada baralho separadamente.</li>
+          <li><strong>Missões:</strong> Caso escolha uma missão com vários atos mantenha as cartas em ordem numérica e deixe a primeira missão no topo.</li>
+          <li><strong>Colecionáveis 🏆:</strong> embaralhe e deixe virado para baixo, fora do alcance de compra normal.</li>
+          <li><strong>Cartas de referência:</strong> deixe Rotina, Ações e Ânimo abertas para consulta.</li>
+        </ol>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">A fila decide a rodada</div>
+        <h2>5. Monte a fila de iniciativa</h2>
+        <p class="intro">A fila é lida da esquerda para a direita. Ela organiza quando a Rotina, os Eventos, os personagens e a Missão serão ativados.</p>
+        <figure class="queue-example" aria-label="Exemplo real da fila inicial de iniciativa">
+          <figure class="queue-example__card">
+            <img src="exported-images/cards/full/low/a1.png" alt="Carta de Rotina Porão em baixa resolução">
+            <figcaption>Rotina</figcaption>
+          </figure>
+          <span class="queue-example__arrow">→</span>
+          <figure class="queue-example__card">
+            <img src="exported-images/cards/full/low/e1.png" alt="Carta de evento genérico em baixa resolução">
+            <figcaption>Eventos</figcaption>
+          </figure>
+          <span class="queue-example__arrow">→</span>
+          <figure class="queue-example__card queue-example__card--current">
+            <img src="exported-images/cards/full/low/b1.png" alt="Carta de iniciativa de Roy Trenneman em baixa resolução">
+            <figcaption>Roy</figcaption>
+          </figure>
+          <span class="queue-example__arrow">→</span>
+          <figure class="queue-example__card">
+            <img src="exported-images/cards/full/low/b2.png" alt="Carta de iniciativa de Maurice Moss em baixa resolução">
+            <figcaption>Moss</figcaption>
+          </figure>
+          <span class="queue-example__arrow">→</span>
+          <figure class="queue-example__card">
+            <img src="exported-images/cards/full/low/f1.png" alt="Carta da missão Yesterday's Jam, ato 1, em baixa resolução">
+            <figcaption>Yesterday’s Jam · Ato 1</figcaption>
+          </figure>
+        </figure>
+        <p class="queue-star-note"><strong>⭐ A estrela fica sobre a carta atual.</strong> Ela lembra qual carta está sendo resolvida no momento. Depois de concluir a ativação, avance a estrela para a próxima carta da fila.</p>
+        <p class="caption-note">O espaço de Eventos representa o baralho; a carta visível é apenas uma referência visual.</p>
+        <ol class="steps">
+          <li><strong>Coloque a carta Rotina no início.</strong> A estrela começa sobre ela.</li>
+          <li><strong>Coloque o baralho de Eventos</strong> logo depois da Rotina.</li>
+          <li><strong>Coloque as cartas de iniciativa</strong> dos personagens escolhidos na ordem combinada pelos jogadores.</li>
+          <li><strong>Coloque o baralho de Missões por último.</strong> A primeira missão será revelada conforme a regra da partida.</li>
+          <li><strong>Deixe espaço à direita</strong> para cartas que entrarem na fila durante o jogo.</li>
+        </ol>
+
+        <div class="callout clear"><strong>Fim da fila:</strong> quando a ⭐ chegar à última carta, avance-a novamente para a primeira carta da fila. A Rotina volta a ser resolvida no início da nova rodada.</div>
+
+        <div class="tip"><strong>Preparação inicial:</strong> a primeira ativação serve para os jogadores se organizarem. Antes de começar a resolver a pressão, confira se todos sabem qual é seu escritório, onde estão os computadores e onde ficam as cartas de referência.</div>
+
+        <h2>6. Checklist antes de começar</h2>
+        <ul class="checklist">
+          <li>Tabuleiro do Porão montado</li>
+          <li>Régua em ⚠️ 0</li>
+          <li>1 escritório escolhido por jogador</li>
+          <li>Computadores funcionais posicionados</li>
+          <li>Telefones excedentes fora do cenário</li>
+          <li>Chamados, Usuários e Eventos embaralhados</li>
+          <li>Missões em ordem</li>
+          <li>Rotina, Ações e Ânimo disponíveis</li>
+          <li>Dados separados</li>
+          <li>Tokens ao alcance dos jogadores</li>
+        </ul>
+
+        <p class="footer-note">Agora a mesa está pronta e a primeira Rotina foi resolvida. Continue a rodada avançando a estrela pela fila e consulte as seções correspondentes deste manual quando surgir uma exceção.</p>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">A primeira ativação</div>
+        <h2>7. Resolva a Rotina</h2>
+        <p class="reference-note"><strong>Consulta rápida:</strong> veja a <a href="#consulta-rapida">tabela dos símbolos principais</a> na última página deste manual.</p>
+        <figure class="routine-card-figure">
+          <img src="exported-images/cards/full/high/a1.png" alt="Carta real de Rotina do Porão em baixa resolução">
+          <figcaption>A carta Rotina é resolvida no início de cada rodada, antes de a estrela avançar.</figcaption>
+        </figure>
+        <p class="intro">Quando a ⭐ chegar ao espaço de Eventos, se ainda não houver um evento exposto, revele a carta do topo. Em seguida, leia os símbolos da carta e execute o efeito indicado.</p>
+        <ol class="routine-steps">
+          <li><strong>☎️⚡ Telefones tocando</strong>Role 🔺 para cada telefone tocando: 1–6 não faz nada; 7–8 aumenta ⚠️ e mantém o telefone tocando; 9–10 aumenta ⚠️ e coloca o conjunto ☎️ + 👤 no fim da fila.</li>
+          <li><strong>📞 Atendimentos em andamento</strong>Para cada combinação ☎️ + 👤 que ainda estiver na mão de um jogador, resolva a linha 📞 da carta de Usuário.</li>
+          <li><strong>📞📞 Todos os telefones ocupados</strong>Faça 🎲 ✅. Com sucesso, aumente ⚠️ em 1.</li>
+          <li><strong>⚠️ Pressão acumulada</strong>Se ⚠️ for igual ou menor que a quantidade de personagens jogáveis, coloque mais um ☎️⚡.</li>
+          <li><strong>🗄️🦠 Servidor infectado</strong>Se o servidor estiver infectado, role 🔺: 6–8 aumenta ⚠️, 9–10 aumenta ⚠️ e espalha o vírus para um 🖥️ a escolha dos jogadores.</li>
+          <li><strong>🔥 Incêndios</strong>Para cada fogo, faça 🎲 ✅ e aplique a regra de alastramento explicada na subseção abaixo.</li>
+        </ol>
+        <div class="routine-fire-copy clear">
+          <figure class="routine-fire-card">
+            <img src="exported-images/cards/full/low/b5.png" alt="Carta de iniciativa do Bombeiro em baixa resolução">
+            <figcaption>Carta de iniciativa do Bombeiro.</figcaption>
+          </figure>
+          <h3>Regras de fogo e bombeiros</h3>
+          <p>Depois de resolver os demais efeitos da Rotina, faça a etapa do fogo. Para cada ficha de <strong>🔥</strong>, role <strong>🎲 ✅</strong>. Se obtiver sucesso, o fogo se espalha:</p>
+          <ul>
+            <li>Fogo baixo vira fogo alto.</li>
+            <li>Fogo alto cria 1 fogo baixo em um tile adjacente livre e atravessável.</li>
+            <li>Se não houver um tile válido, nenhum fogo novo é colocado.</li>
+          </ul>
+          <p>O fogo não bloqueia a passagem, mas atravessá-lo causa <strong>+🫩</strong>. Ninguém pode terminar o movimento ou a ativação sobre fogo. O Bombeiro atravessa fogo sem penalidade, mas também não pode terminar sobre ele.</p>
+          <p>Quando um Bombeiro apagar um fogo coberto por um monitor quebrado, remova primeiro o monitor para revelar a ficha. Apagar significa remover a ficha, seja ela fogo baixo ou alto.</p>
+          <p><strong>Como chamar os Bombeiros:</strong> o custo e o teste para chamar os Bombeiros estão explicados na carta de Ações, na seção “Consulte a carta de Ações”.</p>
+        </div>
+        <div class="tip"><strong>Terminou a Rotina?</strong> Avance a ⭐ uma posição para a direita. Resolva a carta que agora está sob a estrela e repita esse movimento ao final de cada ativação.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Cartas que mudam a rodada</div>
+        <h2>8. Resolva um evento</h2>
+        <figure class="board-figure">
+          <img src="exported-images/cards/full/high/e4.png" alt="Carta real de evento Solicitação Urgente da Diretoria em baixa resolução">
+          <figcaption>E4 — Solicitação Urgente da Diretoria.</figcaption>
+        </figure>
+        <p class="intro">Quando a ⭐ chegar ao espaço de Eventos, revele a carta do topo se ainda não houver um evento exposto. Em seguida, leia os símbolos da carta e execute o efeito indicado.</p>
+        <ol class="steps">
+          <li><strong>Resolva o ⚡ primeiro.</strong> A carta do lado manda colocar a carta no fim da fila de iniciativa. Ela deixa de ser resolvida no espaço de Eventos e passa a ocupar uma posição própria na fila.</li>
+          <li><strong>Conclua os objetivos em ordem.</strong> Primeiro, um personagem gasta <strong>1⏱️</strong> e faz <strong>🖥️ 🧠 ✅✅</strong> para preparar o relatório. Só depois outro personagem pode gastar <strong>1⏱️</strong> e fazer <strong>🖥️ 🙂 ✅</strong> para enviá-lo.<br />(🖥️ 🧠 ✅✅ - em um computador não contaminado, role um teste de inteligencia e consiga 2 sucessos)</li>
+          <li><strong>Quando a ⭐ chegar à carta de evento ao lado, resolva o ⭐.</strong> Nesse exemplo, aumente <strong>⚠️</strong> (stress) em 1. A carta permanece na fila enquanto os objetivos ainda não tiverem sido concluídos.</li>
+          <li><strong>Procure o descarte.</strong> Quando o segundo objetivo for concluído, o <strong>🗑️</strong> manda retirar E4 da fila.</li>
+        </ol>
+        <figure class="event-example-shot">
+          <img src="assets/guides/event-example-e4.png" alt="Exemplo da fila com o evento Solicitação Urgente da Diretoria no fim da iniciativa">
+          <figcaption>Depois do efeito imediato, o evento E4 aparece no fim da fila de iniciativa.</figcaption>
+        </figure>
+        <div class="event-persistent">
+          <img src="exported-images/cards/full/low/e16.png" alt="Carta real de evento Marketing Meio Ocupado em baixa resolução">
+          <p><strong>Outro exemplo: E16 — Marketing Meio Ocupado.</strong> Depois de resolvido o efeito <strong>⚡</strong>, a carta fica por cima do baralho de Eventos. Enquanto ela estiver exposta, não revele uma nova carta. A cada ativação <strong>⭐</strong>, role <strong>🔺</strong> (d10); com resultado <strong>1–5</strong>, descarte E16. Até isso acontecer, o evento continua sendo o evento ativo.</p>
+        </div>
+        <div class="tip"><strong>Regra prática:</strong> um evento só é revelado quando a estrela chega ao espaço de Eventos sem outra carta ativa ali. Não revele uma nova carta enquanto o evento atual continuar exposto. Quando o próprio evento entrar na fila, siga a ordem das linhas e dos objetivos impressos nele.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Agora é a vez da equipe</div>
+        <h2>9. Ative um personagem</h2>
+        <p class="intro">Quando a ⭐ chegar à carta de iniciativa de um personagem, resolva a ativação dele. A carta mostra os atributos, a quantidade de ações e a habilidade especial. A cartela guarda o estado físico e os itens daquele personagem.</p>
+
+        <div class="character-triad">
+          <figure>
+            <img src="exported-images/cards/full/low/pc2.png" alt="Cartela de personagem do Moss em baixa resolução">
+            <figcaption><strong>Cartela:</strong> guarda atributos, Cansaço, Ânimo, inventário e equipamentos.</figcaption>
+          </figure>
+          <figure>
+            <img src="exported-images/cards/full/low/b2.png" alt="Carta de iniciativa do Moss em baixa resolução">
+            <figcaption><strong>Iniciativa:</strong> fica na fila e informa quando Moss ativa, além de mostrar seus atributos e habilidade.</figcaption>
+          </figure>
+          <figure class="character-triad__pawn">
+            <img src="assets/pawns/moss-face.png" alt="Peão do Moss">
+            <figcaption><strong>Peão:</strong> mostra onde o personagem está no tabuleiro.</figcaption>
+          </figure>
+        </div>
+
+        <div class="character-tableaux">
+          <figure class="character-example">
+            <img src="assets/guides/character-tableau-empty.png" alt="Cartela vazia de Richmond">
+            <figcaption>Cartela vazia: os espaços ficam disponíveis para marcadores, inventário e equipamentos.</figcaption>
+          </figure>
+          <figure class="character-example">
+            <img src="assets/guides/character-tableau-full.png" alt="Cartela de Moss com itens e cartas de chamado e usuário">
+            <figcaption>Cartela em uso: os itens ficam encaixados nos espaços correspondentes e as cartas de atendimento podem ficar próximas do personagem.</figcaption>
+          </figure>
+        </div>
+
+        <ol class="steps">
+          <li><strong>Leia os atributos.</strong> <strong>🧠</strong> é Inteligência, <strong>🙂</strong> é Carisma e <strong>👣</strong> é o movimento por ação. A fórmula de 👣 combina um movimento base com os sucessos dos dados indicados.</li>
+          <li><strong>Confira as ações.</strong> A linha <strong>⭐ 3 ações</strong> significa que o personagem pode gastar até três ⏱️ na ativação, conforme os custos das cartas e das regras.</li>
+          <li><strong>Use os espaços de 🔋.</strong> Eles armazenam Ânimo e comportam até 5 marcadores. Os demais marcadores, como 🫩, ficam sobre a cartela conforme forem recebidos.</li>
+          <li><strong>Preencha o inventário.</strong> Os espaços acima da cartela são o inventário: cada personagem pode carregar até 3 itens; Richmond pode carregar até 4. Um item no inventário é apenas carregado e <strong>não produz seu efeito de equipamento</strong>.</li>
+          <li><strong>Equipe os itens.</strong> Os dois espaços nas laterais da cartela são os encaixes de equipamento. Equipar ou desequipar custa <strong>1⏱️</strong>. O efeito de um item equipado fica ativo; um item no inventário não produz o efeito de equipamento.</li>
+        </ol>
+
+        <h3>Habilidades dos personagens</h3>
+        <table class="quick-reference">
+          <thead>
+            <tr>
+              <th>Personagem</th>
+              <th>Habilidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Roy</td><td><strong>MOTIVADO:</strong> ao concluir um Chamado, recebe <strong>+🔋</strong>.</td></tr>
+            <tr><td>Moss</td><td><strong>HACKER:</strong> 1× por turno, estando adjacente a um equipamento, pode gastar <strong>⏱️</strong> para remover <strong>🦠</strong> sem rolar.</td></tr>
+            <tr><td>Richmond</td><td><strong>CONFORMADO:</strong> 1× por turno, remove <strong>1🫩</strong> de si sem custo.</td></tr>
+            <tr><td>Jen</td><td><strong>LIDERANÇA:</strong> Jen pode ceder <strong>🔋</strong> a outro personagem para usar em um Chamado que esteja na mão. Qualquer chamado que seja concluído, Jen recebe <strong>+🔋</strong>.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Como resolver checks e testes</h3>
+        <p>O símbolo do atributo indica qual conjunto de dados usar. Por exemplo, <strong>🧠 ✅✅</strong> pede um teste de Inteligência com dois sucessos; um personagem com <strong>🧠3</strong> rola 3 dados. Um atributo em <strong>0</strong> não gera dados e não pode produzir sucessos, salvo exceção escrita na carta ou efeito de equipamento.</p>
+        <p class="reference-note"><strong>🎲 d6 customizado:</strong> 1 = <strong>❌🔒</strong> · 2–4 = <strong>❌</strong> · 5 = <strong>✅</strong> · 6 = <strong>✅🔒</strong>. O cadeado bloqueia o resultado, seja falha ou sucesso.</p>
+        <p class="reference-note"><strong>Teste combinado:</strong> <strong>🧠 + 🙂 = ✅✅</strong> significa somar os dados de Inteligência e Carisma e contar 2 sucessos no total. <strong>Testes separados:</strong> <strong>🧠✅, 🙂✅</strong> significa conseguir 1 sucesso em cada atributo; um sucesso de 🧠 não substitui o sucesso exigido de 🙂.</p>
+        <ol class="steps">
+          <li><strong>Role o atributo indicado.</strong> Role uma quantidade de 🎲 igual ao valor de 🧠 ou 🙂 do personagem.</li>
+          <li><strong>Conte os ✅.</strong> Repita o símbolo para mostrar quantos sucessos são exigidos. Os sucessos podem ser acumulados durante a mesma ativação.</li>
+          <li><strong>Rerrole, se quiser.</strong> Depois da rolagem, gaste <strong>⏱️1</strong> para escolher qualquer quantidade de dados não bloqueados de um personagem. Dados com <strong>🔒</strong> não podem ser escolhidos.</li>
+          <li><strong>Tente novamente ou rerrole.</strong> Tentar novamente paga o custo normal e começa um teste novo, com o pool inteiro e sem os sucessos anteriores. Rerrolar custa apenas <strong>⏱️1</strong> adicional e mantém os sucessos acumulados da ativação.</li>
+          <li><strong>Finalize a ativação.</strong> Se o teste não for concluído até o fim da ativação, descarte o progresso parcial. A próxima ativação começa do zero, salvo se a regra disser o contrário.</li>
+        </ol>
+        <p>Em um confronto como <strong>🧠 vs 🙂 da Jen</strong>, cada lado rola seu próprio pool e vence quem obtiver mais sucessos, nesse caso seria 🧠Inteligência do personagem vs 🙂Carisma da Jen.<br />
+          Quando aparecer <strong>🔺</strong>, use o d10 (dado de 10 faces) e leia a faixa numérica indicada; ele não gera sucessos.</p>
+
+        <div class="tip"><strong>Durante a ativação:</strong> escolha uma ação, pague o custo indicado, resolva o teste ou efeito e só então passe à próxima ação. Quando terminar ou gastar todas as ações, avance a ⭐ para a próxima carta da fila.</div>
+
+        <h3>Consulte a carta de Ações</h3>
+        <figure class="board-figure">
+          <img src="exported-images/cards/full/high/a2.png" alt="Carta real de Ações em baixa resolução">
+          <figcaption>A carta de Ações fica aberta ao alcance de todos.</figcaption>
+        </figure>
+        <p class="intro">A carta de Ações resume o que um personagem pode fazer durante sua ativação. Sempre que uma ação tiver custo, gaste <strong>⏱️1</strong>; efeitos que disserem “grátis” não consomem uma ação.</p>
+        <ol class="steps">
+          <li><strong>Mover:</strong> gaste <strong>1⏱️</strong> e use o valor de <strong>👣</strong> do personagem. Some 1 tile para cada <strong>✅</strong> obtido nos dados de movimento. O caminho é ortogonal; diagonal conta apenas para adjacência, não para movimento.</li>
+          <li><strong>Remover 🫩:</strong> gaste <strong>⏱️1</strong> para remover um Cansaço de si ou de um aliado adjacente.</li>
+          <li><strong>Gerar 🔋:</strong> 1× por turno, gaste <strong>⏱️1</strong> para gerar 1 Ânimo para si, até o limite de 5.</li>
+          <li><strong>Desinfectar:</strong> junto a um equipamento, gaste <strong>⏱️1</strong> e faça o teste indicado: <strong>🖥️ 🧠 ✅✅</strong> para computador ou <strong>🗄️ 🧠 ✅✅✅</strong> para servidor.</li>
+          <li><strong>Chamar os Bombeiros:</strong> junto a um computador funcional 🖥️, gaste <strong>⏱️1</strong> e faça o teste combinado <strong>🙂 + 🧠 = ✅✅</strong>. Com sucesso, coloque os 2 Bombeiros no elevador e a carta de iniciativa do Bombeiro no fim da fila.</li>
+          <li><strong>Atender ou postergar:</strong> junto a um telefone tocando, gaste <strong>⏱️1</strong> para comprar o Chamado e o Usuário. Para postergar um atendimento, gaste <strong>⏱️1</strong>, remova o tile de telefone e coloque o conjunto na fila.</li>
+        </ol>
+        <div class="tip"><strong>Use a carta como referência:</strong> se uma ação, custo ou exceção estiver impresso nela, siga o texto da carta. As regras completas de movimento, testes e atendimento ficam no manual.</div>
+
+        <h3 class="clear">Consulte a carta de Ânimo</h3>
+        <figure class="board-figure">
+          <img src="exported-images/cards/full/high/a3.png" alt="Carta real de Ânimo em baixa resolução">
+          <figcaption>A carta de Ânimo mostra os custos e efeitos disponíveis.</figcaption>
+        </figure>
+        <p class="intro">Ânimo é o recurso representado por <strong>🔋</strong>. Ele fica nos espaços da cartela do personagem e pode ser gasto conforme a carta de Ânimo. Para pagar um custo, retire da cartela a quantidade indicada de marcadores e devolva-os à reserva comum; depois aplique o efeito.</p>
+        <ol class="steps">
+          <li><strong>1🔋:</strong> receba <strong>+1👣</strong>, <strong>+1🙂</strong> ou <strong>+1🧠</strong> durante uma ação, conforme a opção escolhida.</li>
+          <li><strong>1🔋:</strong> altere em 1 o resultado de um <strong>🔺</strong>.</li>
+          <li><strong>2🔋:</strong> receba <strong>+⏱️</strong>.</li>
+          <li><strong>2🔋:</strong> adicione <strong>+1🎲</strong> a uma rolagem.</li>
+          <li><strong>Limite:</strong> cada personagem pode guardar no máximo 5🔋.</li>
+        </ol>
+        <div class="tip"><strong>Interrupção:</strong> Ânimo pode ser gasto a qualquer momento, inclusive durante o turno de outro jogador ou antes de um evento ou missão resolver. Use-o quando a situação exigir uma resposta imediata.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Atravessando o escritório</div>
+        <h2>10. Mova um personagem</h2>
+        <p class="intro">Mover custa <strong>1⏱️</strong>. Em cada ação de movimento, use o valor de <strong>👣</strong> mostrado na carta de iniciativa do personagem.</p>
+        <div class="callout">
+          <strong>Exemplo:</strong> Richard tem <strong>👣 = 4 + 2🎲</strong>. role 2 dados e acrescente 1 tile para cada <strong>✅</strong> obtido, Richard pode mover-se no total até 6 tiles se obtiver 2✅.
+        </div>
+        <ol class="steps">
+          <li><strong>Conte os tiles.</strong> Cada tile atravessado vale 1 movimento. O caminho precisa seguir tiles conectados; paredes e móveis bloqueadores não podem ser atravessados.</li>
+          <li><strong>Mova em linha ortogonal.</strong> O movimento só pode seguir para cima, baixo, esquerda ou direita. Não é permitido andar na diagonal.</li>
+          <li><strong>Não termine ocupado.</strong> O personagem não pode terminar o movimento no mesmo tile que outro personagem, um bloqueio ou fogo.</li>
+          <li><strong>Atravesse o fogo com cuidado.</strong> Passar por um tile com <strong>🔥</strong> causa <strong>+🫩</strong>. O Bombeiro ignora essa penalidade, mas também não pode terminar o movimento sobre o fogo.</li>
+        </ol>
+        <div class="tip"><strong>Adjacência é diferente de movimento:</strong> dois tiles também são adjacentes quando se tocam na diagonal, mas personagens continuam proibidos de se mover diagonalmente.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Recursos do escritório</div>
+        <h2>11. Pegue e use itens</h2>
+        <p class="intro">Itens ficam disponíveis no cenário para preparar os personagens antes e durante a partida. Consumíveis e Equipamentos seguem esta sequência simples:</p>
+        <ol class="steps">
+          <li><strong>Pegue um Consumível na Cozinha.</strong> Entre na Cozinha e gaste <strong>1⏱️</strong> para escolher uma carta disponível da pilha virada para cima. Para consumir, siga a carta: quando ela disser <strong>Ação livre</strong>, não gaste outra ⏱️; depois, remova o Consumível do jogo.</li>
+        
+          <figure class="kitchen-example" aria-label="Exemplo da Cozinha e dos Consumíveis disponíveis">
+            <div class="kitchen-example__cards">
+              <img src="exported-images/cards/full/low/h4.png" alt="Carta de Smarties, item de cozinha">
+              <img src="exported-images/cards/full/low/h1.png" alt="Carta de Café, item de cozinha">
+              <img src="exported-images/cards/full/low/h5.png" alt="Carta de Leite, item de cozinha">
+            </div>
+            <div class="kitchen-example__board">
+              <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Recorte do tabuleiro mostrando a Cozinha ao lado do elevador">
+            </div>
+            <figcaption><strong>☕ ITEM:</strong> estes são Consumíveis da Cozinha. Basta entrar na área da Cozinha e gastar <strong>1⏱️</strong> para pegar uma carta disponível.</figcaption>
+          </figure>
+          <li><strong>Compre um Equipamento no Armário.</strong> Estando junto ao tile <strong>🧰 SUP</strong>, gaste <strong>1⏱️</strong> para escolher uma carta disponível. O Equipamento pode ser colocado diretamente em um encaixe de Equipado nessa mesma ⏱️ ou guardado no Inventário.</li>
+          <figure class="armory-example" aria-label="Exemplo do Armário e de três Equipamentos disponíveis">
+            <div class="armory-example__board">
+              <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Recorte do tabuleiro mostrando o Armário na parte inferior">
+                <span class="armory-example__tile" aria-label="Tile do Armário de suprimentos">🧰<small>SUP</small></span>
+            </div>
+            <div class="armory-example__cards">
+              <img src="exported-images/cards/full/low/h19.png" alt="Carta de Headphone, equipamento do Armário">
+              <img src="exported-images/cards/full/low/h9.png" alt="Carta de Camiseta RTFM, equipamento do Armário">
+              <img src="exported-images/cards/full/low/h3.png" alt="Carta de Óculos Bad-Ass, equipamento do Armário">
+            </div>
+            <figcaption><strong>🧰 SUP:</strong> para comprar um Equipamento, esteja adjacente ao Armário e gaste <strong>1⏱️</strong>. As cartas abaixo são exemplos de itens Equipáveis.</figcaption>
+          </figure>
+          <li><strong>Separe Inventário e Equipado.</strong> Os espaços acima da cartela são o Inventário: até 3 Itens, ou 4 para Richmond. Os dois encaixes laterais são para Equipamentos; seus efeitos só funcionam quando a carta está equipada.</li>
+          <li><strong>Equipe ou desequipe.</strong> Colocar ou retirar um Equipamento custa <strong>1⏱️</strong>. Em uma única ação, é permitido desequipar um item e equipar outro imediatamente, desde que um item saia e outro entre como substituição. Um personagem pode ter até dois Equipamentos equipados, respeitando o limite de um Equipamento de cada tipo. Equipar o item recém-comprado na mesma ⏱️ de compra é permitido.</li>
+          <li>
+            <div class="collection-example" aria-label="Exemplos de itens Colecionáveis">
+              <img src="exported-images/cards/full/low/h16.png" alt="Colecionável Jen 2">
+              <img src="exported-images/cards/full/low/h14.png" alt="Colecionável The Internet">
+            </div>
+            <strong>Guarde os Colecionáveis 🏆.</strong> Eles não ocupam o Inventário nem precisam ser carregados no cenário: ao adquirir um, deixe-o na Coleção, ao lado da cartela. Se a carta disser <strong>EQUIPADO</strong>, ela usa um encaixe lateral e o efeito de Equipamento precisa ser ativado normalmente e também gasta-se uma ⏱️ para equipar.
+          </li>
+          <li><strong>Troque entre personagens.</strong> Um personagem técnico adjacente a outro personagem pode gastar <strong>1⏱️</strong> para trocar 1 Item com o outro personagem: cada um pode entregar 1 Item nessa mesma ⏱️. Se o personagem que gastou a ⏱️ receber um Equipamento, já pode equipá-lo sem custo adicional. A diagonal conta como adjacência.</li>
+        </ol>
+        <div class="callout clear"><strong>Resumo:</strong> Consumíveis vêm da Cozinha; Equipamentos vêm do Armário; Inventário é o que o personagem carrega; Equipado é o que está ativo. Itens 🏆colecionaveis se consegue em situações especiais.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Do telefone para a mesa</div>
+        <h2 id="atender-chamado">12. Atenda um chamado</h2>
+        <p class="intro">Quando um telefone estiver tocando, um personagem pode decidir atender o usuário e descobrir o problema. A partir desse momento, o Chamado e o Usuário ficam associados até o atendimento terminar.</p>
+        <div class="character-tableaux">
+          <figure class="character-example">
+            <img src="exported-images/cards/full/low/c7.png" alt="Carta real de chamado em baixa resolução">
+            <figcaption>Chamado: define o problema, os testes e como concluir o atendimento.</figcaption>
+          </figure>
+          <figure class="character-example">
+            <img src="exported-images/cards/full/low/d1.png" alt="Carta real de usuário em baixa resolução">
+            <figcaption>Usuário: define os efeitos enquanto está na mão ou na fila.</figcaption>
+          </figure>
+        </div>
+        <p class="reference-note"><strong>Ramal do TI:</strong> cada mesa de jogador definida no setup, com um computador, também representa um telefone ativo. Quando uma chamada surgir, coloque o tile <strong>☎️⚡</strong> perto de qualquer computador ativo do porão; ele serve apenas como marcador e não define onde o atendimento precisa acontecer.</p>
+        <ol class="steps">
+          <li><strong>Escolha uma mesa com computador.</strong> O personagem deve estar em qualquer mesa de jogador com computador; não precisa estar junto ao tile <strong>☎️⚡</strong>. Gaste <strong>1⏱️</strong>.</li>
+          <li><strong>Coloque o ramal Em atendimento.</strong> Mova o tile para a mesa escolhida e vire-o para o lado <strong>📞</strong>. Compre 1 carta de ☎️Chamado e 1 carta de 👤Usuário. Mantenha as duas juntas.</li>
+          <li><strong>Escolha como agir.</strong> Enquanto o conjunto estiver na mão, o personagem responsável não pode se movimentar.</li>
+          <li><strong>Resolva na mão</strong> usando os custos e testes do Chamado. A linha <strong>📞</strong> do Usuário é resolvida pela Rotina enquanto o conjunto continuar na mão.</li>
+          <li><strong>Postergue se necessário.</strong> Gaste <strong>1⏱️</strong>, remova o tile do telefone e coloque <strong>☎️ + 👤</strong> no fim da fila de iniciativa, com o Chamado por cima. O telefone é desligado.</li>
+          <li><strong>Puxe para si.</strong> Durante sua ativação, gaste <strong>1⏱️</strong> para mover um conjunto da iniciativa ou da mão de outro jogador para a sua própria mão.</li>
+          <li><strong>Conclua o chamado.</strong> Resolva a linha <strong>🏁</strong> do Usuário, depois a conclusão do Chamado, se houver. Remova o tile de telefone da mesa, se ainda estiver no cenário, e descarte as duas cartas juntas.</li>
+        </ol>
+        <p class="reference-note"><strong>Chamado postergado:</strong> ele pode continuar na fila ou ser recuperado pelas regras acima. Para saber como continuar a resolução quando o conjunto estiver na fila, consulte <a href="#resolver-fila">Resolver um chamado na fila</a>.</p>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">O objetivo maior da partida</div>
+        <h2>13. Resolva uma missão</h2>
+        <p class="reference-note"><strong>Escolham a missão antes do setup.</strong> Ela funciona como a “fase” que será jogada e define a preparação, os andares necessários e o objetivo da partida. A campanha principal usa missões com atos; para uma partida rápida, escolham uma missão individual.</p>
+        <p class="intro"><strong>Existem dois formatos:</strong> uma <strong>missão individual</strong> tem uma única carta e um objetivo direto; uma <strong>missão com atos</strong> conta uma história em etapas, com uma carta para cada ato que deve ser resolvida em sequência.</p>
+        <div class="mission-format" aria-label="Como diferenciar os formatos de missão">
+          <div class="mission-format__example">
+            <strong>Missão com atos</strong>
+            <span>Yesterday’s Jam</span>
+            <small>1 — Nova gerente<br>2 — Sinclair ZX81<br>3 — Quer conectar na Data Matrix?</small>
+          </div>
+          <div class="mission-format__example">
+            <strong>Missão individual</strong>
+            <span>Crise</span>
+            <small>Uma carta, um objetivo direto<br>sem número de ato</small>
+          </div>
+        </div>
+        <figure class="board-figure">
+          <img src="exported-images/cards/full/high/f1.png" alt="Carta real da missão Yesterday's Jam — Nova gerente em baixa resolução">
+          <figcaption>Exemplo: Yesterday’s Jam — Nova gerente.</figcaption>
+        </figure>
+        <p class="intro">A missão define a história e as condições especiais da partida. Ela pode alterar o setup, movimentar personagens especiais, criar objetivos e determinar quando a próxima missão será revelada.</p>
+        <ol class="steps">
+          <li><strong>Revele a primeira missão.</strong> As cartas de missão ficam em ordem quando são de vários atos. Comece pela primeira carta e mantenha as próximas viradas para baixo.</li>
+          <li><strong>Faça a preparação.</strong> A linha com <strong>🛠️</strong> explica o setup: Leia as linhas de preparação e coloque personagens, tiles, marcadores ou cartas exatamente como a missão indicar. Essa preparação acontece antes de começar a resolver os objetivos.</li>
+          <li><strong>Leia o objetivo.</strong> A linha com <strong>🎯</strong> explica o que os jogadores precisam alcançar. O objetivo pode exigir uma ação, uma condição no cenário ou uma sequência de etapas.</li>
+          <li><strong>Resolva as ativações ⭐.</strong> Quando a ⭐ chegar à carta da missão na fila, resolva suas linhas <strong>⭐</strong>. Se ela mandar mover um NPC ou verificar uma condição, faça isso nesse momento.</li>
+          <li><strong>Siga os atos na ordem.</strong> Uma missão com vários atos só avança quando a condição do ato atual for concluída. Não pule para o próximo ato; mantenha os estados do cenário, salvo se a própria missão disser para alterá-los.</li>
+          <li><strong>Descarte e revele a próxima.</strong> Quando a condição <strong>🗑️</strong> for cumprida, retire a missão ativa da fila e revele a próxima carta de missão conforme a ordem do baralho.</li>
+        </ol>
+        <div class="tip"><strong>Prioridade da missão:</strong> se uma regra da missão entrar em conflito com uma regra geral, siga a missão. A carta revelada é a referência durante a partida; consulte o manual apenas para os detalhes que a carta não explicar.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Quando a rodada termina</div>
+        <h2>14. Como a partida termina</h2>
+        <p class="intro">A partida termina assim que uma condição de vitória ou derrota for cumprida. Confira sempre a carta da missão ativa antes de encerrar o jogo.</p>
+        <p class="reference-note"><strong>Por que o Stress importa?</strong> Se a pressão passar do limite, a equipe será demitida e o novo chefe poderá transformar o porão de TI em algo mais útil — tipo um novo banheiro bem grande.</p>
+        <ol class="steps">
+          <li><strong>Vitória da missão.</strong> Se os jogadores cumprirem o objetivo indicado pela missão, a equipe vence. Em uma missão com atos, isso acontece quando o objetivo do último ato for concluído.</li>
+          <li><strong>Derrota por Stress.</strong> Se <strong>⚠️ The Boss Stress</strong> passar de <strong>15</strong>, os jogadores perdem: a TI é dispensada e o porão será convertido em um banheiro bem grande.</li>
+          <li><strong>Exceções da missão.</strong> Algumas missões podem definir outra condição de vitória, derrota ou encerramento. Quando isso acontecer, siga o texto da missão; ele tem prioridade sobre a regra geral.</li>
+        </ol>
+        <div class="tip"><strong>Antes de continuar:</strong> não revele uma nova missão depois que a partida já terminou. Resolva apenas a condição que encerrou o jogo e determine o resultado.</div>
+        <div class="tip"><strong>Dica:</strong> Seja criativo e crie suas próprias missões ou combine mais de uma!</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">Pendências na iniciativa</div>
+        <h2 id="resolver-fila">15. Resolva um chamado na fila</h2>
+        <figure class="queue-pair-float">
+          <div class="queue-pair-float__stack" aria-label="Exemplo visual do chamado sobreposto ao usuário na fila">
+            <img class="queue-pair-float__user" src="exported-images/cards/full/low/d1.png" alt="Carta de usuário atrás do chamado">
+            <img class="queue-pair-float__call" src="exported-images/cards/full/low/c6.png" alt="Carta de chamado posicionada por cima do usuário">
+          </div>
+          <figcaption>Na fila, o Chamado fica por cima do Usuário e a ⭐ indica o conjunto atualmente ativado.</figcaption>
+        </figure>
+        <p class="intro">Um conjunto <strong>☎️ + 👤</strong> na fila representa um atendimento que foi postergado ou que entrou diretamente pela Rotina. Ele continua disponível para qualquer personagem resolver durante seu próprio turno.</p>
+        <p class="reference-note"><strong>O Chamado fica por cima do Usuário.</strong> As duas cartas continuam juntas como um único atendimento enquanto estiverem na fila. A carta de Usuário identifica os efeitos da fila; a carta de Chamado mostra o que precisa ser resolvido.</p>
+        <ol class="steps">
+          <li><strong>Resolva a linha ⭐ do Usuário.</strong> Quando a ⭐ alcançar o conjunto na fila, aplique o efeito indicado na carta de Usuário ao lado de ⭐.</li>
+          <li><strong>Recupere ou puxe um chamado.</strong> Por <strong>1⏱️</strong>, o jogador da vez pode puxar o conjunto para a própria mão, seja da iniciativa ou da mão de outro jogador. Sem fazer isso, qualquer personagem pode gastar suas ações para resolver o Chamado diretamente da fila.</li>
+          <li><strong>Siga as etapas do Chamado.</strong> Leia os objetivos na ordem impressa, pague os custos, faça os testes e acumule sucessos apenas durante a ativação atual.</li>
+          <li><strong>Se não concluir, mantenha o conjunto na fila.</strong> O Chamado continua disponível para a próxima ativação, e a linha ⭐ do Usuário será aplicada novamente quando a estrela voltar ao conjunto.</li>
+          <li><strong>Ao concluir:</strong> resolva a linha <strong>🏁</strong> do Usuário, depois a conclusão do Chamado, se houver, remova o tile de telefone da mesa, se ainda estiver no cenário, e descarte as duas cartas juntas.</li>
+        </ol>
+        <div class="tip clear"><strong>Resumo do fluxo:</strong> atenda o telefone → resolva na mão ou postergue → deixe o conjunto na fila → aplique ⭐ → resolva o Chamado → aplique 🏁 → descarte o par. Para o primeiro passo, volte à seção <a href="#atender-chamado">Atenda um chamado</a>.</div>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker">A campanha principal</div>
+        <h2>Yesterday’s Jam</h2>
+        <div class="campaign-intro"><strong>Uma história em cinco atos.</strong> A campanha principal acompanha a chegada de Jen ao departamento de TI. Enquanto ela tenta parecer preparada, a equipe precisa improvisar, esconder seus problemas e sobreviver ao caos do expediente. As cartas abaixo devem ser jogadas em ordem; o manual contém as regras completas de cada ato.</div>
+
+        <article class="campaign-act">
+          <figure>
+            <img src="exported-images/cards/full/low/f1.png" alt="Carta F1 da campanha Yesterday's Jam">
+            <figcaption>F1 · Nova gerente</figcaption>
+          </figure>
+          <h3>1 — Nova gerente</h3>
+          <p>Denholm apresenta Jen como a nova gerente. Ela chega ao porão falando de e-mails, mouse e cliques como se estivesse revelando um grande conhecimento técnico. <strong>Setup:</strong> Jen começa no elevador, pronta para encontrar a equipe. <strong>Objetivo:</strong> aproximar um técnico e vencer o confronto que revela que há muito mais confiança do que competência naquela apresentação.</p>
+        </article>
+
+        <article class="campaign-act">
+          <figure>
+            <img src="exported-images/cards/full/low/f2.png" alt="Carta F2 da campanha Yesterday's Jam">
+            <figcaption>F2 · Sinclair ZX81</figcaption>
+          </figure>
+          <h3>2 — Sinclair ZX81</h3>
+          <p>Jen está prestes a chegar à sua cadeira e começar a mandar no departamento. Quando ela passa pelo <strong>Sinclair ZX81</strong> sem demonstrar o menor interesse, os técnicos começam a achar aquilo suspeito — talvez ela realmente não entenda muito de computadores. Antes disso, eles tentam preparar uma pequena surpresa: infectar o computador e deixar uma falha impossível de ignorar. <strong>Setup:</strong> Jen continua avançando para a cadeira e o computador permanece funcional. <strong>Objetivo:</strong> infectar o PC antes que ela chegue; distrações podem comprar o tempo necessário.</p>
+        </article>
+
+        <article class="campaign-act">
+          <figure>
+            <img src="exported-images/cards/full/low/f3.png" alt="Carta F3 da campanha Yesterday's Jam">
+            <figcaption>F3 · Quer conectar na Data Matrix?</figcaption>
+          </figure>
+          <h3>3 — Quer conectar na Data Matrix?</h3>
+          <p>Agora Jen tenta provar que consegue cuidar das coisas sozinha. Ela se mete nos chamados, improvisa respostas e transforma cada tentativa em mais uma oportunidade para a TI parecer incompetente. <strong>Setup:</strong> Jen fica na cadeira e começa com Credibilidade 3. <strong>Objetivo:</strong> reduzir essa Credibilidade a 0, enfrentando os confrontos e evitando que as tentativas dela aumentem o Stress da empresa.</p>
+        </article>
+
+        <article class="campaign-act">
+          <figure>
+            <img src="exported-images/cards/full/low/f4.png" alt="Carta F4 da campanha Yesterday's Jam">
+            <figcaption>F4 · Que screen saver realista!</figcaption>
+          </figure>
+          <h3>4 — Que screen saver realista!</h3>
+          <p>Moss está recuperando uma placa de circuito com o ferro de solda. Ele acha que o ferro está ligado e o desliga — mas ele já estava desligado. Durante o expediente, o escritório começa a pegar fogo. Roy percebe as chamas e vê que o Boss Denholm está descendo para o porão; então improvisa, colocando monitores velhos na frente do fogo para fazer parecer que aquilo é apenas uma proteção de tela. <strong>Setup:</strong> o fogo aparece no armário inferior, Denholm espera no elevador e monitores quebrados são espalhados pelos escritórios. <strong>Objetivo:</strong> esconder todos os fogos com os monitores antes que Denholm entre na sala principal e perceba o desastre.</p>
+        </article>
+
+        <article class="campaign-act">
+          <figure>
+            <img src="exported-images/cards/full/low/f5.png" alt="Carta F5 da campanha Yesterday's Jam">
+            <figcaption>F5 · Are you stressed?</figcaption>
+          </figure>
+          <h3>5 — Are you stressed?</h3>
+          <p>Denholm percebe que Jen está no meio do caos e começa a pressioná-la com perguntas. <strong>Setup:</strong> Jen fica em sua cadeira, Denholm começa diante da mesa e os fogos continuam no cenário. <strong>Objetivo:</strong> chamar os bombeiros por email, apagar todos os fogos e distrair Denholm enquanto Jen tenta sobreviver ao interrogatório. Se o incêndio for controlado antes que o Stress passe do limite, a campanha termina com uma vitória da equipe.</p>
+        </article>
+
+        <div class="tip"><strong>Depois do último ato:</strong> aplique a condição de vitória da missão e encerre a partida. Para detalhes de preparação, ativações e exceções, consulte as seções anteriores deste manual.</div>
+      </section>
+
+      <section id="consulta-rapida" class="page">
+        <div class="section-kicker">Última página · consulta rápida</div>
+        <h2>Principais símbolos</h2>
+        <p class="intro">Use esta tabela para lembrar o significado dos símbolos mais frequentes durante o setup, a fila e a Rotina. Ela não substitui as regras completas do manual.</p>
+
+        <table class="quick-reference">
+          <thead>
+            <tr>
+              <th>Símbolo</th>
+              <th>Significado rápido</th>
+              <th>Onde aparece</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="group-row"><td colspan="3">Fila e resolução de cartas</td></tr>
+            <tr><td>⭐</td><td>Carta atualmente ativada pela estrela.</td><td>Fila de iniciativa</td></tr>
+            <tr><td>⚡</td><td>Efeito imediato, resolvido assim que a carta é revelada.</td><td>Eventos</td></tr>
+            <tr><td>🏁</td><td>Efeito de conclusão do chamado ou usuário.</td><td>Cartas</td></tr>
+            <tr><td>🗑️</td><td>Descarte a carta ou marcador indicado.</td><td>Cartas</td></tr>
+            <tr><td>📍B / 📍1️⃣</td><td>Componente do Porão ou do Andar 1 — Marketing.</td><td>Cartas e componentes</td></tr>
+
+            <tr class="group-row"><td colspan="3">Dados e testes</td></tr>
+            <tr><td>🎲</td><td>Dado de seis faces para testes de atributo (d6).</td><td>Ações e cartas</td></tr>
+            <tr><td>🔺</td><td>Dado de dez faces para tabelas numéricas (d10).</td><td>Rotina e cartas</td></tr>
+            <tr><td>✅</td><td>Sucesso.</td><td>Resultados de dados</td></tr>
+            <tr><td>❌</td><td>Falha.</td><td>Resultados de dados</td></tr>
+            <tr><td>🔒</td><td>Cadeado: o resultado está bloqueado e não pode ser rolado novamente. Pode aparecer sobre uma falha ou um sucesso.</td><td>Resultados de 🎲</td></tr>
+
+            <tr class="group-row"><td colspan="3">Personagens e recursos</td></tr>
+            <tr><td>🧠</td><td>Inteligência; usada para problemas técnicos.</td><td>Atributos e testes</td></tr>
+            <tr><td>🙂</td><td>Carisma; usado para interações sociais.</td><td>Atributos e testes</td></tr>
+            <tr><td>👣</td><td>Movimento por ação.</td><td>Personagens</td></tr>
+            <tr><td>⏱️</td><td>Ação disponível.</td><td>Turnos e custos</td></tr>
+            <tr><td>🫩</td><td>Cansaço.</td><td>Personagens</td></tr>
+            <tr><td>🔋</td><td>Ânimo, recurso acumulável.</td><td>Cartela dos personagens</td></tr>
+            <tr><td>⚠️</td><td>Stress da empresa.</td><td>Régua The Boss Stress</td></tr>
+
+            <tr class="group-row"><td colspan="3">Atendimento e cenário</td></tr>
+            <tr><td>☎️⚡</td><td>Telefone tocando.</td><td>Rotina e cenário</td></tr>
+            <tr><td>☎️ + 👤</td><td>Chamado associado a um usuário.</td><td>Mão ou fila</td></tr>
+            <tr><td>📞</td><td>Efeito do usuário enquanto o chamado está em atendimento (na mão).</td><td>Rotina e carta de Usuário</td></tr>
+            <tr><td>⏸️</td><td>Postergar: desligar o telefone e colocar o chamado na fila.</td><td>Ações</td></tr>
+            <tr><td>🖥️ / 🗄️</td><td>Computador / servidor.</td><td>Cenário e chamados</td></tr>
+            <tr><td>🦠</td><td>Equipamento infectado.</td><td>Tiles e efeitos</td></tr>
+            <tr><td>🔥</td><td>Fogo ativo no cenário.</td><td>Tiles e Rotina</td></tr>
+          </tbody>
+        </table>
+
+        <div class="tip"><strong>Dica:</strong> quando um símbolo aparecer combinado com outro, leia-os juntos. Por exemplo, <strong>🖥️🦠</strong> significa “computador infectado” e <strong>☎️ + 👤</strong> significa “chamado e usuário associados”.</div>
+      </section>
+    </main>
+  </body>
+</html>

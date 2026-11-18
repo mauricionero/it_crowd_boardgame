@@ -13,7 +13,7 @@ Cada carta traz, no canto superior direito, um marcador **📍** que identifica 
 | Marcador | Origem |
 |---|---|
 | **📍B** | Porão — jogo base. |
-| **📍1** | Andar 1 — expansão de escritórios e Marketing. |
+| **📍1️⃣** | Andar 1 — expansão de escritórios e Marketing. |
 
 O marcador serve para separar os componentes durante a montagem e para montar apenas os baralhos compatíveis com os andares escolhidos para a partida. Em cartas de Missão, os marcadores indicam os andares mínimos exigidos. Eles não são regras de ativação e não alteram a resolução da carta.
 
@@ -27,9 +27,9 @@ O marcador serve para separar os componentes durante a montagem e para montar ap
 - **C8 — Impressora não funciona**, **C10 — Minha tela ficou verde** e **C11 — Vídeo não funciona**: Chamados do Andar 1.
 - **E9 — Reunião do Marketing**, **E15 — Marketeiro Nerd**, **E16 — Marketing ocupado de novo**, **E17 — O Marketing está ligando**, **E18 — CC: E-mail suspeito** e **E19 — O vírus subiu**: Eventos Genéricos do Andar 1.
 - **I6 — CC para todos**, **I7 — Papelada urgente** e **I8 — Crise**: mini missões do Andar 1.
-- **F6–F10 — Funcionária do Mês** e **B7 — Douglas**: campanha em cinco atos e sua carta de iniciativa.
+- **F6, F8, F9 e F10 — Funcionária do Mês** e **B7 — Douglas**: campanha em quatro atos e sua carta de iniciativa.
 
-As próximas cartas, tiles e missões dessa expansão receberão o mesmo marcador **📍1**.
+As próximas cartas, tiles e missões dessa expansão receberão o mesmo marcador **📍1️⃣**.
 
 ## 3. Setup modular
 
@@ -76,17 +76,17 @@ Ao revelar **E17**, gere **+☎️⚡** normalmente e descarte a carta. Se não 
 
 ### CC: E-mail suspeito
 
-Ao revelar **E18**, verifique se existe pelo menos um computador **🖥️📍1** infectado. Se não existir, descarte a carta sem efeito. Caso exista, role 🔺: em 1–7, infecte o computador do número obtido; em 8–10, nada acontece. Se o número obtido já estiver infectado, role novamente até obter um computador funcional. Se todos os computadores do Andar 1 já estiverem infectados, nada acontece.
+Ao revelar **E18**, verifique se existe pelo menos um computador **🖥️📍1️⃣** infectado. Se não existir, descarte a carta sem efeito. Caso exista, role 🔺: em 1–7, infecte o computador do número obtido; em 8–10, nada acontece. Se o número obtido já estiver infectado, role novamente até obter um computador funcional. Se todos os computadores do Andar 1 já estiverem infectados, nada acontece.
 
 ### O vírus subiu
 
-Ao revelar **E19**, se **🗄️** estiver infectado, infecte um computador **🖥️📍1** funcional à escolha. Se o servidor não estiver infectado, descarte a carta sem efeito.
+Ao revelar **E19**, se **🗄️** estiver infectado, infecte um computador **🖥️📍1️⃣** funcional à escolha. Se o servidor não estiver infectado, descarte a carta sem efeito.
 
 ## 4. Missões do Andar 1
 
 ### I6 — CC para todos
 
-Na preparação, infecte **🗄️** e os computadores **🖥️📍1** de números **1, 3, 5 e 7**. A missão é concluída quando todos os computadores do Andar 1 estiverem funcionais.
+Na preparação, infecte **🗄️** e os computadores **🖥️📍1️⃣** de números **1, 3, 5 e 7**. A missão é concluída quando todos os computadores do Andar 1 estiverem funcionais.
 
 ### I7 — Papelada urgente
 
@@ -98,45 +98,45 @@ Na preparação, infecte **🗄️**, vire **G4 — Impressora** para **🖨️�
 
 A missão é concluída quando **🗄️** e **🖨️** estiverem funcionais, nenhum equipamento estiver infectado e não houver nenhum chamado aberto. Para esta missão, um chamado aberto é qualquer conjunto **☎️ + 👤** que ainda esteja na mão de um personagem ou na fila de iniciativa; os telefones **☎️⚡** também precisam estar todos livres.
 
-### F6–F10 — Funcionária do Mês
+### F6, F8, F9 e F10 — Funcionária do Mês
 
-Nesta campanha, **Jen participa como personagem jogável desde o início**, com B3 já na fila e seguindo todas as regras de uma personagem jogável. Um jogador pode escolhê-la normalmente; se ninguém a escolher, o grupo controla suas ações em conjunto. No setup da campanha, coloque H14 junto ao servidor e posicione Jen no escritório escolhido pelo jogador, nunca no escritório do gerente. O objetivo da cerimônia é fazer Jen entregar um discurso sobre tecnologia para a empresa, usando o item especial **H14 — THE INTERNET**. A campanha exige os tabuleiros **B** e **📍1**.
+Nesta campanha, **Jen participa como personagem jogável desde o início**, com B3 já na fila e seguindo todas as regras de uma personagem jogável. Um jogador pode escolhê-la normalmente; se ninguém a escolher, o grupo controla suas ações em conjunto. No setup da campanha, coloque H14 junto ao servidor e posicione Jen em seu escritório normal, nunca no escritório do gerente. O discurso acontece obrigatoriamente na **Sala 1** do Andar 1; Jen precisa atravessar o cenário para chegar até lá. A campanha exige os tabuleiros **B** e **📍1️⃣**.
 
 #### F6 — The Internet
 
-Coloque H14 junto ao servidor. Um técnico, exceto Jen, adjacente ao **🗄️** pode gastar **1⏱️** e fazer **🧠✅**. Em caso de sucesso, coloque H14 no Inventário desse personagem. Avance quando H14 estiver com Jen.
-
-#### F7 — Entregue para Jen
-
-Jen continua sendo controlada normalmente pelo jogador que a escolheu. Se H14 ainda não estiver com Jen, role 🔺 na primeira ativação ⭐ deste ato; em 10, aumente **⚠️** em 1. Essa rolagem acontece apenas uma vez. Avance quando H14 estiver com Jen.
+Coloque H14 junto ao servidor. Um técnico, exceto Jen, adjacente ao **🗄️** pode gastar **1⏱️** e fazer **🧠✅**. Em caso de sucesso, coloque H14 no Inventário desse personagem. Jen deve levar H14 até o Andar 1. Avance quando Jen estiver no Andar 1 com H14.
 
 #### F8 — Jen no Andar 1
 
-Jen deve levar H14 até a Sala 1. Na ativação ⭐, para cada **🖥️📍1🦠**, mova Jen 2 tiles em direção a esse computador. Depois do movimento, se Jen estiver adjacente a algum computador infectado, aumente **⚠️** em 1. Avance quando Jen e H14 estiverem na Sala 1.
+Jen deve levar H14 até a **Sala 1**. Na preparação, infecte **🗄️** e os computadores **🖥️📍1️⃣** de números **1, 5 e 6**. Na ativação ⭐, para cada **🖥️📍1️⃣🦠**, mova Jen **3 tiles** em direção a esse computador. Depois do movimento, se Jen estiver adjacente a algum computador infectado, aumente **⚠️** em 1.
+
+Os computadores infectados são um **dificultador**, não um bloqueio: eles não impedem Jen de chegar à Sala 1 e não precisam ser desinfectados para avançar o ato. Avance quando Jen e H14 estiverem na Sala 1.
 
 #### F9 — O discurso
 
-Remova todo **🔋** de Jen. Durante cada ativação ⭐, Jen usa suas três ações apenas para discursar, rerolar dados ou comprar dado extra. Cada ação de discurso é uma rolagem de 🙂:
+O discurso acontece na **Sala 1**. Jen mantém seus **🔋** e, durante cada ativação ⭐, usa suas três ações apenas para discursar, rerolar dados ou comprar dado extra. Cada ação de discurso é uma rolagem de 🙂:
 
-- **2✅:** coloque 1🔋 em Jen;
+- **2✅:** coloque 1💬 em Jen;
 - **1✅:** nada acontece;
-- **0✅:** remova 1🔋 de Jen, se houver.
+- **0✅:** aumente **⚠️** em 1.
 
-Quando Jen tiver **3🔋**, avance para F10. Esses 🔋 também continuam sujeitos às regras normais de uso de Ânimo.
+No início deste ato, coloque Douglas no escritório do **🖥️7** e **B7 — Douglas** no fim da fila de iniciativa. Douglas usa suas **3 ações** normalmente. Ele se aproxima do personagem mais próximo; se ninguém o enfrentar no Andar 1, Jen tende a ser seu alvo.
+
+Douglas não pode entrar no escritório de Jen antes de ela conseguir **4💬**. Se isso acontecer, a missão é perdida. Quando Jen tiver **4💬**, avance para F10.
 
 #### F10 — Douglas fora de controle
 
-Coloque Douglas na Sala 1 e coloque **B7 — Douglas** no fim da fila de iniciativa. Douglas usa a própria carta para suas duas ativações ⭐. A missão é concluída assim que Douglas entrar no escritório do **🖥️7**.
+Douglas permanece no cenário e na fila de iniciativa depois do ato anterior. A missão é concluída assim que Douglas entrar no escritório do **🖥️7**.
 
-Douglas possui **🧠1**, **🙂1** e `👣 = 2 + 1🎲`.
+Douglas possui **3⏱️**, **🧠1**, **🙂1** e `👣 = 2 + 1🎲`. Ele resolve as duas linhas ⭐ da carta B7 em cada ativação.
 
-Ao alcançar B7, resolva as duas linhas ⭐ na ordem impressa. Na primeira linha, role 🔺:
+Na primeira linha ⭐, role 🔺:
 
-- **1–5:** mova Douglas em direção ao personagem mais próximo;
-- **6–8:** remova 1🔋 do personagem mais próximo;
-- **9–10:** coloque 1🔥 no tile de Douglas.
+- **1–6:** mova Douglas em direção ao personagem mais próximo;
+- **7–8:** coloque 1🫩 no personagem mais próximo;
+- **9–10:** aumente **⚠️** em 1 e coloque 1🔥 no tile de Douglas.
 
-Na segunda linha ⭐, se Douglas estiver adjacente a um personagem, aumente **🫩** desse personagem em 1.
+Na segunda linha ⭐, ao final da ativação, coloque 1🫩 em cada personagem adjacente a Douglas.
 
 ### Rotina do Andar 1
 
@@ -158,5 +158,5 @@ Ao revelar **E15**, não coloque a carta na fila de iniciativa. Posicione-a na *
 
 - Todas as regras do manual base continuam valendo.
 - Cartas marcadas com **📍B** nunca exigem o Andar 1.
-- Cartas marcadas com **📍1** só entram quando o Andar 1 estiver em jogo.
+- Cartas marcadas com **📍1️⃣** só entram quando o Andar 1 estiver em jogo.
 - Uma futura expansão poderá usar outro número de andar; ela seguirá a mesma convenção, sem modificar este manual nem as regras do porão.

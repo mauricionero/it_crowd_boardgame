@@ -5,9 +5,23 @@ Protótipo cooperativo inspirado em *The IT Crowd*: os jogadores administram cha
 ## Abrir o projeto
 
 - [Manual de regras](IT_Crowd_rulebook.md)
-- [Playtest interativo](templates/cards/playtest-model.html)
+- [Manual do jogo](IT_Crowd_game_manual.html) — manual visual e linear com setup, regras, missões e consulta rápida.
+- [Playtest interativo](playtest.html)
 - [Cartas e exportação para PDF](templates/cards/call-model.html)
+- [Imprimir cartas](imprimir-cartas.html) — atalho na raiz para o gerador de cartas.
 - [Dados das cartas e peças](templates/cards/card-data.js)
+
+## Preparar o projeto
+
+Para regenerar todas as imagens das cartas e exportar o manual em PDF diretamente na raiz, execute:
+
+```bash
+python3 install.py
+```
+
+O script gera as cartas em `exported-images/cards/` e o arquivo `IT_Crowd_game_manual.pdf` na raiz do projeto.
+
+Requisitos: Python 3 e Google Chrome ou Chromium instalados. No Windows, o comando equivalente pode ser `py install.py`.
 
 Abra os arquivos HTML em um navegador moderno. O playtest é um protótipo visual com drag and drop e armazenamento local das posições; ele não aplica validações automáticas das regras.
 
@@ -33,7 +47,19 @@ Resoluções disponíveis:
 - `high`: 300 DPI, para o modo **Qualidade full**.
 - `both`: gera as duas versões; é o padrão.
 
+Quando `both` é usado, as versões low e high são processadas em paralelo. Se o Chrome não suportar duas renderizações simultâneas, o script repete automaticamente em sequência.
+
 Os arquivos gerados são ignorados pelo Git. Depois de gerar ou atualizar imagens, recarregue o [playtest](templates/cards/playtest-model.html) ou a página de [exportação](templates/cards/call-model.html).
+
+## Exportar o manual em PDF
+
+Para gerar o manual em A4 sem os cabeçalhos e rodapés automáticos do navegador:
+
+```bash
+python3 scripts/export_game_manual_pdf.py
+```
+
+O PDF será salvo em `output/pdf/IT_Crowd_game_manual.pdf`, uma pasta ignorada pelo Git. Também é possível escolher outro caminho com `--output`.
 
 ## Exportação para Tabletop Simulator
 

@@ -1,4 +1,6 @@
 /exported-images/
+/output/pdf/
+/IT_Crowd_game_manual.pdf
 /tts-export/cloud-urls.json
 __pycache__/
 *.pyc

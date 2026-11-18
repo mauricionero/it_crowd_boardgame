@@ -112,7 +112,7 @@
 
         const floorNumber = document.createElement('span');
         floorNumber.className = 'card-floor__label';
-        floorNumber.textContent = floorLabel;
+        floorNumber.textContent = floorLabel === '1' ? '1️⃣' : floorLabel;
         floorNumber.setAttribute('aria-hidden', 'true');
 
         badge.append(floorIcon, floorNumber);

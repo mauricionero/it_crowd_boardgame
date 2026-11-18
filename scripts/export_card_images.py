@@ -4,6 +4,7 @@
 The browser remains the source of truth for layout. This script only creates a
 small one-card HTML wrapper and asks Chrome to render it headlessly, so the
 same CSS and card-data.js used by the templates are used for the exported PNGs.
+When both resolutions are requested, low and high are rendered in parallel.
 
 Pass a code directly to force one card, for example:
     python3 scripts/export_card_images.py E11
@@ -20,6 +21,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 
@@ -307,6 +309,7 @@ def render_card(
     output: Path,
     size: tuple[int, int],
     scale: float,
+    profile_dir: Path,
 ) -> None:
     width, height = size
     command = [
@@ -316,6 +319,7 @@ def render_card(
         "--hide-scrollbars",
         "--allow-file-access-from-files",
         "--default-background-color=00000000",
+        f"--user-data-dir={profile_dir}",
         f"--force-device-scale-factor={scale}",
         f"--window-size={width},{height}",
         "--virtual-time-budget=1500",
@@ -326,6 +330,50 @@ def render_card(
     if result.returncode != 0 or not output.is_file() or output.stat().st_size == 0:
         details = result.stderr.strip() or result.stdout.strip() or "saída vazia"
         raise RuntimeError(f"Falha ao renderizar {output.name}: {details}")
+
+
+def export_resolution(
+    resolution: str,
+    codes: list[str],
+    card_types: dict[str, str],
+    card_sources: dict[str, str],
+    existing_images: dict[str, str],
+    regeneration_mode: str,
+    args: argparse.Namespace,
+    chrome: Path,
+    temp_dir: Path,
+) -> tuple[int, int, dict[str, str]]:
+    output_dir = args.output_dir / args.mode / resolution
+    output_dir.mkdir(parents=True, exist_ok=True)
+    scale = RESOLUTION_SETTINGS[resolution]["scale"]
+    wrapper = temp_dir / f"card-{resolution}.html"
+    profile_dir = temp_dir / f"profile-{resolution}"
+    updates = {}
+    rendered_count = 0
+    skipped_count = 0
+
+    for code in codes:
+        size = tuple(CARD_SIZES[card_types[code]])
+        output = output_dir / f"{code.lower()}.png"
+        manifest_key = f"{args.mode}/{resolution}/{code.lower()}.png"
+        source_hash = source_fingerprint(card_sources[code])
+        image_is_current = (
+            output.is_file()
+            and output.stat().st_size > 0
+            and existing_images.get(manifest_key) == source_hash
+        )
+        if regeneration_mode == "missing" and image_is_current:
+            skipped_count += 1
+            print(f"{code} ({resolution}) -> já está atualizada, ignorada: {output}")
+            continue
+
+        build_wrapper(code, size, args.mode, wrapper)
+        render_card(chrome, wrapper, output, size, scale, profile_dir)
+        updates[manifest_key] = source_hash
+        rendered_count += 1
+        print(f"{code} ({resolution}) -> {output}")
+
+    return rendered_count, skipped_count, updates
 
 
 def main() -> int:
@@ -364,32 +412,60 @@ def main() -> int:
     skipped_count = 0
 
     with tempfile.TemporaryDirectory(prefix="it-crowd-card-render-") as temp_dir:
-        wrapper = Path(temp_dir) / "card.html"
+        existing_images = dict(manifest["images"])
+        worker_args = [
+            (
+                resolution,
+                codes,
+                card_types,
+                card_sources,
+                existing_images,
+                regeneration_mode,
+                args,
+                chrome,
+                Path(temp_dir),
+            )
+            for resolution in resolutions
+        ]
 
-        for resolution in resolutions:
-            output_dir = args.output_dir / args.mode / resolution
-            output_dir.mkdir(parents=True, exist_ok=True)
-            scale = RESOLUTION_SETTINGS[resolution]["scale"]
+        if len(resolutions) > 1:
+            print("Exportando as resoluções em paralelo...")
 
-            for code in codes:
-                size = tuple(CARD_SIZES[card_types[code]])
-                output = output_dir / f"{code.lower()}.png"
-                manifest_key = f"{args.mode}/{resolution}/{code.lower()}.png"
-                source_hash = source_fingerprint(card_sources[code])
-                image_is_current = (
-                    output.is_file()
-                    and output.stat().st_size > 0
-                    and manifest["images"].get(manifest_key) == source_hash
+        if len(resolutions) > 1:
+            parallel_error = None
+            futures = {}
+            with ThreadPoolExecutor(max_workers=len(resolutions)) as executor:
+                for values in worker_args:
+                    future = executor.submit(export_resolution, *values)
+                    futures[future] = values[0]
+
+                for future in as_completed(futures):
+                    try:
+                        resolution_rendered, resolution_skipped, updates = future.result()
+                    except Exception as error:
+                        parallel_error = error
+                        continue
+                    rendered_count += resolution_rendered
+                    skipped_count += resolution_skipped
+                    manifest["images"].update(updates)
+
+            if parallel_error:
+                print(
+                    "A exportação paralela encontrou um problema no navegador; "
+                    "repetindo as resoluções em sequência."
                 )
-                if regeneration_mode == "missing" and image_is_current:
-                    skipped_count += 1
-                    print(f"{code} ({resolution}) -> já está atualizada, ignorada: {output}")
-                    continue
-                build_wrapper(code, size, args.mode, wrapper)
-                render_card(chrome, wrapper, output, size, scale)
-                manifest["images"][manifest_key] = source_hash
-                rendered_count += 1
-                print(f"{code} ({resolution}) -> {output}")
+                rendered_count = 0
+                skipped_count = 0
+                for values in worker_args:
+                    resolution_rendered, resolution_skipped, updates = export_resolution(*values)
+                    rendered_count += resolution_rendered
+                    skipped_count += resolution_skipped
+                    manifest["images"].update(updates)
+        else:
+            resolution_rendered, resolution_skipped, updates = export_resolution(*worker_args[0])
+            rendered_count += resolution_rendered
+            skipped_count += resolution_skipped
+            manifest["images"].update(updates)
 
     save_export_manifest(manifest_path, manifest)
     print(
