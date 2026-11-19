@@ -1127,6 +1127,43 @@
         font-weight: 800;
       }
 
+      .difficulty-symbol {
+        display: inline-flex;
+        width: 7mm;
+        height: 7mm;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--difficulty-color);
+        border-radius: 50%;
+        background: var(--difficulty-background);
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+        line-height: 1;
+        vertical-align: middle;
+      }
+
+      .difficulty-symbol--easy {
+        --difficulty-background: #bfe3b7;
+        --difficulty-color: #3d9b55;
+      }
+
+      .difficulty-symbol--medium {
+        --difficulty-background: #ffe08a;
+        --difficulty-color: #d39b1c;
+      }
+
+      .difficulty-symbol--hard {
+        --difficulty-background: #f1aaa0;
+        --difficulty-color: #bd453b;
+      }
+
+      .difficulty-plus {
+        display: inline-block;
+        color: #2f8a49;
+        font-size: 1.25em;
+        font-weight: 900;
+        line-height: 1;
+      }
+
       .checklist {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1334,7 +1371,7 @@
       <div>
         <div class="eyebrow">The IT Crowd · Manual do jogo</div>
         <h1>Manual do Jogo</h1>
-        <div class="cover-subtitle">Como ser um bom técnico de TI da Reynholm Industries</div>
+        <div class="cover-subtitle">Como ser um bom técnico de TI na Reynholm Industries</div>
         <div class="cover-rule"></div>
         <p class="cover-note"><strong>Não deixe o Stress subir demais!</strong> Se isso acontecer, a equipe de TI será demitida e o porão ganhará um uso mais útil: um banheiro bem grande.</p>
       </div>
@@ -1360,7 +1397,6 @@
           <li><strong>Escolha qualquer mesa com cadeira.</strong> Isso inclui a sala do gerente à direita; uma missão pode reservar ou limitar esse espaço quando necessário.</li>
         </ol>
         <div class="callout clear"><strong>Regra de ouro:</strong> se uma missão trouxer uma preparação própria, a instrução da missão tem prioridade sobre este setup.</div>
-
         <h2>2. Escolha os personagens</h2>
         <p>Escolham de 1 a 4 personagens jogáveis. Cada jogador escolhe qualquer escritório com cadeira no mapa.</p>
         <div class="character-row">
@@ -1532,6 +1568,7 @@
           <img src="assets/guides/event-example-e4.png" alt="Exemplo da fila com o evento Solicitação Urgente da Diretoria no fim da iniciativa">
           <figcaption>Depois do efeito imediato, o evento E4 aparece no fim da fila de iniciativa.</figcaption>
         </figure>
+        <div class="reference-note"><strong>Dificuldade dos Eventos, Chamados, Usuários e Missões.</strong> O pequeno símbolo no canto superior esquerdo indica a dificuldade geral: <span class="difficulty-symbol difficulty-symbol--easy">🤓</span> Fácil; <span class="difficulty-symbol difficulty-symbol--medium">😐</span> Média; <span class="difficulty-symbol difficulty-symbol--hard">😖</span> Difícil. Nos Usuários, ele indica a dificuldade de administrar seus efeitos. Cartas que oferecem algum benefício também recebem um pequeno <span class="difficulty-plus">+</span> verde. As cartas de Missão usam os mesmos símbolos para indicar sua dificuldade geral.</div>
         <div class="event-persistent">
           <img src="exported-images/cards/full/low/e16.png" alt="Carta real de evento Marketing Meio Ocupado em baixa resolução">
           <p><strong>Outro exemplo: E16 — Marketing Meio Ocupado.</strong> Depois de resolvido o efeito <strong>⚡</strong>, a carta fica por cima do baralho de Eventos. Enquanto ela estiver exposta, não revele uma nova carta. A cada ativação <strong>⭐</strong>, role <strong>🔺</strong> (d10); com resultado <strong>1–5</strong>, descarte E16. Até isso acontecer, o evento continua sendo o evento ativo.</p>
@@ -1620,6 +1657,7 @@
           <li><strong>Mover:</strong> gaste <strong>1⏱️</strong> e use o valor de <strong>👣</strong> do personagem. Some 1 tile para cada <strong>✅</strong> obtido nos dados de movimento. O caminho é ortogonal; diagonal conta apenas para adjacência, não para movimento.</li>
           <li><strong>Remover 🫩:</strong> gaste <strong>⏱️1</strong> para remover um Cansaço de si ou de um aliado adjacente.</li>
           <li><strong>Gerar 🔋:</strong> 1× por turno, gaste <strong>⏱️1</strong> para gerar 1 Ânimo para si, até o limite de 5.</li>
+          <li><strong>Usar um 🖥️:</strong> para qualquer ação que exija um computador funcional, o personagem deve estar na cadeira, diretamente à frente do tile de 🖥️ funcional.</li>
           <li><strong>Desinfectar:</strong> junto a um equipamento, gaste <strong>⏱️1</strong> e faça o teste indicado: <strong>🖥️ 🧠 ✅✅</strong> para computador ou <strong>🗄️ 🧠 ✅✅✅</strong> para servidor.</li>
           <li><strong>Chamar os Bombeiros:</strong> junto a um computador funcional 🖥️, gaste <strong>⏱️1</strong> e faça o teste combinado <strong>🙂 + 🧠 = ✅✅</strong>. Com sucesso, coloque os 2 Bombeiros no elevador e a carta de iniciativa do Bombeiro no fim da fila.</li>
           <li><strong>Atender ou postergar:</strong> junto a um telefone tocando, gaste <strong>⏱️1</strong> para comprar o Chamado e o Usuário. Para postergar um atendimento, gaste <strong>⏱️1</strong>, remova o tile de telefone e coloque o conjunto na fila.</li>
@@ -1852,6 +1890,56 @@
         <div class="tip"><strong>Depois do último ato:</strong> aplique a condição de vitória da missão e encerre a partida. Para detalhes de preparação, ativações e exceções, consulte as seções anteriores deste manual.</div>
       </section>
 
+      <section class="page">
+        <div class="section-kicker">Opcional para o setup</div>
+        <h2>Ajuste a dificuldade da partida</h2>
+        <p class="intro">Se quiser ajustar o desafio ao grupo, escolha uma dificuldade e conte os personagens jogáveis. A tabela indica quantas cartas de cada nível devem entrar nos baralhos de Eventos e Chamados.</p>
+        <div class="reference-note"><strong>Notação:</strong> cada célula segue a ordem <strong>🤓 / 😐 / 😖</strong> para indicar a quantidade de cartas <strong>Fáceis / Médias / Difíceis</strong>. Mesmo no nível Fácil, mantenha pelo menos 1 carta 😖 em cada baralho quando houver cartas disponíveis; as cartas fáceis extras diluem esse desafio. Selecione aleatoriamente as cartas dentro de cada nível; as cartas não selecionadas voltam para a caixa.</div>
+        <table class="quick-reference difficulty-setup-table">
+          <thead>
+            <tr>
+              <th>Personagens</th>
+              <th>🤓 Fácil</th>
+              <th>😐 Média</th>
+              <th>😖 Difícil</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Eventos 4/1/1<br>Chamados 2/1/1</td>
+              <td>Eventos 3/2/1<br>Chamados 1/1/1</td>
+              <td>Eventos 2/2/2<br>Chamados 1/1/2</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Eventos 5/2/1<br>Chamados 2/1/1</td>
+              <td>Eventos 4/3/2<br>Chamados 2/2/1</td>
+              <td>Eventos 3/3/3<br>Chamados 1/2/2</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Eventos 6/3/1<br>Chamados 3/2/1</td>
+              <td>Eventos 5/3/3<br>Chamados 2/2/2</td>
+              <td>Eventos 4/4/3<br>Chamados 2/2/2</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>Eventos 6/4/1<br>Chamados 3/3/1</td>
+              <td>Eventos 6/4/3<br>Chamados 3/3/2</td>
+              <td>Eventos 4/4/3<br>Chamados 2/3/2</td>
+            </tr>
+          </tbody>
+        </table>
+        <ol class="steps">
+          <li><strong>Escolha a coluna.</strong> A dificuldade escolhida é uma preferência do grupo e não precisa ser igual ao símbolo da missão.</li>
+          <li><strong>Monte Eventos e Chamados separadamente.</strong> O baralho de Usuários continua completo para preservar a variedade das combinações.</li>
+          <li><strong>Use todos os andares ativos.</strong> Ao jogar com uma expansão, some as cartas dos andares habilitados antes de selecionar. Cartas exigidas diretamente pela missão entram sempre, mesmo que ultrapassem a quantidade da tabela.</li>
+          <li><strong>Renove quando acabar.</strong> Quando o baralho de Eventos ou Chamados terminar, faça uma nova seleção aleatória usando primeiro as cartas que ficaram fora da seleção anterior e, se necessário, complete com cartas descartadas.</li>
+        </ol>
+        <div class="tip"><strong>Sugestão:</strong> use 😐 Média na primeira partida. Passe para 🤓 Fácil se o grupo estiver aprendendo ou para 😖 Difícil quando quiser uma partida mais pressionada.</div>
+      </section>
+
       <section id="consulta-rapida" class="page">
         <div class="section-kicker">Última página · consulta rápida</div>
         <h2>Principais símbolos</h2>
@@ -1872,6 +1960,12 @@
             <tr><td>🏁</td><td>Efeito de conclusão do chamado ou usuário.</td><td>Cartas</td></tr>
             <tr><td>🗑️</td><td>Descarte a carta ou marcador indicado.</td><td>Cartas</td></tr>
             <tr><td>📍B / 📍1️⃣</td><td>Componente do Porão ou do Andar 1 — Marketing.</td><td>Cartas e componentes</td></tr>
+
+            <tr class="group-row"><td colspan="3">Símbolos de dificuldade</td></tr>
+            <tr><td><span class="difficulty-symbol difficulty-symbol--easy">🤓</span></td><td>Fácil.</td><td>Canto superior esquerdo da carta</td></tr>
+            <tr><td><span class="difficulty-symbol difficulty-symbol--medium">😐</span></td><td>Média.</td><td>Canto superior esquerdo da carta</td></tr>
+            <tr><td><span class="difficulty-symbol difficulty-symbol--hard">😖</span></td><td>Difícil.</td><td>Canto superior esquerdo da carta</td></tr>
+            <tr><td><span class="difficulty-plus">+</span></td><td>A carta oferece algum benefício.</td><td>Ao lado da dificuldade da carta</td></tr>
 
             <tr class="group-row"><td colspan="3">Dados e testes</td></tr>
             <tr><td>🎲</td><td>Dado de seis faces para testes de atributo (d6).</td><td>Ações e cartas</td></tr>

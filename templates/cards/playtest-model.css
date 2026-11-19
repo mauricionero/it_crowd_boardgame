@@ -65,6 +65,45 @@
   background: rgba(227, 185, 76, 0.2);
 }
 
+.playtest-piece-context-menu__item {
+  position: relative;
+}
+
+.playtest-piece-context-menu__item > .playtest-piece-context-menu__button::after {
+  margin-left: auto;
+  color: #bfc8bd;
+  content: '›';
+  font-size: 18px;
+  line-height: 1;
+}
+
+.playtest-piece-context-menu__submenu {
+  position: absolute;
+  top: -5px;
+  left: calc(100% - 1px);
+  display: none;
+  min-width: 145px;
+  padding: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  background: #222924;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.playtest-piece-context-menu__submenu::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -7px;
+  width: 8px;
+  content: '';
+}
+
+.playtest-piece-context-menu__item:hover > .playtest-piece-context-menu__submenu,
+.playtest-piece-context-menu__item:focus-within > .playtest-piece-context-menu__submenu {
+  display: block;
+}
+
 .playtest-piece-context-menu__icon {
   display: inline-grid;
   width: 20px;
@@ -1337,7 +1376,7 @@ body {
   flex-wrap: wrap;
   gap: 18px;
   overflow-x: hidden;
-  padding: 8px;
+  padding: 8px 8px 8px 119px;
   border-radius: 6px;
   background: rgba(0, 0, 0, 0.22);
 }
@@ -1430,7 +1469,19 @@ body {
 }
 
 .playtest-side-character-tableau .playtest-character-tableau__pawn {
-  left: 100px;
+  left: 108px;
+}
+
+.playtest-side-character-tableau[data-side-character="B4"] .playtest-character-tableau__pawn {
+  top: 16px;
+}
+
+.playtest-side-character-tableau[data-side-character="B5"] .playtest-character-tableau__pawn {
+  top: 56px;
+}
+
+.playtest-side-character-tableau[data-side-character="B7"] .playtest-character-tableau__pawn {
+  top: 96px;
 }
 
 .playtest-purchased-row {

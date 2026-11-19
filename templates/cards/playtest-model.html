@@ -107,7 +107,7 @@
       window.ITCrowdUseExportedImages = true;
       window.ITCrowdExportedImageMode = 'full';
       window.ITCrowdExportedImageResolution = 'low';
-      const { CARD_TYPES, cards } = window.ITCrowdCardData;
+      const { CARD_TYPES, FLOORS, cards } = window.ITCrowdCardData;
       const { createCard, createCardBack, createPlayerCharacterCard } = window.ITCrowdCardRenderer;
       const dieResults = [
         { face: '❌', label: 'falha bloqueada', blocked: true },
@@ -118,12 +118,12 @@
         { face: '✅', label: 'sucesso bloqueado', blocked: true },
       ];
       const POSITION_STORAGE_KEY = 'it-crowd-playtest-positions-v1';
-      const INITIAL_BOARD_LAYOUT_VERSION = 4;
+      const INITIAL_BOARD_LAYOUT_VERSION = 5;
       const INITIAL_TILE_LAYOUT_VERSION = 3;
-      const INITIAL_PAWN_LAYOUT_VERSION = 1;
+      const INITIAL_PAWN_LAYOUT_VERSION = 3;
       const INITIAL_KITCHEN_ITEM_LAYOUT_VERSION = 3;
       const INITIAL_PAPER_LAYOUT_VERSION = 4;
-      const INITIAL_ACTION_LAYOUT_VERSION = 2;
+      const INITIAL_ACTION_LAYOUT_VERSION = 7;
       const INITIAL_ROUTINE_LAYOUT_VERSION = 2;
       const PRIORITY_LAYOUT_VERSION = 9;
       const PRIORITY_INITIAL_POSITIONS = [
@@ -143,6 +143,7 @@
       const storedDeckSetupMode = storedState.deckSetupMode;
       const storedRevealedCards = storedState.revealedCards;
       const storedManualPieces = storedState.manualPieces;
+      const storedClonedPieces = storedState.clonedPieces;
       const storedDice = storedState.dice;
       const storedDieTypes = storedState.dieTypes;
       const storedRemovedDice = storedState.removedDice;
@@ -167,18 +168,17 @@
         const sequence = match ? Number(match[1]) : 0;
         return Math.max(highestSequence, sequence);
       }, 0);
-      let topLayerIndex = 1000;
-      const ALT_PREVIEW_Z_INDEX = 10000;
+      let currentIndex = 1000;
 
       function rememberLayerIndex(zIndex) {
         const numericZIndex = Number(zIndex);
-        if (Number.isFinite(numericZIndex)) topLayerIndex = Math.max(topLayerIndex, numericZIndex);
+        if (Number.isFinite(numericZIndex)) currentIndex = Math.max(currentIndex, numericZIndex);
       }
 
       function nextLayerIndex() {
-        if (!Number.isFinite(topLayerIndex)) topLayerIndex = 1000;
-        topLayerIndex += 1;
-        return topLayerIndex;
+        if (!Number.isFinite(currentIndex)) currentIndex = 1000;
+        currentIndex += 1;
+        return currentIndex;
       }
 
       function normalizeRevealedCards(records) {
@@ -210,6 +210,7 @@
               deckSetupMode: parsed.deckSetupMode || null,
               revealedCards: normalizeRevealedCards(parsed.revealedCards || []),
               manualPieces: parsed.manualPieces || [],
+              clonedPieces: parsed.clonedPieces || [],
               dice: parsed.dice || [],
               dieTypes: parsed.dieTypes || {},
               removedDice: parsed.removedDice || [],
@@ -225,9 +226,9 @@
               setupMode,
             };
           }
-          return { positions: parsed, decks: {}, deckSetupMode: null, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0, boardLayoutVersion: 0, tileLayoutVersion: 0, pawnLayoutVersion: 0, kitchenItemLayoutVersion: 0, paperLayoutVersion: 0, actionLayoutVersion: 0, routineLayoutVersion: 0, setupMode };
+          return { positions: parsed, decks: {}, deckSetupMode: null, revealedCards: [], manualPieces: [], clonedPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0, boardLayoutVersion: 0, tileLayoutVersion: 0, pawnLayoutVersion: 0, kitchenItemLayoutVersion: 0, paperLayoutVersion: 0, actionLayoutVersion: 0, routineLayoutVersion: 0, setupMode };
         } catch (error) {
-          return { positions: {}, decks: {}, deckSetupMode: null, revealedCards: [], manualPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0, boardLayoutVersion: 0, tileLayoutVersion: 0, pawnLayoutVersion: 0, kitchenItemLayoutVersion: 0, paperLayoutVersion: 0, actionLayoutVersion: 0, routineLayoutVersion: 0, setupMode: 'base' };
+          return { positions: {}, decks: {}, deckSetupMode: null, revealedCards: [], manualPieces: [], clonedPieces: [], dice: [], dieTypes: {}, removedDice: [], removedPieces: [], priorityLayoutVersion: 0, boardLayoutVersion: 0, tileLayoutVersion: 0, pawnLayoutVersion: 0, kitchenItemLayoutVersion: 0, paperLayoutVersion: 0, routineLayoutVersion: 0, setupMode: 'base' };
         }
       }
 
@@ -239,6 +240,7 @@
             deckSetupMode: setupMode,
             revealedCards: storedRevealedCards,
             manualPieces: storedManualPieces,
+            clonedPieces: storedClonedPieces,
             dice: storedDice,
             dieTypes: storedDieTypes,
             removedDice: storedRemovedDice,
@@ -281,7 +283,7 @@
         };
       }
 
-      function buildStoredPosition(element, left, top, zIndex, boardAnchor = null) {
+      function buildStoredPosition(element, left, top, zIndex, boardAnchor = null, characterTableauAnchor = false) {
         const pieceId = getPieceId(element);
         const position = {
           ...storedPositions[pieceId],
@@ -298,6 +300,18 @@
               position.boardAnchor = anchor;
               position.boardX = (left - (boardRect.left + window.scrollX)) / boardRect.width;
               position.boardY = (top - (boardRect.top + window.scrollY)) / boardRect.height;
+            }
+          }
+        }
+        const shouldAnchorToCharacterTableaus = characterTableauAnchor || position.characterTableauAnchor;
+        if (pieceId && shouldAnchorToCharacterTableaus) {
+          const characterTableaus = document.querySelector('[data-character-tableaus]');
+          if (characterTableaus) {
+            const tableausRect = characterTableaus.getBoundingClientRect();
+            if (tableausRect.width && tableausRect.height) {
+              position.characterTableauAnchor = true;
+              position.characterTableauX = (left - (tableausRect.left + window.scrollX)) / tableausRect.width;
+              position.characterTableauY = (top - (tableausRect.top + window.scrollY)) / tableausRect.height;
             }
           }
         }
@@ -354,7 +368,7 @@
       function resetInitialPawnLayoutIfNeeded() {
         if (storedPawnLayoutVersion >= INITIAL_PAWN_LAYOUT_VERSION) return;
 
-        delete storedPositions['pawn-P4'];
+        ['pawn-P4', 'pawn-P5', 'pawn-P6', 'pawn-P6-1', 'pawn-P6-2', 'pawn-P8'].forEach((pieceId) => delete storedPositions[pieceId]);
         storedPawnLayoutVersion = INITIAL_PAWN_LAYOUT_VERSION;
         saveStoredState();
       }
@@ -416,6 +430,12 @@
         if (!pieceId || !Number.isFinite(left) || !Number.isFinite(top)) return;
         const zIndex = Number.parseInt(element.style.zIndex, 10);
         storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex);
+        const storedClone = storedClonedPieces.find((piece) => piece.pieceId === pieceId);
+        if (storedClone) {
+          storedClone.left = left;
+          storedClone.top = top;
+          storedClone.z = Number.isFinite(zIndex) ? zIndex : storedClone.z;
+        }
         const revealedCard = storedRevealedCards.find((card) => card.pieceId === pieceId);
         if (revealedCard) {
           revealedCard.left = left;
@@ -467,6 +487,8 @@
         element.style.position = 'absolute';
         element.style.left = `${left}px`;
         element.style.top = `${top}px`;
+        element.style.right = 'auto';
+        element.style.bottom = 'auto';
         element.style.width = computedStyle.width;
         element.style.height = computedStyle.height;
         element.style.margin = '0';
@@ -479,11 +501,19 @@
           const pieceId = element.dataset.pieceId;
           const position = storedPositions[pieceId];
           if (!position) return;
-          const zIndex = Number.isFinite(position.z) ? position.z : 1000;
-          topLayerIndex = Math.max(topLayerIndex, zIndex);
+          const storedZIndex = Number.isFinite(position.z) ? position.z : 1000;
+          const zIndex = pieceId === 'stress-arrow' ? Math.max(5000, storedZIndex) : storedZIndex;
+          currentIndex = Math.max(currentIndex, zIndex);
           let left = position.left;
           let top = position.top;
-          if (!isPriorityPieceId(pieceId)
+          if (position.characterTableauAnchor) {
+            const characterTableaus = document.querySelector('[data-character-tableaus]');
+            if (characterTableaus) {
+              const tableausRect = characterTableaus.getBoundingClientRect();
+              left = tableausRect.left + window.scrollX + tableausRect.width * position.characterTableauX;
+              top = tableausRect.top + window.scrollY + tableausRect.height * position.characterTableauY;
+            }
+          } else if (!isPriorityPieceId(pieceId)
             && position.boardAnchor
             && Number.isFinite(position.boardX)
             && Number.isFinite(position.boardY)) {
@@ -570,15 +600,18 @@
         return makeFlippableCard(code, card, createCard(code, card));
       }
 
+      function setCardFace(card, flipped) {
+        if (!card) return;
+        card.classList.toggle('playtest-card-is-flipped', flipped);
+        const pieceId = getPieceId(card);
+        const revealedCard = storedRevealedCards.find((item) => item.pieceId === pieceId);
+        if (revealedCard) revealedCard.flipped = flipped;
+        savePieceFace(card, 'flipped', flipped);
+      }
+
       function toggleCardFace(card) {
         if (!card) return;
-        card.classList.toggle('playtest-card-is-flipped');
-        const flipped = card.classList.contains('playtest-card-is-flipped');
-        const revealedCard = storedRevealedCards.find((item) => item.pieceId === card.dataset.pieceId);
-        if (revealedCard) {
-          revealedCard.flipped = flipped;
-        }
-        savePieceFace(card, 'flipped', flipped);
+        setCardFace(card, !card.classList.contains('playtest-card-is-flipped'));
       }
 
       function setDieResult(die, resultIndex) {
@@ -598,6 +631,21 @@
         }
         die.setAttribute('aria-label', `${die.dataset.pieceId} ${isD10 ? 'd10' : 'd6'}: ${resultIndex + 1} — ${result.label}`);
         die.title = `Clique para rolar o dado · ${result.label}`;
+      }
+
+      function getDieValue(die) {
+        return Number(die.dataset.result || 1);
+      }
+
+      function getDieMaximum(die) {
+        return die.dataset.dieType === 'd10' ? 10 : dieResults.length;
+      }
+
+      function setDieValue(die, value) {
+        const maximum = getDieMaximum(die);
+        const nextValue = Math.min(maximum, Math.max(1, Number(value)));
+        setDieResult(die, nextValue - 1);
+        savePieceFace(die, 'result', nextValue);
       }
 
       function rollDie(die) {
@@ -652,6 +700,9 @@
         const storedManualPieceIndex = storedManualPieces.findIndex((piece) => piece.pieceId === pieceId);
         if (storedManualPieceIndex >= 0) storedManualPieces.splice(storedManualPieceIndex, 1);
 
+        const storedCloneIndex = storedClonedPieces.findIndex((piece) => piece.pieceId === pieceId);
+        if (storedCloneIndex >= 0) storedClonedPieces.splice(storedCloneIndex, 1);
+
         if (!storedRemovedPieces.includes(pieceId)) storedRemovedPieces.push(pieceId);
         delete storedPositions[pieceId];
         document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
@@ -674,7 +725,7 @@
         { characterCode: 'PC4', initiativeCode: 'B3', pawnCode: 'P4', label: 'Jen', color: '#c75c82', image: '../../assets/pawns/jen-face.png' },
         { characterCode: null, initiativeCode: 'B4', pawnCode: 'P5', label: 'Denholm', color: '#6d7378', image: '../../assets/pawns/denholm-face.png' },
         { characterCode: null, initiativeCode: 'B5', pawnCode: 'P6', label: 'Bombeiro', color: '#c44738', image: '../../assets/pawns/firefighter-face.png' },
-        { characterCode: null, initiativeCode: 'B7', pawnCode: 'P8', label: 'Douglas', color: '#7f4d43', image: '../../assets/pawns/douglas-face.png' },
+        { characterCode: null, initiativeCode: 'B7', pawnCode: 'P8', label: 'Douglas', color: '#7f4d43', image: '../../assets/pawns/douglas-face.png', floor: FLOORS.OFFICE_1 },
       ];
 
       function createDeck(definition) {
@@ -838,9 +889,9 @@
       stressArrow.setAttribute('aria-label', 'Stress começa em zero');
       stressScale.append(stressArrow);
 
-      function createTableauPawn(definition) {
-        const pawn = document.createElement('div');
-        pawn.className = 'playtest-character-tableau__pawn';
+      function createPawn(definition, className, elementType = 'div') {
+        const pawn = document.createElement(elementType);
+        pawn.className = className;
         pawn.setAttribute('aria-label', definition.label);
         pawn.dataset.pieceId = `pawn-${definition.pawnCode}`;
 
@@ -861,6 +912,19 @@
         return pawn;
       }
 
+      function createTableauPawn(definition) {
+        return createPawn(definition, 'playtest-character-tableau__pawn');
+      }
+
+      function createMaterialPawn(definition, copyIndex = 0) {
+        const pawn = createPawn(definition, 'playtest-material-pawn', 'article');
+        if (definition.pawnCode === 'P6') {
+          pawn.dataset.pieceId = `pawn-${definition.pawnCode}-${copyIndex + 1}`;
+        }
+        pawn.title = definition.label;
+        return pawn;
+      }
+
       const characterTableaus = document.querySelector('[data-character-tableaus]');
       const decksArea = document.querySelector('[data-decks]');
       const sideCharacterStack = document.createElement('div');
@@ -869,6 +933,7 @@
       decksArea.append(sideCharacterStack);
 
       characterDefinitions.forEach((definition) => {
+        if (!isActiveForSetup(cards[definition.initiativeCode])) return;
         const tableau = document.createElement('article');
         tableau.className = 'playtest-character-tableau';
         if (!definition.characterCode) {
@@ -891,7 +956,15 @@
           characterCard.dataset.pieceId = `character-${definition.characterCode}`;
           surface.append(characterCard);
         }
-        surface.append(initiativeCard, createTableauPawn(definition));
+        surface.append(initiativeCard);
+        if (definition.characterCode) {
+          surface.append(createTableauPawn(definition));
+        } else {
+          const copies = definition.pawnCode === 'P6' ? 2 : 1;
+          Array.from({ length: copies }, (_, copyIndex) => {
+            document.querySelector('[data-material-pawns]').append(createMaterialPawn(definition, copyIndex));
+          });
+        }
         tableau.append(surface);
         (definition.characterCode ? characterTableaus : sideCharacterStack).append(tableau);
       });
@@ -956,37 +1029,6 @@
         });
       });
 
-      const materialPawnEntries = [
-        { code: 'P6', pawnData: cards.P6 },
-      ];
-
-      materialPawnEntries.forEach(({ code, pawnData }) => {
-        Array.from({ length: pawnData.copies || 1 }, (_, copyIndex) => {
-          const pawn = document.createElement('article');
-          pawn.className = 'playtest-material-pawn';
-          pawn.title = pawnData.name;
-          pawn.setAttribute('aria-label', pawnData.name);
-          pawn.dataset.pawnCode = code;
-          pawn.dataset.copy = String(copyIndex + 1);
-          pawn.dataset.pieceId = `pawn-${code}-${copyIndex + 1}`;
-
-          const disc = document.createElement('div');
-          disc.className = 'playtest-pawn__disc';
-          disc.style.setProperty('--pawn-border', pawnData.borderColor);
-          disc.style.setProperty('--pawn-fill', pawnData.fillColor);
-          if (pawnData.imagePath) {
-            const image = document.createElement('img');
-            image.src = pawnData.imagePath;
-            image.alt = pawnData.name;
-            disc.append(image);
-          } else if (pawnData.icon) {
-            disc.textContent = pawnData.icon;
-          }
-          pawn.append(disc);
-          document.querySelector('[data-material-pawns]').append(pawn);
-        });
-      });
-
       function createPlaytestToken(code, tokenData, copyIndex) {
         const token = document.createElement('article');
         token.className = `token-face playtest-token-face token-face--${tokenData.front?.tone || 'initiative'}`;
@@ -1046,7 +1088,7 @@
         revealedCard.style.height = cardHeight;
         revealedCard.style.margin = '0';
         const zIndex = Number.isFinite(record.z) ? record.z : 1000;
-        topLayerIndex = Math.max(topLayerIndex, zIndex);
+        currentIndex = Math.max(currentIndex, zIndex);
         revealedCard.style.zIndex = String(zIndex);
         makeDraggable(revealedCard, () => toggleCardFace(revealedCard));
         return revealedCard;
@@ -1065,10 +1107,10 @@
           deckId: deck.dataset.pieceId,
           left: deckRect.left + window.scrollX,
           top: deckRect.top + window.scrollY,
-          z: topLayerIndex + 1,
+          z: currentIndex + 1,
           flipped: false,
         };
-        topLayerIndex = record.z;
+        currentIndex = record.z;
         storedRevealedCards.push(record);
         saveDeckState(deck);
         saveStoredState();
@@ -1094,10 +1136,10 @@
           deckId: 'manual-card-menu',
           left: window.scrollX + Math.max(20, window.innerWidth / 2 - 120 + (instanceIndex % 6) * 18),
           top: window.scrollY + 160 + (instanceIndex % 8) * 18,
-          z: topLayerIndex + 1,
+          z: currentIndex + 1,
           flipped: false,
         };
-        topLayerIndex = record.z;
+        currentIndex = record.z;
         storedRevealedCards.push(record);
         saveStoredState();
         createRevealedCard(code, card, record);
@@ -1166,9 +1208,9 @@
           kind,
           left: window.scrollX + Math.max(20, window.innerWidth / 2 - 120 + (instanceIndex % 6) * 18),
           top: window.scrollY + 160 + (instanceIndex % 8) * 18,
-          z: topLayerIndex + 1,
+          z: currentIndex + 1,
         };
-        topLayerIndex = record.z;
+        currentIndex = record.z;
         storedManualPieces.push(record);
         saveStoredState();
         createManualBoardPiece(code, pieceData, kind, record);
@@ -1182,9 +1224,9 @@
           kind: 'pawn',
           left: window.scrollX + Math.max(20, window.innerWidth / 2 - 120 + (instanceIndex % 6) * 18),
           top: window.scrollY + 160 + (instanceIndex % 8) * 18,
-          z: topLayerIndex + 1,
+          z: currentIndex + 1,
         };
-        topLayerIndex = record.z;
+        currentIndex = record.z;
         storedManualPieces.push(record);
         saveStoredState();
         createManualPawnPiece(code, pawnData, record);
@@ -1195,7 +1237,7 @@
           if (storedRemovedPieces.includes(record.pieceId)) return;
           const pieceData = cards[record.code];
           if (pieceData && isActiveForSetup(pieceData) && (record.kind === 'tile' || record.kind === 'token' || record.kind === 'pawn')) {
-            topLayerIndex = Math.max(topLayerIndex, record.z || 1000);
+            currentIndex = Math.max(currentIndex, record.z || 1000);
             if (record.kind === 'pawn') {
               createManualPawnPiece(record.code, pieceData, record);
             } else {
@@ -1205,14 +1247,14 @@
         });
       }
 
-      function saveInitialPiecePosition(element, left, top, zIndex, boardAnchor = null) {
+      function saveInitialPiecePosition(element, left, top, zIndex, boardAnchor = null, characterTableauAnchor = false) {
         if (!element) return;
         const pieceId = getPieceId(element);
         if (!pieceId) return;
 
         moveElementToDocumentPosition(element, left, top, zIndex);
         document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
-        storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex, boardAnchor);
+        storedPositions[pieceId] = buildStoredPosition(element, left, top, zIndex, boardAnchor, characterTableauAnchor);
       }
 
       function applyInitialPrioritySetup() {
@@ -1344,10 +1386,79 @@
         place('item-H3', 0.481, 0.933);
         place('item-H2', 0.411, 0.933);
 
-        place('action-card', -0.081, 1.902);
-        place('morale-card', 0.060, 1.900);
-
         saveStoredState();
+      }
+
+      function applyInitialBaseCardSetup() {
+        if (activeFloors.has('1')) return;
+
+        const characterTableaus = document.querySelector('[data-character-tableaus]');
+        const tableausRect = characterTableaus?.getBoundingClientRect();
+        if (!tableausRect) return;
+
+        const place = (pieceId, left, top, zIndex) => {
+          const element = document.querySelector(`[data-piece-id="${pieceId}"]`);
+          if (!element || storedPositions[pieceId] || storedRemovedPieces.includes(pieceId)) return;
+          saveInitialPiecePosition(
+            element,
+            left,
+            top,
+            zIndex,
+            null,
+            true
+          );
+        };
+
+        const actionLeft = tableausRect.left + window.scrollX + 8;
+        const actionTop = tableausRect.top + window.scrollY + 8;
+        place('action-card', actionLeft, actionTop, 2300);
+
+        const actionCard = document.querySelector('[data-piece-id="action-card"]');
+        const actionHeight = actionCard?.getBoundingClientRect().height || 145;
+        place('morale-card', actionLeft, actionTop + actionHeight + 8, 2301);
+        saveStoredState();
+      }
+
+      function applyInitialFloorOneActionSetup() {
+        if (!activeFloors.has('1')) return;
+
+        const floorActionCard = document.querySelector('[data-piece-id="action-card-A5"]');
+        if (!floorActionCard) return;
+        const floorActionRect = floorActionCard.getBoundingClientRect();
+        const floorActionZIndex = Number.parseInt(floorActionCard.style.zIndex, 10);
+        const baseActionZIndex = Number.isFinite(floorActionZIndex) ? floorActionZIndex + 1 : 2300;
+
+        const baseActionCard = document.querySelector('[data-piece-id="action-card"]');
+        if (baseActionCard && !storedPositions['action-card'] && !storedRemovedPieces.includes('action-card')) {
+          saveInitialPiecePosition(
+            baseActionCard,
+            floorActionRect.left + window.scrollX,
+            floorActionRect.top + window.scrollY - 60,
+            baseActionZIndex,
+            'base'
+          );
+        }
+
+        const moraleCard = document.querySelector('[data-piece-id="morale-card"]');
+        if (moraleCard && !storedPositions['morale-card'] && !storedRemovedPieces.includes('morale-card')) {
+          saveInitialPiecePosition(
+            moraleCard,
+            floorActionRect.left + window.scrollX,
+            floorActionRect.bottom + window.scrollY + 8,
+            Number.isFinite(floorActionZIndex) ? floorActionZIndex : baseActionZIndex - 1,
+            'base'
+          );
+        }
+        saveStoredState();
+      }
+
+      function collapseBaseReferenceCardColumn() {
+        const referenceCardIds = activeFloors.has('1')
+          ? ['action-card', 'action-card-A5', 'morale-card']
+          : ['action-card', 'morale-card'];
+        referenceCardIds.forEach((pieceId) => {
+          document.querySelectorAll(`[data-drag-placeholder-for="${pieceId}"]`).forEach((placeholder) => placeholder.remove());
+        });
       }
 
       // Posições manuais das cartas e componentes exclusivos do Andar 1.
@@ -1571,12 +1682,300 @@
         hidePieceContextMenu();
       }
 
+      function getPieceTapHandler(element) {
+        if (element.matches('[data-die]')) return () => rollDie(element);
+        if (element.matches('.playtest-priority-card-shell, .playtest-action-card-shell')) {
+          return () => toggleCardFace(element.querySelector('.card'));
+        }
+        if (element.matches('.playtest-tile-face')) return () => toggleTileFace(element);
+        if (element.matches('.playtest-token-face')) return () => toggleTokenFace(element);
+        if (element.matches('.playtest-character-tableau__character-card, .playtest-character-tableau__initiative-card, .playtest-revealed-card')) {
+          return () => toggleCardFace(element);
+        }
+        if (element.matches('.playtest-item-choice-shell')) {
+          return () => toggleCardFace(element.querySelector('.playtest-item-choice'));
+        }
+        if (element.matches('.playtest-deck')) return () => revealTopCard(element);
+        return null;
+      }
+
+      function createCopiedPiece(sourceElement, record) {
+        const copy = sourceElement.cloneNode(true);
+        copy.dataset.pieceId = record.pieceId;
+        if (sourceElement.playtestFaces) copy.playtestFaces = sourceElement.playtestFaces;
+        if (sourceElement.playtestDeckState) {
+          copy.playtestDeckState = {
+            cards: sourceElement.playtestDeckState.cards.map(([code, card]) => [code, card]),
+          };
+          copy.playtestDeckCount = copy.querySelector('.playtest-deck__count');
+        }
+
+        const computedStyle = window.getComputedStyle(sourceElement);
+        document.body.append(copy);
+        copy.style.position = 'absolute';
+        copy.style.left = `${record.left}px`;
+        copy.style.top = `${record.top}px`;
+        copy.style.right = 'auto';
+        copy.style.bottom = 'auto';
+        copy.style.width = computedStyle.width;
+        copy.style.height = computedStyle.height;
+        copy.style.margin = '0';
+        copy.style.zIndex = String(record.z);
+        makeDraggable(copy, getPieceTapHandler(copy));
+        storedPositions[record.pieceId] = buildStoredPosition(copy, record.left, record.top, record.z);
+        currentIndex = Math.max(currentIndex, record.z);
+        return copy;
+      }
+
+      function copyPlaytestElement(element) {
+        const pieceId = getPieceId(element);
+        if (!pieceId) return;
+        const rect = element.getBoundingClientRect();
+        const left = Number.parseFloat(element.style.left);
+        const top = Number.parseFloat(element.style.top);
+        const record = {
+          pieceId: createRandomPieceId('copy'),
+          sourcePieceId: pieceId,
+          left: (Number.isFinite(left) ? left : rect.left + window.scrollX) + 18,
+          top: (Number.isFinite(top) ? top : rect.top + window.scrollY) + 18,
+          z: nextLayerIndex(),
+        };
+        storedClonedPieces.push(record);
+        createCopiedPiece(element, record);
+        currentIndex = Math.max(currentIndex, record.z);
+        saveStoredState();
+      }
+
+      function restoreClonedPieces() {
+        const pending = storedClonedPieces
+          .filter((record) => !storedRemovedPieces.includes(record.pieceId));
+        let restoredPiece = true;
+
+        while (pending.length && restoredPiece) {
+          restoredPiece = false;
+          pending.slice().forEach((record) => {
+            const sourceElement = [...document.querySelectorAll('[data-piece-id]')]
+              .find((element) => element.dataset.pieceId === record.sourcePieceId);
+            if (!sourceElement) return;
+            createCopiedPiece(sourceElement, record);
+            pending.splice(pending.indexOf(record), 1);
+            restoredPiece = true;
+          });
+        }
+      }
+
+      function getCardFaceElement(element) {
+        if (!element) return null;
+        if (element.matches('.playtest-flippable-card, .playtest-item-choice')) return element;
+        return element.querySelector('.playtest-flippable-card, .playtest-item-choice');
+      }
+
+      function getFlippableKind(element) {
+        if (getCardFaceElement(element)) return 'card';
+        if (element?.matches('.playtest-tile-face')) return 'tile';
+        return null;
+      }
+
+      function getCardType(element) {
+        return getCardFaceElement(element)?.dataset.cardType || null;
+      }
+
+      function rectanglesOverlap(firstRect, secondRect) {
+        const overlapWidth = Math.min(firstRect.right, secondRect.right) - Math.max(firstRect.left, secondRect.left);
+        const overlapHeight = Math.min(firstRect.bottom, secondRect.bottom) - Math.max(firstRect.top, secondRect.top);
+        return overlapWidth > 1 && overlapHeight > 1;
+      }
+
+      function getPiecesAtPoint(element, clientX, clientY) {
+        const anchor = element.closest?.('[data-piece-id]') || element;
+        const anchorRect = anchor.getBoundingClientRect();
+        const anchorLayer = getPieceLayerIndex(anchor);
+        const piecesUnderCursor = new Set();
+        document.elementsFromPoint(clientX, clientY).forEach((node) => {
+          const piece = node.closest?.('[data-piece-id]');
+          if (piece && !piece.closest('.playtest-alt-preview')) piecesUnderCursor.add(piece);
+        });
+
+        return [...document.querySelectorAll('[data-piece-id]')].filter((piece) => {
+          if (piece.closest('.playtest-alt-preview')) return false;
+          if (piece === anchor || piecesUnderCursor.has(piece)) return true;
+          return getPieceLayerIndex(piece) <= anchorLayer
+            && rectanglesOverlap(piece.getBoundingClientRect(), anchorRect);
+        });
+      }
+
+      function getFlippablePiecesAtPoint(element, clientX, clientY) {
+        const kind = getFlippableKind(element);
+        if (!kind) return [];
+        return getPiecesAtPoint(element, clientX, clientY)
+          .filter((piece) => getFlippableKind(piece) === kind);
+      }
+
+      function getPieceLayerIndex(element) {
+        const zIndex = Number.parseInt(element.style.zIndex, 10);
+        return Number.isFinite(zIndex) ? zIndex : 0;
+      }
+
+      function getPiecePosition(element) {
+        const rect = element.getBoundingClientRect();
+        return {
+          left: rect.left + window.scrollX,
+          top: rect.top + window.scrollY,
+        };
+      }
+
+      function arrangeCardStack(element, cardsAtPoint, randomize) {
+        if (cardsAtPoint.length < 2) return;
+        const position = getPiecePosition(element);
+        const orderedCards = cardsAtPoint
+          .slice()
+          .sort((first, second) => getPieceLayerIndex(first) - getPieceLayerIndex(second));
+        const layers = randomize ? shuffle(orderedCards) : orderedCards;
+
+        layers.forEach((card) => {
+          moveElementToDocumentPosition(card, position.left, position.top, nextLayerIndex());
+          savePiecePosition(card);
+        });
+        saveStoredState();
+        hidePieceContextMenu();
+      }
+
+      function setFlippablePiecesFace(pieces, faceName) {
+        pieces.forEach((piece) => {
+          const kind = getFlippableKind(piece);
+          if (kind === 'card') {
+            setCardFace(getCardFaceElement(piece), faceName === 'back');
+          } else if (kind === 'tile') {
+            setTileFace(piece, faceName);
+            savePieceFace(piece, 'face', faceName);
+          }
+        });
+        hidePieceContextMenu();
+      }
+
       function showPieceContextMenu(element, clientX, clientY) {
         hidePieceContextMenu();
 
         const menu = document.createElement('div');
         menu.className = 'playtest-piece-context-menu';
         menu.dataset.pieceContextMenu = '';
+        menu.style.zIndex = String(currentIndex + 1);
+
+        if (element.matches('[data-die]')) {
+          const dieMenuItem = document.createElement('div');
+          dieMenuItem.className = 'playtest-piece-context-menu__item';
+
+          const dieMenuButton = document.createElement('button');
+          dieMenuButton.type = 'button';
+          dieMenuButton.className = 'playtest-piece-context-menu__button';
+          dieMenuButton.innerHTML = '<span class="playtest-piece-context-menu__icon" aria-hidden="true">🎲</span><span>Dado</span>';
+          dieMenuButton.setAttribute('aria-haspopup', 'true');
+          dieMenuButton.setAttribute('aria-expanded', 'false');
+
+          const dieSubmenu = document.createElement('div');
+          dieSubmenu.className = 'playtest-piece-context-menu__submenu';
+          dieSubmenu.setAttribute('role', 'menu');
+
+          const addDieAction = (label, valueChange) => {
+            const action = document.createElement('button');
+            action.type = 'button';
+            action.className = 'playtest-piece-context-menu__button';
+            action.textContent = label;
+            action.addEventListener('click', () => {
+              setDieValue(element, getDieValue(element) + valueChange);
+              hidePieceContextMenu();
+            });
+            dieSubmenu.append(action);
+          };
+
+          addDieAction('+ 1', 1);
+          addDieAction('− 1', -1);
+
+          const setValueAction = document.createElement('button');
+          setValueAction.type = 'button';
+          setValueAction.className = 'playtest-piece-context-menu__button';
+          setValueAction.textContent = 'Setar valor';
+          setValueAction.addEventListener('click', () => {
+            const maximum = getDieMaximum(element);
+            const enteredValue = window.prompt(`Digite um valor de 1 a ${maximum}:`, String(getDieValue(element)));
+            if (enteredValue === null) return;
+            const value = Number.parseInt(enteredValue, 10);
+            if (!Number.isInteger(value) || value < 1 || value > maximum) {
+              window.alert(`O valor deve ser um número inteiro entre 1 e ${maximum}.`);
+              return;
+            }
+            setDieValue(element, value);
+            hidePieceContextMenu();
+          });
+          dieSubmenu.append(setValueAction);
+
+          dieMenuItem.append(dieMenuButton, dieSubmenu);
+          menu.append(dieMenuItem);
+        }
+
+        const flippableKind = getFlippableKind(element);
+        const flippablePieces = getFlippablePiecesAtPoint(element, clientX, clientY);
+        if (flippableKind) {
+          const pieceLabel = flippablePieces.length > 1
+            ? `${flippableKind === 'card' ? 'cartas' : 'tiles'} (${flippablePieces.length})`
+            : flippableKind === 'card' ? 'carta' : 'tile';
+
+          const faceUpButton = document.createElement('button');
+          faceUpButton.type = 'button';
+          faceUpButton.className = 'playtest-piece-context-menu__button';
+          faceUpButton.innerHTML = `<span class="playtest-piece-context-menu__icon" aria-hidden="true">🔼</span><span>Virar ${pieceLabel} para cima</span>`;
+          faceUpButton.addEventListener('click', () => setFlippablePiecesFace(flippablePieces, 'front'));
+          menu.append(faceUpButton);
+
+          const faceDownButton = document.createElement('button');
+          faceDownButton.type = 'button';
+          faceDownButton.className = 'playtest-piece-context-menu__button';
+          faceDownButton.innerHTML = `<span class="playtest-piece-context-menu__icon" aria-hidden="true">🔽</span><span>Virar ${pieceLabel} para baixo</span>`;
+          faceDownButton.addEventListener('click', () => setFlippablePiecesFace(flippablePieces, 'back'));
+          menu.append(faceDownButton);
+        }
+
+        const clickedCardType = flippableKind === 'card' ? getCardType(element) : null;
+        const cardsAtPoint = flippableKind === 'card'
+          ? clickedCardType
+            ? flippablePieces.filter((card) => getCardType(card) === clickedCardType)
+            : []
+          : [];
+        if (cardsAtPoint.length > 1) {
+          const groupButton = document.createElement('button');
+          groupButton.type = 'button';
+          groupButton.className = 'playtest-piece-context-menu__button';
+          groupButton.innerHTML = '<span class="playtest-piece-context-menu__icon" aria-hidden="true">🗂️</span><span>Agrupar cartas</span>';
+          groupButton.addEventListener('click', () => arrangeCardStack(element, cardsAtPoint, false));
+          menu.append(groupButton);
+
+          const shuffleButton = document.createElement('button');
+          shuffleButton.type = 'button';
+          shuffleButton.className = 'playtest-piece-context-menu__button';
+          shuffleButton.innerHTML = '<span class="playtest-piece-context-menu__icon" aria-hidden="true">🔀</span><span>Embaralhar cartas</span>';
+          shuffleButton.addEventListener('click', () => arrangeCardStack(element, cardsAtPoint, true));
+          menu.append(shuffleButton);
+        }
+
+        const copyButton = document.createElement('button');
+        copyButton.type = 'button';
+        copyButton.className = 'playtest-piece-context-menu__button';
+        copyButton.innerHTML = '<span class="playtest-piece-context-menu__icon" aria-hidden="true">⧉</span><span>Copiar elemento</span>';
+        copyButton.addEventListener('click', () => {
+          copyPlaytestElement(element);
+          hidePieceContextMenu();
+        });
+        menu.append(copyButton);
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'playtest-piece-context-menu__button';
+        deleteButton.innerHTML = '<span class="playtest-piece-context-menu__icon" aria-hidden="true">🗑️</span><span>Excluir elemento</span>';
+        deleteButton.addEventListener('click', () => {
+          removePlaytestElement(element);
+          hidePieceContextMenu();
+        });
+        menu.append(deleteButton);
 
         const sendToBackButton = document.createElement('button');
         sendToBackButton.type = 'button';
@@ -1611,7 +2010,7 @@
 
         const preview = document.createElement('div');
         preview.className = 'playtest-alt-preview';
-        preview.style.zIndex = String(ALT_PREVIEW_Z_INDEX);
+        preview.style.zIndex = String(currentIndex + 1);
         const clone = element.cloneNode(true);
         clone.classList.remove('playtest-dragging');
         preview.append(clone);
@@ -1669,7 +2068,9 @@
 
           const startDrag = () => {
             dragStarted = true;
-            const zIndex = nextLayerIndex();
+            const zIndex = element.matches('.playtest-stress-ruler__arrow')
+              ? Math.max(5000, nextLayerIndex())
+              : nextLayerIndex();
             moveElementToDocumentPosition(element, startLeft, startTop, zIndex);
             element.classList.add('playtest-dragging');
           };
@@ -1734,7 +2135,7 @@
         '.playtest-stress-ruler__arrow',
         '.playtest-character-tableau__pawn',
         '.playtest-material-pawn',
-      ].join(', ')).forEach(makeDraggable);
+      ].join(', ')).forEach((element) => makeDraggable(element));
 
       document.querySelectorAll('.playtest-priority-card-shell, .playtest-action-card-shell').forEach((shell) => {
         makeDraggable(shell, () => toggleCardFace(shell.querySelector('.card')));
@@ -1801,8 +2202,11 @@
       const setupModeSelect = document.querySelector('[data-setup-mode]');
       setupModeSelect.value = setupMode;
       document.querySelector('[data-board="floor-1"]').hidden = setupMode !== 'marketing';
+      let playtestLayoutInitialized = false;
 
       function initializePlaytestLayout() {
+        if (playtestLayoutInitialized) return;
+        playtestLayoutInitialized = true;
         resetInitialBoardLayoutIfNeeded();
         resetInitialTileLayoutIfNeeded();
         resetInitialPawnLayoutIfNeeded();
@@ -1815,11 +2219,16 @@
         removeStoredPieces();
         applyInitialBoardSetup();
         applyInitialPrioritySetup();
+        applyInitialBaseCardSetup();
         applyInitialFloorOneCardSetup();
         restoreStoredPositions();
+        applyInitialFloorOneActionSetup();
+        collapseBaseReferenceCardColumn();
         ensureStackedActionCards();
         restoreRevealedCards();
         restoreManualPieces();
+        restoreStoredFaces();
+        restoreClonedPieces();
         restoreStoredFaces();
         syncBoardPieceScale();
         buildCardMenu();
@@ -1835,15 +2244,28 @@
         });
       }
 
+      function waitForPlaytestAssets() {
+        const imagePromises = [...document.images]
+          .filter((image) => !image.complete)
+          .map((image) => new Promise((resolve) => {
+            image.addEventListener('load', resolve, { once: true });
+            image.addEventListener('error', resolve, { once: true });
+          }));
+        const fontPromise = document.fonts?.ready || Promise.resolve();
+        Promise.all([...imagePromises, fontPromise]).then(() => {
+          window.requestAnimationFrame(initializePlaytestLayout);
+        });
+      }
+
       window.addEventListener('resize', () => {
         syncStressRulerHeight();
         syncBoardPieceScale();
       });
 
       if (document.readyState === 'complete') {
-        initializePlaytestLayout();
+        waitForPlaytestAssets();
       } else {
-        window.addEventListener('load', initializePlaytestLayout, { once: true });
+        window.addEventListener('load', waitForPlaytestAssets, { once: true });
       }
     </script>
   </body>

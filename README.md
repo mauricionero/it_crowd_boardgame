@@ -10,6 +10,7 @@ Protótipo cooperativo inspirado em *The IT Crowd*: os jogadores administram cha
 - [Cartas e exportação para PDF](templates/cards/call-model.html)
 - [Imprimir cartas](imprimir-cartas.html) — atalho na raiz para o gerador de cartas.
 - [Dados das cartas e peças](templates/cards/card-data.js)
+- [Resumo de dificuldade](summary.py) — contagem de Eventos e Missões por expansão.
 
 ## Preparar o projeto
 
@@ -50,6 +51,20 @@ Resoluções disponíveis:
 Quando `both` é usado, as versões low e high são processadas em paralelo. Se o Chrome não suportar duas renderizações simultâneas, o script repete automaticamente em sequência.
 
 Os arquivos gerados são ignorados pelo Git. Depois de gerar ou atualizar imagens, recarregue o [playtest](templates/cards/playtest-model.html) ou a página de [exportação](templates/cards/call-model.html).
+
+## Resumir dificuldades
+
+Para contar cartas fáceis, médias, difíceis e com benefício (`+`) por expansão e tipo:
+
+```bash
+python3 summary.py
+```
+
+Para obter o mesmo resumo em JSON:
+
+```bash
+python3 summary.py --json
+```
 
 ## Exportar o manual em PDF
 

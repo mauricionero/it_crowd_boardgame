@@ -145,6 +145,32 @@
         return group;
       }
 
+      function createDifficultyBadge(difficulty, cardType) {
+        const difficultyConfig = {
+          easy: { emoji: '🤓', label: 'Fácil', className: 'card-difficulty--easy' },
+          medium: { emoji: '😐', label: 'Média', className: 'card-difficulty--medium' },
+          hard: { emoji: '😖', label: 'Difícil', className: 'card-difficulty--hard' },
+        }[difficulty];
+        if (!difficultyConfig) return null;
+
+        const badge = document.createElement('span');
+        badge.className = `card-difficulty ${difficultyConfig.className}`;
+        badge.textContent = difficultyConfig.emoji;
+        const cardLabel = cardType.id === CARD_TYPES.MISSION_EVENT.id ? 'missão' : 'evento';
+        badge.setAttribute('aria-label', `Dificuldade do ${cardLabel}: ${difficultyConfig.label}`);
+        badge.title = `Dificuldade: ${difficultyConfig.label}`;
+        return badge;
+      }
+
+      function createHelpfulBadge() {
+        const badge = document.createElement('span');
+        badge.className = 'card-helpful';
+        badge.textContent = '+';
+        badge.setAttribute('aria-label', 'Evento com benefício');
+        badge.title = 'Evento com benefício';
+        return badge;
+      }
+
       function createCard(code, card) {
         const cardType = card.type || CARD_TYPES.CALL;
         const artist = card.artist || CARD_CREDITS.artist;
@@ -292,7 +318,20 @@
           artSlot,
           rules
         );
-        article.append(header, main, footer, createFloorBadges(card.requiredFloors || card.floor));
+        const difficultyBadge = [CARD_TYPES.CALL.id, CARD_TYPES.MISSION_EVENT.id, CARD_TYPES.GENERIC_EVENT.id, CARD_TYPES.USER.id].includes(cardType.id)
+          ? createDifficultyBadge(card.difficulty, cardType)
+          : null;
+        const helpfulBadge = [CARD_TYPES.CALL.id, CARD_TYPES.GENERIC_EVENT.id, CARD_TYPES.USER.id].includes(cardType.id) && card.helpful
+          ? createHelpfulBadge()
+          : null;
+        article.append(
+          header,
+          main,
+          footer,
+          ...(difficultyBadge ? [difficultyBadge] : []),
+          ...(helpfulBadge ? [helpfulBadge] : []),
+          createFloorBadges(card.requiredFloors || card.floor)
+        );
         attachExportedImage(article, code);
         return article;
       }
@@ -339,6 +378,7 @@
         const article = document.createElement('article');
         article.className = `character-card character-card--type-${cardType.id}`;
         article.dataset.cardCode = code;
+        article.dataset.cardType = cardType.id;
         article.style.setProperty('--border-color', cardType.accentColor);
         article.style.setProperty('--frame-color', cardType.frameColor);
         article.setAttribute('aria-label', `Carta de personagem jogável: ${card.title}`);

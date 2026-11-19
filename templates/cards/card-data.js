@@ -287,7 +287,7 @@
           attributes: '🧠 0   ·   🙂 3   ·   👣 = 3 + 1🎲',
           actions: '⭐ 3 ações por ativação',
           rules: [
-            { label: 'LIDERANÇA', line: 'Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão.\nQualquer Chamado concluído: Jen recebe +🔋.', nr_lines: 3, dense: true },
+            { label: '', line: 'LIDERANÇA: Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão.\nQualquer Chamado concluído: Jen recebe +🔋.', nr_lines: 3, dense: true },
           ],
         },
         B3: {
@@ -297,7 +297,7 @@
           rules: [
             { label: 'ATRIBUTOS', line: '🧠0 · 🙂3 · 👣 = 3 + 1🎲', nr_lines: 1, dense: true },
             { label: '⭐', line: '3 ações.', nr_lines: 2 },
-            { label: 'LIDERANÇA', line: 'Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão.\nQualquer Chamado concluído: Jen recebe +🔋.', nr_lines: 3, dense: true },
+            { label: '', line: 'LIDERANÇA: Jen pode ceder 🔋 a outro personagem para usar em um Chamado que esteja na mão.\nQualquer Chamado concluído: Jen recebe +🔋.', nr_lines: 5, dense: true },
           ],
         },
         B4: {
@@ -342,6 +342,7 @@
         },
         C1: {
           type: CARD_TYPES.CALL,
+          difficulty: 'easy',
           title: 'JÁ TENTOU DESLIGAR E LIGAR DE NOVO?',
           resolve: [
             {
@@ -352,6 +353,7 @@
         },
         C2: {
           type: CARD_TYPES.CALL,
+          difficulty: 'medium',
           title: 'NÃO ABRE!',
           resolve: [
             {
@@ -362,6 +364,7 @@
         },
         C3: {
           type: CARD_TYPES.CALL,
+          difficulty: 'easy',
           title: 'SENHA NÃO FUNCIONA',
           resolve: [
             {
@@ -372,6 +375,7 @@
         },
         C4: {
           type: CARD_TYPES.CALL,
+          difficulty: 'hard',
           title: 'DERRUBEI A INTERNET',
           resolve: [
             {
@@ -387,6 +391,7 @@
         },
         C5: {
           type: CARD_TYPES.CALL,
+          difficulty: 'hard',
           title: '404: RELATÓRIO NÃO ENCONTRADO',
           resolve: [
             {
@@ -402,6 +407,7 @@
         },
         C6: {
           type: CARD_TYPES.CALL,
+          difficulty: 'medium',
           title: 'WHAT THE FLIP!',
           resolve: [
             {
@@ -412,6 +418,7 @@
         },
         C7: {
           type: CARD_TYPES.CALL,
+          difficulty: 'easy',
           title: 'ESTÁ PLUGADO NA TOMADA?',
           quote: 'Vocẽ precisa por na tomada!',
           resolve: [
@@ -423,6 +430,7 @@
         },
         C8: {
           type: CARD_TYPES.CALL,
+          difficulty: 'hard',
           floor: FLOORS.OFFICE_1,
           title: 'IMPRESSORA NÃO FUNCIONA',
           quote: 'Acho que precisa de papel...',
@@ -443,17 +451,25 @@
         },
         C9: {
           type: CARD_TYPES.CALL,
+          difficulty: 'medium',
           title: 'RECUPERE O ACESSO AO SERVIDOR',
           quote: 'Access the data supply and connect to the matrix',
           resolve: [
             {
+              label: EVENT_ICONS.PREP,
+              line: '🗄️🦠 Infecte o servidor',
+              nr_lines: 2,
+              dense: true,
+            },
+            {
               label: '📌',
-              line: '🗄️ 🧠 ✅✅',
+              line: '🗄️✅',
             },
           ],
         },
         C10: {
           type: CARD_TYPES.CALL,
+          difficulty: 'hard',
           floor: FLOORS.OFFICE_1,
           title: 'MINHA TELA FICOU VERDE',
           quote: 'Siga o coelho branco.',
@@ -474,16 +490,19 @@
         },
         C11: {
           type: CARD_TYPES.CALL,
+          difficulty: 'medium',
+          helpful: true,
           floor: FLOORS.OFFICE_1,
           title: 'VIDEO NÃO FUNCIONA',
           quote: 'A reunião começa em 5 minutos!',
           resolve: [
             { label: '⭐', line: '+⚠️', nr_lines: 1, dense: true },
-            { label: '🎯', line: 'Na Sala 1: 1⏱️ 🧠✅: −⚠️, 🗑️', nr_lines: 2, dense: true },
+            { label: '🎯', line: 'Na Sala 1: 1⏱️: −⚠️, 🗑️', nr_lines: 2, dense: true },
           ],
         },
         C12: {
           type: CARD_TYPES.CALL,
+          difficulty: 'easy',
           floor: FLOORS.OFFICE_1,
           title: 'ESSE É O BARULHO QUANDO LIGA',
           quote: 'Desculpa, você é do passado?',
@@ -493,6 +512,8 @@
         },
         D1: {
           type: CARD_TYPES.USER,
+          difficulty: 'easy',
+          helpful: true,
           title: 'O PACIENTE',
           quote: 'Quem escreveu Missa Brevis em D Menor?..',
           rules: [
@@ -504,6 +525,8 @@
         },
         D2: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
+          helpful: true,
           title: 'PRIME, O COLECIONADOR',
           quote: 'A fan of tiny biscuits. You are full of surprises.',
           rules: [
@@ -515,6 +538,8 @@
         },
         D3: {
           type: CARD_TYPES.USER,
+          difficulty: 'easy',
+          helpful: true,
           title: 'BILL CROUSE',
           floor: FLOORS.OFFICE_1,
           quote: 'Sabe, eu fui o último com ela.',
@@ -527,6 +552,8 @@
         },
         D4: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
+          helpful: true,
           title: 'SOBRINHO DO CHEFE',
           quote: 'Meu tio disse que vocês resolvem isso agora.',
           rules: [
@@ -538,6 +565,7 @@
         },
         D5: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
           title: 'O CONFUSO',
           quote: 'BING BONG NOISE',
           rules: [
@@ -549,6 +577,8 @@
         },
         D6: {
           type: CARD_TYPES.USER,
+          difficulty: 'easy',
+          helpful: true,
           title: 'SENHORA CARENTE',
           quote: '0118 999 881 999 119 725... 3',
           rules: [
@@ -560,6 +590,7 @@
         },
         D7: {
           type: CARD_TYPES.USER,
+          difficulty: 'hard',
           title: 'THE BOSS',
           quote: 'Apenas 2 coisas: Um sonho e $ 6 milhões.',
           rules: [
@@ -571,6 +602,8 @@
         },
         D8: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
+          helpful: true,
           title: 'AMIZADE DO FRIENDFACE',
           quote: 'E aí, o que tem aprontado?!',
           rules: [
@@ -582,6 +615,8 @@
         },
         D9: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
+          helpful: true,
           title: 'MICHAEL, THE MAGNIFICENT',
           quote: 'Im not a magician.',
           rules: [
@@ -593,6 +628,8 @@
         },
         D10: {
           type: CARD_TYPES.USER,
+          difficulty: 'hard',
+          helpful: true,
           title: 'O SPOILER',
           quote: 'É nesse filme que ele estava morto no final né!',
           rules: [
@@ -604,6 +641,7 @@
         },
         D11: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
           floor: FLOORS.OFFICE_1,
           title: 'SAMANTHA',
           quote: 'Back soon. Get it fixed!',
@@ -616,6 +654,8 @@
         },
         D12: {
           type: CARD_TYPES.USER,
+          difficulty: 'easy',
+          helpful: true,
           floor: FLOORS.OFFICE_1,
           title: 'A NERD',
           quote: 'I like your glasses',
@@ -628,6 +668,8 @@
         },
         D13: {
           type: CARD_TYPES.USER,
+          difficulty: 'medium',
+          helpful: true,
           floor: FLOORS.OFFICE_1,
           title: 'JULY OU JUDIE?',
           quote: 'É July, ou Judie? Definitivamente uma delas.',
@@ -638,8 +680,24 @@
             { label: '🏁', line: '🔺 1–5: +🔋 | 6–10: -🔋', nr_lines: 2 },
           ],
         },
+        D14: {
+          type: CARD_TYPES.USER,
+          difficulty: 'hard',
+          helpful: true,
+          floor: FLOORS.OFFICE_1,
+          title: 'THE NEW BOSS',
+          quote: 'Vou transformar isso tudo em um banheiro!',
+          illustrationPath: '../../assets/illustrations/cards/users/d14.png',
+          rules: [
+            { label: '✋', line: '−🧠', nr_lines: 1 },
+            { label: '📞', line: '🔺 6–10: +🫩', nr_lines: 2 },
+            { label: '⭐', line: '🔺 4–10: +⚠️', nr_lines: 2 },
+            { label: '🏁', line: '−⚠️', nr_lines: 1 },
+          ],
+        },
         E1: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
           title: 'MAIS UM CHAMADO',
           quote: 'Pode apertar Ctrl + Alt + Del?',
           rules: [
@@ -654,28 +712,31 @@
         },
         E2: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'medium',
           title: 'ESPALHAR VÍRUS',
           quote: 'Não parece importante ou legal, mas precisamos de um firewall...',
           rules: [
             {
               label: EVENT_ICONS.NOW,
-              line: 'Se 🗄️ estiver 🦠: infecte um 🖥️. Caso contrário: 🔺 1–5: infecte 🗄️',
+              line: 'Se 🗄️ estiver 🦠: infecte um 🖥️. Caso contrário: 🗄️🦠',
               effect: EVENT_ICONS.DISCARD,
-              nr_lines: 5,
+              nr_lines: 2,
               dense: true,
             },
           ],
         },
         E3: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'medium',
           title: 'A LUZINHA VERMELHA',
           quote: 'flash flash flash..... flash',
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Vire o tile de 🗄️ para o lado infectado.', effect: EVENT_ICONS.DISCARD, nr_lines: 3 },
+            { label: EVENT_ICONS.NOW, line: 'Vire o tile de 🗄️ para o lado infectado 🦠.', effect: EVENT_ICONS.DISCARD, nr_lines: 3 },
           ],
         },
         E4: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'hard',
           title: 'SOLICITAÇÃO URGENTE\nDA DIRETORIA',
           quote: 'Isso não é um troféu de cabeça de sorvete?',
           rules: [
@@ -698,6 +759,8 @@
         },
         E5: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           title: 'ALMOÇO EM EQUIPE',
           quote: 'Hajam naturalmente... Mais normal!.. Só relaxem..',
           rules: [
@@ -712,6 +775,8 @@
         },
         E6: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           title: 'GUERRA CONTRA O STRESS!',
           quote: 'Quem estiver estressado, será demitido!',
           rules: [
@@ -721,6 +786,7 @@
         },
         E7: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'hard',
           title: 'RELATÓRIO DO FGTS',
           quote: '1800 billion billions!',
           rules: [
@@ -741,6 +807,7 @@
         },
         E8: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'hard',
           title: 'AH NÃO!',
           quote: 'Is it a PC or a Mac?',
           rules: [
@@ -755,6 +822,8 @@
         },
         E9: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           floor: FLOORS.OFFICE_1,
           title: 'REUNIÃO DO MARKETING',
           quote: 'Cavalheiros, ergam suas taças.',
@@ -765,6 +834,8 @@
         },
         E10: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'medium',
+          helpful: true,
           title: 'AJUSTE EXECUTIVO',
           quote: 'Damn this electric pants!',
           rules: [
@@ -775,6 +846,8 @@
         },
         E11: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           title: 'A APOSTA',
           quote: 'Perfil cafageste online. P.S.: No dogs!!',
           rules: [
@@ -783,6 +856,8 @@
         },
         E12: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           floor: FLOORS.OFFICE_1,
           title: 'COUNTDOWN',
           quote: "Você foi convidado para o Countdown!",
@@ -792,6 +867,7 @@
         },
         E13: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'medium',
           title: 'DESLIGOU O FERRO DE SOLDA?',
           quote: 'Então eu ligo... e VOU EMBORA!',
           rules: [
@@ -800,14 +876,18 @@
         },
         E14: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           title: 'O ACHADO!',
           quote: 'Olha o que estava no fundo da gaveta!',
           rules: [
-            { label: EVENT_ICONS.NOW, line: 'Se stress menor que 4: ☎️⚡\nTodos rolam 🎲🎲🎲. Vencedor: 🏆\n🗑️', nr_lines: 4, dense: true },
+            { label: EVENT_ICONS.NOW, line: 'Se stress menor que 4: ☎️⚡;\nTodos rolam 🎲🎲🎲. Vencedor: 🏆\n🗑️', nr_lines: 4, dense: true },
           ],
         },
         E15: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           floor: FLOORS.OFFICE_1,
           title: 'MARKETEIRO NERD',
           quote: 'Ouvi dizer que ele tem até uma Black Lotus...',
@@ -818,6 +898,8 @@
         },
         E16: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
+          helpful: true,
           title: 'MARKETING MEIO OCUPADO',
           quote: 'Isto é uma reunião confidencial.',
           rules: [
@@ -827,6 +909,7 @@
         },
         E17: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'easy',
           floor: FLOORS.OFFICE_1,
           title: 'MAIS UM CHAMADO...',
           quote: 'Só uma perguntinha...',
@@ -837,6 +920,7 @@
         },
         E18: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'medium',
           floor: FLOORS.OFFICE_1,
           title: 'CC: E-MAIL SUSPEITO',
           quote: 'Manda para todo mundo.',
@@ -847,6 +931,7 @@
         },
         E19: {
           type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'medium',
           floor: FLOORS.OFFICE_1,
           title: 'O VÍRUS SUBIU',
           quote: 'O servidor está compartilhando tudo.',
@@ -855,8 +940,21 @@
             { label: EVENT_ICONS.NOW, line: 'Se 🗄️🦠: 🔺 → 1–7: infecte o 🖥️📍1️⃣ do número sorteado. Senão: 🗄️🦠. 🗑️', nr_lines: 2, dense: true },
           ],
         },
+        E20: {
+          type: CARD_TYPES.GENERIC_EVENT,
+          difficulty: 'hard',
+          floor: FLOORS.OFFICE_1,
+          title: 'ACABOU O PAPEL!',
+          quote: 'Não imprime! Será que é tinta?',
+          illustrationPath: '../../assets/illustrations/cards/events-generic/e20.png',
+          rules: [
+            { label: EVENT_ICONS.NOW, line: 'Vire a 🖨️ para 🖨️🚫 e coloque esta carta no fim da iniciativa.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.ONGOING, line: '🖨️🚫: 🔺 → 1–5: +⚠️ | 🖨️✅: 🗑️', nr_lines: 1, dense: true },
+          ],
+        },
         F1: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'easy',
           title: "YESTERDAY'S JAM",
           subtitle: '1 — NOVA GERENTE',
           quote: 'Emails, enviar, receber, mouse, click, duplo click...',
@@ -874,6 +972,7 @@
         },
         F2: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           title: "YESTERDAY'S JAM",
           subtitle: '2 — SINCLAIR ZX81',
           quote: 'Estranho, ela nem se importou com o ZX81',
@@ -887,6 +986,7 @@
         },
         F3: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           title: "YESTERDAY'S JAM",
           subtitle: '3 — QUER CONECTAR NA MATRIX?',
           quote: 'Vocês estão inventando tudo isso',
@@ -900,6 +1000,7 @@
         },
         F4: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           title: "YESTERDAY'S JAM",
           subtitle: '4 — QUE SCREEN SAVER REALISTA!',
           quote: 'Espere um pouco... Cadê a Jen?',
@@ -913,6 +1014,7 @@
         },
         F5: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           title: "YESTERDAY'S JAM",
           subtitle: '5 — ARE YOU STRESSED?',
           quote: 'Are you sure? Are you sure?',
@@ -927,6 +1029,7 @@
         },
         F6: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'easy',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
@@ -942,6 +1045,7 @@
         },
         F8: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
@@ -957,6 +1061,7 @@
         },
         F9: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
@@ -973,6 +1078,7 @@
         },
         F10: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'FUNCIONÁRIA DO MÊS',
@@ -1179,6 +1285,7 @@
         },
         I1: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'easy',
           title: 'TELEFONE MALDITO!',
           quote: 'Have you tried turning it off and on again?',
           rules: [
@@ -1189,6 +1296,7 @@
         },
         I2: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           title: 'FIREWALL',
           quote: 'AHHH!',
           rules: [
@@ -1199,6 +1307,7 @@
         },
         I3: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           title: 'ESQUECI DO CLIENTE',
           quote: 'Você tentou um reboot inesperado?',
           rules: [
@@ -1209,17 +1318,19 @@
         },
         I4: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           title: 'FIM DO EXPEDIENTE',
           quote: 'Não quero fumar lá fora. É muito soviético.',
           rules: [
             { label: EVENT_ICONS.OBJECTIVE, line: 'Sobreviva 8 rodadas.', nr_lines: 1 },
-            { label: EVENT_ICONS.PREP, line: 'coloque sobre essa missão 🔺 em 1; ⚠️ inicial = 👤 jogáveis.', nr_lines: 2, dense: true },
-            { label: '⭐', line: '🔺: 3–7: +☎️⚡ | 8–10: revele 1 Evento sobre esta carta.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.PREP, line: 'coloque sobre essa missão 🔺 em 1;\n⚠️ inicial = 👤 jogáveis.', nr_lines: 2, dense: true },
+            { label: '⭐', line: '🔺: 3–7: +☎️⚡ | 8–10: revele 1 Evento sobre esta carta se não tiver nenhum evento revelado.', nr_lines: 3, dense: true },
             { label: '⭐', line: 'Aumente 1 no 🔺. Ao chegar em 9, essa missão conclui em vitória.', nr_lines: 2, dense: true },
           ],
         },
         I5: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           title: 'QUEM TEM MAIS ITENS RAROS?',
           quote: 'Meu DVD é mais raro!',
           rules: [
@@ -1230,6 +1341,7 @@
         },
         I6: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'CC PARA TODOS',
@@ -1242,6 +1354,7 @@
         },
         I7: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'easy',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'PAPELADA URGENTE',
@@ -1254,6 +1367,7 @@
         },
         I8: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'hard',
           floor: FLOORS.OFFICE_1,
           requiredFloors: [FLOORS.BASEMENT, FLOORS.OFFICE_1],
           title: 'CRISE',
@@ -1261,11 +1375,12 @@
           rules: [
             { label: EVENT_ICONS.PREP, line: '🗄️🦠; 🖨️🚫; todos os ☎️⚡.', nr_lines: 3, dense: true },
             { label: EVENT_ICONS.OBJECTIVE, line: '🗄️✅ + 🖨️✅ + 0🦠 + 0 chamados abertos.', nr_lines: 3, dense: true },
-            { label: EVENT_ICONS.DISCARD, line: 'Sem ☎️⚡ ou ☎️+👤 na mão ou na iniciativa.', nr_lines: 2, dense: true },
+            { label: EVENT_ICONS.DISCARD, line: 'Sem ☎️⚡ ou ☎️+👤 na mão ou na iniciativa. 🖨️✅', nr_lines: 2, dense: true },
           ],
         },
         I9: {
           type: CARD_TYPES.MISSION_EVENT,
+          difficulty: 'medium',
           title: 'FOUR, I MEAN, FIVE, I MEAN, FIRE!!',
           quote: 'E-mail: Necessito de assistência imediata.',
           illustrationPath: '../../assets/illustrations/cards/events-mission/i9.png',

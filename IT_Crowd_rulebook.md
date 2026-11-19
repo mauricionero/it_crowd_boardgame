@@ -75,6 +75,18 @@ Em cartas comuns, o marcador identifica a expansão à qual a carta pertence. Em
 
 É permitido incluir andares adicionais, desde que os andares exigidos estejam presentes. Adicione também as cartas e componentes desses andares aos baralhos normais: há mais problemas disponíveis e a partida fica mais difícil. Cada manual de expansão informa quais cartas, tiles e componentes devem entrar ao habilitar seu andar.
 
+### Dificuldade das missões, Eventos, Chamados e Usuários
+
+As cartas de Missão trazem um marcador compacto no canto superior esquerdo. Chamados e Eventos usam o mesmo marcador para indicar a dificuldade geral de resolução. Usuários usam o marcador para indicar a dificuldade de administrar seus efeitos. O símbolo ajuda o grupo a avaliar a partida, mas não altera testes, custos ou condições.
+
+| Marcador | Nível | Detalhe visual |
+|---|---|---|
+| **🤓** | Fácil | Aro e detalhe verdes. |
+| **😐** | Média | Aro e detalhe amarelos. |
+| **😖** | Difícil | Aro e detalhe vermelhos. |
+
+Eventos Genéricos, Chamados e Usuários usam os mesmos três níveis. Quando uma carta oferecer algum benefício, mesmo que também tenha efeitos negativos, ela recebe um pequeno **+ verde** ao lado do marcador de dificuldade.
+
 ### Chamados, telefones e usuários
 
 | Ícone | Significado |
@@ -326,7 +338,9 @@ Quando a Rotina tirar 9–10 em um `☎️⚡`, remova o tile de telefone, compr
 
 ### Baralho esgotado
 
-Quando o baralho de Chamados ou o de Usuários acabar, embaralhe separadamente as cartas concluídas de cada tipo e forme novos baralhos. Cartas na mão, na iniciativa ou associadas a um usuário ativo não entram nos descartes. Se um dos baralhos estiver vazio e não houver descarte, não é possível gerar uma nova combinação ☎️ + 👤; aumente ⚠️ em 1.
+Quando o baralho de Eventos ou Chamados acabar, faça uma nova seleção aleatória usando primeiro as cartas que ficaram fora da seleção anterior e, se necessário, complete com cartas descartadas do mesmo tipo. Cartas na mão, na iniciativa ou ativas não entram na seleção. Respeite a distribuição de dificuldade escolhida no setup sempre que houver cartas suficientes; se uma categoria acabar, complete com cartas disponíveis das outras categorias.
+
+Quando o baralho de Usuários acabar, embaralhe separadamente as cartas de Usuários concluídas e forme um novo baralho. Cartas na mão, na iniciativa ou associadas a um usuário ativo não entram nos descartes. Se não houver Usuários disponíveis para uma nova combinação ☎️ + 👤, aumente ⚠️ em 1.
 
 ## 9. Usuários e Chamados
 
@@ -347,6 +361,7 @@ Quando um efeito especial mandar colocar um Item sob a carta de Usuário, esse I
 O estado é mostrado no próprio tile: funcional de um lado, infectado do outro.
 
 - Chamados que exigem computador funcional precisam ser resolvidos junto a um computador funcional.
+- Para usar um 🖥️ funcional, o personagem deve estar na cadeira diretamente à frente do tile, com o computador no lado funcional.
 - **Computador infectado:** ⏱️ · 🧠 ✅✅. Ao obter dois sucessos durante a mesma ativação, vire o tile para o lado funcional.
 - **Servidor infectado:** ⏱️ · 🧠 ✅✅✅. Ao obter três sucessos durante a mesma ativação, vire o tile para o lado funcional.
 - Se o servidor estiver infectado no início da rodada, a Rotina faz a rolagem de Stress descrita na seção 8.
