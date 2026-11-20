@@ -10,8 +10,8 @@ Os modelos HTML separam o layout da carta do conteúdo e das imagens finais.
 - `playtest-model.css` — layout da mesa de playtest; ainda sem regras ou drag and drop.
 - `../../assets/cards/calls/call-background-model.png` — fundo visual sem arte, textos, títulos ou custos; o cabeçalho fixo é inserido pelo HTML.
 - `../../assets/cards/users/user-background-model.png` — variante azul do fundo-base, usada pelas cartas de Usuário e pelas cartas de iniciativa de NPC.
-- `../../assets/cards/events-generic/event-generic-background-model.png` — fundo roxo das cartas de Evento Genérico.
-- `../../assets/cards/events-mission/event-mission-background-model.png` — fundo vermelho das cartas de Evento de Missão.
+- `../../assets/cards/events-generic/event-generic-background-model.png` — fundo roxo das cartas de Evento.
+- `../../assets/cards/events-mission/event-mission-background-model.png` — fundo vermelho das cartas de Missão.
 - Cartas de iniciativa usam o fundo azul existente de Usuário, mas recebem borda cinza, e procuram artes em `../../assets/illustrations/cards/initiative/`.
 - `../../assets/illustrations/icons/call-header.png` — cabeçalho transparente `☎️ CHAMADO` usado pelo template.
 - `../../assets/illustrations/icons/user-header.png` — cabeçalho transparente completo, com ícone de usuários em estilo de mensageiro instantâneo antigo e o título `USUÁRIO`.
@@ -29,7 +29,7 @@ O topo do `call-model.html` possui um painel de exportação que não aparece na
 
 ## Exportação rasterizada
 
-O script `../../export_images.py` gera uma imagem PNG independente para cada carta em `../../exported-images/cards/`. Ele usa o Chrome headless para renderizar o mesmo HTML e CSS do modelo, sem duplicar o layout em Python. Ao executar sem parâmetros, ele pergunta se deve regenerar todas as imagens ou somente as que ainda estão faltando ou desatualizadas. O script mantém uma assinatura das fontes usadas na renderização, então uma carta exportada antes de receber uma nova arte será regenerada mesmo que o PNG antigo ainda exista. Por padrão, cada modo gera duas resoluções:
+O script `../../export_images.py` gera uma imagem PNG independente para cada carta em `../../exported-images/cards/<idioma>/`. Ele usa o Chrome headless para renderizar o mesmo HTML e CSS do modelo, sem duplicar o layout em Python. Ao executar sem parâmetros, ele pergunta se deve regenerar todas as imagens ou somente as que ainda estão faltando ou desatualizadas. O script mantém uma assinatura das fontes usadas na renderização, então uma carta exportada antes de receber uma nova arte será regenerada mesmo que o PNG antigo ainda exista. Sem informar o idioma, exporta `en-US` e `pt-BR`; use `--language en-US` ou `--language pt-BR` para gerar apenas uma versão. Por padrão, cada modo gera duas resoluções:
 
 - `low`: 96 DPI, leve para o playtest.
 - `high`: 300 DPI, adequada para impressão e gráfica.
@@ -38,6 +38,8 @@ O script `../../export_images.py` gera uma imagem PNG independente para cada car
 python3 export_images.py --mode full
 python3 export_images.py --mode no-art
 python3 export_images.py --mode draft
+python3 export_images.py --language pt-BR
+python3 export_images.py --lang en-US --code E11
 ```
 
 Para usar o script sem interação, informe explicitamente o comportamento:
@@ -123,4 +125,4 @@ type: CARD_TYPES.CALL,
 
 Os tipos já previstos são `CALL`, `USER`, `GENERIC_EVENT`, `MISSION_EVENT`, `INITIATIVE`, `PLAYER_INITIATIVE`, `ROUTINE`, `REFERENCE`, `ACTIONS`, `MORALE`, `CONSUMABLE_ITEM`, `EQUIPMENT_ITEM`, `REVERSIBLE_TILE`, `TOKEN` e `PAWN`. O tipo define o rótulo, a cor de borda, a cor de moldura, a pasta das ilustrações e o fundo da carta. As cartas `PLAYER_INITIATIVE`, `ACTIONS` e `MORALE` usam cabeçalhos PNG próprios no topo. Tiles, tokens e peões são renderizados em blocos próprios, sem entrar na grade de cartas 3 × 3; frentes e versos reversíveis ficam lado a lado na mesma folha e os blocos fluem sem quebra forçada entre categorias. O tabuleiro é acrescentado por último em uma página nomeada A4 paisagem. Novos fundos e cabeçalhos podem ser adicionados à configuração sem alterar a função de montagem.
 
-Títulos, subtítulos, rótulos, descrições, efeitos e citações aceitam quebras manuais com `\\n`, por exemplo: `NÃO FUNCIONA...\\nSEI LÁ!`. A altura mínima da regra também considera as quebras declaradas; `nr_lines` pode reservar espaço adicional quando o texto precisar de mais área. Nas cartas de Usuário, cada linha usa duas colunas: rótulo fixo à esquerda e descrição à direita; o efeito adicional ocupa uma segunda linha da descrição quando existir. Cartas de Evento de Missão podem usar `subtitle` para exibir o ato abaixo do nome da missão.
+Títulos, subtítulos, rótulos, descrições, efeitos e citações aceitam quebras manuais com `\\n`, por exemplo: `NÃO FUNCIONA...\\nSEI LÁ!`. A altura mínima da regra também considera as quebras declaradas; `nr_lines` pode reservar espaço adicional quando o texto precisar de mais área. Nas cartas de Usuário, cada linha usa duas colunas: rótulo fixo à esquerda e descrição à direita; o efeito adicional ocupa uma segunda linha da descrição quando existir. Cartas de Missão podem usar `subtitle` para exibir o ato abaixo do nome da missão.

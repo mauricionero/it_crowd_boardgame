@@ -52,6 +52,8 @@
     <main class="card-list" data-card-list aria-label="Modelos de cartas"></main>
 
     <script src="card-data.js"></script>
+    <script src="locales/pt-BR.js"></script>
+    <script src="locales/i18n.js"></script>
     <script src="card-renderer.js"></script>
     <script>
       window.ITCrowdUseExportedImages = true;
@@ -93,7 +95,7 @@
       const cardTypeFilterDefinitions = [
         { id: 'calls', label: 'Chamados', fileName: 'chamados', types: [CARD_TYPES.CALL] },
         { id: 'users', label: 'Usuários', fileName: 'usuarios', types: [CARD_TYPES.USER] },
-        { id: 'generic-events', label: 'Eventos genéricos', fileName: 'eventos-genericos', types: [CARD_TYPES.GENERIC_EVENT] },
+        { id: 'generic-events', label: 'Eventos', fileName: 'eventos', types: [CARD_TYPES.GENERIC_EVENT] },
         { id: 'missions', label: 'Missões', fileName: 'missoes', types: [CARD_TYPES.MISSION_EVENT] },
         { id: 'initiative', label: 'Iniciativa e rotina', fileName: 'iniciativa-rotina', types: [CARD_TYPES.INITIATIVE, CARD_TYPES.PLAYER_INITIATIVE, CARD_TYPES.ROUTINE] },
         { id: 'items', label: 'Itens', fileName: 'itens', types: [CARD_TYPES.CONSUMABLE_ITEM, CARD_TYPES.EQUIPMENT_ITEM] },

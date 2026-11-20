@@ -31,6 +31,26 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.locale-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.5mm;
+  color: inherit;
+  font-size: 2.5mm;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.locale-switcher select {
+  min-width: 31mm;
+  padding: 1mm 1.5mm;
+  border: 0.35mm solid #526054;
+  border-radius: 1.5mm;
+  background: #fff8df;
+  color: #172019;
+  font: inherit;
+}
+
 .export-panel {
   position: fixed;
   z-index: 20;
@@ -912,7 +932,7 @@ body {
 
 .card--type-item-consumable .title-slot,
 .card--type-item-equipment .title-slot {
-  top: 18%;
+  top: 14%;
   left: 8%;
   width: 84%;
   height: 18%;
@@ -997,11 +1017,6 @@ body {
   filter: drop-shadow(0 0.35mm 0 rgba(73, 39, 8, 0.42));
 }
 
-.card--background.card--collection-item .title-slot {
-  top: 24%;
-  height: 19%;
-}
-
 .card--background .card-main {
   inset: 0;
   display: block;
@@ -1023,7 +1038,7 @@ body {
 
 .card--background.card--type-item-consumable .title-slot,
 .card--background.card--type-item-equipment .title-slot {
-  top: 18%;
+  top: 14%;
   left: 8%;
   width: 84%;
   height: 18%;
@@ -1100,7 +1115,7 @@ body {
 
 .card--background.card--has-item-art .card-item__art {
   object-fit: contain;
-  transform: scale(1.1);
+  transform: translateY(-5%) scale(1.1);
   transform-origin: center center;
 }
 
@@ -1453,6 +1468,7 @@ body {
   display: flex;
 }
 
+.card--type-reference.card--background,
 .card--type-actions.card--background,
 .card--type-morale.card--background {
   border: 0;

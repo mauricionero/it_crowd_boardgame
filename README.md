@@ -5,7 +5,7 @@ Protótipo cooperativo inspirado em *The IT Crowd*: os jogadores administram cha
 ## Abrir o projeto
 
 - [Manual de regras](IT_Crowd_rulebook.md)
-- [Manual do jogo](IT_Crowd_game_manual.html) — manual visual e linear com setup, regras, missões e consulta rápida.
+- [Manual do jogo](IT_Crowd_game_manual.html) — manual visual e linear com setup, regras, missões e consulta rápida; o seletor de idioma fica na capa.
 - [Playtest interativo](playtest.html)
 - [Cartas e exportação para PDF](templates/cards/call-model.html)
 - [Imprimir cartas](imprimir-cartas.html) — atalho na raiz para o gerador de cartas.
@@ -20,7 +20,7 @@ Para regenerar todas as imagens das cartas e exportar o manual em PDF diretament
 python3 install.py
 ```
 
-O script gera as cartas em `exported-images/cards/` e o arquivo `IT_Crowd_game_manual.pdf` na raiz do projeto.
+O script gera as cartas em `exported-images/cards/<idioma>/` (`en-US` e `pt-BR` por padrão) e o arquivo `IT_Crowd_game_manual.pdf` na raiz do projeto.
 
 Requisitos: Python 3 e Google Chrome ou Chromium instalados. No Windows, o comando equivalente pode ser `py install.py`.
 
@@ -28,7 +28,7 @@ Abra os arquivos HTML em um navegador moderno. O playtest é um protótipo visua
 
 ## Gerar imagens das cartas
 
-As páginas de playtest e de exportação usam primeiro os PNGs gerados em `exported-images/cards/`. Se eles não existirem, o navegador usa a versão HTML como fallback.
+As páginas de playtest e de exportação usam primeiro os PNGs gerados em `exported-images/cards/<idioma>/`. Se eles não existirem, o navegador usa a versão HTML como fallback.
 
 É necessário ter Python 3 e Google Chrome instalados. Na raiz do projeto, execute:
 
@@ -40,6 +40,8 @@ O script pergunta se deve regenerar todas as imagens ou apenas as ausentes/desat
 
 ```bash
 python3 scripts/export_card_images.py --code H16 --resolution both --regenerate all
+# sem --language, exporta en-US e pt-BR
+python3 scripts/export_card_images.py --language pt-BR
 ```
 
 Resoluções disponíveis:

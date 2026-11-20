@@ -54,7 +54,7 @@ def main() -> None:
 
     print("\nPreparação concluída.")
     print(f"PDF: {PROJECT_ROOT / 'IT_Crowd_game_manual.pdf'}")
-    print(f"Cartas: {PROJECT_ROOT / 'exported-images/cards'}")
+    print(f"Cartas: {PROJECT_ROOT / 'exported-images/cards/<idioma>'}")
 
 
 if __name__ == "__main__":

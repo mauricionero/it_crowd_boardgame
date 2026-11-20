@@ -445,7 +445,7 @@ Personagens, Denholm e o Bombeiro que forem colocados no elevador também estão
 
 ## 13. Missões
 
-Antes do setup, os jogadores devem escolher qual missão querem jogar. A missão funciona como a “fase” da partida: ela define a preparação, os andares necessários, os objetivos e as condições especiais. A **campanha principal** usa missões com atos; para uma **partida rápida**, escolha uma missão individual.
+Antes do setup, os jogadores devem escolher qual missão querem jogar. A missão funciona como a “fase” da partida: ela define a preparação, os andares necessários, os objetivos e as condições especiais. A **campanha principal** usa missões com atos; para uma **partida rápida**, escolha uma **🎯 mini missão**.
 
 As cartas de missão seguem uma ordem fixa e não são embaralhadas. O manual contém a história, a preparação e as exceções de cada ato; a carta ativa serve apenas como lembrete visual do objetivo, dos números e dos efeitos principais.
 

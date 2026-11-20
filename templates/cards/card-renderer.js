@@ -1,11 +1,61 @@
 (() => {
   const { CARD_CREDITS, CARD_TYPES } = window.ITCrowdCardData;
 
+      function getLocaleData() {
+        const locale = window.ITCrowdLocale || 'en-US';
+        return window.ITCrowdCardLocales?.[locale] || {};
+      }
+
+      function localizeValue(baseValue, translatedValue) {
+        return translatedValue === undefined || translatedValue === null || translatedValue === ''
+          ? baseValue
+          : translatedValue;
+      }
+
+      function localizeRules(rules, translations) {
+        if (!Array.isArray(rules)) return rules;
+        return rules.map((rule, index) => ({
+          ...rule,
+          ...(translations?.[index] || {}),
+        }));
+      }
+
+      function localizeCard(code, card) {
+        const translation = getLocaleData().cards?.[code];
+        if (!translation) return card;
+
+        const localizedCard = { ...card };
+        ['title', 'subtitle', 'quote', 'attributes', 'actions', 'name'].forEach((field) => {
+          if (translation[field] !== undefined) {
+            localizedCard[field] = localizeValue(card[field], translation[field]);
+          }
+        });
+        if (translation.rules) localizedCard.rules = localizeRules(card.rules, translation.rules);
+        if (translation.resolve) localizedCard.resolve = localizeRules(card.resolve, translation.resolve);
+        return localizedCard;
+      }
+
+      function localizeCardType(cardType) {
+        const translation = getLocaleData().types?.[cardType.id];
+        if (!translation) return cardType;
+        return {
+          ...cardType,
+          label: localizeValue(cardType.label, translation.label),
+        };
+      }
+
+      function cardHeaderPath(card, cardType) {
+        if ((window.ITCrowdLocale || 'en-US') === 'en-US') return null;
+        if (card.collectionOnly) return '../../assets/illustrations/icons/collectible-item-header.png';
+        return card.headerPath === undefined ? cardType.headerPath : card.headerPath;
+      }
+
       function exportedImagePath(code) {
         const root = window.ITCrowdExportedImageRoot || '../../exported-images/cards';
+        const locale = window.ITCrowdLocale || 'en-US';
         const mode = window.ITCrowdExportedImageMode || 'full';
         const resolution = window.ITCrowdExportedImageResolution || 'low';
-        return `${root}/${mode}/${resolution}/${String(code).toLowerCase()}.png`;
+        return `${root}/${locale}/${mode}/${resolution}/${String(code).toLowerCase()}.png`;
       }
 
       function attachExportedImage(article, code) {
@@ -171,8 +221,9 @@
         return badge;
       }
 
-      function createCard(code, card) {
-        const cardType = card.type || CARD_TYPES.CALL;
+      function createCard(code, sourceCard) {
+        const card = localizeCard(code, sourceCard);
+        const cardType = localizeCardType(card.type || CARD_TYPES.CALL);
         const artist = card.artist || CARD_CREDITS.artist;
         const creditDate = card.date || CARD_CREDITS.date;
         const article = document.createElement('article');
@@ -197,9 +248,7 @@
         const header = document.createElement('header');
         header.className = 'card-header';
 
-        const headerPath = card.collectionOnly
-          ? '../../assets/illustrations/icons/collectible-item-header.png'
-          : card.headerPath === undefined ? cardType.headerPath : card.headerPath;
+        const headerPath = cardHeaderPath(card, cardType);
         if (headerPath) {
           const headerArt = document.createElement('img');
           headerArt.className = 'card-header__art';
@@ -318,7 +367,7 @@
           artSlot,
           rules
         );
-        const difficultyBadge = [CARD_TYPES.CALL.id, CARD_TYPES.MISSION_EVENT.id, CARD_TYPES.GENERIC_EVENT.id, CARD_TYPES.USER.id].includes(cardType.id)
+        const difficultyBadge = [CARD_TYPES.CALL.id, CARD_TYPES.MISSION_EVENT.id, CARD_TYPES.GENERIC_EVENT.id].includes(cardType.id)
           ? createDifficultyBadge(card.difficulty, cardType)
           : null;
         const helpfulBadge = [CARD_TYPES.CALL.id, CARD_TYPES.GENERIC_EVENT.id, CARD_TYPES.USER.id].includes(cardType.id) && card.helpful
@@ -337,7 +386,7 @@
       }
 
       function createCardBack(code, card) {
-        const cardType = card.type || CARD_TYPES.CALL;
+        const cardType = localizeCardType(card.type || CARD_TYPES.CALL);
         const article = document.createElement('article');
         article.className = `card card--background card-back card--type-${cardType.id}${cardType.small ? ' card--small' : ''}`;
         if (card.collectionOnly) article.classList.add('card--collection-item');
@@ -351,9 +400,7 @@
         article.style.setProperty('--frame-color', card.collectionOnly ? '#5b3a14' : cardType.frameColor);
         article.setAttribute('aria-label', `Verso do baralho: ${cardType.label}`);
 
-        const headerPath = card.collectionOnly
-          ? '../../assets/illustrations/icons/collectible-item-header.png'
-          : card.headerPath === undefined ? cardType.headerPath : card.headerPath;
+        const headerPath = cardHeaderPath(card, cardType);
         if (headerPath) {
           const headerArt = document.createElement('img');
           headerArt.className = 'card-back__art';
@@ -371,8 +418,9 @@
         return article;
       }
 
-      function createPlayerCharacterCard(code, card) {
-        const cardType = card.type;
+      function createPlayerCharacterCard(code, sourceCard) {
+        const card = localizeCard(code, sourceCard);
+        const cardType = localizeCardType(card.type);
         const artist = card.artist || CARD_CREDITS.artist;
         const creditDate = card.date || CARD_CREDITS.date;
         const article = document.createElement('article');

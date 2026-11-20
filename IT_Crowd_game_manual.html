@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="en-US">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>THE IT CROWD — Manual do Jogo</title>
+    <title data-i18n="document.title">THE IT CROWD — Game Manual</title>
     <style>
       @page {
         size: A4;
@@ -122,6 +122,36 @@
           linear-gradient(145deg, #eee4c5, #d9c792);
         box-shadow: var(--shadow);
         overflow: hidden;
+      }
+
+      .manual-locale-host {
+        position: absolute;
+        z-index: 2;
+        top: 7mm;
+        right: 8mm;
+      }
+
+      .manual-locale-host .locale-switcher {
+        display: inline-flex;
+        align-items: center;
+        gap: 1.5mm;
+        padding: 1.5mm 2mm;
+        border: 1px solid rgba(35, 51, 43, 0.3);
+        border-radius: 2mm;
+        background: rgba(255, 250, 231, 0.78);
+        color: var(--green);
+        font-size: 8pt;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .manual-locale-host .locale-switcher select {
+        padding: 0.8mm 1mm;
+        border: 1px solid rgba(35, 51, 43, 0.45);
+        border-radius: 1mm;
+        background: #fffaf0;
+        color: var(--green);
+        font: inherit;
       }
 
       .cover::after {
@@ -1164,6 +1194,33 @@
         line-height: 1;
       }
 
+      .difficulty-levels {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3mm;
+        margin: 5mm 0 6mm;
+        break-inside: avoid;
+      }
+
+      .difficulty-level {
+        min-height: 25mm;
+        padding: 3mm;
+        border: 1px solid #d6c99f;
+        border-radius: 3mm;
+        background: #fff9e8;
+        color: var(--green);
+        box-shadow: 0 2px 6px rgba(35, 51, 43, 0.12);
+        font-size: 8.5pt;
+      }
+
+      .difficulty-level .difficulty-symbol {
+        margin-right: 1mm;
+      }
+
+      .difficulty-level strong {
+        font-size: 10pt;
+      }
+
       .checklist {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1180,6 +1237,28 @@
         font-size: 14pt;
         font-weight: 900;
         vertical-align: -1px;
+      }
+
+      .token-legend {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 2mm;
+        margin-top: 3mm;
+        break-inside: avoid;
+        font-size: 7.5pt;
+      }
+
+      .token-legend div {
+        padding: 1.5mm 2mm;
+        border: 1px solid #d6c99f;
+        border-radius: 2mm;
+        background: #fff9e8;
+        color: var(--green);
+      }
+
+      .token-legend strong {
+        margin-right: 1mm;
+        font-size: 10pt;
       }
 
       .tip {
@@ -1317,6 +1396,10 @@
           box-shadow: none;
         }
 
+        .manual-locale-host {
+          display: none;
+        }
+
         img {
           print-color-adjust: exact;
           -webkit-print-color-adjust: exact;
@@ -1368,634 +1451,646 @@
   </head>
   <body>
     <section class="cover">
+      <div class="manual-locale-host" data-locale-switcher-host></div>
       <div>
-        <div class="eyebrow">The IT Crowd · Manual do jogo</div>
-        <h1>Manual do Jogo</h1>
-        <div class="cover-subtitle">Como ser um bom técnico de TI na Reynholm Industries</div>
+        <div class="eyebrow" data-i18n="cover.eyebrow">The IT Crowd · Game Manual</div>
+        <h1 data-i18n="cover.title">Game Manual</h1>
+        <div class="cover-subtitle" data-i18n="cover.subtitle">How to be a good IT technician at Reynholm Industries</div>
         <div class="cover-rule"></div>
-        <p class="cover-note"><strong>Não deixe o Stress subir demais!</strong> Se isso acontecer, a equipe de TI será demitida e o porão ganhará um uso mais útil: um banheiro bem grande.</p>
+        <p class="cover-note" data-i18n="cover.note"><strong>Do not let Stress get too high!</strong> If that happens, the IT team will be fired and the basement will get a more useful purpose: a big toilet.</p>
       </div>
       <div class="cover-footer">
-        <span>Regras, setup e consulta</span>
-        <span>Reynholm Industries · TI</span>
+        <span data-i18n="cover.footer.rules">Rules, setup and reference</span>
+        <span data-i18n="cover.footer.company">Reynholm Industries · IT</span>
       </div>
     </section>
 
     <main>
       <section class="page">
-        <div class="section-kicker">Comece pela mesa</div>
-        <h2>1. Identifique o jogo base</h2>
+        <div class="section-kicker" data-i18n="setup.sectionKicker">Start at the desk</div>
+        <h2 data-i18n="setup.title">1. Identify the base game</h2>
         <figure class="board-figure">
-          <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Tabuleiro completo do Porão, com a sala de servidores escura à esquerda e o elevador marcado com B">
-          <figcaption>O tabuleiro do Porão é o cenário padrão. Missões podem reservar salas ou posições específicas quando necessário.</figcaption>
+          <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Complete Basement board, with the dark server room on the left and the elevator marked B" data-i18n-alt="setup.boardAlt">
+          <figcaption data-i18n="setup.boardCaption">The Basement board is the standard setting. Missions may reserve rooms or specific positions when needed.</figcaption>
         </figure>
-        <p class="intro">Abra uma mesa grande e coloque o tabuleiro do Porão no centro. Deixe espaço abaixo para a fila de iniciativa e para as cartelas dos personagens.</p>
+        <p class="intro" data-i18n="setup.intro">Clear a large table and place the Basement board in the center. Leave room below it for the initiative queue and character sheets.</p>
         <ol class="steps">
-          <li><strong>Use o tabuleiro com o elevador marcado com B.</strong> Esse é o cenário do jogo base.</li>
-          <li><strong>Deixe a régua The Boss Stress à esquerda</strong> e coloque a seta no <strong>0</strong>.</li>
-          <li><strong>Confira o marcador 📍B.</strong> Ele aparece no canto superior direito das cartas e identifica os componentes do jogo base.</li>
-          <li><strong>Escolha qualquer mesa com cadeira.</strong> Isso inclui a sala do gerente à direita; uma missão pode reservar ou limitar esse espaço quando necessário.</li>
+          <li data-i18n="setup.step1"><strong>Use the board with the elevator marked B.</strong> This is the base game's setting.</li>
+          <li data-i18n="setup.step2"><strong>Place The Boss Stress ruler on the left</strong> and put the arrow on <strong>0</strong>.</li>
+          <li data-i18n="setup.step3"><strong>Check the 📍B marker.</strong> It appears in the upper-right corner of cards and identifies base-game components.</li>
+          <li data-i18n="setup.step4"><strong>Choose any desk with a chair.</strong> This includes the manager's office on the right; a mission may reserve or restrict that space when needed.</li>
         </ol>
-        <div class="callout clear"><strong>Regra de ouro:</strong> se uma missão trouxer uma preparação própria, a instrução da missão tem prioridade sobre este setup.</div>
-        <h2>2. Escolha os personagens</h2>
-        <p>Escolham de 1 a 4 personagens jogáveis. Cada jogador escolhe qualquer escritório com cadeira no mapa.</p>
+        <div class="callout clear" data-i18n="setup.goldenRule"><strong>Golden rule:</strong> if a mission includes its own setup, the mission instruction takes priority over this setup.</div>
+        <h2 data-i18n="characters.title">2. Choose the characters</h2>
+        <p data-i18n="characters.intro">Choose 1 to 4 playable characters. Each player chooses any office with a chair on the map.</p>
         <div class="character-row">
-          <div class="character"><img src="assets/pawns/roy-face.png" alt="Peão de Roy"><strong>Roy</strong><small>🧠3 · 🙂2 · 👣 = 3 + 2🎲</small></div>
-          <div class="character"><img src="assets/pawns/moss-face.png" alt="Peão de Moss"><strong>Moss</strong><small>🧠4 · 🙂0 · 👣 = 4 + 1🎲</small></div>
-          <div class="character"><img src="assets/pawns/jen-face.png" alt="Peão de Jen"><strong>Jen</strong><small>🧠0 · 🙂3 · 👣 = 3 + 1🎲</small></div>
-          <div class="character"><img src="assets/pawns/richmond-face.png" alt="Peão de Richmond"><strong>Richmond</strong><small>🧠2 · 🙂1 · 👣 = 4 + 2🎲</small></div>
+          <div class="character"><img src="assets/pawns/roy-face.png" alt="Roy pawn" data-i18n-alt="characters.royAlt"><strong>Roy</strong><small>🧠3 · 🙂2 · 👣 = 4 + 2🎲</small></div>
+          <div class="character"><img src="assets/pawns/moss-face.png" alt="Moss pawn" data-i18n-alt="characters.mossAlt"><strong>Moss</strong><small>🧠4 · 🙂0 · 👣 = 5 + 1🎲</small></div>
+          <div class="character"><img src="assets/pawns/jen-face.png" alt="Jen pawn" data-i18n-alt="characters.jenAlt"><strong>Jen</strong><small>🧠0 · 🙂3 · 👣 = 4 + 1🎲</small></div>
+          <div class="character"><img src="assets/pawns/richmond-face.png" alt="Richmond pawn" data-i18n-alt="characters.richmondAlt"><strong>Richmond</strong><small>🧠2 · 🙂1 · 👣 = 5 + 2🎲</small></div>
         </div>
         <ol class="steps">
-          <li><strong>Coloque a cartela e a ficha</strong> de cada personagem na área dos jogadores.</li>
-          <li><strong>Coloque o peão na cadeira escolhida como escritório.</strong> Essa escolha define apenas a posição inicial do personagem; ela não limita o computador ou telefone que ele pode usar.</li>
-          <li><strong>Coloque um tile de computador funcional</strong> no escritório escolhido. O computador escolhido serve apenas para marcar a posição inicial; qualquer personagem pode usar qualquer computador.</li>
-          <li><strong>Separe um telefone por personagem jogável.</strong> Telefones livres ficam fora do cenário; coloque um tile de telefone na mesa somente quando o ramal estiver tocando ou em atendimento.</li>
+          <li data-i18n="characters.step1"><strong>Place each character sheet and pawn</strong> in the players' area.</li>
+          <li data-i18n="characters.step2"><strong>Place the pawn on the chair chosen as its office.</strong> This only defines the character's starting position; it does not restrict which computer or phone they can use.</li>
+          <li data-i18n="characters.step3"><strong>Place a functional computer tile</strong> in the chosen office. It only marks the starting position; any character may use any computer.</li>
+          <li data-i18n="characters.step4"><strong>Set aside one phone per playable character.</strong> Free phones stay off the board; place a phone tile on a desk only when the line is ringing or in use.</li>
         </ol>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Peças na mesa</div>
-        <h2>Exemplo de posicionamento padrão</h2>
+        <div class="section-kicker" data-i18n="table.sectionKicker">Tabletop pieces</div>
+        <h2 data-i18n="table.exampleTitle">Standard setup example</h2>
         <figure class="setup-standard">
-          <img src="assets/guides/setup-standard-base.png" alt="Print do playtest mostrando um exemplo de posicionamento padrão do jogo base">
-          <figcaption>Exemplo de posicionamento padrão no playtest: o tabuleiro fica no centro, os itens disponíveis ficam agrupados ao lado e as cartelas permanecem abaixo. As cadeiras continuam sendo escolhidas pelos jogadores; o print serve como referência visual da organização física da mesa.</figcaption>
+          <img src="assets/guides/setup-standard-base.png" alt="Playtest screenshot showing a standard setup example for the base game" data-i18n-alt="table.exampleAlt">
+          <figcaption data-i18n="table.exampleCaption">Standard playtest setup: the board is in the center, available items are grouped beside it, and character sheets stay below. Players still choose their own chairs; the screenshot is only a visual reference for organizing the table.</figcaption>
         </figure>
-        <h2>3. Prepare o cenário</h2>
-        <p class="intro">Use o lado funcional dos tiles. Os marcadores que não forem usados imediatamente ficam separados ao alcance de todos.</p>
+        <h2 data-i18n="table.setupTitle">3. Set up the scenario</h2>
+        <p class="intro" data-i18n="table.setupIntro">Use the functional side of the tiles. Keep markers that are not immediately needed in a shared supply within everyone's reach.</p>
         <div class="mini-grid">
-          <div class="mini-card"><span class="icon">🖥️</span><strong>Computadores</strong>Coloque 1 computador funcional no escritório de cada personagem.</div>
-          <div class="mini-card"><span class="icon">🗄️</span><strong>Servidor</strong>Coloque o servidor no lado funcional na sala de servidores.</div>
-          <div class="mini-card"><span class="icon">🧰</span><strong>Armário</strong>Coloque o tile do armário disponível na faixa inferior do mapa.</div>
-          <div class="mini-card"><span class="icon">☕</span><strong>Cozinha</strong>Empilhe as cartas de consumíveis viradas para cima perto da cozinha.</div>
-          <div class="mini-card"><span class="icon">🫩 🔋 💬</span><strong>Marcadores</strong>Deixe Cansaço, Ânimo e Distração em uma reserva comum.</div>
-          <div class="mini-card"><span class="icon">🔥</span><strong>Fogo e monitores</strong>Deixe fichas de fogo e monitores quebrados separados; missões podem colocá-los no cenário.</div>
+          <div class="mini-card"><span class="icon">🖥️</span><strong data-i18n="table.computersTitle">Computers</strong><span data-i18n="table.computersText">Place 1 functional computer in each character's office.</span></div>
+          <div class="mini-card"><span class="icon">🗄️</span><strong data-i18n="table.serverTitle">Server</strong><span data-i18n="table.serverText">Place the server on its functional side in the server room.</span></div>
+          <div class="mini-card"><span class="icon">🧰</span><strong data-i18n="table.cabinetTitle">Supply cabinet</strong><span data-i18n="table.cabinetText">Place the available cabinet tile along the bottom edge of the map.</span></div>
+          <div class="mini-card"><span class="icon">☕</span><strong data-i18n="table.kitchenTitle">Kitchen</strong><span data-i18n="table.kitchenText">Stack the consumable cards face up near the kitchen.</span></div>
+          <div class="mini-card"><span class="icon">🫩 🔋 💬</span><strong data-i18n="table.markersTitle">Markers</strong><span data-i18n="table.markersText">Keep Fatigue, Morale and Distraction in a common supply.</span></div>
+          <div class="mini-card"><span class="icon">🔥</span><strong data-i18n="table.fireTitle">Fire and monitors</strong><span data-i18n="table.fireText">Keep fire tokens and broken monitors separate; missions may place them on the board.</span></div>
         </div>
 
-        <div class="callout"><strong>Telefones:</strong> use exatamente 1 ramal por personagem jogável para limitar a pressão. O tile de um telefone livre não fica sobre a mesa.</div>
+        <div class="callout" data-i18n="table.phonesCallout"><strong>Phones:</strong> use exactly 1 phone line per playable character to limit the pressure. A free-phone tile does not stay on the table.</div>
 
-        <h3>O que fica fora do cenário no início</h3>
-        <p>Tiles de telefone livres, bombeiros e personagens especiais não entram no mapa por padrão. Chamados e Usuários são representados pelas cartas <strong>☎️ + 👤</strong>; personagens especiais só entram quando uma missão ou carta mandar.</p>
+        <h3 data-i18n="table.offBoardTitle">What stays off the board at the start</h3>
+        <p data-i18n="table.offBoardText">Free-phone tiles, firefighters and special characters do not enter the map by default. Tickets and Users are represented by the <strong>☎️ + 👤</strong> cards; special characters enter only when a mission or card instructs you to place them.</p>
 
-        <h2>4. Monte os baralhos</h2>
-        <p>Confira o marcador <strong>📍B</strong> e prepare os baralhos do jogo base:</p>
+        <h2 data-i18n="decks.title">4. Build the decks</h2>
+        <p data-i18n="decks.intro">Check the <strong>📍B</strong> marker and prepare the base-game decks:</p>
         <div class="deck-row">
-          <div class="deck" style="--deck-bg:#164c2c;--deck-color:#26834b"><strong>Chamados<small>embaralhe</small></strong></div>
-          <div class="deck" style="--deck-bg:#12518a;--deck-color:#277eb9"><strong>Usuários<small>embaralhe</small></strong></div>
-          <div class="deck" style="--deck-bg:#542477;--deck-color:#8651a8"><strong>Eventos<small>embaralhe</small></strong></div>
-          <div class="deck" style="--deck-bg:#8e241f;--deck-color:#c44738"><strong>Missões<small>mantenha a ordem</small></strong></div>
-          <div class="deck" style="--deck-bg:#b37c16;--deck-color:#e7bb43"><strong>🏆 Colecionáveis<small>embaralhe</small></strong></div>
+          <div class="deck" style="--deck-bg:#164c2c;--deck-color:#26834b"><strong data-i18n="decks.tickets">Tickets<small data-i18n="decks.shuffle">shuffle</small></strong></div>
+          <div class="deck" style="--deck-bg:#12518a;--deck-color:#277eb9"><strong data-i18n="decks.users">Users<small data-i18n="decks.shuffle">shuffle</small></strong></div>
+          <div class="deck" style="--deck-bg:#542477;--deck-color:#8651a8"><strong data-i18n="decks.events">Events<small data-i18n="decks.shuffle">shuffle</small></strong></div>
+          <div class="deck" style="--deck-bg:#8e241f;--deck-color:#c44738"><strong data-i18n="decks.missions">Missions<small data-i18n="decks.keepOrder">keep order</small></strong></div>
+          <div class="deck" style="--deck-bg:#b37c16;--deck-color:#e7bb43"><strong data-i18n="decks.collectibles">🏆 Collectibles<small data-i18n="decks.shuffle">shuffle</small></strong></div>
         </div>
         <ol class="steps">
-          <li><strong>Chamados, Usuários e Eventos:</strong> embaralhe cada baralho separadamente.</li>
-          <li><strong>Missões:</strong> Caso escolha uma missão com vários atos mantenha as cartas em ordem numérica e deixe a primeira missão no topo.</li>
-          <li><strong>Colecionáveis 🏆:</strong> embaralhe e deixe virado para baixo, fora do alcance de compra normal.</li>
-          <li><strong>Cartas de referência:</strong> deixe Rotina, Ações e Ânimo abertas para consulta.</li>
+          <li data-i18n="decks.step1"><strong>Tickets, Users and Events:</strong> shuffle each deck separately.</li>
+          <li data-i18n="decks.step2"><strong>Missions:</strong> if you choose a mission with multiple acts, keep the cards in numerical order with the first mission on top.</li>
+          <li data-i18n="decks.step3"><strong>Collectibles 🏆:</strong> shuffle them and leave them face down, outside the normal draw area.</li>
+          <li data-i18n="decks.step4"><strong>Reference cards:</strong> leave Routine, Actions, Morale and Reminders face up for reference.</li>
         </ol>
+        <div class="callout" data-i18n="decks.exhausted"><strong>Empty deck:</strong> whenever a draw deck runs out, gather that deck's discarded cards, shuffle them and form a new pile. Do not shuffle the Missions deck; it stays in the chosen order.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">A fila decide a rodada</div>
-        <h2>5. Monte a fila de iniciativa</h2>
-        <p class="intro">A fila é lida da esquerda para a direita. Ela organiza quando a Rotina, os Eventos, os personagens e a Missão serão ativados.</p>
-        <figure class="queue-example" aria-label="Exemplo real da fila inicial de iniciativa">
+        <div class="section-kicker" data-i18n="queue.sectionKicker">The queue decides the round</div>
+        <h2 data-i18n="queue.title">5. Build the initiative queue</h2>
+        <p class="intro" data-i18n="queue.intro">Read the queue from left to right. It organizes when the Routine, Events, characters and Mission will be activated.</p>
+        <figure class="queue-example" aria-label="Real example of the initial initiative queue" data-i18n-aria="queue.ariaLabel">
           <figure class="queue-example__card">
-            <img src="exported-images/cards/full/low/a1.png" alt="Carta de Rotina Porão em baixa resolução">
-            <figcaption>Rotina</figcaption>
+            <img src="exported-images/cards/full/low/a1.png" alt="Basement Routine card in low resolution" data-i18n-alt="queue.routineAlt">
+            <figcaption data-i18n="queue.routine">Routine</figcaption>
           </figure>
           <span class="queue-example__arrow">→</span>
           <figure class="queue-example__card">
-            <img src="exported-images/cards/full/low/e1.png" alt="Carta de evento genérico em baixa resolução">
-            <figcaption>Eventos</figcaption>
+        <img src="exported-images/cards/full/low/e1.png" alt="Event card in low resolution" data-i18n-alt="queue.eventsAlt">
+            <figcaption data-i18n="queue.events">Events</figcaption>
           </figure>
           <span class="queue-example__arrow">→</span>
           <figure class="queue-example__card queue-example__card--current">
-            <img src="exported-images/cards/full/low/b1.png" alt="Carta de iniciativa de Roy Trenneman em baixa resolução">
-            <figcaption>Roy</figcaption>
+            <img src="exported-images/cards/full/low/b1.png" alt="Roy Trenneman initiative card in low resolution" data-i18n-alt="queue.royAlt">
+            <figcaption data-i18n="queue.roy">Roy</figcaption>
           </figure>
           <span class="queue-example__arrow">→</span>
           <figure class="queue-example__card">
-            <img src="exported-images/cards/full/low/b2.png" alt="Carta de iniciativa de Maurice Moss em baixa resolução">
-            <figcaption>Moss</figcaption>
+            <img src="exported-images/cards/full/low/b2.png" alt="Maurice Moss initiative card in low resolution" data-i18n-alt="queue.mossAlt">
+            <figcaption data-i18n="queue.moss">Moss</figcaption>
           </figure>
           <span class="queue-example__arrow">→</span>
           <figure class="queue-example__card">
-            <img src="exported-images/cards/full/low/f1.png" alt="Carta da missão Yesterday's Jam, ato 1, em baixa resolução">
-            <figcaption>Yesterday’s Jam · Ato 1</figcaption>
+            <img src="exported-images/cards/full/low/f1.png" alt="Yesterday's Jam mission card, act 1, in low resolution" data-i18n-alt="queue.missionAlt">
+            <figcaption data-i18n="queue.mission">Yesterday’s Jam · Act 1</figcaption>
           </figure>
         </figure>
-        <p class="queue-star-note"><strong>⭐ A estrela fica sobre a carta atual.</strong> Ela lembra qual carta está sendo resolvida no momento. Depois de concluir a ativação, avance a estrela para a próxima carta da fila.</p>
-        <p class="caption-note">O espaço de Eventos representa o baralho; a carta visível é apenas uma referência visual.</p>
+        <p class="queue-star-note" data-i18n="queue.starNote"><strong>⭐ The star sits above the current card.</strong> It reminds you which card is being resolved. After completing the activation, move the star to the next card in the queue.</p>
+        <p class="caption-note" data-i18n="queue.caption">The Events space represents the deck; the visible card is only a visual reference.</p>
         <ol class="steps">
-          <li><strong>Coloque a carta Rotina no início.</strong> A estrela começa sobre ela.</li>
-          <li><strong>Coloque o baralho de Eventos</strong> logo depois da Rotina.</li>
-          <li><strong>Coloque as cartas de iniciativa</strong> dos personagens escolhidos na ordem combinada pelos jogadores.</li>
-          <li><strong>Coloque o baralho de Missões por último.</strong> A primeira missão será revelada conforme a regra da partida.</li>
-          <li><strong>Deixe espaço à direita</strong> para cartas que entrarem na fila durante o jogo.</li>
+          <li data-i18n="queue.step1"><strong>Place the Routine card first.</strong> The star starts above it.</li>
+          <li data-i18n="queue.step2"><strong>Place the Events deck</strong> immediately after the Routine.</li>
+          <li data-i18n="queue.step3"><strong>Place the initiative cards</strong> for the chosen characters in the order agreed by the players.</li>
+          <li data-i18n="queue.step4"><strong>Place the Missions deck last.</strong> The first mission is revealed according to the game rules.</li>
+          <li data-i18n="queue.step5"><strong>Leave room on the right</strong> for cards that enter the queue during the game.</li>
         </ol>
 
-        <div class="callout clear"><strong>Fim da fila:</strong> quando a ⭐ chegar à última carta, avance-a novamente para a primeira carta da fila. A Rotina volta a ser resolvida no início da nova rodada.</div>
+        <div class="callout clear" data-i18n="queue.endCallout"><strong>End of the queue:</strong> when the ⭐ reaches the last card, move it back to the first card in the queue. The Routine is resolved again at the start of the new round.</div>
 
-        <div class="tip"><strong>Preparação inicial:</strong> a primeira ativação serve para os jogadores se organizarem. Antes de começar a resolver a pressão, confira se todos sabem qual é seu escritório, onde estão os computadores e onde ficam as cartas de referência.</div>
+        <div class="tip" data-i18n="queue.initialTip"><strong>Initial setup:</strong> the first activation gives players time to organize. Before resolving the pressure, make sure everyone knows their office, where the computers are and where the reference cards are kept.</div>
 
-        <h2>6. Checklist antes de começar</h2>
+        <h2 data-i18n="checklist.title">6. Pre-game checklist</h2>
         <ul class="checklist">
-          <li>Tabuleiro do Porão montado</li>
-          <li>Régua em ⚠️ 0</li>
-          <li>1 escritório escolhido por jogador</li>
-          <li>Computadores funcionais posicionados</li>
-          <li>Telefones excedentes fora do cenário</li>
-          <li>Chamados, Usuários e Eventos embaralhados</li>
-          <li>Missões em ordem</li>
-          <li>Rotina, Ações e Ânimo disponíveis</li>
-          <li>Dados separados</li>
-          <li>Tokens ao alcance dos jogadores</li>
+          <li data-i18n="checklist.item1">Basement board assembled</li>
+          <li data-i18n="checklist.item2">Ruler at ⚠️ 0</li>
+          <li data-i18n="checklist.item3">1 office chosen per player</li>
+          <li data-i18n="checklist.item4">Functional computers placed</li>
+          <li data-i18n="checklist.item5">Extra phones off the board</li>
+          <li data-i18n="checklist.item6">Tickets, Users and Events shuffled</li>
+          <li data-i18n="checklist.item7">Missions in order</li>
+          <li data-i18n="checklist.item8">Routine, Actions, Morale and Reminders available</li>
+          <li data-i18n="checklist.item9">Dice separated</li>
+          <li data-i18n="checklist.item10">Tokens within reach</li>
         </ul>
 
-        <p class="footer-note">Agora a mesa está pronta e a primeira Rotina foi resolvida. Continue a rodada avançando a estrela pela fila e consulte as seções correspondentes deste manual quando surgir uma exceção.</p>
+        <p class="footer-note" data-i18n="checklist.footer">The table is ready and the first Routine has been resolved. Continue the round by moving the star through the queue, and consult the relevant sections of this manual when an exception appears.</p>
       </section>
 
       <section class="page">
-        <div class="section-kicker">A primeira ativação</div>
-        <h2>7. Resolva a Rotina</h2>
-        <p class="reference-note"><strong>Consulta rápida:</strong> veja a <a href="#consulta-rapida">tabela dos símbolos principais</a> na última página deste manual.</p>
+        <div class="section-kicker" data-i18n="routine.sectionKicker">The first activation</div>
+        <h2 data-i18n="routine.title">7. Resolve the Routine</h2>
+        <p class="reference-note" data-i18n="routine.reference"><strong>Quick reference:</strong> see the <a href="#consulta-rapida">main symbols table</a> on the last page of this manual.</p>
         <figure class="routine-card-figure">
-          <img src="exported-images/cards/full/high/a1.png" alt="Carta real de Rotina do Porão em baixa resolução">
-          <figcaption>A carta Rotina é resolvida no início de cada rodada, antes de a estrela avançar.</figcaption>
+          <img src="exported-images/cards/full/high/a1.png" alt="Basement Routine card in low resolution" data-i18n-alt="routine.cardAlt">
+          <figcaption data-i18n="routine.cardCaption">The Routine card is resolved at the start of each round, before the star advances.</figcaption>
         </figure>
-        <p class="intro">Quando a ⭐ chegar ao espaço de Eventos, se ainda não houver um evento exposto, revele a carta do topo. Em seguida, leia os símbolos da carta e execute o efeito indicado.</p>
+        <p class="intro" data-i18n="routine.intro">When the ⭐ reaches the Events space, reveal the top card if no event is currently exposed. Then read the card's symbols and perform the indicated effect.</p>
         <ol class="routine-steps">
-          <li><strong>☎️⚡ Telefones tocando</strong>Role 🔺 para cada telefone tocando: 1–6 não faz nada; 7–8 aumenta ⚠️ e mantém o telefone tocando; 9–10 aumenta ⚠️ e coloca o conjunto ☎️ + 👤 no fim da fila.</li>
-          <li><strong>📞 Atendimentos em andamento</strong>Para cada combinação ☎️ + 👤 que ainda estiver na mão de um jogador, resolva a linha 📞 da carta de Usuário.</li>
-          <li><strong>📞📞 Todos os telefones ocupados</strong>Faça 🎲 ✅. Com sucesso, aumente ⚠️ em 1.</li>
-          <li><strong>⚠️ Pressão acumulada</strong>Se ⚠️ for igual ou menor que a quantidade de personagens jogáveis, coloque mais um ☎️⚡.</li>
-          <li><strong>🗄️🦠 Servidor infectado</strong>Se o servidor estiver infectado, role 🔺: 6–8 aumenta ⚠️, 9–10 aumenta ⚠️ e espalha o vírus para um 🖥️ a escolha dos jogadores.</li>
-          <li><strong>🔥 Incêndios</strong>Para cada fogo, faça 🎲 ✅ e aplique a regra de alastramento explicada na subseção abaixo.</li>
+          <li data-i18n="routine.step1"><strong>☎️⚡ Ringing phones</strong> Roll 🔺 for each ringing phone: 1–6 has no effect; 7–8 increases ⚠️ and leaves the phone ringing; 9–10 increases ⚠️ and places the ☎️ + 👤 set at the end of the queue.</li>
+          <li data-i18n="routine.step2"><strong>📞 Active calls</strong> For each ☎️ + 👤 set still in a player's hand, resolve the 📞 line on the User card.</li>
+          <li data-i18n="routine.step3"><strong>⚠️ Accumulated pressure</strong> If ⚠️ is equal to or lower than the number of playable characters, add another ☎️⚡.</li>
+          <li data-i18n="routine.step4"><strong>🗄️🦠 Infected server</strong> If the server is infected, roll 🔺: 6–8 increases ⚠️; 9–10 increases ⚠️ and spreads the virus to a 🖥️ chosen by the players.</li>
+          <li data-i18n="routine.step5"><strong>🔥 Fires</strong> For each fire, roll 🎲 ✅ and apply the spread rule explained in the subsection below.</li>
         </ol>
         <div class="routine-fire-copy clear">
           <figure class="routine-fire-card">
-            <img src="exported-images/cards/full/low/b5.png" alt="Carta de iniciativa do Bombeiro em baixa resolução">
-            <figcaption>Carta de iniciativa do Bombeiro.</figcaption>
+            <img src="exported-images/cards/full/low/b5.png" alt="Firefighter initiative card in low resolution" data-i18n-alt="routine.firefighterAlt">
+            <figcaption data-i18n="routine.firefighterCaption">Firefighter initiative card.</figcaption>
           </figure>
-          <h3>Regras de fogo e bombeiros</h3>
-          <p>Depois de resolver os demais efeitos da Rotina, faça a etapa do fogo. Para cada ficha de <strong>🔥</strong>, role <strong>🎲 ✅</strong>. Se obtiver sucesso, o fogo se espalha:</p>
+          <h3 data-i18n="routine.fireTitle">Fire and firefighter rules</h3>
+          <p data-i18n="routine.fireIntro">After resolving the other Routine effects, resolve the fire step. For each <strong>🔥</strong> token, roll <strong>🎲 ✅</strong>. On a success, the fire spreads:</p>
           <ul>
-            <li>Fogo baixo vira fogo alto.</li>
-            <li>Fogo alto cria 1 fogo baixo em um tile adjacente livre e atravessável.</li>
-            <li>Se não houver um tile válido, nenhum fogo novo é colocado.</li>
+            <li data-i18n="routine.fireRule1">Low fire becomes high fire.</li>
+            <li data-i18n="routine.fireRule2">High fire creates 1 low fire on a free, traversable adjacent tile.</li>
+            <li data-i18n="routine.fireRule3">If there is no valid tile, no new fire is placed.</li>
           </ul>
-          <p>O fogo não bloqueia a passagem, mas atravessá-lo causa <strong>+🫩</strong>. Ninguém pode terminar o movimento ou a ativação sobre fogo. O Bombeiro atravessa fogo sem penalidade, mas também não pode terminar sobre ele.</p>
-          <p>Quando um Bombeiro apagar um fogo coberto por um monitor quebrado, remova primeiro o monitor para revelar a ficha. Apagar significa remover a ficha, seja ela fogo baixo ou alto.</p>
-          <p><strong>Como chamar os Bombeiros:</strong> o custo e o teste para chamar os Bombeiros estão explicados na carta de Ações, na seção “Consulte a carta de Ações”.</p>
+          <p data-i18n="routine.fireRule4">Fire does not block movement, but crossing it causes <strong>+🫩</strong>. No one may end movement or an activation on fire. A Firefighter crosses fire without penalty, but also cannot end movement on it.</p>
+          <p data-i18n="routine.fireRule5">When a Firefighter extinguishes fire covered by a broken monitor, remove the monitor first to reveal the token. Extinguishing means removing the token, whether it is low or high fire.</p>
+          <p data-i18n="routine.callFirefighters"><strong>Calling the Firefighters:</strong> the cost and test for calling the Firefighters are explained on the Actions card, in the “Consult the Actions card” section.</p>
         </div>
-        <div class="tip"><strong>Terminou a Rotina?</strong> Avance a ⭐ uma posição para a direita. Resolva a carta que agora está sob a estrela e repita esse movimento ao final de cada ativação.</div>
+        <div class="tip" data-i18n="routine.tip"><strong>Routine complete?</strong> Move the ⭐ one position to the right. Resolve the card now under the star and repeat this movement after each activation.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Cartas que mudam a rodada</div>
-        <h2>8. Resolva um evento</h2>
+        <div class="section-kicker" data-i18n="event.sectionKicker">Cards that change the round</div>
+        <h2 data-i18n="event.title">8. Resolve an Event</h2>
         <figure class="board-figure">
-          <img src="exported-images/cards/full/high/e4.png" alt="Carta real de evento Solicitação Urgente da Diretoria em baixa resolução">
-          <figcaption>E4 — Solicitação Urgente da Diretoria.</figcaption>
+          <img src="exported-images/cards/full/high/e4.png" alt="Real Event card: Urgent Request from Management" data-i18n-alt="event.cardAlt">
+          <figcaption data-i18n="event.cardCaption">E4 — Urgent Request from Management.</figcaption>
         </figure>
-        <p class="intro">Quando a ⭐ chegar ao espaço de Eventos, revele a carta do topo se ainda não houver um evento exposto. Em seguida, leia os símbolos da carta e execute o efeito indicado.</p>
+        <p class="intro" data-i18n="event.intro">When ⭐ reaches the Events space, reveal the top card if no event is currently exposed. Then read the card's symbols and perform the indicated effect.</p>
         <ol class="steps">
-          <li><strong>Resolva o ⚡ primeiro.</strong> A carta do lado manda colocar a carta no fim da fila de iniciativa. Ela deixa de ser resolvida no espaço de Eventos e passa a ocupar uma posição própria na fila.</li>
-          <li><strong>Conclua os objetivos em ordem.</strong> Primeiro, um personagem gasta <strong>1⏱️</strong> e faz <strong>🖥️ 🧠 ✅✅</strong> para preparar o relatório. Só depois outro personagem pode gastar <strong>1⏱️</strong> e fazer <strong>🖥️ 🙂 ✅</strong> para enviá-lo.<br />(🖥️ 🧠 ✅✅ - em um computador não contaminado, role um teste de inteligencia e consiga 2 sucessos)</li>
-          <li><strong>Quando a ⭐ chegar à carta de evento ao lado, resolva o ⭐.</strong> Nesse exemplo, aumente <strong>⚠️</strong> (stress) em 1. A carta permanece na fila enquanto os objetivos ainda não tiverem sido concluídos.</li>
-          <li><strong>Procure o descarte.</strong> Quando o segundo objetivo for concluído, o <strong>🗑️</strong> manda retirar E4 da fila.</li>
+          <li data-i18n="event.step1"><strong>Resolve ⚡ first.</strong> On this card, it tells you to place the card at the end of the initiative queue. It is no longer resolved in the Events space and now occupies its own position in the queue.</li>
+          <li data-i18n="event.step2"><strong>Complete the objectives in order.</strong> First, a character spends <strong>1⏱️</strong> and makes <strong>🖥️ 🧠 ✅✅</strong> to prepare the report. Only then may another character spend <strong>1⏱️</strong> and make <strong>🖥️ 🙂 ✅</strong> to send it.<br />(🖥️ 🧠 ✅✅ — on a non-infected computer, roll an Intelligence test and get 2 successes.)</li>
+          <li data-i18n="event.step3"><strong>When ⭐ reaches the Event card, resolve ⭐.</strong> In this example, increase <strong>⚠️</strong> (Stress) by 1. The card remains in the queue while its objectives have not been completed.</li>
+          <li data-i18n="event.step4"><strong>Look for the discard instruction.</strong> When the second objective is completed, <strong>🗑️</strong> tells you to remove E4 from the queue.</li>
         </ol>
         <figure class="event-example-shot">
-          <img src="assets/guides/event-example-e4.png" alt="Exemplo da fila com o evento Solicitação Urgente da Diretoria no fim da iniciativa">
-          <figcaption>Depois do efeito imediato, o evento E4 aparece no fim da fila de iniciativa.</figcaption>
+          <img src="assets/guides/event-example-e4.png" alt="Example queue with Urgent Request from Management at the end of the initiative queue" data-i18n-alt="event.exampleAlt">
+          <figcaption data-i18n="event.exampleCaption">After the immediate effect, Event E4 appears at the end of the initiative queue.</figcaption>
         </figure>
-        <div class="reference-note"><strong>Dificuldade dos Eventos, Chamados, Usuários e Missões.</strong> O pequeno símbolo no canto superior esquerdo indica a dificuldade geral: <span class="difficulty-symbol difficulty-symbol--easy">🤓</span> Fácil; <span class="difficulty-symbol difficulty-symbol--medium">😐</span> Média; <span class="difficulty-symbol difficulty-symbol--hard">😖</span> Difícil. Nos Usuários, ele indica a dificuldade de administrar seus efeitos. Cartas que oferecem algum benefício também recebem um pequeno <span class="difficulty-plus">+</span> verde. As cartas de Missão usam os mesmos símbolos para indicar sua dificuldade geral.</div>
+        <div class="reference-note" data-i18n="event.difficulty"><strong>Difficulty for Events, Tickets and Missions.</strong> The small symbol in the upper-left corner indicates the general difficulty: <span class="difficulty-symbol difficulty-symbol--easy">🤓</span> Easy; <span class="difficulty-symbol difficulty-symbol--medium">😐</span> Medium; <span class="difficulty-symbol difficulty-symbol--hard">😖</span> Hard. Cards that offer any benefit also receive a small green <span class="difficulty-plus">+</span>. User cards do not use a difficulty rating.</div>
         <div class="event-persistent">
-          <img src="exported-images/cards/full/low/e16.png" alt="Carta real de evento Marketing Meio Ocupado em baixa resolução">
-          <p><strong>Outro exemplo: E16 — Marketing Meio Ocupado.</strong> Depois de resolvido o efeito <strong>⚡</strong>, a carta fica por cima do baralho de Eventos. Enquanto ela estiver exposta, não revele uma nova carta. A cada ativação <strong>⭐</strong>, role <strong>🔺</strong> (d10); com resultado <strong>1–5</strong>, descarte E16. Até isso acontecer, o evento continua sendo o evento ativo.</p>
+          <img src="exported-images/cards/full/low/e16.png" alt="Real Event card: Marketing Kind of Busy in low resolution" data-i18n-alt="event.persistentAlt">
+          <p data-i18n="event.persistent"><strong>Another example: E16 — Marketing Kind of Busy.</strong> After resolving the <strong>⚡</strong> effect, keep the card on top of the Events deck. While it is exposed, do not reveal a new card. At each <strong>⭐</strong> activation, roll <strong>🔺</strong> (d10); on <strong>1–5</strong>, discard E16. Until then, this remains the active Event.</p>
         </div>
-        <div class="tip"><strong>Regra prática:</strong> um evento só é revelado quando a estrela chega ao espaço de Eventos sem outra carta ativa ali. Não revele uma nova carta enquanto o evento atual continuar exposto. Quando o próprio evento entrar na fila, siga a ordem das linhas e dos objetivos impressos nele.</div>
+        <div class="tip" data-i18n="event.tip"><strong>Practical rule:</strong> reveal an Event only when the star reaches the Events space and no other card is active there. Do not reveal a new card while the current Event remains exposed. When the Event itself enters the queue, follow the order of the lines and objectives printed on it.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Agora é a vez da equipe</div>
-        <h2>9. Ative um personagem</h2>
-        <p class="intro">Quando a ⭐ chegar à carta de iniciativa de um personagem, resolva a ativação dele. A carta mostra os atributos, a quantidade de ações e a habilidade especial. A cartela guarda o estado físico e os itens daquele personagem.</p>
+        <div class="section-kicker" data-i18n="activation.sectionKicker">Now it is the team's turn</div>
+        <h2 data-i18n="activation.title">9. Activate a character</h2>
+        <p class="intro" data-i18n="activation.intro">When ⭐ reaches a character's initiative card, resolve that character's activation. The card shows the attributes, number of actions and special ability. The character sheet tracks that character's physical state and items.</p>
 
         <div class="character-triad">
           <figure>
-            <img src="exported-images/cards/full/low/pc2.png" alt="Cartela de personagem do Moss em baixa resolução">
-            <figcaption><strong>Cartela:</strong> guarda atributos, Cansaço, Ânimo, inventário e equipamentos.</figcaption>
+            <img src="exported-images/cards/full/low/pc2.png" alt="Moss character sheet in low resolution" data-i18n-alt="activation.sheetAlt">
+            <figcaption data-i18n="activation.sheetCaption"><strong>Character sheet:</strong> tracks attributes, Fatigue, Morale, inventory and equipment.</figcaption>
           </figure>
           <figure>
-            <img src="exported-images/cards/full/low/b2.png" alt="Carta de iniciativa do Moss em baixa resolução">
-            <figcaption><strong>Iniciativa:</strong> fica na fila e informa quando Moss ativa, além de mostrar seus atributos e habilidade.</figcaption>
+            <img src="exported-images/cards/full/low/b2.png" alt="Moss initiative card in low resolution" data-i18n-alt="activation.initiativeAlt">
+            <figcaption data-i18n="activation.initiativeCaption"><strong>Initiative:</strong> stays in the queue and shows when Moss activates, along with his attributes and ability.</figcaption>
           </figure>
           <figure class="character-triad__pawn">
-            <img src="assets/pawns/moss-face.png" alt="Peão do Moss">
-            <figcaption><strong>Peão:</strong> mostra onde o personagem está no tabuleiro.</figcaption>
+            <img src="assets/pawns/moss-face.png" alt="Moss pawn" data-i18n-alt="activation.pawnAlt">
+            <figcaption data-i18n="activation.pawnCaption"><strong>Pawn:</strong> shows where the character is on the board.</figcaption>
           </figure>
         </div>
 
         <div class="character-tableaux">
           <figure class="character-example">
-            <img src="assets/guides/character-tableau-empty.png" alt="Cartela vazia de Richmond">
-            <figcaption>Cartela vazia: os espaços ficam disponíveis para marcadores, inventário e equipamentos.</figcaption>
+            <img src="assets/guides/character-tableau-empty.png" alt="Empty Richmond character sheet" data-i18n-alt="activation.emptyTableauAlt">
+            <figcaption data-i18n="activation.emptyTableauCaption">Empty sheet: the spaces are available for markers, inventory and equipment.</figcaption>
           </figure>
           <figure class="character-example">
-            <img src="assets/guides/character-tableau-full.png" alt="Cartela de Moss com itens e cartas de chamado e usuário">
-            <figcaption>Cartela em uso: os itens ficam encaixados nos espaços correspondentes e as cartas de atendimento podem ficar próximas do personagem.</figcaption>
+            <img src="assets/guides/character-tableau-full.png" alt="Moss character sheet with items and Ticket and User cards" data-i18n-alt="activation.fullTableauAlt">
+            <figcaption data-i18n="activation.fullTableauCaption">Sheet in use: items fit into the corresponding spaces, and the call cards can stay near the character.</figcaption>
           </figure>
         </div>
 
         <ol class="steps">
-          <li><strong>Leia os atributos.</strong> <strong>🧠</strong> é Inteligência, <strong>🙂</strong> é Carisma e <strong>👣</strong> é o movimento por ação. A fórmula de 👣 combina um movimento base com os sucessos dos dados indicados.</li>
-          <li><strong>Confira as ações.</strong> A linha <strong>⭐ 3 ações</strong> significa que o personagem pode gastar até três ⏱️ na ativação, conforme os custos das cartas e das regras.</li>
-          <li><strong>Use os espaços de 🔋.</strong> Eles armazenam Ânimo e comportam até 5 marcadores. Os demais marcadores, como 🫩, ficam sobre a cartela conforme forem recebidos.</li>
-          <li><strong>Preencha o inventário.</strong> Os espaços acima da cartela são o inventário: cada personagem pode carregar até 3 itens; Richmond pode carregar até 4. Um item no inventário é apenas carregado e <strong>não produz seu efeito de equipamento</strong>.</li>
-          <li><strong>Equipe os itens.</strong> Os dois espaços nas laterais da cartela são os encaixes de equipamento. Equipar ou desequipar custa <strong>1⏱️</strong>. O efeito de um item equipado fica ativo; um item no inventário não produz o efeito de equipamento.</li>
+          <li data-i18n="activation.step1"><strong>Read the attributes.</strong> <strong>🧠</strong> is Intelligence, <strong>🙂</strong> is Charisma and <strong>👣</strong> is movement per action. The 👣 formula combines base movement with the successes from the indicated dice.</li>
+          <li data-i18n="activation.step2"><strong>Check the actions.</strong> The line <strong>⭐ 3 actions</strong> means the character may spend up to three ⏱️ during the activation, according to the costs on cards and in the rules.</li>
+          <li data-i18n="activation.step3"><strong>Use the 🔋 spaces.</strong> They store Morale and hold up to 5 markers. Other markers, such as 🫩, stay on the sheet as they are received.</li>
+          <li data-i18n="activation.step4"><strong>Fill the inventory.</strong> The spaces above the sheet are the inventory: each character can carry up to 3 items; Richmond can carry up to 4. An item in the inventory is only carried and <strong>does not produce its equipment effect</strong>.</li>
+          <li data-i18n="activation.step5"><strong>Equip items.</strong> The two spaces on the sides of the sheet are equipment slots. Equipping or unequipping costs <strong>1⏱️</strong>. An equipped item's effect is active; an item in the inventory does not produce its equipment effect.</li>
         </ol>
 
-        <h3>Habilidades dos personagens</h3>
+        <h3 data-i18n="activation.abilitiesTitle">Character abilities</h3>
         <table class="quick-reference">
           <thead>
             <tr>
-              <th>Personagem</th>
-              <th>Habilidade</th>
+              <th data-i18n="activation.tableCharacter">Character</th>
+              <th data-i18n="activation.tableAbility">Ability</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>Roy</td><td><strong>MOTIVADO:</strong> ao concluir um Chamado, recebe <strong>+🔋</strong>.</td></tr>
-            <tr><td>Moss</td><td><strong>HACKER:</strong> 1× por turno, estando adjacente a um equipamento, pode gastar <strong>⏱️</strong> para remover <strong>🦠</strong> sem rolar.</td></tr>
-            <tr><td>Richmond</td><td><strong>CONFORMADO:</strong> 1× por turno, remove <strong>1🫩</strong> de si sem custo.</td></tr>
-            <tr><td>Jen</td><td><strong>LIDERANÇA:</strong> Jen pode ceder <strong>🔋</strong> a outro personagem para usar em um Chamado que esteja na mão. Qualquer chamado que seja concluído, Jen recebe <strong>+🔋</strong>.</td></tr>
+            <tr><td>Roy</td><td data-i18n="activation.royAbility"><strong>MOTIVATED:</strong> when he completes a Ticket, he receives <strong>+🔋</strong>.</td></tr>
+            <tr><td>Moss</td><td data-i18n="activation.mossAbility"><strong>HACKER:</strong> once per turn, while adjacent to equipment, he may spend <strong>⏱️</strong> to remove <strong>🦠</strong> without rolling.</td></tr>
+            <tr><td>Richmond</td><td data-i18n="activation.richmondAbility"><strong>RESIGNED:</strong> once per turn, remove <strong>1🫩</strong> from himself for free.</td></tr>
+            <tr><td>Jen</td><td data-i18n="activation.jenAbility"><strong>LEADERSHIP:</strong> Jen may give <strong>🔋</strong> to another character to use on a Ticket in hand. Whenever a Ticket is completed, Jen receives <strong>+🔋</strong>.</td></tr>
           </tbody>
         </table>
 
-        <h3>Como resolver checks e testes</h3>
-        <p>O símbolo do atributo indica qual conjunto de dados usar. Por exemplo, <strong>🧠 ✅✅</strong> pede um teste de Inteligência com dois sucessos; um personagem com <strong>🧠3</strong> rola 3 dados. Um atributo em <strong>0</strong> não gera dados e não pode produzir sucessos, salvo exceção escrita na carta ou efeito de equipamento.</p>
-        <p class="reference-note"><strong>🎲 d6 customizado:</strong> 1 = <strong>❌🔒</strong> · 2–4 = <strong>❌</strong> · 5 = <strong>✅</strong> · 6 = <strong>✅🔒</strong>. O cadeado bloqueia o resultado, seja falha ou sucesso.</p>
-        <p class="reference-note"><strong>Teste combinado:</strong> <strong>🧠 + 🙂 = ✅✅</strong> significa somar os dados de Inteligência e Carisma e contar 2 sucessos no total. <strong>Testes separados:</strong> <strong>🧠✅, 🙂✅</strong> significa conseguir 1 sucesso em cada atributo; um sucesso de 🧠 não substitui o sucesso exigido de 🙂.</p>
+        <h3 data-i18n="activation.checksTitle">How to resolve checks and tests</h3>
+        <p data-i18n="activation.checksIntro">The attribute symbol indicates which dice pool to use. For example, <strong>🧠 ✅✅</strong> asks for an Intelligence test with two successes; a character with <strong>🧠3</strong> rolls 3 dice. An attribute at <strong>0</strong> generates no dice and cannot produce successes, unless a card or equipment effect says otherwise.</p>
+        <p class="reference-note" data-i18n="activation.d6"><strong>🎲 Custom d6:</strong> 1 = <strong>❌🔒</strong> · 2–4 = <strong>❌</strong> · 5 = <strong>✅</strong> · 6 = <strong>✅🔒</strong>. The lock blocks the result, whether it is a failure or a success.</p>
+        <p class="reference-note" data-i18n="activation.combined"><strong>Combined test:</strong> <strong>🧠 + 🙂 = ✅✅</strong> means add the Intelligence and Charisma dice and count 2 total successes. <strong>Separate tests:</strong> <strong>🧠✅, 🙂✅</strong> means getting 1 success from each attribute; a 🧠 success does not replace the success required from 🙂.</p>
         <ol class="steps">
-          <li><strong>Role o atributo indicado.</strong> Role uma quantidade de 🎲 igual ao valor de 🧠 ou 🙂 do personagem.</li>
-          <li><strong>Conte os ✅.</strong> Repita o símbolo para mostrar quantos sucessos são exigidos. Os sucessos podem ser acumulados durante a mesma ativação.</li>
-          <li><strong>Rerrole, se quiser.</strong> Depois da rolagem, gaste <strong>⏱️1</strong> para escolher qualquer quantidade de dados não bloqueados de um personagem. Dados com <strong>🔒</strong> não podem ser escolhidos.</li>
-          <li><strong>Tente novamente ou rerrole.</strong> Tentar novamente paga o custo normal e começa um teste novo, com o pool inteiro e sem os sucessos anteriores. Rerrolar custa apenas <strong>⏱️1</strong> adicional e mantém os sucessos acumulados da ativação.</li>
-          <li><strong>Finalize a ativação.</strong> Se o teste não for concluído até o fim da ativação, descarte o progresso parcial. A próxima ativação começa do zero, salvo se a regra disser o contrário.</li>
+          <li data-i18n="activation.checkStep1"><strong>Roll the indicated attribute.</strong> Roll a number of 🎲 equal to the character's 🧠 or 🙂 value.</li>
+          <li data-i18n="activation.checkStep2"><strong>Count the ✅.</strong> Repeated symbols show how many successes are required. Successes can be accumulated during the same activation.</li>
+          <li data-i18n="activation.checkStep3"><strong>Reroll if you want.</strong> After rolling, spend <strong>⏱️1</strong> to choose any number of unlocked dice belonging to one character. Dice with <strong>🔒</strong> cannot be chosen.</li>
+          <li data-i18n="activation.checkStep4"><strong>Try again or reroll.</strong> Trying again pays the normal cost and starts a new test with the full pool and no previous successes. Rerolling costs only an additional <strong>⏱️1</strong> and keeps the activation's accumulated successes.</li>
+          <li data-i18n="activation.checkStep5"><strong>End the activation.</strong> If the test is not completed by the end of the activation, discard the partial progress. The next activation starts from zero unless a rule says otherwise.</li>
         </ol>
-        <p>Em um confronto como <strong>🧠 vs 🙂 da Jen</strong>, cada lado rola seu próprio pool e vence quem obtiver mais sucessos, nesse caso seria 🧠Inteligência do personagem vs 🙂Carisma da Jen.<br />
-          Quando aparecer <strong>🔺</strong>, use o d10 (dado de 10 faces) e leia a faixa numérica indicada; ele não gera sucessos.</p>
+        <p data-i18n="activation.confrontation">In a confrontation such as <strong>🧠 vs Jen's 🙂</strong>, each side rolls its own pool and the side with more successes wins—in this case, the character's 🧠 Intelligence versus Jen's 🙂 Charisma.<br />When <strong>🔺</strong> appears, use the d10 (10-sided die) and read the indicated number range; it does not generate successes.</p>
 
-        <div class="tip"><strong>Durante a ativação:</strong> escolha uma ação, pague o custo indicado, resolva o teste ou efeito e só então passe à próxima ação. Quando terminar ou gastar todas as ações, avance a ⭐ para a próxima carta da fila.</div>
+        <div class="tip" data-i18n="activation.tip"><strong>During the activation:</strong> choose an action, pay its indicated cost, resolve the test or effect, and only then move to the next action. When you finish or spend all actions, move ⭐ to the next card in the queue.</div>
 
-        <h3>Consulte a carta de Ações</h3>
+        <h3 data-i18n="activation.actionsTitle">Consult the Actions card</h3>
         <figure class="board-figure">
-          <img src="exported-images/cards/full/high/a2.png" alt="Carta real de Ações em baixa resolução">
-          <figcaption>A carta de Ações fica aberta ao alcance de todos.</figcaption>
+          <img src="exported-images/cards/full/high/a2.png" alt="Real Actions card in low resolution" data-i18n-alt="activation.actionsAlt">
+          <figcaption data-i18n="activation.actionsCaption">Keep the Actions card open and within everyone's reach.</figcaption>
         </figure>
-        <p class="intro">A carta de Ações resume o que um personagem pode fazer durante sua ativação. Sempre que uma ação tiver custo, gaste <strong>⏱️1</strong>; efeitos que disserem “grátis” não consomem uma ação.</p>
+        <p class="intro" data-i18n="activation.actionsIntro">The Actions card summarizes what a character can do during an activation. Whenever an action has a cost, spend <strong>⏱️1</strong>; effects that say “free” do not consume an action.</p>
         <ol class="steps">
-          <li><strong>Mover:</strong> gaste <strong>1⏱️</strong> e use o valor de <strong>👣</strong> do personagem. Some 1 tile para cada <strong>✅</strong> obtido nos dados de movimento. O caminho é ortogonal; diagonal conta apenas para adjacência, não para movimento.</li>
-          <li><strong>Remover 🫩:</strong> gaste <strong>⏱️1</strong> para remover um Cansaço de si ou de um aliado adjacente.</li>
-          <li><strong>Gerar 🔋:</strong> 1× por turno, gaste <strong>⏱️1</strong> para gerar 1 Ânimo para si, até o limite de 5.</li>
-          <li><strong>Usar um 🖥️:</strong> para qualquer ação que exija um computador funcional, o personagem deve estar na cadeira, diretamente à frente do tile de 🖥️ funcional.</li>
-          <li><strong>Desinfectar:</strong> junto a um equipamento, gaste <strong>⏱️1</strong> e faça o teste indicado: <strong>🖥️ 🧠 ✅✅</strong> para computador ou <strong>🗄️ 🧠 ✅✅✅</strong> para servidor.</li>
-          <li><strong>Chamar os Bombeiros:</strong> junto a um computador funcional 🖥️, gaste <strong>⏱️1</strong> e faça o teste combinado <strong>🙂 + 🧠 = ✅✅</strong>. Com sucesso, coloque os 2 Bombeiros no elevador e a carta de iniciativa do Bombeiro no fim da fila.</li>
-          <li><strong>Atender ou postergar:</strong> junto a um telefone tocando, gaste <strong>⏱️1</strong> para comprar o Chamado e o Usuário. Para postergar um atendimento, gaste <strong>⏱️1</strong>, remova o tile de telefone e coloque o conjunto na fila.</li>
+          <li data-i18n="activation.actionStep1"><strong>Move:</strong> spend <strong>1⏱️</strong> and use the character's <strong>👣</strong> value. Add 1 tile for each <strong>✅</strong> obtained on the movement dice. Movement is orthogonal; diagonals count only for adjacency, not movement.</li>
+          <li data-i18n="activation.actionStep2"><strong>Remove 🫩:</strong> spend <strong>⏱️1</strong> to remove one Fatigue from yourself or an adjacent ally.</li>
+          <li data-i18n="activation.actionStep3"><strong>Generate 🔋:</strong> once per turn, spend <strong>⏱️1</strong> to generate 1 Morale for yourself, up to the limit of 5.</li>
+          <li data-i18n="activation.actionStep4"><strong>Use a 🖥️:</strong> for any action requiring a functional computer, the character must be in the chair directly in front of the functional 🖥️ tile.</li>
+          <li data-i18n="activation.actionStep5"><strong>Disinfect:</strong> while next to equipment, spend <strong>⏱️1</strong> and make the indicated test: <strong>🖥️ 🧠 ✅✅</strong> for a computer or <strong>🗄️ 🧠 ✅✅✅</strong> for the server.</li>
+          <li data-i18n="activation.actionStep6"><strong>Call the Firefighters:</strong> while next to a functional 🖥️, spend <strong>⏱️1</strong> and make the combined test <strong>🙂 + 🧠 = ✅✅</strong>. On a success, place both Firefighters in the elevator and the Firefighter initiative card at the end of the queue.</li>
+          <li data-i18n="activation.actionStep7"><strong>Answer or postpone:</strong> while next to a ringing phone, spend <strong>⏱️1</strong> to draw the Ticket and User. To postpone an active call, spend <strong>⏱️1</strong>, remove the phone tile and place the set in the queue.</li>
         </ol>
-        <div class="tip"><strong>Use a carta como referência:</strong> se uma ação, custo ou exceção estiver impresso nela, siga o texto da carta. As regras completas de movimento, testes e atendimento ficam no manual.</div>
+        <div class="tip" data-i18n="activation.actionsTip"><strong>Use the card as a reference:</strong> if an action, cost or exception is printed on it, follow the card text. The complete movement, test and call rules are in this manual.</div>
 
-        <h3 class="clear">Consulte a carta de Ânimo</h3>
+        <h3 class="clear" data-i18n="activation.moraleTitle">Consult the Morale card</h3>
         <figure class="board-figure">
-          <img src="exported-images/cards/full/high/a3.png" alt="Carta real de Ânimo em baixa resolução">
-          <figcaption>A carta de Ânimo mostra os custos e efeitos disponíveis.</figcaption>
+          <img src="exported-images/cards/full/high/a3.png" alt="Real Morale card in low resolution" data-i18n-alt="activation.moraleAlt">
+          <figcaption data-i18n="activation.moraleCaption">The Morale card shows the available costs and effects.</figcaption>
         </figure>
-        <p class="intro">Ânimo é o recurso representado por <strong>🔋</strong>. Ele fica nos espaços da cartela do personagem e pode ser gasto conforme a carta de Ânimo. Para pagar um custo, retire da cartela a quantidade indicada de marcadores e devolva-os à reserva comum; depois aplique o efeito.</p>
+        <p class="intro" data-i18n="activation.moraleIntro">Morale is the resource represented by <strong>🔋</strong>. It stays in the character sheet's spaces and can be spent according to the Morale card. To pay a cost, remove the indicated number of markers from the sheet and return them to the common supply; then apply the effect.</p>
         <ol class="steps">
-          <li><strong>1🔋:</strong> receba <strong>+1👣</strong>, <strong>+1🙂</strong> ou <strong>+1🧠</strong> durante uma ação, conforme a opção escolhida.</li>
-          <li><strong>1🔋:</strong> altere em 1 o resultado de um <strong>🔺</strong>.</li>
-          <li><strong>2🔋:</strong> receba <strong>+⏱️</strong>.</li>
-          <li><strong>2🔋:</strong> adicione <strong>+1🎲</strong> a uma rolagem.</li>
-          <li><strong>Limite:</strong> cada personagem pode guardar no máximo 5🔋.</li>
+          <li data-i18n="activation.moraleStep1"><strong>1🔋:</strong> receive <strong>+1👣</strong>, <strong>+1🙂</strong> or <strong>+1🧠</strong> during an action, according to the chosen option.</li>
+          <li data-i18n="activation.moraleStep2"><strong>1🔋:</strong> change the result of a <strong>🔺</strong> by 1.</li>
+          <li data-i18n="activation.moraleStep3"><strong>2🔋:</strong> receive <strong>+⏱️</strong>.</li>
+          <li data-i18n="activation.moraleStep4"><strong>2🔋:</strong> add <strong>+1🎲</strong> to a roll.</li>
+          <li data-i18n="activation.moraleStep5"><strong>Limit:</strong> each character can store up to 5🔋.</li>
         </ol>
-        <div class="tip"><strong>Interrupção:</strong> Ânimo pode ser gasto a qualquer momento, inclusive durante o turno de outro jogador ou antes de um evento ou missão resolver. Use-o quando a situação exigir uma resposta imediata.</div>
+        <div class="tip" data-i18n="activation.moraleTip"><strong>Interruption:</strong> Morale may be spent at any time, including during another player's turn or before an Event or Mission resolves. Use it when the situation calls for an immediate response.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Atravessando o escritório</div>
-        <h2>10. Mova um personagem</h2>
-        <p class="intro">Mover custa <strong>1⏱️</strong>. Em cada ação de movimento, use o valor de <strong>👣</strong> mostrado na carta de iniciativa do personagem.</p>
-        <div class="callout">
-          <strong>Exemplo:</strong> Richard tem <strong>👣 = 4 + 2🎲</strong>. role 2 dados e acrescente 1 tile para cada <strong>✅</strong> obtido, Richard pode mover-se no total até 6 tiles se obtiver 2✅.
+        <div class="section-kicker" data-i18n="movement.sectionKicker">Crossing the office</div>
+        <h2 data-i18n="movement.title">10. Move a character</h2>
+        <p class="intro" data-i18n="movement.intro">Moving costs <strong>1⏱️</strong>. For each movement action, use the <strong>👣</strong> value shown on the character's initiative card.</p>
+        <div class="callout" data-i18n="movement.example">
+          <strong>Example:</strong> Richmond has <strong>👣 = 5 + 2🎲</strong>. Roll 2 dice and add 1 tile for each <strong>✅</strong> obtained; Richmond can move up to 7 tiles in total if he gets 2✅.
         </div>
         <ol class="steps">
-          <li><strong>Conte os tiles.</strong> Cada tile atravessado vale 1 movimento. O caminho precisa seguir tiles conectados; paredes e móveis bloqueadores não podem ser atravessados.</li>
-          <li><strong>Mova em linha ortogonal.</strong> O movimento só pode seguir para cima, baixo, esquerda ou direita. Não é permitido andar na diagonal.</li>
-          <li><strong>Não termine ocupado.</strong> O personagem não pode terminar o movimento no mesmo tile que outro personagem, um bloqueio ou fogo.</li>
-          <li><strong>Atravesse o fogo com cuidado.</strong> Passar por um tile com <strong>🔥</strong> causa <strong>+🫩</strong>. O Bombeiro ignora essa penalidade, mas também não pode terminar o movimento sobre o fogo.</li>
+          <li data-i18n="movement.step1"><strong>Count tiles.</strong> Each tile crossed is worth 1 movement. The path must follow connected tiles; walls and blocking furniture cannot be crossed.</li>
+          <li data-i18n="movement.step2"><strong>Move orthogonally.</strong> Movement can only go up, down, left or right. Diagonal movement is not allowed.</li>
+          <li data-i18n="movement.step3"><strong>Do not end occupied.</strong> A character cannot end movement on the same tile as another character, a blockage or fire.</li>
+          <li data-i18n="movement.step4"><strong>Cross fire carefully.</strong> Passing through a tile with <strong>🔥</strong> causes <strong>+🫩</strong>. A Firefighter ignores this penalty, but also cannot end movement on fire.</li>
         </ol>
-        <div class="tip"><strong>Adjacência é diferente de movimento:</strong> dois tiles também são adjacentes quando se tocam na diagonal, mas personagens continuam proibidos de se mover diagonalmente.</div>
+        <div class="tip" data-i18n="movement.tip"><strong>Adjacency is different from movement:</strong> two tiles are also adjacent when they touch diagonally, but characters are still not allowed to move diagonally.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Recursos do escritório</div>
-        <h2>11. Pegue e use itens</h2>
-        <p class="intro">Itens ficam disponíveis no cenário para preparar os personagens antes e durante a partida. Consumíveis e Equipamentos seguem esta sequência simples:</p>
+        <div class="section-kicker" data-i18n="items.sectionKicker">Office resources</div>
+        <h2 data-i18n="items.title">11. Get and use items</h2>
+        <p class="intro" data-i18n="items.intro">Items are available on the board to prepare characters before and during the game. Consumables and Equipment follow this simple sequence:</p>
         <ol class="steps">
-          <li><strong>Pegue um Consumível na Cozinha.</strong> Entre na Cozinha e gaste <strong>1⏱️</strong> para escolher uma carta disponível da pilha virada para cima. Para consumir, siga a carta: quando ela disser <strong>Ação livre</strong>, não gaste outra ⏱️; depois, remova o Consumível do jogo.</li>
+          <li data-i18n="items.step1"><strong>Get a Consumable from the Kitchen.</strong> Enter the Kitchen and spend <strong>1⏱️</strong> to choose an available card from the face-up stack. To consume it, follow the card: when it says <strong>Free action</strong>, do not spend another ⏱️; then remove the Consumable from the game.</li>
         
-          <figure class="kitchen-example" aria-label="Exemplo da Cozinha e dos Consumíveis disponíveis">
+          <figure class="kitchen-example" aria-label="Example of the Kitchen and available Consumables" data-i18n-aria="items.kitchenAria">
             <div class="kitchen-example__cards">
-              <img src="exported-images/cards/full/low/h4.png" alt="Carta de Smarties, item de cozinha">
-              <img src="exported-images/cards/full/low/h1.png" alt="Carta de Café, item de cozinha">
-              <img src="exported-images/cards/full/low/h5.png" alt="Carta de Leite, item de cozinha">
+              <img src="exported-images/cards/full/low/h4.png" alt="Smarties card, Kitchen item" data-i18n-alt="items.smartiesAlt">
+              <img src="exported-images/cards/full/low/h1.png" alt="Coffee card, Kitchen item" data-i18n-alt="items.coffeeAlt">
+              <img src="exported-images/cards/full/low/h5.png" alt="Milk card, Kitchen item" data-i18n-alt="items.milkAlt">
             </div>
             <div class="kitchen-example__board">
-              <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Recorte do tabuleiro mostrando a Cozinha ao lado do elevador">
+              <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Board crop showing the Kitchen beside the elevator" data-i18n-alt="items.kitchenBoardAlt">
             </div>
-            <figcaption><strong>☕ ITEM:</strong> estes são Consumíveis da Cozinha. Basta entrar na área da Cozinha e gastar <strong>1⏱️</strong> para pegar uma carta disponível.</figcaption>
+            <figcaption data-i18n="items.kitchenCaption"><strong>☕ ITEM:</strong> these are Kitchen Consumables. Simply enter the Kitchen area and spend <strong>1⏱️</strong> to take an available card.</figcaption>
           </figure>
-          <li><strong>Compre um Equipamento no Armário.</strong> Estando junto ao tile <strong>🧰 SUP</strong>, gaste <strong>1⏱️</strong> para escolher uma carta disponível. O Equipamento pode ser colocado diretamente em um encaixe de Equipado nessa mesma ⏱️ ou guardado no Inventário.</li>
-          <figure class="armory-example" aria-label="Exemplo do Armário e de três Equipamentos disponíveis">
+          <li data-i18n="items.step2"><strong>Buy Equipment from the Supply Cabinet.</strong> While next to the <strong>🧰 SUP</strong> tile, spend <strong>1⏱️</strong> to choose an available card. The Equipment may be placed directly into an Equipped slot during that same ⏱️ or stored in the Inventory.</li>
+          <figure class="armory-example" aria-label="Example of the Supply Cabinet and three available Equipment cards" data-i18n-aria="items.armoryAria">
             <div class="armory-example__board">
-              <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Recorte do tabuleiro mostrando o Armário na parte inferior">
-                <span class="armory-example__tile" aria-label="Tile do Armário de suprimentos">🧰<small>SUP</small></span>
+              <img src="assets/boards/base/board-complete-18x12-v18.png" alt="Board crop showing the Supply Cabinet at the bottom" data-i18n-alt="items.armoryBoardAlt">
+                <span class="armory-example__tile" aria-label="Supply Cabinet tile" data-i18n-aria="items.armoryTileAria">🧰<small>SUP</small></span>
             </div>
             <div class="armory-example__cards">
-              <img src="exported-images/cards/full/low/h19.png" alt="Carta de Headphone, equipamento do Armário">
-              <img src="exported-images/cards/full/low/h9.png" alt="Carta de Camiseta RTFM, equipamento do Armário">
-              <img src="exported-images/cards/full/low/h3.png" alt="Carta de Óculos Bad-Ass, equipamento do Armário">
+              <img src="exported-images/cards/full/low/h19.png" alt="Headphone card, Supply Cabinet Equipment" data-i18n-alt="items.headphoneAlt">
+              <img src="exported-images/cards/full/low/h9.png" alt="RTFM T-shirt card, Supply Cabinet Equipment" data-i18n-alt="items.rtfmAlt">
+              <img src="exported-images/cards/full/low/h3.png" alt="Bad-Ass Glasses card, Supply Cabinet Equipment" data-i18n-alt="items.glassesAlt">
             </div>
-            <figcaption><strong>🧰 SUP:</strong> para comprar um Equipamento, esteja adjacente ao Armário e gaste <strong>1⏱️</strong>. As cartas abaixo são exemplos de itens Equipáveis.</figcaption>
+            <figcaption data-i18n="items.armoryCaption"><strong>🧰 SUP:</strong> to buy Equipment, be adjacent to the Supply Cabinet and spend <strong>1⏱️</strong>. The cards below are examples of Equipment.</figcaption>
           </figure>
-          <li><strong>Separe Inventário e Equipado.</strong> Os espaços acima da cartela são o Inventário: até 3 Itens, ou 4 para Richmond. Os dois encaixes laterais são para Equipamentos; seus efeitos só funcionam quando a carta está equipada.</li>
-          <li><strong>Equipe ou desequipe.</strong> Colocar ou retirar um Equipamento custa <strong>1⏱️</strong>. Em uma única ação, é permitido desequipar um item e equipar outro imediatamente, desde que um item saia e outro entre como substituição. Um personagem pode ter até dois Equipamentos equipados, respeitando o limite de um Equipamento de cada tipo. Equipar o item recém-comprado na mesma ⏱️ de compra é permitido.</li>
-          <li>
-            <div class="collection-example" aria-label="Exemplos de itens Colecionáveis">
-              <img src="exported-images/cards/full/low/h16.png" alt="Colecionável Jen 2">
-              <img src="exported-images/cards/full/low/h14.png" alt="Colecionável The Internet">
+          <li data-i18n="items.step3"><strong>Separate Inventory and Equipped.</strong> The spaces above the sheet are the Inventory: up to 3 Items, or 4 for Richmond. The two side slots are for Equipment; their effects work only while the card is equipped.</li>
+          <li data-i18n="items.step4"><strong>Equip or unequip.</strong> Putting on or removing Equipment costs <strong>1⏱️</strong>. In a single action, you may unequip one item and immediately equip another, as long as one item leaves and another replaces it. A character may have up to two Equipment cards equipped, respecting the limit of one Equipment of each type. You may equip a newly purchased item during the same ⏱️ used to buy it.</li>
+          <li data-i18n="items.step5">
+            <div class="collection-example" aria-label="Examples of Collectible items" data-i18n-aria="items.collectionAria">
+              <img src="exported-images/cards/full/low/h16.png" alt="Jen 2 Collectible" data-i18n-alt="items.jen2Alt">
+              <img src="exported-images/cards/full/low/h14.png" alt="The Internet Collectible" data-i18n-alt="items.internetAlt">
             </div>
-            <strong>Guarde os Colecionáveis 🏆.</strong> Eles não ocupam o Inventário nem precisam ser carregados no cenário: ao adquirir um, deixe-o na Coleção, ao lado da cartela. Se a carta disser <strong>EQUIPADO</strong>, ela usa um encaixe lateral e o efeito de Equipamento precisa ser ativado normalmente e também gasta-se uma ⏱️ para equipar.
+            <strong>Store Collectibles 🏆.</strong> They do not take up Inventory space or need to be carried on the board: when you acquire one, leave it in the Collection beside the sheet. If the card says <strong>EQUIPPED</strong>, it uses a side slot; its Equipment effect must be activated normally, and it also costs 1⏱️ to equip.
           </li>
-          <li><strong>Troque entre personagens.</strong> Um personagem técnico adjacente a outro personagem pode gastar <strong>1⏱️</strong> para trocar 1 Item com o outro personagem: cada um pode entregar 1 Item nessa mesma ⏱️. Se o personagem que gastou a ⏱️ receber um Equipamento, já pode equipá-lo sem custo adicional. A diagonal conta como adjacência.</li>
+          <li data-i18n="items.step6"><strong>Trade between characters.</strong> A technical character adjacent to another character may spend <strong>1⏱️</strong> to trade 1 Item with that character: each can give 1 Item during the same ⏱️. If the character who spent the ⏱️ receives Equipment, they may equip it without an additional cost. Diagonals count as adjacency.</li>
         </ol>
-        <div class="callout clear"><strong>Resumo:</strong> Consumíveis vêm da Cozinha; Equipamentos vêm do Armário; Inventário é o que o personagem carrega; Equipado é o que está ativo. Itens 🏆colecionaveis se consegue em situações especiais.</div>
+        <div class="callout clear" data-i18n="items.summary"><strong>Summary:</strong> Consumables come from the Kitchen; Equipment comes from the Supply Cabinet; Inventory is what the character carries; Equipped is what is active. 🏆 Collectibles are obtained in special situations.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Do telefone para a mesa</div>
-        <h2 id="atender-chamado">12. Atenda um chamado</h2>
-        <p class="intro">Quando um telefone estiver tocando, um personagem pode decidir atender o usuário e descobrir o problema. A partir desse momento, o Chamado e o Usuário ficam associados até o atendimento terminar.</p>
+        <div class="section-kicker" data-i18n="call.sectionKicker">From phone to desk</div>
+        <h2 id="atender-chamado" data-i18n="call.title">12. Answer a Ticket</h2>
+        <p class="intro" data-i18n="call.intro">When a phone is ringing, a character may answer the User and find out the problem. From that moment on, the Ticket and User stay linked until the call is finished.</p>
         <div class="character-tableaux">
           <figure class="character-example">
-            <img src="exported-images/cards/full/low/c7.png" alt="Carta real de chamado em baixa resolução">
-            <figcaption>Chamado: define o problema, os testes e como concluir o atendimento.</figcaption>
+            <img src="exported-images/cards/full/low/c7.png" alt="Real Ticket card in low resolution" data-i18n-alt="call.cardAlt">
+            <figcaption data-i18n="call.cardCaption"><strong>Ticket:</strong> defines the problem, tests and how to complete the call.</figcaption>
           </figure>
           <figure class="character-example">
-            <img src="exported-images/cards/full/low/d1.png" alt="Carta real de usuário em baixa resolução">
-            <figcaption>Usuário: define os efeitos enquanto está na mão ou na fila.</figcaption>
+            <img src="exported-images/cards/full/low/d1.png" alt="Real User card in low resolution" data-i18n-alt="call.userAlt">
+            <figcaption data-i18n="call.userCaption"><strong>User:</strong> defines the effects while in a player's hand or in the queue.</figcaption>
           </figure>
         </div>
-        <p class="reference-note"><strong>Ramal do TI:</strong> cada mesa de jogador definida no setup, com um computador, também representa um telefone ativo. Quando uma chamada surgir, coloque o tile <strong>☎️⚡</strong> perto de qualquer computador ativo do porão; ele serve apenas como marcador e não define onde o atendimento precisa acontecer.</p>
+        <p class="reference-note" data-i18n="call.extensionNote"><strong>IT phone lines:</strong> each player desk defined during setup, with a computer, also represents an active phone. When a call appears, place the <strong>☎️⚡</strong> tile near any active computer in the Basement; it is only a marker and does not determine where the call must be answered.</p>
+        <div class="callout clear" data-i18n="call.fullPhonesReminder"><strong>Important reminder:</strong> whenever an effect tries to place <strong>☎️⚡</strong> and all phones are occupied, do not place a new tile and increase <strong>⚠️</strong> by 1.</div>
         <ol class="steps">
-          <li><strong>Escolha uma mesa com computador.</strong> O personagem deve estar em qualquer mesa de jogador com computador; não precisa estar junto ao tile <strong>☎️⚡</strong>. Gaste <strong>1⏱️</strong>.</li>
-          <li><strong>Coloque o ramal Em atendimento.</strong> Mova o tile para a mesa escolhida e vire-o para o lado <strong>📞</strong>. Compre 1 carta de ☎️Chamado e 1 carta de 👤Usuário. Mantenha as duas juntas.</li>
-          <li><strong>Escolha como agir.</strong> Enquanto o conjunto estiver na mão, o personagem responsável não pode se movimentar.</li>
-          <li><strong>Resolva na mão</strong> usando os custos e testes do Chamado. A linha <strong>📞</strong> do Usuário é resolvida pela Rotina enquanto o conjunto continuar na mão.</li>
-          <li><strong>Postergue se necessário.</strong> Gaste <strong>1⏱️</strong>, remova o tile do telefone e coloque <strong>☎️ + 👤</strong> no fim da fila de iniciativa, com o Chamado por cima. O telefone é desligado.</li>
-          <li><strong>Puxe para si.</strong> Durante sua ativação, gaste <strong>1⏱️</strong> para mover um conjunto da iniciativa ou da mão de outro jogador para a sua própria mão.</li>
-          <li><strong>Conclua o chamado.</strong> Resolva a linha <strong>🏁</strong> do Usuário, depois a conclusão do Chamado, se houver. Remova o tile de telefone da mesa, se ainda estiver no cenário, e descarte as duas cartas juntas.</li>
+          <li data-i18n="call.step1"><strong>Choose a desk with a computer.</strong> The character must be at any player desk with a computer; they do not need to be next to the <strong>☎️⚡</strong> tile. Spend <strong>1⏱️</strong>.</li>
+          <li data-i18n="call.step2"><strong>Set the line to In service.</strong> Move the tile to the chosen desk and flip it to the <strong>📞</strong> side. Draw 1 ☎️Ticket card and 1 👤User card. Keep them together.</li>
+          <li data-i18n="call.step3"><strong>Choose how to proceed.</strong> While the set is in hand, the responsible character cannot move.</li>
+          <li data-i18n="call.step4"><strong>Resolve it in hand</strong> using the Ticket's costs and tests. The User's <strong>📞</strong> line is resolved by the Routine while the set remains in hand.</li>
+          <li data-i18n="call.step5"><strong>Postpone if necessary.</strong> Spend <strong>1⏱️</strong>, remove the phone tile and place <strong>☎️ + 👤</strong> at the end of the initiative queue, with the Ticket on top. The phone is turned off.</li>
+          <li data-i18n="call.step6"><strong>Take it for yourself.</strong> During your activation, spend <strong>1⏱️</strong> to move a set from the initiative queue or another player's hand into your own hand.</li>
+          <li data-i18n="call.step7"><strong>Complete the Ticket.</strong> Resolve the User's <strong>🏁</strong> line, then the Ticket's completion effect, if any. Remove the phone tile from the desk if it is still on the board, and discard both cards together.</li>
         </ol>
-        <p class="reference-note"><strong>Chamado postergado:</strong> ele pode continuar na fila ou ser recuperado pelas regras acima. Para saber como continuar a resolução quando o conjunto estiver na fila, consulte <a href="#resolver-fila">Resolver um chamado na fila</a>.</p>
+        <p class="reference-note" data-i18n="call.delayed"><strong>Postponed call:</strong> it may remain in the queue or be recovered using the rules above. To learn how to continue resolving the set while it is in the queue, see <a href="#resolver-fila">Resolve a Ticket in the Queue</a>.</p>
       </section>
 
       <section class="page">
-        <div class="section-kicker">O objetivo maior da partida</div>
-        <h2>13. Resolva uma missão</h2>
-        <p class="reference-note"><strong>Escolham a missão antes do setup.</strong> Ela funciona como a “fase” que será jogada e define a preparação, os andares necessários e o objetivo da partida. A campanha principal usa missões com atos; para uma partida rápida, escolham uma missão individual.</p>
-        <p class="intro"><strong>Existem dois formatos:</strong> uma <strong>missão individual</strong> tem uma única carta e um objetivo direto; uma <strong>missão com atos</strong> conta uma história em etapas, com uma carta para cada ato que deve ser resolvida em sequência.</p>
-        <div class="mission-format" aria-label="Como diferenciar os formatos de missão">
+        <div class="section-kicker" data-i18n="mission.sectionKicker">The game's main objective</div>
+        <h2 data-i18n="mission.title">13. Resolve a Mission</h2>
+        <p class="reference-note" data-i18n="mission.choose"><strong>Choose the Mission before setup.</strong> It is the game's “level”: it defines the setup, required floors and objective. The main campaign uses Missions with acts; for a quick game, choose a 🎯 Mini mission.</p>
+        <p class="intro" data-i18n="mission.formats"><strong>There are two formats:</strong> a <strong>🎯 Mini mission</strong> has a single card and a direct objective; a <strong>Mission with acts</strong> tells a story in stages, with one card for each act to be resolved in sequence.</p>
+        <div class="mission-format" aria-label="How to distinguish Mission formats" data-i18n-aria="mission.formatAria">
           <div class="mission-format__example">
-            <strong>Missão com atos</strong>
+            <strong data-i18n="mission.campaignLabel">Mission with acts</strong>
             <span>Yesterday’s Jam</span>
-            <small>1 — Nova gerente<br>2 — Sinclair ZX81<br>3 — Quer conectar na Data Matrix?</small>
+            <small data-i18n="mission.campaignActs">1 — New manager<br>2 — Sinclair ZX81<br>3 — Want to connect to the Data Matrix?</small>
           </div>
           <div class="mission-format__example">
-            <strong>Missão individual</strong>
+            <strong data-i18n="mission.miniLabel">🎯 Mini mission</strong>
             <span>Crise</span>
-            <small>Uma carta, um objetivo direto<br>sem número de ato</small>
+            <small data-i18n="mission.miniDescription">One card, one direct objective<br>no act number</small>
           </div>
         </div>
         <figure class="board-figure">
-          <img src="exported-images/cards/full/high/f1.png" alt="Carta real da missão Yesterday's Jam — Nova gerente em baixa resolução">
-          <figcaption>Exemplo: Yesterday’s Jam — Nova gerente.</figcaption>
+          <img src="exported-images/cards/full/high/f1.png" alt="Real Mission card: Yesterday's Jam — New Manager" data-i18n-alt="mission.cardAlt">
+          <figcaption data-i18n="mission.cardCaption">Example: Yesterday’s Jam — New Manager.</figcaption>
         </figure>
-        <p class="intro">A missão define a história e as condições especiais da partida. Ela pode alterar o setup, movimentar personagens especiais, criar objetivos e determinar quando a próxima missão será revelada.</p>
+        <p class="intro" data-i18n="mission.intro">The Mission defines the story and special conditions of the game. It may change the setup, move special characters, create objectives and determine when the next Mission is revealed.</p>
         <ol class="steps">
-          <li><strong>Revele a primeira missão.</strong> As cartas de missão ficam em ordem quando são de vários atos. Comece pela primeira carta e mantenha as próximas viradas para baixo.</li>
-          <li><strong>Faça a preparação.</strong> A linha com <strong>🛠️</strong> explica o setup: Leia as linhas de preparação e coloque personagens, tiles, marcadores ou cartas exatamente como a missão indicar. Essa preparação acontece antes de começar a resolver os objetivos.</li>
-          <li><strong>Leia o objetivo.</strong> A linha com <strong>🎯</strong> explica o que os jogadores precisam alcançar. O objetivo pode exigir uma ação, uma condição no cenário ou uma sequência de etapas.</li>
-          <li><strong>Resolva as ativações ⭐.</strong> Quando a ⭐ chegar à carta da missão na fila, resolva suas linhas <strong>⭐</strong>. Se ela mandar mover um NPC ou verificar uma condição, faça isso nesse momento.</li>
-          <li><strong>Siga os atos na ordem.</strong> Uma missão com vários atos só avança quando a condição do ato atual for concluída. Não pule para o próximo ato; mantenha os estados do cenário, salvo se a própria missão disser para alterá-los.</li>
-          <li><strong>Descarte e revele a próxima.</strong> Quando a condição <strong>🗑️</strong> for cumprida, retire a missão ativa da fila e revele a próxima carta de missão conforme a ordem do baralho.</li>
+          <li data-i18n="mission.step1"><strong>Reveal the first Mission.</strong> Mission cards stay in order when they belong to multiple acts. Start with the first card and keep the remaining cards face down.</li>
+          <li data-i18n="mission.step2"><strong>Perform the setup.</strong> The line with <strong>🛠️</strong> explains the setup: read the setup lines and place characters, tiles, markers or cards exactly as the Mission says. This setup happens before you begin resolving the objectives.</li>
+          <li data-i18n="mission.step3"><strong>Read the objective.</strong> The line with <strong>🎯</strong> explains what the players must achieve. The objective may require an action, a board condition or a sequence of stages.</li>
+          <li data-i18n="mission.step4"><strong>Resolve ⭐ activations.</strong> When ⭐ reaches the Mission card in the queue, resolve its <strong>⭐</strong> lines. If it tells you to move an NPC or check a condition, do that at this moment.</li>
+          <li data-i18n="mission.step5"><strong>Follow the acts in order.</strong> A Mission with multiple acts advances only when the current act's condition is completed. Do not skip to the next act; preserve the board states unless the Mission itself tells you to change them.</li>
+          <li data-i18n="mission.step6"><strong>Discard and reveal the next card.</strong> When the <strong>🗑️</strong> condition is met, remove the active Mission from the queue and reveal the next Mission card in deck order.</li>
         </ol>
-        <div class="tip"><strong>Prioridade da missão:</strong> se uma regra da missão entrar em conflito com uma regra geral, siga a missão. A carta revelada é a referência durante a partida; consulte o manual apenas para os detalhes que a carta não explicar.</div>
+        <div class="tip" data-i18n="mission.tip"><strong>Mission priority:</strong> if a Mission rule conflicts with a general rule, follow the Mission. The revealed card is the reference during the game; consult the manual only for details the card does not explain.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Quando a rodada termina</div>
-        <h2>14. Como a partida termina</h2>
-        <p class="intro">A partida termina assim que uma condição de vitória ou derrota for cumprida. Confira sempre a carta da missão ativa antes de encerrar o jogo.</p>
-        <p class="reference-note"><strong>Por que o Stress importa?</strong> Se a pressão passar do limite, a equipe será demitida e o novo chefe poderá transformar o porão de TI em algo mais útil — tipo um novo banheiro bem grande.</p>
+        <div class="section-kicker" data-i18n="ending.sectionKicker">When the game ends</div>
+        <h2 data-i18n="ending.title">14. How the game ends</h2>
+        <p class="intro" data-i18n="ending.intro">The game ends as soon as a victory or defeat condition is met. Always check the active Mission card before ending the game.</p>
+        <p class="reference-note" data-i18n="ending.stressNote"><strong>Why does Stress matter?</strong> If the pressure goes over the limit, the team will be fired and the new boss may turn the IT basement into something more useful — like one big toilet.</p>
         <ol class="steps">
-          <li><strong>Vitória da missão.</strong> Se os jogadores cumprirem o objetivo indicado pela missão, a equipe vence. Em uma missão com atos, isso acontece quando o objetivo do último ato for concluído.</li>
-          <li><strong>Derrota por Stress.</strong> Se <strong>⚠️ The Boss Stress</strong> passar de <strong>15</strong>, os jogadores perdem: a TI é dispensada e o porão será convertido em um banheiro bem grande.</li>
-          <li><strong>Exceções da missão.</strong> Algumas missões podem definir outra condição de vitória, derrota ou encerramento. Quando isso acontecer, siga o texto da missão; ele tem prioridade sobre a regra geral.</li>
+          <li data-i18n="ending.step1"><strong>Mission victory.</strong> If the players complete the objective shown by the Mission, the team wins. In a Mission with acts, this happens when the final act's objective is completed.</li>
+          <li data-i18n="ending.step2"><strong>Defeat by Stress.</strong> If <strong>⚠️ The Boss Stress</strong> goes above <strong>15</strong>, the players lose: IT is dismissed and the basement will be converted into one big toilet.</li>
+          <li data-i18n="ending.step3"><strong>Mission exceptions.</strong> Some Missions may define a different victory, defeat or ending condition. When that happens, follow the Mission text; it takes priority over the general rule.</li>
         </ol>
-        <div class="tip"><strong>Antes de continuar:</strong> não revele uma nova missão depois que a partida já terminou. Resolva apenas a condição que encerrou o jogo e determine o resultado.</div>
-        <div class="tip"><strong>Dica:</strong> Seja criativo e crie suas próprias missões ou combine mais de uma!</div>
+        <div class="tip" data-i18n="ending.tip"><strong>Before continuing:</strong> do not reveal a new Mission after the game has ended. Resolve only the condition that ended the game and determine the result.</div>
+        <div class="tip" data-i18n="ending.idea"><strong>Tip:</strong> Be creative and create your own Missions or combine more than one!</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Pendências na iniciativa</div>
-        <h2 id="resolver-fila">15. Resolva um chamado na fila</h2>
+        <div class="section-kicker" data-i18n="queueResolve.sectionKicker">Pending in the initiative queue</div>
+        <h2 id="resolver-fila" data-i18n="queueResolve.title">15. Resolve a Ticket in the Queue</h2>
         <figure class="queue-pair-float">
-          <div class="queue-pair-float__stack" aria-label="Exemplo visual do chamado sobreposto ao usuário na fila">
-            <img class="queue-pair-float__user" src="exported-images/cards/full/low/d1.png" alt="Carta de usuário atrás do chamado">
-            <img class="queue-pair-float__call" src="exported-images/cards/full/low/c6.png" alt="Carta de chamado posicionada por cima do usuário">
+          <div class="queue-pair-float__stack" aria-label="Visual example of a Ticket stacked over a User in the queue" data-i18n-aria="queueResolve.stackAria">
+            <img class="queue-pair-float__user" src="exported-images/cards/full/low/d1.png" alt="User card behind the Ticket" data-i18n-alt="queueResolve.userAlt">
+            <img class="queue-pair-float__call" src="exported-images/cards/full/low/c6.png" alt="Ticket card placed over the User" data-i18n-alt="queueResolve.ticketAlt">
           </div>
-          <figcaption>Na fila, o Chamado fica por cima do Usuário e a ⭐ indica o conjunto atualmente ativado.</figcaption>
+          <figcaption data-i18n="queueResolve.caption">In the queue, the Ticket is placed over the User and ⭐ marks the set currently being activated.</figcaption>
         </figure>
-        <p class="intro">Um conjunto <strong>☎️ + 👤</strong> na fila representa um atendimento que foi postergado ou que entrou diretamente pela Rotina. Ele continua disponível para qualquer personagem resolver durante seu próprio turno.</p>
-        <p class="reference-note"><strong>O Chamado fica por cima do Usuário.</strong> As duas cartas continuam juntas como um único atendimento enquanto estiverem na fila. A carta de Usuário identifica os efeitos da fila; a carta de Chamado mostra o que precisa ser resolvido.</p>
+        <p class="intro" data-i18n="queueResolve.intro">A <strong>☎️ + 👤</strong> set in the queue represents a call that was postponed or entered directly through the Routine. It remains available for any character to resolve during their own turn.</p>
+        <p class="reference-note" data-i18n="queueResolve.stackNote"><strong>The Ticket stays on top of the User.</strong> The two cards remain together as one call while they are in the queue. The User card identifies the queue effects; the Ticket card shows what must be resolved.</p>
         <ol class="steps">
-          <li><strong>Resolva a linha ⭐ do Usuário.</strong> Quando a ⭐ alcançar o conjunto na fila, aplique o efeito indicado na carta de Usuário ao lado de ⭐.</li>
-          <li><strong>Recupere ou puxe um chamado.</strong> Por <strong>1⏱️</strong>, o jogador da vez pode puxar o conjunto para a própria mão, seja da iniciativa ou da mão de outro jogador. Sem fazer isso, qualquer personagem pode gastar suas ações para resolver o Chamado diretamente da fila.</li>
-          <li><strong>Siga as etapas do Chamado.</strong> Leia os objetivos na ordem impressa, pague os custos, faça os testes e acumule sucessos apenas durante a ativação atual.</li>
-          <li><strong>Se não concluir, mantenha o conjunto na fila.</strong> O Chamado continua disponível para a próxima ativação, e a linha ⭐ do Usuário será aplicada novamente quando a estrela voltar ao conjunto.</li>
-          <li><strong>Ao concluir:</strong> resolva a linha <strong>🏁</strong> do Usuário, depois a conclusão do Chamado, se houver, remova o tile de telefone da mesa, se ainda estiver no cenário, e descarte as duas cartas juntas.</li>
+          <li data-i18n="queueResolve.step1"><strong>Resolve the User's ⭐ line.</strong> When ⭐ reaches the set in the queue, apply the effect shown on the User card beside ⭐.</li>
+          <li data-i18n="queueResolve.step2"><strong>Retrieve or take a Ticket.</strong> You may bring a set into a hand only when a phone is available. For <strong>1⏱️</strong>, the current player may take the set into their own hand, either from the initiative queue or from another player's hand. Without doing this, any character may spend their actions to resolve the Ticket directly from the queue.</li>
+          <li data-i18n="queueResolve.step3"><strong>Follow the Ticket's steps.</strong> Read the objectives in the printed order, pay the costs, make the tests and accumulate successes only during the current activation.</li>
+          <li data-i18n="queueResolve.step4"><strong>If you do not complete it, keep the set in the queue.</strong> The Ticket remains available for the next activation, and the User's ⭐ line is applied again when the star returns to the set.</li>
+          <li data-i18n="queueResolve.step5"><strong>When completed:</strong> resolve the User's <strong>🏁</strong> line, then the Ticket's completion effect, if any, remove the phone tile from the desk if it is still on the board, and discard both cards together.</li>
         </ol>
-        <div class="tip clear"><strong>Resumo do fluxo:</strong> atenda o telefone → resolva na mão ou postergue → deixe o conjunto na fila → aplique ⭐ → resolva o Chamado → aplique 🏁 → descarte o par. Para o primeiro passo, volte à seção <a href="#atender-chamado">Atenda um chamado</a>.</div>
+        <div class="tip clear" data-i18n="queueResolve.tip"><strong>Flow summary:</strong> answer the phone → resolve in hand or postpone → leave the set in the queue → apply ⭐ → resolve the Ticket → apply 🏁 → discard the pair. For the first step, return to <a href="#atender-chamado">Answer a Ticket</a>.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">A campanha principal</div>
-        <h2>Yesterday’s Jam</h2>
-        <div class="campaign-intro"><strong>Uma história em cinco atos.</strong> A campanha principal acompanha a chegada de Jen ao departamento de TI. Enquanto ela tenta parecer preparada, a equipe precisa improvisar, esconder seus problemas e sobreviver ao caos do expediente. As cartas abaixo devem ser jogadas em ordem; o manual contém as regras completas de cada ato.</div>
+        <div class="section-kicker" data-i18n="campaign.sectionKicker">The main campaign</div>
+        <h2 data-i18n="campaign.title">Yesterday’s Jam</h2>
+        <div class="campaign-intro" data-i18n="campaign.intro"><strong>A five-act story.</strong> The main campaign follows Jen's arrival in the IT department. While she tries to look prepared, the team must improvise, hide its problems and survive the chaos of the workday. Play the cards below in order; the manual contains the complete rules for each act.</div>
 
         <article class="campaign-act">
           <figure>
-            <img src="exported-images/cards/full/low/f1.png" alt="Carta F1 da campanha Yesterday's Jam">
-            <figcaption>F1 · Nova gerente</figcaption>
+            <img src="exported-images/cards/full/low/f1.png" alt="Campaign card F1 from Yesterday's Jam" data-i18n-alt="campaign.act1Alt">
+            <figcaption data-i18n="campaign.act1Caption">F1 · New Manager</figcaption>
           </figure>
-          <h3>1 — Nova gerente</h3>
-          <p>Denholm apresenta Jen como a nova gerente. Ela chega ao porão falando de e-mails, mouse e cliques como se estivesse revelando um grande conhecimento técnico. <strong>Setup:</strong> Jen começa no elevador, pronta para encontrar a equipe. <strong>Objetivo:</strong> aproximar um técnico e vencer o confronto que revela que há muito mais confiança do que competência naquela apresentação.</p>
+          <h3 data-i18n="campaign.act1Title">1 — New Manager</h3>
+          <p data-i18n="campaign.act1Text">Denholm introduces Jen as the new manager. She arrives in the Basement talking about emails, mice and clicks as if she were revealing deep technical knowledge.<br /><strong>Setup:</strong> Jen starts in the elevator, ready to meet the team.<br /><strong>Objective:</strong> approach her with a technician and win the confrontation that reveals there is far more confidence than competence in that presentation.</p>
         </article>
 
         <article class="campaign-act">
           <figure>
-            <img src="exported-images/cards/full/low/f2.png" alt="Carta F2 da campanha Yesterday's Jam">
-            <figcaption>F2 · Sinclair ZX81</figcaption>
+            <img src="exported-images/cards/full/low/f2.png" alt="Campaign card F2 from Yesterday's Jam" data-i18n-alt="campaign.act2Alt">
+            <figcaption data-i18n="campaign.act2Caption">F2 · Sinclair ZX81</figcaption>
           </figure>
-          <h3>2 — Sinclair ZX81</h3>
-          <p>Jen está prestes a chegar à sua cadeira e começar a mandar no departamento. Quando ela passa pelo <strong>Sinclair ZX81</strong> sem demonstrar o menor interesse, os técnicos começam a achar aquilo suspeito — talvez ela realmente não entenda muito de computadores. Antes disso, eles tentam preparar uma pequena surpresa: infectar o computador e deixar uma falha impossível de ignorar. <strong>Setup:</strong> Jen continua avançando para a cadeira e o computador permanece funcional. <strong>Objetivo:</strong> infectar o PC antes que ela chegue; distrações podem comprar o tempo necessário.</p>
+          <h3 data-i18n="campaign.act2Title">2 — Sinclair ZX81</h3>
+          <p data-i18n="campaign.act2Text">Jen is about to reach her chair and start taking charge of the department. When she walks past the <strong>Sinclair ZX81</strong> without showing the slightest interest, the technicians start to suspect something — perhaps she really does not understand computers. Before that happens, they try to prepare a little surprise: infect the computer and leave behind a failure impossible to ignore.<br /><strong>Setup:</strong> Jen continues moving toward the chair and the computer starts functional.<br /><strong>Objective:</strong> infect the PC before she arrives; distractions can buy the necessary time.</p>
         </article>
 
         <article class="campaign-act">
           <figure>
-            <img src="exported-images/cards/full/low/f3.png" alt="Carta F3 da campanha Yesterday's Jam">
-            <figcaption>F3 · Quer conectar na Data Matrix?</figcaption>
+            <img src="exported-images/cards/full/low/f3.png" alt="Campaign card F3 from Yesterday's Jam" data-i18n-alt="campaign.act3Alt">
+            <figcaption data-i18n="campaign.act3Caption">F3 · Want to Connect to the Matrix?</figcaption>
           </figure>
-          <h3>3 — Quer conectar na Data Matrix?</h3>
-          <p>Agora Jen tenta provar que consegue cuidar das coisas sozinha. Ela se mete nos chamados, improvisa respostas e transforma cada tentativa em mais uma oportunidade para a TI parecer incompetente. <strong>Setup:</strong> Jen fica na cadeira e começa com Credibilidade 3. <strong>Objetivo:</strong> reduzir essa Credibilidade a 0, enfrentando os confrontos e evitando que as tentativas dela aumentem o Stress da empresa.</p>
+          <h3 data-i18n="campaign.act3Title">3 — Want to Connect to the Matrix?</h3>
+          <p data-i18n="campaign.act3Text">Now Jen tries to prove that she can handle things on her own. She interferes with the Tickets, improvises answers and turns every attempt into another opportunity for IT to look incompetent.<br /><strong>Setup:</strong> Jen starts in her chair with Credibility 3.<br /><strong>Objective:</strong> reduce that Credibility to 0 by facing the confrontations and preventing her attempts from increasing the company's Stress.</p>
         </article>
 
         <article class="campaign-act">
           <figure>
-            <img src="exported-images/cards/full/low/f4.png" alt="Carta F4 da campanha Yesterday's Jam">
-            <figcaption>F4 · Que screen saver realista!</figcaption>
+            <img src="exported-images/cards/full/low/f4.png" alt="Campaign card F4 from Yesterday's Jam" data-i18n-alt="campaign.act4Alt">
+            <figcaption data-i18n="campaign.act4Caption">F4 · What a Realistic Screen Saver!</figcaption>
           </figure>
-          <h3>4 — Que screen saver realista!</h3>
-          <p>Moss está recuperando uma placa de circuito com o ferro de solda. Ele acha que o ferro está ligado e o desliga — mas ele já estava desligado. Durante o expediente, o escritório começa a pegar fogo. Roy percebe as chamas e vê que o Boss Denholm está descendo para o porão; então improvisa, colocando monitores velhos na frente do fogo para fazer parecer que aquilo é apenas uma proteção de tela. <strong>Setup:</strong> o fogo aparece no armário inferior, Denholm espera no elevador e monitores quebrados são espalhados pelos escritórios. <strong>Objetivo:</strong> esconder todos os fogos com os monitores antes que Denholm entre na sala principal e perceba o desastre.</p>
+          <h3 data-i18n="campaign.act4Title">4 — What a Realistic Screen Saver!</h3>
+          <p data-i18n="campaign.act4Text">Moss is repairing a circuit board with a soldering iron. He thinks the iron is on and switches it off — but it was already off. During the workday, the office catches fire. Roy notices the flames and sees Boss Denholm coming down to the Basement; he improvises by placing old monitors in front of the fire to make it look like nothing more than a screen saver.<br /><strong>Setup:</strong> the fire appears in the lower cabinet, Denholm waits in the elevator and broken monitors are scattered through the offices.<br /><strong>Objective:</strong> hide all the fires with monitors before Denholm enters the main room and notices the disaster.</p>
         </article>
 
         <article class="campaign-act">
           <figure>
-            <img src="exported-images/cards/full/low/f5.png" alt="Carta F5 da campanha Yesterday's Jam">
-            <figcaption>F5 · Are you stressed?</figcaption>
+            <img src="exported-images/cards/full/low/f5.png" alt="Campaign card F5 from Yesterday's Jam" data-i18n-alt="campaign.act5Alt">
+            <figcaption data-i18n="campaign.act5Caption">F5 · Are You Stressed?</figcaption>
           </figure>
-          <h3>5 — Are you stressed?</h3>
-          <p>Denholm percebe que Jen está no meio do caos e começa a pressioná-la com perguntas. <strong>Setup:</strong> Jen fica em sua cadeira, Denholm começa diante da mesa e os fogos continuam no cenário. <strong>Objetivo:</strong> chamar os bombeiros por email, apagar todos os fogos e distrair Denholm enquanto Jen tenta sobreviver ao interrogatório. Se o incêndio for controlado antes que o Stress passe do limite, a campanha termina com uma vitória da equipe.</p>
+          <h3 data-i18n="campaign.act5Title">5 — Are You Stressed?</h3>
+          <p data-i18n="campaign.act5Text">Denholm notices that Jen is in the middle of the chaos and starts pressuring her with questions.<br /><strong>Setup:</strong> Jen stays in her chair, Denholm starts in front of the desk and the fires remain on the board.<br /><strong>Objective:</strong> call the Firefighters by email, extinguish all fires and distract Denholm while Jen tries to survive the interrogation. If the fire is brought under control before Stress reaches the limit, the campaign ends with a team victory.</p>
         </article>
 
-        <div class="tip"><strong>Depois do último ato:</strong> aplique a condição de vitória da missão e encerre a partida. Para detalhes de preparação, ativações e exceções, consulte as seções anteriores deste manual.</div>
+        <div class="tip" data-i18n="campaign.tip"><strong>After the final act:</strong> apply the Mission's victory condition and end the game. For setup, activation and exception details, consult the earlier sections of this manual.</div>
       </section>
 
       <section class="page">
-        <div class="section-kicker">Opcional para o setup</div>
-        <h2>Ajuste a dificuldade da partida</h2>
-        <p class="intro">Se quiser ajustar o desafio ao grupo, escolha uma dificuldade e conte os personagens jogáveis. A tabela indica quantas cartas de cada nível devem entrar nos baralhos de Eventos e Chamados.</p>
-        <div class="reference-note"><strong>Notação:</strong> cada célula segue a ordem <strong>🤓 / 😐 / 😖</strong> para indicar a quantidade de cartas <strong>Fáceis / Médias / Difíceis</strong>. Mesmo no nível Fácil, mantenha pelo menos 1 carta 😖 em cada baralho quando houver cartas disponíveis; as cartas fáceis extras diluem esse desafio. Selecione aleatoriamente as cartas dentro de cada nível; as cartas não selecionadas voltam para a caixa.</div>
-        <table class="quick-reference difficulty-setup-table">
-          <thead>
-            <tr>
-              <th>Personagens</th>
-              <th>🤓 Fácil</th>
-              <th>😐 Média</th>
-              <th>😖 Difícil</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Eventos 4/1/1<br>Chamados 2/1/1</td>
-              <td>Eventos 3/2/1<br>Chamados 1/1/1</td>
-              <td>Eventos 2/2/2<br>Chamados 1/1/2</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Eventos 5/2/1<br>Chamados 2/1/1</td>
-              <td>Eventos 4/3/2<br>Chamados 2/2/1</td>
-              <td>Eventos 3/3/3<br>Chamados 1/2/2</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Eventos 6/3/1<br>Chamados 3/2/1</td>
-              <td>Eventos 5/3/3<br>Chamados 2/2/2</td>
-              <td>Eventos 4/4/3<br>Chamados 2/2/2</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Eventos 6/4/1<br>Chamados 3/3/1</td>
-              <td>Eventos 6/4/3<br>Chamados 3/3/2</td>
-              <td>Eventos 4/4/3<br>Chamados 2/3/2</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="section-kicker" data-i18n="achievements.sectionKicker">Optional setup</div>
+        <h2 data-i18n="achievements.title">Achievements</h2>
+        <p class="intro" data-i18n="achievements.intro">Achievements are optional and do not change the Mission's victory or defeat. Check them only at the end of the game; they are a way to record the team's memorable feats.</p>
+
+        <h3 data-i18n="achievements.generalTitle">General achievements</h3>
+        <ul class="checklist">
+          <li data-i18n="achievements.general1"><strong>Another Friday finish:</strong> win with ⚠️ exactly at 15.</li>
+          <li data-i18n="achievements.general2"><strong>Everything under control:</strong> finish with no pending problems: no phones, fire or infected equipment.</li>
+          <li data-i18n="achievements.general3"><strong>That was too easy:</strong> finish with one character holding 5🔋.</li>
+          <li data-i18n="achievements.general4"><strong>Collector:</strong> have more 🏆 Items than the other players.</li>
+        </ul>
+
+        <h3 data-i18n="achievements.themedTitle">Themed achievements</h3>
+        <ul class="checklist">
+          <li data-i18n="achievements.themed1"><strong>Technical dress code:</strong> Roy finishes wearing BAD-ASS GLASSES and the RTFM T-SHIRT.</li>
+          <li data-i18n="achievements.themed2"><strong>Real manager:</strong> Jen finishes wearing THE SHOOSA and with THE INTERNET in her possession.</li>
+          <li data-i18n="achievements.themed3"><strong>Confidence and logistics:</strong> Moss finishes wearing WOMAN SLACKS and with MOSS'S BACKPACK in his possession.</li>
+        </ul>
+
+        <h3 data-i18n="achievements.hardTitle">Difficult achievements</h3>
+        <ul class="checklist">
+          <li data-i18n="achievements.hard1"><strong>Jen 2.0:</strong> use JEN 2 to complete a Ticket.</li>
+          <li data-i18n="achievements.hard2"><strong>The perfect speech:</strong> complete a Mission with Jen and THE INTERNET, with no pending ⚠️.</li>
+          <li data-i18n="achievements.hard3"><strong>The Basement survived:</strong> win a Mission with ⚠️ at 3 or less and at least one fire extinguished during the game.</li>
+        </ul>
+      </section>
+
+      <section class="page">
+        <div class="section-kicker" data-i18n="difficulty.sectionKicker">Optional setup</div>
+        <h2 data-i18n="difficulty.title">Adjust the game difficulty</h2>
+        <p class="intro" data-i18n="difficulty.intro"><strong>Standard mode:</strong> playing with all cards is the most practical way to set up the game. Treat this format as medium difficulty, with somewhat unpredictable results. If the group prefers more control over the challenge, choose one of the levels below and build the Event and Ticket decks using cards with the corresponding symbols.</p>
+        <div class="difficulty-levels">
+          <div class="difficulty-level" data-i18n="difficulty.easy"><span class="difficulty-symbol difficulty-symbol--easy">🤓</span><strong>Make easier</strong><br>Remove 1 😖 card and 2 😐 cards from each deck.</div>
+          <div class="difficulty-level" data-i18n="difficulty.medium"><span class="difficulty-symbol difficulty-symbol--medium">😐</span><strong>Normal</strong><br>Do not remove cards: use the complete decks.</div>
+          <div class="difficulty-level" data-i18n="difficulty.hard"><span class="difficulty-symbol difficulty-symbol--hard">😖</span><strong>Make harder</strong><br>Remove 2 🤓 cards and 1 😐 card from each deck.</div>
+        </div>
+        <div class="reference-note" data-i18n="difficulty.selection"><strong>Selection:</strong> apply these quantities separately to the Event and Ticket decks after gathering the cards from all active floors. Choose randomly which cards to remove; return unselected cards to the box. Even on the Easy level, keep at least 1 😖 card in each deck when cards are available. Keep the User deck complete to preserve variety in the combinations.</div>
         <ol class="steps">
-          <li><strong>Escolha a coluna.</strong> A dificuldade escolhida é uma preferência do grupo e não precisa ser igual ao símbolo da missão.</li>
-          <li><strong>Monte Eventos e Chamados separadamente.</strong> O baralho de Usuários continua completo para preservar a variedade das combinações.</li>
-          <li><strong>Use todos os andares ativos.</strong> Ao jogar com uma expansão, some as cartas dos andares habilitados antes de selecionar. Cartas exigidas diretamente pela missão entram sempre, mesmo que ultrapassem a quantidade da tabela.</li>
-          <li><strong>Renove quando acabar.</strong> Quando o baralho de Eventos ou Chamados terminar, faça uma nova seleção aleatória usando primeiro as cartas que ficaram fora da seleção anterior e, se necessário, complete com cartas descartadas.</li>
+          <li data-i18n="difficulty.step1"><strong>Build Events and Tickets separately.</strong></li>
+          <li data-i18n="difficulty.step2"><strong>Use all active floors.</strong> When playing with an expansion, add the cards from the enabled floors before selecting. Cards directly required by the Mission are always included.</li>
+          <li data-i18n="difficulty.step3"><strong>Refresh when a deck runs out.</strong> When the Event or Ticket deck ends, make a new random selection, using cards left out of the previous selection first and adding discarded cards if necessary.</li>
         </ol>
-        <div class="tip"><strong>Sugestão:</strong> use 😐 Média na primeira partida. Passe para 🤓 Fácil se o grupo estiver aprendendo ou para 😖 Difícil quando quiser uma partida mais pressionada.</div>
+        <div class="tip" data-i18n="difficulty.tip"><strong>Suggestion:</strong> use all cards for a quick setup and a more varied game. Use 😐 Medium for the first game with controlled selection; switch to 🤓 Easy while the group is learning or to 😖 Hard when you want more pressure.</div>
       </section>
 
       <section id="consulta-rapida" class="page">
-        <div class="section-kicker">Última página · consulta rápida</div>
-        <h2>Principais símbolos</h2>
-        <p class="intro">Use esta tabela para lembrar o significado dos símbolos mais frequentes durante o setup, a fila e a Rotina. Ela não substitui as regras completas do manual.</p>
+        <div class="section-kicker" data-i18n="quick.sectionKicker">Last page · quick reference</div>
+        <h2 data-i18n="quick.title">Main symbols</h2>
+        <p class="intro" data-i18n="quick.intro">Use this table to remember the meaning of the most frequent symbols during setup, the queue and the Routine. It does not replace the complete rules in the manual.</p>
 
         <table class="quick-reference">
           <thead>
             <tr>
-              <th>Símbolo</th>
-              <th>Significado rápido</th>
-              <th>Onde aparece</th>
+              <th data-i18n="quick.symbolHeader">Symbol</th>
+              <th data-i18n="quick.meaningHeader">Quick meaning</th>
+              <th data-i18n="quick.whereHeader">Where it appears</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="group-row"><td colspan="3">Fila e resolução de cartas</td></tr>
-            <tr><td>⭐</td><td>Carta atualmente ativada pela estrela.</td><td>Fila de iniciativa</td></tr>
-            <tr><td>⚡</td><td>Efeito imediato, resolvido assim que a carta é revelada.</td><td>Eventos</td></tr>
-            <tr><td>🏁</td><td>Efeito de conclusão do chamado ou usuário.</td><td>Cartas</td></tr>
-            <tr><td>🗑️</td><td>Descarte a carta ou marcador indicado.</td><td>Cartas</td></tr>
-            <tr><td>📍B / 📍1️⃣</td><td>Componente do Porão ou do Andar 1 — Marketing.</td><td>Cartas e componentes</td></tr>
+            <tr class="group-row"><td colspan="3" data-i18n="quick.groupQueue">Queue and card resolution</td></tr>
+            <tr><td>⭐</td><td data-i18n="quick.starMeaning">Card currently activated by the star.</td><td data-i18n="quick.initiativeQueue">Initiative queue</td></tr>
+            <tr><td>⚡</td><td data-i18n="quick.lightningMeaning">Immediate effect, resolved as soon as the card is revealed.</td><td data-i18n="quick.events">Events</td></tr>
+            <tr><td>🏁</td><td data-i18n="quick.finishMeaning">Completion effect for a Ticket or User.</td><td data-i18n="quick.cards">Cards</td></tr>
+            <tr><td>🗑️</td><td data-i18n="quick.discardMeaning">Discard the indicated card or marker.</td><td data-i18n="quick.cards">Cards</td></tr>
+            <tr><td>📍B / 📍1️⃣</td><td data-i18n="quick.floorMeaning">Basement or Floor 1 — Marketing component.</td><td data-i18n="quick.cardsComponents">Cards and components</td></tr>
 
-            <tr class="group-row"><td colspan="3">Símbolos de dificuldade</td></tr>
-            <tr><td><span class="difficulty-symbol difficulty-symbol--easy">🤓</span></td><td>Fácil.</td><td>Canto superior esquerdo da carta</td></tr>
-            <tr><td><span class="difficulty-symbol difficulty-symbol--medium">😐</span></td><td>Média.</td><td>Canto superior esquerdo da carta</td></tr>
-            <tr><td><span class="difficulty-symbol difficulty-symbol--hard">😖</span></td><td>Difícil.</td><td>Canto superior esquerdo da carta</td></tr>
-            <tr><td><span class="difficulty-plus">+</span></td><td>A carta oferece algum benefício.</td><td>Ao lado da dificuldade da carta</td></tr>
+            <tr class="group-row"><td colspan="3" data-i18n="quick.groupDifficulty">Difficulty symbols</td></tr>
+            <tr><td><span class="difficulty-symbol difficulty-symbol--easy">🤓</span></td><td data-i18n="quick.easy">Easy.</td><td data-i18n="quick.cardUpperLeft">Upper-left corner of the card</td></tr>
+            <tr><td><span class="difficulty-symbol difficulty-symbol--medium">😐</span></td><td data-i18n="quick.medium">Medium.</td><td data-i18n="quick.cardUpperLeft">Upper-left corner of the card</td></tr>
+            <tr><td><span class="difficulty-symbol difficulty-symbol--hard">😖</span></td><td data-i18n="quick.hard">Hard.</td><td data-i18n="quick.cardUpperLeft">Upper-left corner of the card</td></tr>
+            <tr><td><span class="difficulty-plus">+</span></td><td data-i18n="quick.helpful">The card offers some benefit.</td><td data-i18n="quick.nextToDifficulty">Beside the card's difficulty</td></tr>
 
-            <tr class="group-row"><td colspan="3">Dados e testes</td></tr>
-            <tr><td>🎲</td><td>Dado de seis faces para testes de atributo (d6).</td><td>Ações e cartas</td></tr>
-            <tr><td>🔺</td><td>Dado de dez faces para tabelas numéricas (d10).</td><td>Rotina e cartas</td></tr>
-            <tr><td>✅</td><td>Sucesso.</td><td>Resultados de dados</td></tr>
-            <tr><td>❌</td><td>Falha.</td><td>Resultados de dados</td></tr>
-            <tr><td>🔒</td><td>Cadeado: o resultado está bloqueado e não pode ser rolado novamente. Pode aparecer sobre uma falha ou um sucesso.</td><td>Resultados de 🎲</td></tr>
+            <tr class="group-row"><td colspan="3" data-i18n="quick.groupDice">Dice and tests</td></tr>
+            <tr><td>🎲</td><td data-i18n="quick.d6Meaning">Six-sided die for attribute tests (d6).</td><td data-i18n="quick.actionsCards">Actions and cards</td></tr>
+            <tr><td>🔺</td><td data-i18n="quick.d10Meaning">Ten-sided die for number tables (d10).</td><td data-i18n="quick.routineCards">Routine and cards</td></tr>
+            <tr><td>✅</td><td data-i18n="quick.success">Success.</td><td data-i18n="quick.diceResults">Dice results</td></tr>
+            <tr><td>❌</td><td data-i18n="quick.failure">Failure.</td><td data-i18n="quick.diceResults">Dice results</td></tr>
+            <tr><td>🔒</td><td data-i18n="quick.locked">Lock: the result is blocked and cannot be rerolled. It may appear over a failure or a success.</td><td data-i18n="quick.d6Results">🎲 results</td></tr>
 
-            <tr class="group-row"><td colspan="3">Personagens e recursos</td></tr>
-            <tr><td>🧠</td><td>Inteligência; usada para problemas técnicos.</td><td>Atributos e testes</td></tr>
-            <tr><td>🙂</td><td>Carisma; usado para interações sociais.</td><td>Atributos e testes</td></tr>
-            <tr><td>👣</td><td>Movimento por ação.</td><td>Personagens</td></tr>
-            <tr><td>⏱️</td><td>Ação disponível.</td><td>Turnos e custos</td></tr>
-            <tr><td>🫩</td><td>Cansaço.</td><td>Personagens</td></tr>
-            <tr><td>🔋</td><td>Ânimo, recurso acumulável.</td><td>Cartela dos personagens</td></tr>
-            <tr><td>⚠️</td><td>Stress da empresa.</td><td>Régua The Boss Stress</td></tr>
+            <tr class="group-row"><td colspan="3" data-i18n="quick.groupCharacters">Characters and resources</td></tr>
+            <tr><td>🧠</td><td data-i18n="quick.intelligence">Intelligence; used for technical problems.</td><td data-i18n="quick.attributesTests">Attributes and tests</td></tr>
+            <tr><td>🙂</td><td data-i18n="quick.charisma">Charisma; used for social interactions.</td><td data-i18n="quick.attributesTests">Attributes and tests</td></tr>
+            <tr><td>👣</td><td data-i18n="quick.movement">Movement per action.</td><td data-i18n="quick.characters">Characters</td></tr>
+            <tr><td>⏱️</td><td data-i18n="quick.action">Available action.</td><td data-i18n="quick.turnsCosts">Turns and costs</td></tr>
+            <tr><td>🫩</td><td data-i18n="quick.fatigue">Fatigue.</td><td data-i18n="quick.characters">Characters</td></tr>
+            <tr><td>🔋</td><td data-i18n="quick.morale">Morale, an accumulable resource.</td><td data-i18n="quick.characterSheets">Character sheets</td></tr>
+            <tr><td>⚠️</td><td data-i18n="quick.stress">Company Stress.</td><td data-i18n="quick.stressRuler">The Boss Stress ruler</td></tr>
 
-            <tr class="group-row"><td colspan="3">Atendimento e cenário</td></tr>
-            <tr><td>☎️⚡</td><td>Telefone tocando.</td><td>Rotina e cenário</td></tr>
-            <tr><td>☎️ + 👤</td><td>Chamado associado a um usuário.</td><td>Mão ou fila</td></tr>
-            <tr><td>📞</td><td>Efeito do usuário enquanto o chamado está em atendimento (na mão).</td><td>Rotina e carta de Usuário</td></tr>
-            <tr><td>⏸️</td><td>Postergar: desligar o telefone e colocar o chamado na fila.</td><td>Ações</td></tr>
-            <tr><td>🖥️ / 🗄️</td><td>Computador / servidor.</td><td>Cenário e chamados</td></tr>
-            <tr><td>🦠</td><td>Equipamento infectado.</td><td>Tiles e efeitos</td></tr>
-            <tr><td>🔥</td><td>Fogo ativo no cenário.</td><td>Tiles e Rotina</td></tr>
+            <tr class="group-row"><td colspan="3" data-i18n="quick.groupCalls">Calls and board</td></tr>
+            <tr><td>☎️⚡</td><td data-i18n="quick.ringing">Phone ringing.</td><td data-i18n="quick.routineBoard">Routine and board</td></tr>
+            <tr><td>☎️ + 👤</td><td data-i18n="quick.callUser">Ticket associated with a User.</td><td data-i18n="quick.handQueue">Hand or queue</td></tr>
+            <tr><td>📞</td><td data-i18n="quick.activeCall">User effect while the Ticket is being handled (in hand).</td><td data-i18n="quick.routineUserCard">Routine and User card</td></tr>
+            <tr><td>⏸️</td><td data-i18n="quick.postpone">Postpone: turn off the phone and place the Ticket in the queue.</td><td data-i18n="quick.actions">Actions</td></tr>
+            <tr><td>🖥️ / 🗄️</td><td data-i18n="quick.computerServer">Computer / server.</td><td data-i18n="quick.boardTickets">Board and Tickets</td></tr>
+            <tr><td>🦠</td><td data-i18n="quick.infected">Infected equipment.</td><td data-i18n="quick.tilesEffects">Tiles and effects</td></tr>
+            <tr><td>🔥</td><td data-i18n="quick.fire">Active fire on the board.</td><td data-i18n="quick.tilesRoutine">Tiles and Routine</td></tr>
           </tbody>
         </table>
 
-        <div class="tip"><strong>Dica:</strong> quando um símbolo aparecer combinado com outro, leia-os juntos. Por exemplo, <strong>🖥️🦠</strong> significa “computador infectado” e <strong>☎️ + 👤</strong> significa “chamado e usuário associados”.</div>
+        <h3 data-i18n="quick.tokensTitle">Available tokens</h3>
+        <div class="token-legend">
+          <div data-i18n="quick.tokenFire"><strong>🔥 / 🔥🔥</strong> low / high fire</div>
+          <div data-i18n="quick.tokenFatigue"><strong>🫩</strong> Fatigue</div>
+          <div data-i18n="quick.tokenDistraction"><strong>💬</strong> Distraction</div>
+          <div data-i18n="quick.tokenNote"><strong>📋</strong> free marker for remembering completed Ticket and Event steps</div>
+          <div data-i18n="quick.tokenVirus"><strong>🦠</strong> virus on equipment</div>
+          <div data-i18n="quick.tokenMonitor"><strong>🖥️</strong> broken monitor</div>
+          <div data-i18n="quick.tokenStar"><strong>⭐</strong> initiative marker</div>
+          <div data-i18n="quick.tokenArrow"><strong>➤</strong> Stress ruler arrow</div>
+          <div data-i18n="quick.tokenMorale"><strong>🔋</strong> Morale</div>
+        </div>
+
+        <div class="tip" data-i18n="quick.tip"><strong>Tip:</strong> when symbols appear together, read them as a group. For example, <strong>🖥️🦠</strong> means “infected computer” and <strong>☎️ + 👤</strong> means “associated Ticket and User”.</div>
       </section>
     </main>
+    <script src="templates/manual/locales/pt-BR.js"></script>
+    <script src="templates/cards/locales/i18n.js"></script>
   </body>
 </html>

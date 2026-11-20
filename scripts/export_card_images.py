@@ -8,6 +8,9 @@ When both resolutions are requested, low and high are rendered in parallel.
 
 Pass a code directly to force one card, for example:
     python3 scripts/export_card_images.py E11
+
+Use ``--language`` to export a specific locale. Without the option, both
+``en-US`` and ``pt-BR`` are exported into separate folders.
 """
 
 from __future__ import annotations
@@ -58,6 +61,8 @@ RESOLUTION_SETTINGS = {
     "high": {"dpi": 300, "scale": 300 / 96},
 }
 
+SUPPORTED_LANGUAGES = ("en-US", "pt-BR")
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -78,6 +83,15 @@ def parse_args() -> argparse.Namespace:
         choices=("low", "high", "both"),
         default="both",
         help="Output resolution: low (96 DPI), high (300 DPI), or both.",
+    )
+    parser.add_argument(
+        "--language",
+        "--locale",
+        "--lang",
+        dest="language",
+        choices=(*SUPPORTED_LANGUAGES, "all"),
+        default="all",
+        help="Idioma exportado: en-US, pt-BR ou all. O padrão é all.",
     )
     parser.add_argument(
         "--output-dir",
@@ -151,7 +165,7 @@ def read_card_sources() -> dict[str, str]:
     return {match.group(1): match.group(0) for match in entry_pattern.finditer(source)}
 
 
-def source_fingerprint(card_source: str) -> str:
+def source_fingerprint(card_source: str, language: str) -> str:
     digest = hashlib.sha256()
     card_data_source = CARD_DATA_PATH.read_text(encoding="utf-8")
     shared_card_data = card_data_source.split("const cards = {", 1)[0]
@@ -159,6 +173,9 @@ def source_fingerprint(card_source: str) -> str:
         CARD_TEMPLATE_DIR / "card-renderer.js",
         CARD_TEMPLATE_DIR / "card-model.css",
     ]
+    locale_path = CARD_TEMPLATE_DIR / "locales" / f"{language}.js"
+    if locale_path.is_file():
+        source_paths.append(locale_path)
 
     for path in source_paths:
         digest.update(str(path.relative_to(PROJECT_ROOT)).encode("utf-8"))
@@ -242,7 +259,13 @@ def javascript_path(path: Path) -> str:
     return path.resolve().as_uri()
 
 
-def build_wrapper(code: str, size: tuple[int, int], mode: str, path: Path) -> None:
+def build_wrapper(
+    code: str,
+    size: tuple[int, int],
+    mode: str,
+    language: str,
+    path: Path,
+) -> None:
     width, height = size
     mode_classes = {
         "full": "",
@@ -254,9 +277,15 @@ def build_wrapper(code: str, size: tuple[int, int], mode: str, path: Path) -> No
     renderer_path = javascript_path(CARD_TEMPLATE_DIR / "card-renderer.js")
     css_path = javascript_path(CARD_TEMPLATE_DIR / "card-model.css")
     base_path = javascript_path(CARD_TEMPLATE_DIR) + "/"
+    locale_path = CARD_TEMPLATE_DIR / "locales" / f"{language}.js"
+    locale_script = (
+        f'    <script src="{javascript_path(locale_path)}"></script>\n'
+        if locale_path.is_file()
+        else ""
+    )
 
     html = f"""<!doctype html>
-<html lang="pt-BR">
+<html lang="{language}">
   <head>
     <meta charset="utf-8">
     <base href="{base_path}">
@@ -284,6 +313,7 @@ def build_wrapper(code: str, size: tuple[int, int], mode: str, path: Path) -> No
   <body class="{body_class}">
     <main id="output"></main>
     <script src="{data_path}"></script>
+{locale_script}    <script>window.ITCrowdLocale = {language!r};</script>
     <script src="{renderer_path}"></script>
     <script>
       const data = window.ITCrowdCardData;
@@ -334,6 +364,7 @@ def render_card(
 
 def export_resolution(
     resolution: str,
+    language: str,
     codes: list[str],
     card_types: dict[str, str],
     card_sources: dict[str, str],
@@ -343,11 +374,11 @@ def export_resolution(
     chrome: Path,
     temp_dir: Path,
 ) -> tuple[int, int, dict[str, str]]:
-    output_dir = args.output_dir / args.mode / resolution
+    output_dir = args.output_dir / language / args.mode / resolution
     output_dir.mkdir(parents=True, exist_ok=True)
     scale = RESOLUTION_SETTINGS[resolution]["scale"]
-    wrapper = temp_dir / f"card-{resolution}.html"
-    profile_dir = temp_dir / f"profile-{resolution}"
+    wrapper = temp_dir / f"card-{language}-{resolution}.html"
+    profile_dir = temp_dir / f"profile-{language}-{resolution}"
     updates = {}
     rendered_count = 0
     skipped_count = 0
@@ -355,8 +386,8 @@ def export_resolution(
     for code in codes:
         size = tuple(CARD_SIZES[card_types[code]])
         output = output_dir / f"{code.lower()}.png"
-        manifest_key = f"{args.mode}/{resolution}/{code.lower()}.png"
-        source_hash = source_fingerprint(card_sources[code])
+        manifest_key = f"{language}/{args.mode}/{resolution}/{code.lower()}.png"
+        source_hash = source_fingerprint(card_sources[code], language)
         image_is_current = (
             output.is_file()
             and output.stat().st_size > 0
@@ -367,7 +398,7 @@ def export_resolution(
             print(f"{code} ({resolution}) -> já está atualizada, ignorada: {output}")
             continue
 
-        build_wrapper(code, size, args.mode, wrapper)
+        build_wrapper(code, size, args.mode, language, wrapper)
         render_card(chrome, wrapper, output, size, scale, profile_dir)
         updates[manifest_key] = source_hash
         rendered_count += 1
@@ -403,6 +434,7 @@ def main() -> int:
 
     chrome = find_chrome(args.chrome)
     resolutions = tuple(RESOLUTION_SETTINGS) if args.resolution == "both" else (args.resolution,)
+    languages = SUPPORTED_LANGUAGES if args.language == "all" else (args.language,)
     manifest_path = args.output_dir / EXPORT_MANIFEST_NAME
     manifest = load_export_manifest(manifest_path)
     manifest["version"] = 1
@@ -416,6 +448,7 @@ def main() -> int:
         worker_args = [
             (
                 resolution,
+                language,
                 codes,
                 card_types,
                 card_sources,
@@ -425,51 +458,62 @@ def main() -> int:
                 chrome,
                 Path(temp_dir),
             )
+            for language in languages
             for resolution in resolutions
         ]
 
-        if len(resolutions) > 1:
-            print("Exportando as resoluções em paralelo...")
+        for language in languages:
+            language_worker_args = [values for values in worker_args if values[1] == language]
+            language_rendered = 0
+            language_skipped = 0
+            language_updates = {}
 
-        if len(resolutions) > 1:
-            parallel_error = None
-            futures = {}
-            with ThreadPoolExecutor(max_workers=len(resolutions)) as executor:
-                for values in worker_args:
-                    future = executor.submit(export_resolution, *values)
-                    futures[future] = values[0]
+            if len(language_worker_args) > 1:
+                print(f"Exportando {language}: resoluções em paralelo...")
+                parallel_error = None
+                futures = {}
+                with ThreadPoolExecutor(max_workers=len(language_worker_args)) as executor:
+                    for values in language_worker_args:
+                        future = executor.submit(export_resolution, *values)
+                        futures[future] = values[0]
 
-                for future in as_completed(futures):
-                    try:
-                        resolution_rendered, resolution_skipped, updates = future.result()
-                    except Exception as error:
-                        parallel_error = error
-                        continue
-                    rendered_count += resolution_rendered
-                    skipped_count += resolution_skipped
-                    manifest["images"].update(updates)
+                    for future in as_completed(futures):
+                        try:
+                            resolution_rendered, resolution_skipped, updates = future.result()
+                        except Exception as error:
+                            parallel_error = error
+                            continue
+                        language_rendered += resolution_rendered
+                        language_skipped += resolution_skipped
+                        language_updates.update(updates)
 
-            if parallel_error:
-                print(
-                    "A exportação paralela encontrou um problema no navegador; "
-                    "repetindo as resoluções em sequência."
-                )
-                rendered_count = 0
-                skipped_count = 0
-                for values in worker_args:
-                    resolution_rendered, resolution_skipped, updates = export_resolution(*values)
-                    rendered_count += resolution_rendered
-                    skipped_count += resolution_skipped
-                    manifest["images"].update(updates)
-        else:
-            resolution_rendered, resolution_skipped, updates = export_resolution(*worker_args[0])
-            rendered_count += resolution_rendered
-            skipped_count += resolution_skipped
-            manifest["images"].update(updates)
+                if parallel_error:
+                    print(
+                        "A exportação paralela encontrou um problema no navegador; "
+                        f"repetindo {language} em sequência."
+                    )
+                    language_rendered = 0
+                    language_skipped = 0
+                    language_updates = {}
+                    for values in language_worker_args:
+                        resolution_rendered, resolution_skipped, updates = export_resolution(*values)
+                        language_rendered += resolution_rendered
+                        language_skipped += resolution_skipped
+                        language_updates.update(updates)
+            else:
+                resolution_rendered, resolution_skipped, updates = export_resolution(*language_worker_args[0])
+                language_rendered += resolution_rendered
+                language_skipped += resolution_skipped
+                language_updates.update(updates)
+
+            rendered_count += language_rendered
+            skipped_count += language_skipped
+            manifest["images"].update(language_updates)
 
     save_export_manifest(manifest_path, manifest)
     print(
-        f"Exportadas {rendered_count} imagem(ns) em {len(resolutions)} resolução(ões). "
+        f"Exportadas {rendered_count} imagem(ns) em {len(languages)} idioma(s) e "
+        f"{len(resolutions)} resolução(ões). "
         f"Ignoradas por já estarem atualizadas: {skipped_count}."
     )
     return 0

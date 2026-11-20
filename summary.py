@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Summarize Event and Mission difficulty by expansion."""
+"""Summarize Call, Event and Mission difficulty by expansion."""
 
 from __future__ import annotations
 
@@ -17,7 +17,6 @@ TYPE_LABELS = {
     "CALL": "Chamados",
     "GENERIC_EVENT": "Eventos",
     "MISSION_EVENT": "Missões",
-    "USER": "Usuários",
 }
 
 DIFFICULTY_LABELS = OrderedDict((
